@@ -1,0 +1,158 @@
+# Prevent multiple sourcing
+if [[ -n "${__already_loaded_genomac_bootstrap_helpers_sh:-}" ]]; then return 0; fi
+__already_loaded_genomac_bootstrap_helpers_sh=1
+export __already_loaded_genomac_bootstrap_helpers_sh
+
+############### HELPERS
+
+function report() {
+  # Output supplied line of text in a distinctive color.
+  printf "%b%s%b\n" "$COLOR_REPORT" "$1" "$COLOR_RESET"
+}
+
+function report_fail() {
+  # Output supplied line of text in a distinctive color prefaced by SYMBOL_FAILURE.
+  local message="$1"
+  printf "%b%s%s%b\n" "$COLOR_ERROR" "$SYMBOL_FAILURE" "$message" "$COLOR_RESET"
+  
+  # Also append a plain-text version to the alert log, if it's set.
+  if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
+    printf 'FAIL: %s\n' "$message" >>"$GENOMAC_ALERT_LOG"
+  fi
+}
+
+function report_success() {
+  # Output supplied line of text in a distinctive color prefaced by SYMBOL_SUCCESS.
+  printf "%b%s%s%b\n" "$COLOR_SUCCESS" "$SYMBOL_SUCCESS" "$1" "$COLOR_RESET"
+}
+
+function report_warning() {
+  # Output supplied line of text in a distinctive color prefaced by SYMBOL_WARNING.
+  local message="$1"
+  printf "%b%s%s%b\n" "$COLOR_WARNING" "$SYMBOL_WARNING" "$message" "$COLOR_RESET"
+
+  # Also append a plain-text version to the alert log, if it's set.
+  if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
+    printf 'WARN: %s\n' "$message" >>"$GENOMAC_ALERT_LOG"
+  fi
+}
+
+function report_adjust_setting() {
+  # Output supplied line of text in a distinctive color, prefaced by "$SYMBOL_ADJUST_SETTING.
+  # It is intentional to NOT have a newline. This will be supplied by success().
+  printf "%b%s%s%b" "$COLOR_ADJUST_SETTING" "$SYMBOL_ADJUST_SETTING" "$1" "$COLOR_RESET"
+}
+
+function report_action_taken() {
+  # Output supplied line of text in a distinctive color, prefaced by "$SYMBOL_ADJUST_SETTING.
+  printf "%b%s%s%b\n" "$COLOR_ACTION_TAKEN" "$SYMBOL_ACTION_TAKEN" "$1" "$COLOR_RESET"
+}
+
+function report_about_to_kill_app() {
+  # Takes `app` as argument
+  # Outputs message that the app was killed.
+  printf "%b%s %s is being killed (if necessary) %b" "$COLOR_KILLED" "$SYMBOL_KILLED" "$1" "$COLOR_RESET"
+}
+
+################################################################################
+# PHASE REPORTING HELPERS
+#
+# The below four functions provide a consistent way to mark in the terminal output 
+# the start and end of output-intensive or semantically distinct “phases” within the
+# bootstrap process.
+#
+# They emit color-coded separator blocks, with textual content like:
+#
+#   ********************************************************************************
+#   Entering: configure_firewall
+#   ********************************************************************************
+#
+# USAGE GUIDELINES:
+#
+# ⏺ report_start_phase
+# ⏺ report_end_phase
+#
+#   Use these when you want fine-grained control.
+#
+#   • Zero arguments → print "Entering phase" or "Leaving phase", respectively
+#   • One argument   → print the argument exactly as a message line (e.g. emoji + text)
+#   • Two arguments  → interpret as function name and file name; format as:
+#       Entering: func_name (file: /path/to/file)
+#     If the second argument is "-", the file-name clause is omitted:
+#       Entering: func_name
+#
+# ⏺ report_start_phase_standard
+# ⏺ report_end_phase_standard
+#
+#   Use these inside functions when you want standard behavior without manual quoting
+#   or boilerplate. These extract (a) the function name from the call stack and,
+#   (b) if available, the file name using `functions -t`.
+#
+#   - If the file name is unavailable, the file-name clause is silently omitted.
+#   - These accept no arguments — just call them:
+#
+#       function configure_firewall() {
+#         report_start_phase_standard
+#         # ...
+#         report_end_phase_standard
+#       }
+#
+#   This is the recommended style for all GenoMac bootstrap functions.
+#
+################################################################################
+
+function report_start_phase() {
+  printf "\n%b%s%b\n" "$COLOR_MAGENTA" "********************************************************************************" "$COLOR_RESET"
+
+  if (( $# == 2 )); then
+    if [[ "$2" == "-" ]]; then
+      printf "%bEntering: %s%b\n" "$COLOR_MAGENTA" "$1" "$COLOR_RESET"
+    else
+      printf "%bEntering: %s (file: %s)%b\n" "$COLOR_MAGENTA" "$1" "$2" "$COLOR_RESET"
+    fi
+  elif (( $# == 1 )); then
+    printf "%b%s%b\n" "$COLOR_MAGENTA" "$1" "$COLOR_RESET"
+  else
+    printf "%bEntering phase%b\n" "$COLOR_MAGENTA" "$COLOR_RESET"
+  fi
+
+  printf "%b%s%b\n\n" "$COLOR_MAGENTA" "********************************************************************************" "$COLOR_RESET"
+}
+
+function report_end_phase() {
+  printf "\n%b%s%b\n" "$COLOR_YELLOW" "--------------------------------------------------------------------------------" "$COLOR_RESET"
+
+  if (( $# == 2 )); then
+    if [[ "$2" == "-" ]]; then
+      printf "%bLeaving: %s%b\n" "$COLOR_YELLOW" "$1" "$COLOR_RESET"
+    else
+      printf "%bLeaving: %s (file: %s)%b\n" "$COLOR_YELLOW" "$1" "$2" "$COLOR_RESET"
+    fi
+  elif (( $# == 1 )); then
+    printf "%b%s%b\n" "$COLOR_YELLOW" "$1" "$COLOR_RESET"
+  else
+    printf "%bLeaving phase%b\n" "$COLOR_YELLOW" "$COLOR_RESET"
+  fi
+
+  printf "%b%s%b\n\n" "$COLOR_YELLOW" "--------------------------------------------------------------------------------" "$COLOR_RESET"
+}
+
+function report_start_phase_standard() {
+  local fn_name="${funcstack[2]}"
+  local fn_file="$(functions -t "$fn_name" 2>/dev/null)"
+  [[ -n "$fn_file" && "$fn_file" == "$HOME"* ]] && fn_file="~${fn_file#$HOME}"
+
+  [[ -z "$fn_file" ]] && fn_file="-"  # Sentinel: no file
+
+  report_start_phase "$fn_name" "$fn_file"
+}
+
+function report_end_phase_standard() {
+  local fn_name="${funcstack[2]}"
+  local fn_file="$(functions -t "$fn_name" 2>/dev/null)"
+  [[ -n "$fn_file" && "$fn_file" == "$HOME"* ]] && fn_file="~${fn_file#$HOME}"
+
+  [[ -z "$fn_file" ]] && fn_file="-"  # Sentinel: no file
+
+  report_end_phase "$fn_name" "$fn_file"
+}
