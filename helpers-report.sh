@@ -54,6 +54,26 @@ function report_about_to_kill_app() {
   printf "%b%s %s is being killed (if necessary) %b" "$COLOR_KILLED" "$SYMBOL_KILLED" "$1" "$COLOR_RESET"
 }
 
+dump_accumulated_warnings_failures() {
+  # Prints all assumulated warnings and/or failures from GENOMAC_ALERT_LOG
+  
+  # If we somehow never initialized, bail quietly.
+  [[ -z "${GENOMAC_ALERT_LOG-}" ]] && return 0
+  [[ ! -e "$GENOMAC_ALERT_LOG" ]] && return 0
+
+  if [[ ! -s "$GENOMAC_ALERT_LOG" ]]; then
+    echo "✅ No GenoMac warnings or failures detected in this run." >&2
+  else
+    echo >&2
+    echo "═════════ GenoMac warnings / failures (summary) ═════════" >&2
+    cat "$GENOMAC_ALERT_LOG" >&2
+    echo "════════════════════════ end summary ════════════════════" >&2
+    echo "↑ Scroll back in the log to see these in context." >&2
+  fi
+
+  rm -f -- "$GENOMAC_ALERT_LOG"
+}
+
 ################################################################################
 # PHASE REPORTING HELPERS
 #
