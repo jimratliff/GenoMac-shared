@@ -1,0 +1,119 @@
+# Prevent multiple sourcing
+if [[ -n "${__already_loaded_genomac_bootstrap_helpers_sh:-}" ]]; then return 0; fi
+__already_loaded_genomac_bootstrap_helpers_sh=1
+export __already_loaded_genomac_bootstrap_helpers_sh
+
+############### HELPERS
+
+function launch_and_quit_app() {
+  # Launches (in background if possible) and then quits an app identified by its bundle ID
+  # Required in some cases, e.g., iTerm2, where a sufficiently populated plist isn’t available to modify
+  #   until the app has been launched once. (I.e., it is not enough simply to have created an empty
+  #   plist file, as can be done with the function ensure_plist_exists().
+  # Examples:
+  #   launch_and_quit_app "com.apple.DiskUtility"
+  #   launch_and_quit_app "com.googlecode.iterm2"
+  
+  local bundle_id="$1"
+  report_action_taken "Launch and quit app $bundle_id"
+  report_action_taken "Launching app $bundle_id (in the background, if possible)"
+  open -gj -b "$bundle_id" 2>/dev/null || open -g -b "$bundle_id" ; success_or_not
+  sleep 2
+  report_action_taken "Quitting app $bundle_id"
+  osascript -e "tell application id \"$bundle_id\" to quit" ; success_or_not
+}
+
+function quit_app_by_bundle_id_if_running() {
+  # Quit the app identified by its bundle ID if (and only if) it is running.
+  # - bundle_id: e.g., "com.tylerhall.Alan"
+  #
+  # Behavior:
+  # - If the app is not running: no output, returns 0.
+  # - If the app is running:
+  #     1. Request a graceful quit via AppleScript.
+  #     2. Sleep briefly to allow a clean shutdown.
+  #     3. If still running, force-kill any processes under the app's
+  #        Contents/MacOS directory, using Spotlight (mdfind) to locate the .app.
+  #
+  # Requires:
+  # - macOS
+  # - mdfind (Spotlight enabled)
+  # - report_action_taken, success_or_not helpers already defined.
+  
+  local delay_in_seconds_for_normal_quitting=3
+  local bundle_id="$1"
+
+  # Tests whether the app is currently running
+  # If osascript errors (e.g., unknown bundle ID), grep sees nothing and this
+  # condition is just false -> we treat that as "not running".
+  if ! osascript -e "application id \"$bundle_id\" is running" 2>/dev/null | grep -qi true; then
+    # Not running; nothing to do.
+    return 0
+  fi
+
+  # Request graceful quit
+  report_action_taken "App with bundle ID ${bundle_id} is running. Requesting that it quit"
+  osascript -e "tell application id \"$bundle_id\" to quit" >/dev/null 2>&1 ; success_or_not
+
+  # Allow some time for the app to shut down and flush any state (plists, etc.).
+  sleep $delay_in_seconds_for_normal_quitting
+
+  # If still running, force quit
+  if osascript -e "application id \"$bundle_id\" is running" 2>/dev/null | grep -qi true; then
+    # Derive the .app path from the bundle ID using Spotlight.
+    # We take the first match; if there are multiple installs, that's already
+    # a slightly weird situation for an updater.
+    local app_path
+    app_path=$(mdfind "kMDItemCFBundleIdentifier == '${bundle_id}'" | head -n 1)
+
+    if [[ -n "$app_path" ]]; then
+      report_action_taken "App ${bundle_id} still running despite our polite request; forcing quit for processes under ${app_path}/Contents/MacOS/"
+      # pkill returns 1 if nothing matched; that's fine for our semantics
+      # ("ensure it's not running"), so we mask that with `|| true` to avoid making success_or_not print a ❌.
+      pkill -9 -f "${app_path}/Contents/MacOS/" >/dev/null 2>&1 || true
+      success_or_not
+    else
+      # We think it's running but can't find the bundle on disk; that's
+      # suspicious enough to mark as a failure in your alert summary.
+      report_fail "App ${bundle_id} appears to be running, but its .app could not be found via mdfind; unable to force quit"
+      false
+    fi
+  fi
+
+  return 0
+}
+
+function launch_app_and_prompt_user_to_authenticate() {
+  # Launches an app, prompts the user to sign in or complete a task, waits for acknowledgment,
+  # then quits the app if it's still running.
+  # Examples:
+  #   launch_and_prompt_user_to_authenticate "com.apple.AppStore" "sign in to your Apple ID"
+  #   launch_and_prompt_user_to_authenticate "com.dropbox.client" "complete Dropbox setup"
+  
+  local bundle_id="$1"
+  local task_description="${2:-sign in or complete the required task}"
+  local confirmation_word="done"
+  
+  report_action_taken "Launch app $bundle_id for user authentication/setup"
+  
+  # Launch app in foreground so user can interact with it
+  report_action_taken "Launching app $bundle_id"
+  open -b "$bundle_id" ; success_or_not
+  
+  # Prompt user to complete the task
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "  ACTION REQUIRED: Please $task_description"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+  
+  # Wait for explicit user confirmation
+  local user_response=""
+  while [[ "${user_response:l}" != "$confirmation_word" ]]; do
+    read -r "user_response?Type '$confirmation_word' to confirm task completion: "
+  done
+  
+  report_action_taken "User confirmed task completion for $bundle_id"
+  
+  quit_app_by_bundle_id_if_running "$bundle_id"
+}
