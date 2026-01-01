@@ -117,3 +117,11 @@ function launch_app_and_prompt_user_to_authenticate() {
   
   quit_app_by_bundle_id_if_running "$bundle_id"
 }
+
+function force_user_logout(){
+  report_action_taken $'\n\nYou are about to be logged out…'
+  sleep 3  # Give user time to read the message
+
+  # Graceful logout using familiar system behavior
+  osascript -e 'tell application "System Events" to log out'
+}
