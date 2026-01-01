@@ -1,0 +1,4 @@
+# Ignore zsh history and session files
+**/.zsh_history
+**/.zsh_sessions
+**/.zsh_sessions/
