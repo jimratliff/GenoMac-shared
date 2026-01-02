@@ -1,5 +1,9 @@
 ############### Helpers related to launching/quitting apps (and logging out generally)
 
+# TODO: As of 1/2/2026, the function naming is inconsistent: `quit_app_by_bundle_id_if_running` includes
+#       `by_bundle_id` but the other functions’ names do not include this, even though they *all*
+#       take a bundle_id as their first argument.
+
 function launch_and_quit_app() {
   # Launches (in background if possible) and then quits an app identified by its bundle ID
   # Required in some cases, e.g., iTerm2, where a sufficiently populated plist isn’t available to modify
