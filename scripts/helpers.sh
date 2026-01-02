@@ -18,6 +18,10 @@ safe_source() {
   fi
 }
 
+# Source common environment variables
+# Assumes that assign_common_environment_variables.sh resides in same directory as this file
+safe_source "${this_script_dir}/assign_common_environment_variables.sh"
+
 # Source each subsidiary helper file, all assumed to reside in same directory as this file
 safe_source "${this_script_dir}/helpers-apps.sh"
 safe_source "${this_script_dir}/helpers-copying.sh"
