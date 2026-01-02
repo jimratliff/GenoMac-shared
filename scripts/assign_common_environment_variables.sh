@@ -1,9 +1,12 @@
 #!/usr/bin/env zsh
 
-# Specify local directory into which the GenoMac-user repository will be cloned
-# Note: This variable must be available to GenoMac-system because that repo has a script
+############### Related to cloning GenoMac-user
+# Note: These variables must be available to GenoMac-system because that repo has a script
 #       that facilitates cloning GenoMac-user
+# Specify local directory into which the GenoMac-user repository will be cloned
 GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
+# Specify URL for cloning the public GenoMac-user repository using HTTPS
+GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
 
 ############### Homebrew-related
 #
@@ -42,10 +45,18 @@ fi
 
 GENOMAC_STATE_FILE_EXTENSION="state"
 
-# Specify local directory in which machine-level state can be stored
 # The following environment variable, despite its name being specific to -system, is used
 # by BOTH GenoMac-system and GenoMac-user
+# Despite each being seemingly specific to either GenoMac-system or GenoMac-user,
+#   these two environment variables are defined in GenoMac-shared because:
+#   - GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY is used by GenoMac-user, because GenoMac-user *does*
+#     about system-level state
+#   - GENOMAC_USER_LOCAL_STATE_DIRECTORY appears in helpers-state.sh » _state_directory_for_scope()
+#     (although that reference should never be encountered in the normal operation of GenoMac-user)
+# Specify local directory in which machine-level state can be stored
 GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY="/etc/genomac/state"
+# Specify local directory that will retain state information about run-only-once operations
+GENOMAC_USER_LOCAL_STATE_DIRECTORY="${GENOMAC_USER_LOCAL_DIRECTORY}-state"
 
 ############### Export and report
 report_action_taken "Exporting environment variables common to both GenoMac-system and GenoMac-user"
@@ -60,4 +71,5 @@ export_and_report GENOMAC_ALERT_LOG
 export_and_report GENOMAC_STATE_FILE_EXTENSION
 export_and_report GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_DIRECTORY
+export_and_report GENOMAC_USER_REPO_URL
 export_and_report HOMEBREW_PREFIX
