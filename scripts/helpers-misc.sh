@@ -1,7 +1,10 @@
 ############### Helpers: Miscellaneous
 
+# Relies upon:
+#   helpers-reporting.sh
+
 function keep_sudo_alive() {
-  report_action_taken "I very likely am about to ask you for your administrator password. Do you trust me??? 😉"
+  report_action_taken "I very likely am about to ask you for your administrator password. I hope you trust me! 😉"
 
   # Update user’s cached credentials for `sudo`.
   sudo -v
