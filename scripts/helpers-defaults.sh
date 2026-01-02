@@ -1,5 +1,8 @@
 ############### Helpers related to using the macOS `defaults write` command
 
+# Relies upon:
+#   helpers-reporting.sh
+
 function legacy_plist_path_from_domain() {
   # Constructs path of the .plist file corresponding to the defaults domain passed as an argument.
   # Usage:
@@ -15,7 +18,6 @@ function sandboxed_plist_path_from_domain() {
   # Usage:
   #   local plist_path=$(sandboxed_plist_path_from_domain "$domain")
   local domain="$1"
-  # local plist_path="$HOME/Library/Preferences/${domain}.plist"
   local plist_path="$HOME/Library/Containers/${domain}/Data/Library/Preferences/${domain}.plist"
   echo "$plist_path"
 }
