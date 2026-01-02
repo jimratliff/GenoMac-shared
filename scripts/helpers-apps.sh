@@ -4,6 +4,10 @@
 #       `by_bundle_id` but the other functions’ names do not include this, even though they *all*
 #       take a bundle_id as their first argument.
 
+# Relies upon:
+#   helpers-apps.sh
+#   helpers-reporting.sh
+
 function launch_and_quit_app() {
   # Launches (in background if possible) and then quits an app identified by its bundle ID
   # Required in some cases, e.g., iTerm2, where a sufficiently populated plist isn’t available to modify
