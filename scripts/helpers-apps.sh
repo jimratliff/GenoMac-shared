@@ -1,9 +1,4 @@
-# Prevent multiple sourcing
-if [[ -n "${__already_loaded_genomac_bootstrap_helpers_sh:-}" ]]; then return 0; fi
-__already_loaded_genomac_bootstrap_helpers_sh=1
-export __already_loaded_genomac_bootstrap_helpers_sh
-
-############### HELPERS
+############### Helpers related to launching/quitting apps (and logging out generally)
 
 function launch_and_quit_app() {
   # Launches (in background if possible) and then quits an app identified by its bundle ID
