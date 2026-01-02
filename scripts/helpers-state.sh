@@ -1,9 +1,4 @@
-# Prevent multiple sourcing
-if [[ -n "${__already_loaded_genomac_bootstrap_helpers_sh:-}" ]]; then return 0; fi
-__already_loaded_genomac_bootstrap_helpers_sh=1
-export __already_loaded_genomac_bootstrap_helpers_sh
-
-############### HELPERS
+############### Helpers related to managing state for GenoMac
 
 function _state_directory_for_scope() {
   # Internal helper. Takes one argument that is either 'system' or 'user' and returns correspondingly either 
