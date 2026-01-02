@@ -1,5 +1,8 @@
 ############### Helpers related to copying resources
 
+# Relies upon:
+#   helpers-reporting.sh
+
 function copy_resource_between_local_directories() {
   # Helper function to copy a resource between two local directories.
   # The source resource may be either a file or a directory (e.g.,package).
@@ -63,14 +66,14 @@ function copy_resource_between_local_directories() {
   local chown_flags
   if [[ -d "$source_path" ]]; then
     is_directory=true
-    mode="755"  # Directories need execute permission for traversal
-    cp_flags="-R"  # Recursive copy for directories
+    mode="755"        # Directories need execute permission for traversal
+    cp_flags="-R"     # Recursive copy for directories
     chown_flags="-R"  # Recursive ownership for directories
     report "Source is a directory/package."
   else
     is_directory=false
-    mode="644"  # Files: owner read/write, others read-only
-    cp_flags="-f"  # Force copy for files
+    mode="644"         # Files: owner read/write, others read-only
+    cp_flags="-f"      # Force copy for files
     chown_flags=""
     report "Source is a regular file, not a directory/package."
   fi
