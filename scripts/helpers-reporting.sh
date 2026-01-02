@@ -1,6 +1,6 @@
 ############### Helpers related to reporting events to the executing user
 
-function define_colors() {
+function define_colors_symbols() {
   # Example usage
   # Each %b and %s maps to a successive argument to printf
   # printf "%b[ok]%b %s\n" "$COLOR_GREEN" "$COLOR_RESET" "some message"
