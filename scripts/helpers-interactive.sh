@@ -1,9 +1,4 @@
-# Prevent multiple sourcing
-if [[ -n "${__already_loaded_genomac_bootstrap_helpers_sh:-}" ]]; then return 0; fi
-__already_loaded_genomac_bootstrap_helpers_sh=1
-export __already_loaded_genomac_bootstrap_helpers_sh
-
-############### HELPERS
+############### Helpers related to asking for and receiving input from the executing user
 
 function ask_question() {
   # Output supplied line of text in distinctive color (COLOR_QUESTION), prefixed by SYMBOL_QUESTION
