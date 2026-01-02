@@ -1,5 +1,11 @@
 #!/usr/bin/env zsh
 
+# Specify the location of the user’s `Dropbox` directory
+# Although currently (1/2/2026) used only by GenoMac-user, it may well be soon used by
+#   GenoMac-system as a place from which to obtain resources for user creation (such as
+#   profile avatars. For this reason, I’m including this environment variable in GenoMac-shared.
+GENOMAC_USER_DROPBOX_DIRECTORY="$HOME/Library/CloudStorage/Dropbox"
+
 ############### Related to cloning GenoMac-user
 # Note: These variables must be available to GenoMac-system because that repo has a script
 #       that facilitates cloning GenoMac-user
@@ -7,30 +13,6 @@
 GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
 # Specify URL for cloning the public GenoMac-user repository using HTTPS
 GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
-
-############### Homebrew-related
-#
-# NOTE: Even though Homebrew seems directly related only to GenoMac-system rather than
-#       GenoMac-user, the below code (a) enforcing the presence of Homebrew and (b) setting
-#       HOMEBREW_PREFIX *is* used by GenoMac-user.
-# --- Homebrew: hard dependency ------------------------------------------------
-if ! command -v brew >/dev/null 2>&1; then
-  # First attempt failed - try adding Homebrew to PATH and retry
-  if [ -x /opt/homebrew/bin/brew ]; then
-    # Homebrew exists but isn't in PATH - fix temporarily
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-    if ! command -v brew >/dev/null 2>&1; then
-      echo "❌ Homebrew installation appears corrupted. Aborting."
-      exit 1
-    fi
-  else
-    echo "❌ Homebrew is required but not installed. Aborting."
-    exit 1
-  fi
-fi
-
-# Resolve once (don’t recompute if already set by the environment)
-HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(/usr/bin/env brew --prefix)}"
 
 ############### GENOMAC_ALERT_LOG
 # Specify name of temporary file to accumulate warning/failure messages for
@@ -57,6 +39,30 @@ GENOMAC_STATE_FILE_EXTENSION="state"
 GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY="/etc/genomac/state"
 # Specify local directory that will retain state information about run-only-once operations
 GENOMAC_USER_LOCAL_STATE_DIRECTORY="${GENOMAC_USER_LOCAL_DIRECTORY}-state"
+
+############### Homebrew-related
+#
+# NOTE: Even though Homebrew seems directly related only to GenoMac-system rather than
+#       GenoMac-user, the below code (a) enforcing the presence of Homebrew and (b) setting
+#       HOMEBREW_PREFIX *is* used by GenoMac-user.
+# --- Homebrew: hard dependency ------------------------------------------------
+if ! command -v brew >/dev/null 2>&1; then
+  # First attempt failed - try adding Homebrew to PATH and retry
+  if [ -x /opt/homebrew/bin/brew ]; then
+    # Homebrew exists but isn't in PATH - fix temporarily
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    if ! command -v brew >/dev/null 2>&1; then
+      echo "❌ Homebrew installation appears corrupted. Aborting."
+      exit 1
+    fi
+  else
+    echo "❌ Homebrew is required but not installed. Aborting."
+    exit 1
+  fi
+fi
+
+# Resolve once (don’t recompute if already set by the environment)
+HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(/usr/bin/env brew --prefix)}"
 
 ############### Export and report
 report_action_taken "Exporting environment variables common to both GenoMac-system and GenoMac-user"
