@@ -1,5 +1,14 @@
 ############### Helpers related to reporting events to the executing user
 
+function success_or_not() {
+  # Print SYMBOL_SUCCESS if success (based on error code); otherwise SYMBOL_FAILURE
+  if [[ $? -eq 0 ]]; then
+    printf " ${SYMBOL_SUCCESS}\n"
+  else
+    printf "\n${SYMBOL_FAILURE}\n"
+  fi
+}
+
 function report() {
   # Output supplied line of text in a distinctive color.
   printf "%b%s%b\n" "$COLOR_REPORT" "$1" "$COLOR_RESET"
