@@ -3,42 +3,9 @@ if [[ -n "${__already_loaded_genomac_bootstrap_helpers_sh:-}" ]]; then return 0;
 __already_loaded_genomac_bootstrap_helpers_sh=1
 export __already_loaded_genomac_bootstrap_helpers_sh
 
-############### HELPERS
-
-# Set up and assign colors
-ESC_SEQ="\033["
-
-COLOR_RESET="${ESC_SEQ}0m"
-
-COLOR_BLACK="${ESC_SEQ}30;01m"
-COLOR_RED="${ESC_SEQ}31;01m"
-COLOR_GREEN="${ESC_SEQ}32;01m"
-COLOR_YELLOW="${ESC_SEQ}33;01m"
-COLOR_BLUE="${ESC_SEQ}34;01m"
-COLOR_MAGENTA="${ESC_SEQ}35;01m"
-COLOR_CYAN="${ESC_SEQ}36;01m"
-COLOR_WHITE="${ESC_SEQ}37;01m"
-
-COLOR_QUESTION="$COLOR_MAGENTA"
-COLOR_REPORT="$COLOR_BLUE"
-COLOR_ADJUST_SETTING="$COLOR_CYAN"
-COLOR_ACTION_TAKEN="$COLOR_GREEN"
-COLOR_WARNING="$COLOR_YELLOW"
-COLOR_ERROR="$COLOR_RED"
-COLOR_SUCCESS="$COLOR_GREEN"
-COLOR_KILLED="$COLOR_RED"
-
-SYMBOL_SUCCESS="✅ "
-SYMBOL_FAILURE="❌ "
-SYMBOL_QUESTION="❓ "
-SYMBOL_ADJUST_SETTING="⚙️  "
-SYMBOL_KILLED="☠️ "
-SYMBOL_ACTION_TAKEN="🪚 "
-SYMBOL_WARNING="🚨 "
-
-# Example usage
-# Each %b and %s maps to a successive argument to printf
-# printf "%b[ok]%b %s\n" "$COLOR_GREEN" "$COLOR_RESET" "some message"
+# Resolve this script's directory (even if sourced)
+this_script_path="${0:A}"
+this_script_dir="${this_script_path:h}"
 
 safe_source() {
   # Ensures that an error is raised if a `source` of the file in the supplied argument fails.
@@ -50,6 +17,16 @@ safe_source() {
     exit 1
   fi
 }
+
+# Source each subsidiary helper file, all assumed to reside in same directory as this file
+safe_source "${this_script_dir}/helpers-apps.sh"
+safe_source "${this_script_dir}/helpers-copying.sh"
+safe_source "${this_script_dir}/helpers-defaults.sh"
+safe_source "${this_script_dir}/helpers-interactive.sh"
+safe_source "${this_script_dir}/helpers-reporting.sh"
+safe_source "${this_script_dir}/helpers-state.sh"
+
+############### HELPERS
 
 function keep_sudo_alive() {
   report_action_taken "I very likely am about to ask you for your administrator password. Do you trust me??? 😉"
@@ -63,15 +40,6 @@ function keep_sudo_alive() {
     sleep 60
     kill -0 "$$" || exit
   done 2>/dev/null &  # background process, silence errors
-}
-
-function success_or_not() {
-  # Print SYMBOL_SUCCESS if success (based on error code); otherwise SYMBOL_FAILURE
-  if [[ $? -eq 0 ]]; then
-    printf " ${SYMBOL_SUCCESS}\n"
-  else
-    printf "\n${SYMBOL_FAILURE}\n"
-  fi
 }
 
 function sanitize_filename() {
@@ -106,5 +74,9 @@ is_semantic_version_arg1_at_least_arg2() {
   is-at-least "$arg2" "$arg1"
 }
 
+function main() {
+  define_colors_and_symbols
+}
 
+main
 
