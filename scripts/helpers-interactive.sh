@@ -1,5 +1,8 @@
 ############### Helpers related to asking for and receiving input from the executing user
 
+# Relies upon:
+#   helpers-reporting.sh (for only `define_colors_and_symbols()`)
+
 function ask_question() {
   # Output supplied line of text in distinctive color (COLOR_QUESTION), prefixed by SYMBOL_QUESTION
   printf "%b%s%s%b\n" "$COLOR_QUESTION" "$SYMBOL_QUESTION" "$1" "$COLOR_RESET"
