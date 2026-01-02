@@ -1,5 +1,9 @@
 ############### Helpers related to reporting events to the executing user
 
+# Relies upon:
+#   Environment variables:
+#     GENOMAC_ALERT_LOG
+
 function define_colors_and_symbols() {
   # Example usage
   # Each %b and %s maps to a successive argument to printf
