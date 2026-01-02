@@ -3,7 +3,7 @@ A repository of helper commands for [GenoMac-system](https://github.com/jimratli
 
 This repository is intended to be used as a submodule by [GenoMac-system](https://github.com/jimratliff/GenoMac-system) and [GenoMac-user](https://github.com/jimratliff/GenoMac-user), which act as container repositories.
 
-In both of these container repositories, this submodule is intended to be mapped to the `external/genomac-shared` directory.
+In each of these container repositories, this submodule is intended to be mapped to the `external/genomac-shared` directory.
 
 ## One time only: add GenoMac-shared as a submodule to GenoMac-system and GenoMac-user
 
