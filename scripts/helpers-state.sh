@@ -1,5 +1,13 @@
 ############### Helpers related to managing state for GenoMac
 
+# Relies upon:
+#   helpers-reporting.sh
+#
+#   Environment variables:
+#     GENOMAC_USER_LOCAL_STATE_DIRECTORY
+#	  GENOMAC_STATE_FILE_EXTENSION
+#	  GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
+
 function _state_directory_for_scope() {
   # Internal helper. Takes one argument that is either 'system' or 'user' and returns correspondingly either 
   # (a) $GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY or (b) $GENOMAC_USER_LOCAL_STATE_DIRECTORY, respectively
