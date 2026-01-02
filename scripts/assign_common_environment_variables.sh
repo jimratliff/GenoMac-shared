@@ -1,5 +1,10 @@
 #!/usr/bin/env zsh
 
+# Specify local directory into which the GenoMac-user repository will be cloned
+# Note: This variable must be available to GenoMac-system because that repo has a script
+#       that facilitates cloning GenoMac-user
+GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
+
 ############### Homebrew-related
 #
 # NOTE: Even though Homebrew seems directly related only to GenoMac-system rather than
@@ -54,4 +59,5 @@ function export_and_report() {
 export_and_report GENOMAC_ALERT_LOG
 export_and_report GENOMAC_STATE_FILE_EXTENSION
 export_and_report GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
+export_and_report GENOMAC_USER_LOCAL_DIRECTORY
 export_and_report HOMEBREW_PREFIX
