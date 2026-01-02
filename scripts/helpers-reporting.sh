@@ -1,5 +1,41 @@
 ############### Helpers related to reporting events to the executing user
 
+function define_colors() {
+  # Example usage
+  # Each %b and %s maps to a successive argument to printf
+  # printf "%b[ok]%b %s\n" "$COLOR_GREEN" "$COLOR_RESET" "some message"
+
+  ESC_SEQ="\033["
+  
+  COLOR_RESET="${ESC_SEQ}0m"
+  
+  COLOR_BLACK="${ESC_SEQ}30;01m"
+  COLOR_RED="${ESC_SEQ}31;01m"
+  COLOR_GREEN="${ESC_SEQ}32;01m"
+  COLOR_YELLOW="${ESC_SEQ}33;01m"
+  COLOR_BLUE="${ESC_SEQ}34;01m"
+  COLOR_MAGENTA="${ESC_SEQ}35;01m"
+  COLOR_CYAN="${ESC_SEQ}36;01m"
+  COLOR_WHITE="${ESC_SEQ}37;01m"
+  
+  COLOR_QUESTION="$COLOR_MAGENTA"
+  COLOR_REPORT="$COLOR_BLUE"
+  COLOR_ADJUST_SETTING="$COLOR_CYAN"
+  COLOR_ACTION_TAKEN="$COLOR_GREEN"
+  COLOR_WARNING="$COLOR_YELLOW"
+  COLOR_ERROR="$COLOR_RED"
+  COLOR_SUCCESS="$COLOR_GREEN"
+  COLOR_KILLED="$COLOR_RED"
+  
+  SYMBOL_SUCCESS="✅ "
+  SYMBOL_FAILURE="❌ "
+  SYMBOL_QUESTION="❓ "
+  SYMBOL_ADJUST_SETTING="⚙️  "
+  SYMBOL_KILLED="☠️ "
+  SYMBOL_ACTION_TAKEN="🪚 "
+  SYMBOL_WARNING="🚨 "
+}
+
 function success_or_not() {
   # Print SYMBOL_SUCCESS if success (based on error code); otherwise SYMBOL_FAILURE
   if [[ $? -eq 0 ]]; then
