@@ -95,10 +95,10 @@ function _test_state() {
   local state_file
   state_file="$(_state_file_path "$state_string" "$scope")" || return 1
   if [[ -f "$state_file" ]]; then
-  	report "State detected: “${state_string}” in ${state_dir}"
+  	report "State detected: “${state_string}”"
   	return 0
   else
-  	report "State not present: “${state_string}” in ${state_dir}"
+  	report "State not present: “${state_string}”"
   	return 1
   fi
 }
@@ -126,7 +126,7 @@ function _set_state() {
   local state_file
   state_file="$(_state_file_path "$state_string" "$scope")" || return 1
   mkdir -p "${state_dir}"
-  report_action_taken "Setting state: ${state_string}.${GENOMAC_STATE_FILE_EXTENSION} in ${state_dir}"
+  report_action_taken "Setting state: “${state_string}”"
   touch "$state_file"
 }
 
@@ -154,9 +154,9 @@ function _delete_state() {
   state_file="$(_state_file_path "$state_string" "$scope")" || return 1
   if [[ -f "$state_file" ]]; then
   	rm -f "$state_file"
-  	report_action_taken "Deleted state: ${state_string}.${GENOMAC_STATE_FILE_EXTENSION} in ${state_dir}"
+  	report_action_taken "Deleted state: “${state_string}”"
   else
-  	report "State not present (nothing to delete): ${state_string}.${GENOMAC_STATE_FILE_EXTENSION} in ${state_dir}"
+  	report "State not present (nothing to delete): “${state_string}”"
   fi
 }
 
