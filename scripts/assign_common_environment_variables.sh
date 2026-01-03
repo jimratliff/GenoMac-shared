@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-# Establishes values for environment variables used by both GenoMac-system and GenoMac-user 
+# Establishes values for environment variables shared by both GenoMac-system and GenoMac-user 
 
 set -euo pipefail
 
