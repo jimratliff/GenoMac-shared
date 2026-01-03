@@ -184,7 +184,7 @@ function _reset_state() {
 # User-scope state functions
 
 function test_genomac_user_state() {
-  test_state "$1" "user"
+  _test_state "$1" "user"
 }
 
 function set_genomac_user_state() {
@@ -202,7 +202,7 @@ function reset_genomac_user_state() {
 # System-scope state functions
 
 function test_genomac_system_state() {
-  test_state "$1" "system"
+  _test_state "$1" "system"
 }
 
 function set_genomac_system_state() {
