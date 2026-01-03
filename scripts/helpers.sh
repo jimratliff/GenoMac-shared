@@ -1,22 +1,29 @@
+#!/usr/bin/env zs
+
+# Intended to be called from 0_initialize_me.sh from either GenoMac-system or GenoMac-user.
+# Relies on 0_initialize_me.sh having already defined source_with_report()
+
 # Prevent multiple sourcing
 if [[ -n "${__already_loaded_genomac_bootstrap_helpers_sh:-}" ]]; then return 0; fi
 __already_loaded_genomac_bootstrap_helpers_sh=1
 export __already_loaded_genomac_bootstrap_helpers_sh
 
+set -euo pipefail
+
 # Resolve this script's directory (even if sourced)
 this_script_path="${0:A}"
 this_script_dir="${this_script_path:h}"
 
-function source_with_report() {
-  # Ensures that an error is raised if a `source` of the file in the supplied argument fails.
-  local file="$1"
-  if source "$file"; then
-    echo "Sourced: $file"
-  else
-    echo "Failed to source: $file"
-    exit 1
-  fi
-}
+# function source_with_report() {
+#   # Ensures that an error is raised if a `source` of the file in the supplied argument fails.
+#   local file="$1"
+#   if source "$file"; then
+#     echo "Sourced: $file"
+#   else
+#     echo "Failed to source: $file"
+#     exit 1
+#   fi
+# }
 
 # Source common environment variables
 # Assumes that assign_common_environment_variables.sh resides in same directory as this file
