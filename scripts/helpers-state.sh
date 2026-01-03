@@ -177,8 +177,13 @@ function _reset_state() {
 		report "State directory does not exist: ${state_dir}"
 		return 0
 	}
-	rm -f "${state_dir}"/*."${GENOMAC_STATE_FILE_EXTENSION}"
-	report_action_taken "Reset all state in ${state_dir}"
+	local state_files=("${state_dir}"/*."${GENOMAC_STATE_FILE_EXTENSION}"(N))
+	if (( ${#state_files[@]} > 0 )); then
+		rm -f "${state_files[@]}"
+		report_action_taken "Reset all state in ${state_dir}"
+	else
+		report "No state files to reset in ${state_dir}"
+	fi
 }
 
 # User-scope state functions
