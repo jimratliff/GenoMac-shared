@@ -73,7 +73,7 @@ echo "Exporting environment variables common to both GenoMac-system and GenoMac-
 
 function export_and_report() {
   local var_name="$1"
-  report "export $var_name: '${(P)var_name}'"
+  echo "export $var_name: '${(P)var_name}'"
   export "$var_name"
 }
 
