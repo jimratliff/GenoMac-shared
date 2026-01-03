@@ -69,7 +69,7 @@ fi
 HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(/usr/bin/env brew --prefix)}"
 
 ############### Export and report
-report_action_taken "Exporting environment variables common to both GenoMac-system and GenoMac-user"
+echo "Exporting environment variables common to both GenoMac-system and GenoMac-user"
 
 function export_and_report() {
   local var_name="$1"
