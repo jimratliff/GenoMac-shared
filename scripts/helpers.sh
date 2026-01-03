@@ -7,13 +7,13 @@ export __already_loaded_genomac_bootstrap_helpers_sh
 this_script_path="${0:A}"
 this_script_dir="${this_script_path:h}"
 
-safe_source() {
+function safe_source() {
   # Ensures that an error is raised if a `source` of the file in the supplied argument fails.
-  # Usage:
-  #  safe_source "${PREFS_FUNCTIONS_DIR}/set_safari_settings.sh"
   local file="$1"
-  if ! source "$file"; then
-    echo "ERROR: Failed to source $file"
+  if source "$file"; then
+    report "Sourced: $file"
+  else
+    report_fail "Failed to source: $file"
     exit 1
   fi
 }
