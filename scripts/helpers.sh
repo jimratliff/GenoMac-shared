@@ -7,7 +7,7 @@ export __already_loaded_genomac_bootstrap_helpers_sh
 this_script_path="${0:A}"
 this_script_dir="${this_script_path:h}"
 
-function safe_source() {
+function source_with_report() {
   # Ensures that an error is raised if a `source` of the file in the supplied argument fails.
   local file="$1"
   if source "$file"; then
@@ -20,16 +20,16 @@ function safe_source() {
 
 # Source common environment variables
 # Assumes that assign_common_environment_variables.sh resides in same directory as this file
-safe_source "${this_script_dir}/assign_common_environment_variables.sh"
+source_with_report "${this_script_dir}/assign_common_environment_variables.sh"
 
 # Source each subsidiary helper file, all assumed to reside in same directory as this file
-safe_source "${this_script_dir}/helpers-apps.sh"
-safe_source "${this_script_dir}/helpers-copying.sh"
-safe_source "${this_script_dir}/helpers-defaults.sh"
-safe_source "${this_script_dir}/helpers-interactive.sh""
-safe_source "${this_script_dir}/helpers-misc.sh"
-safe_source "${this_script_dir}/helpers-reporting.sh"
-safe_source "${this_script_dir}/helpers-state.sh
+source_with_report "${this_script_dir}/helpers-apps.sh"
+source_with_report "${this_script_dir}/helpers-copying.sh"
+source_with_report "${this_script_dir}/helpers-defaults.sh"
+source_with_report "${this_script_dir}/helpers-interactive.sh""
+source_with_report "${this_script_dir}/helpers-misc.sh"
+source_with_report "${this_script_dir}/helpers-reporting.sh"
+source_with_report "${this_script_dir}/helpers-state.sh
 
 function main() {
   define_colors_and_symbols
