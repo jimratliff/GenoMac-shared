@@ -95,10 +95,10 @@ function _test_state() {
   local state_file
   state_file="$(_state_file_path "$state_string" "$scope")" || return 1
   if [[ -f "$state_file" ]]; then
-  	# report "State detected: ${state_string}.${GENOMAC_STATE_FILE_EXTENSION} in ${state_dir}"
+  	report "State detected: “${state_string}” in ${state_dir}"
   	return 0
   else
-  	# report "State not present: ${state_string}.${GENOMAC_STATE_FILE_EXTENSION} in ${state_dir}"
+  	report "State not present: “${state_string}” in ${state_dir}"
   	return 1
   fi
 }
