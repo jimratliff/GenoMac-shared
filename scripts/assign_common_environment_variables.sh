@@ -80,6 +80,8 @@ function export_and_report() {
 export_and_report GENOMAC_ALERT_LOG
 export_and_report GENOMAC_STATE_FILE_EXTENSION
 export_and_report GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
+export_and_report GENOMAC_USER_DROPBOX_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_DIRECTORY
+export_and_report GENOMAC_USER_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_USER_REPO_URL
 export_and_report HOMEBREW_PREFIX
