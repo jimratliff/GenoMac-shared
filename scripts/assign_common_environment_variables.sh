@@ -1,5 +1,9 @@
 #!/usr/bin/env zsh
 
+# Establishes values for environment variables used by both GenoMac-system and GenoMac-user 
+
+set -euo pipefail
+
 # Specify the location of the user’s `Dropbox` directory
 # Although currently (1/2/2026) used only by GenoMac-user, it may well be soon used by
 #   GenoMac-system as a place from which to obtain resources for user creation (such as
