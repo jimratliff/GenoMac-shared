@@ -11,9 +11,9 @@ function source_with_report() {
   # Ensures that an error is raised if a `source` of the file in the supplied argument fails.
   local file="$1"
   if source "$file"; then
-    report "Sourced: $file"
+    echo "Sourced: $file"
   else
-    report_fail "Failed to source: $file"
+    echo "Failed to source: $file"
     exit 1
   fi
 }
@@ -26,7 +26,7 @@ source_with_report "${this_script_dir}/assign_common_environment_variables.sh"
 source_with_report "${this_script_dir}/helpers-apps.sh"
 source_with_report "${this_script_dir}/helpers-copying.sh"
 source_with_report "${this_script_dir}/helpers-defaults.sh"
-source_with_report "${this_script_dir}/helpers-interactive.sh""
+source_with_report "${this_script_dir}/helpers-interactive.sh"
 source_with_report "${this_script_dir}/helpers-misc.sh"
 source_with_report "${this_script_dir}/helpers-reporting.sh"
 source_with_report "${this_script_dir}/helpers-state.sh
