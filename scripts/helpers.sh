@@ -29,7 +29,7 @@ source_with_report "${this_script_dir}/helpers-defaults.sh"
 source_with_report "${this_script_dir}/helpers-interactive.sh"
 source_with_report "${this_script_dir}/helpers-misc.sh"
 source_with_report "${this_script_dir}/helpers-reporting.sh"
-source_with_report "${this_script_dir}/helpers-state.sh
+source_with_report "${this_script_dir}/helpers-state.sh"
 
 function main() {
   define_colors_and_symbols
