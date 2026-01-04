@@ -37,3 +37,8 @@ git add external/genomac-shared                 # stage the new commit reference
 git commit -m "Update genomac-shared submodule"
 git push origin main
 ```
+This process is codified in a one-liner:
+```
+make dev-update-repo-and-submodule
+```
+(Note: Currently, this `make` recipe has been added only to GenoMac-user, not yet GenoMac-system.)
