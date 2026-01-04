@@ -17,6 +17,19 @@ function keep_sudo_alive() {
   done 2>/dev/null &  # background process, silence errors
 }
 
+this_mac_is_a_laptop() {
+  # Exits with zero if Mac is a laptop (has a battery installed); otherwise exits with 1
+  #
+  # Usage:
+  #   if this_mac_is_a_laptop; then
+  #   	echo "This is a laptop"
+  #   else
+  #   	echo "This is a desktop"
+  #   fi
+  #
+	/usr/sbin/ioreg -c AppleSmartBattery -r | awk '/BatteryInstalled/ {exit ($3 == "Yes" ? 0 : 1)}'
+}
+
 function sanitize_filename() {
   echo "$1" | tr -cd '[:alnum:]._-'
 }
