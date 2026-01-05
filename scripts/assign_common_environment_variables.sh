@@ -18,6 +18,9 @@ GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
 # Specify URL for cloning the public GenoMac-user repository using HTTPS
 GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
 
+# Systemwide directory that stores available alert sounds
+SYSTEM_ALERT_SOUNDS_DIRECTORY="/Library/Audio/Sounds/Alerts"
+
 ############### GENOMAC_ALERT_LOG
 # Specify name of temporary file to accumulate warning/failure messages for
 #   later regurgitation at the end of a main script.
@@ -85,3 +88,4 @@ export_and_report GENOMAC_USER_LOCAL_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_USER_REPO_URL
 export_and_report HOMEBREW_PREFIX
+export_and_report SYSTEM_ALERT_SOUNDS_DIRECTORY
