@@ -22,7 +22,12 @@ GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
 SYSTEM_ALERT_SOUNDS_DIRECTORY="/Library/Audio/Sounds/Alerts"
 
 # Name of custom-chosen alert sound
-CUSTOM_ALERT_SOUND="Uh_oh.aiff"
+CUSTOM_ALERT_SOUND_FILENAME="Uh_oh.aiff"
+
+# Path to installed custom alert sound
+# This needs to be available to both (a) GenoMac-system (because it installs the sound at this location)
+# and (b) GenoMac-user (because it designates where to find the chosen alert sound file).
+PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE="${SYSTEM_ALERT_SOUNDS_DIRECTORY}/${CUSTOM_ALERT_SOUND_FILENAME}"
 
 ############### GENOMAC_ALERT_LOG
 # Specify name of temporary file to accumulate warning/failure messages for
@@ -77,13 +82,13 @@ HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(/usr/bin/env brew --prefix)}"
 ############### Export and report
 echo "Exporting environment variables common to both GenoMac-system and GenoMac-user"
 
-function export_and_report() {
-  local var_name="$1"
-  echo "export $var_name: '${(P)var_name}'"
-  export "$var_name"
-}
+# function export_and_report() {
+#   local var_name="$1"
+#   echo "export $var_name: '${(P)var_name}'"
+#   export "$var_name"
+# }
 
-export_and_report CUSTOM_ALERT_SOUND
+export_and_report CUSTOM_ALERT_SOUND_FILENAME
 export_and_report GENOMAC_ALERT_LOG
 export_and_report GENOMAC_STATE_FILE_EXTENSION
 export_and_report GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
@@ -92,4 +97,5 @@ export_and_report GENOMAC_USER_LOCAL_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_USER_REPO_URL
 export_and_report HOMEBREW_PREFIX
+export_and_report PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE
 export_and_report SYSTEM_ALERT_SOUNDS_DIRECTORY
