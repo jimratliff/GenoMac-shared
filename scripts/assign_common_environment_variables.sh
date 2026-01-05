@@ -21,6 +21,9 @@ GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
 # Systemwide directory that stores available alert sounds
 SYSTEM_ALERT_SOUNDS_DIRECTORY="/Library/Audio/Sounds/Alerts"
 
+# Name of custom-chosen alert sound
+CUSTOM_ALERT_SOUND="Uh_oh.aiff"
+
 ############### GENOMAC_ALERT_LOG
 # Specify name of temporary file to accumulate warning/failure messages for
 #   later regurgitation at the end of a main script.
@@ -80,6 +83,7 @@ function export_and_report() {
   export "$var_name"
 }
 
+export_and_report CUSTOM_ALERT_SOUND
 export_and_report GENOMAC_ALERT_LOG
 export_and_report GENOMAC_STATE_FILE_EXTENSION
 export_and_report GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
