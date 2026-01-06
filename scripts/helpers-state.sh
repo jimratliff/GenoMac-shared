@@ -80,7 +80,7 @@ function _test_state() {
   #		  This is an implementation detail. The test_state() API does not rely upon or expose this implementation detail.
   #
   #	Example:
-  #    if ! test_state "launch-and-sign-in-to-microsoft-word" "user"; then
+  #    if ! _test_state "launch-and-sign-in-to-microsoft-word" "user"; then
   #        # Perform the one-time operation
   #        open -a "Microsoft Word"
   #        echo "Please sign in to Microsoft Word, then press Enter..."
