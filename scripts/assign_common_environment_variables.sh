@@ -82,11 +82,11 @@ HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(/usr/bin/env brew --prefix)}"
 ############### Export and report
 echo "Exporting environment variables common to both GenoMac-system and GenoMac-user"
 
-# function export_and_report() {
-#   local var_name="$1"
-#   echo "export $var_name: '${(P)var_name}'"
-#   export "$var_name"
-# }
+function export_and_report() {
+  local var_name="$1"
+  echo "export $var_name: '${(P)var_name}'"
+  export "$var_name"
+}
 
 export_and_report CUSTOM_ALERT_SOUND_FILENAME
 export_and_report GENOMAC_ALERT_LOG
