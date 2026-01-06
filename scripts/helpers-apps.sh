@@ -5,7 +5,6 @@
 #       take a bundle_id as their first argument.
 
 # Relies upon:
-#   helpers-apps.sh
 #   helpers-reporting.sh
 
 function launch_and_quit_app() {
