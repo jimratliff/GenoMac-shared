@@ -17,7 +17,7 @@ function keep_sudo_alive() {
   done 2>/dev/null &  # background process, silence errors
 }
 
-this_mac_is_a_laptop() {
+function this_mac_is_a_laptop() {
   # Exits with zero if Mac is a laptop (has a battery installed); otherwise exits with 1
   #
   # Usage:
@@ -27,7 +27,11 @@ this_mac_is_a_laptop() {
   #   	echo "This is a desktop"
   #   fi
   #
-	/usr/sbin/ioreg -c AppleSmartBattery -r | awk '/BatteryInstalled/ {exit ($3 == "Yes" ? 0 : 1)}'
+  report_start_phase_standard
+  
+  /usr/sbin/ioreg -c AppleSmartBattery -r | awk '/BatteryInstalled/ {exit ($3 == "Yes" ? 0 : 1)}'
+
+  report_end_phase_standard
 }
 
 function sanitize_filename() {
@@ -60,4 +64,20 @@ is_semantic_version_arg1_at_least_arg2() {
   arg2="${arg2%%[-+]*}"
 
   is-at-least "$arg2" "$arg1"
+}
+
+function show_file_using_quicklook() {
+  # Shows a file using Quick Look, where that file is supplied by a path string in the only argument
+  #
+  # Usage:
+  #
+  report_start_phase_standard
+
+  # Test whether argument specifies a valid file
+  [[ -f $1 ]] || { report_warn "Error: file not found: $1" >&2; exit 1; }
+
+  # Displays the file to user using QuickLook
+  /usr/bin/qlmanage -p "$1" >/dev/null 2>&1 &
+
+  report_end_phase_standard
 }
