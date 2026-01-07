@@ -85,18 +85,18 @@ function quit_app_by_bundle_id_if_running() {
   return 0
 }
 
-function launch_app_and_prompt_user_to_authenticate() {
+function launch_app_and_prompt_user_to_act() {
   # Launches an app, prompts the user to sign in or complete a task, waits for acknowledgment,
   # then quits the app if it's still running.
   # Examples:
-  #   launch_and_prompt_user_to_authenticate "com.apple.AppStore" "sign in to your Apple ID"
-  #   launch_and_prompt_user_to_authenticate "com.dropbox.client" "complete Dropbox setup"
+  #   launch_app_and_prompt_user_to_act "com.apple.AppStore" "sign in to your Apple ID"
+  #   launch_app_and_prompt_user_to_act "com.dropbox.client" "complete Dropbox setup"
   
   local bundle_id="$1"
   local task_description="${2:-sign in or complete the required task}"
   local confirmation_word="done"
   
-  report_action_taken "Launch app $bundle_id for user authentication/setup"
+  report_action_taken "Launch app $bundle_id to wait for user action"
   
   # Launch app in foreground so user can interact with it
   report_action_taken "Launching app $bundle_id"
