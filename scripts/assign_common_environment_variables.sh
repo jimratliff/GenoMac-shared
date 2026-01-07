@@ -4,6 +4,10 @@
 
 set -euo pipefail
 
+# Specify a variable that, when expanded, is a newline character
+# I can use this inside my `report()` series functions without changing how I quote strings.
+NEWLINE=$'\n'
+
 # Specify the location of the user’s `Dropbox` directory
 # Although currently (1/2/2026) used only by GenoMac-user, it may well be soon used by
 #   GenoMac-system as a place from which to obtain resources for user creation (such as
@@ -97,5 +101,6 @@ export_and_report GENOMAC_USER_LOCAL_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_USER_REPO_URL
 export_and_report HOMEBREW_PREFIX
+export_and_report NEWLINE
 export_and_report PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE
 export_and_report SYSTEM_ALERT_SOUNDS_DIRECTORY
