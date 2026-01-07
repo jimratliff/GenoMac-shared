@@ -70,7 +70,8 @@ function show_file_using_quicklook() {
   # Shows a file using Quick Look, where that file is supplied by a path string in the only argument
   #
   # Usage:
-  #
+  #   show_file_using_quicklook "${GENOMAC_USER_LOCAL_DOCUMENTATION_DIRECTORY}/test.md"
+  
   report_start_phase_standard
 
   # Test whether argument specifies a valid file
