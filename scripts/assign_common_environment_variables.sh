@@ -83,6 +83,24 @@ fi
 # Resolve once (don’t recompute if already set by the environment)
 HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(/usr/bin/env brew --prefix)}"
 
+############### Bundle IDs
+
+# Bundle IDs for apps
+BUNDLE_ID_1PASSWORD="com.1password.1password"
+BUNDLE_ID_ALAN_APP="studio.retina.Alan"
+BUNDLE_ID_ALFRED="com.runningwithcrayons.Alfred"
+BUNDLE_ID_BBEDIT=
+BUNDLE_ID_BETTERTOUCHTOOL="com.hegenberg.BetterTouchTool"
+BUNDLE_ID_CLAUDE="com.anthropic.claudefordesktop"
+BUNDLE_ID_DROPBOX="com.getdropbox.dropbox"
+BUNDLE_ID_GLANCE="com.chamburr.Glance"
+BUNDLE_ID_KEYBOARDMAESTRO_EDITOR="com.stairways.keyboardmaestro.editor"
+BUNDLE_ID_KEYBOARDMAESTRO_ENGINE="com.stairways.keyboardmaestro.engine"
+BUNDLE_ID_MICROSOFT_WORD="com.microsoft.Word"
+BUNDLE_ID_PLAIN_TEXT_EDITOR=
+BUNDLE_ID_TEXTEXPANDER="com.smileonmymac.textexpander"
+
+
 ############### Export and report
 echo "Exporting environment variables common to both GenoMac-system and GenoMac-user"
 
