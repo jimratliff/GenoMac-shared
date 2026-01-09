@@ -161,32 +161,6 @@ function _delete_state() {
   fi
 }
 
-function _reset_state() {
-  # Resets all state for a given scope by deleting all state files, but leaving the state directory intact.
-  #
-  # Internal helper. Takes one string argument:
-  #   $1: the "scope," either 'system' or 'user' depending on whether to reset (a) system-wide state
-  #       or (b) the current user's state
-  # Exits normally even if state directory doesn’t exist or is empty.
-  #
-  # Usage: _reset_state "user"
-  #
-  local scope="$1"
-  local state_dir
-  state_dir="$(_state_directory_for_scope "$scope")" || return 1
-  [[ -d "${state_dir}" ]] || {
-    report "State directory does not exist: ${state_dir}" ; success_or_not
-    return 0
-  }
-  local state_files=("${state_dir}"/*."${GENOMAC_STATE_FILE_EXTENSION}"(N))
-  if (( ${#state_files[@]} > 0 )); then
-    report_action_taken "Reset all state in ${state_dir}"
-    rm -f "${state_files[@]}" ; success_or_not
-  else
-    report "No state files to reset in ${state_dir}" ; success_or_not
-  fi
-}
-
 function _set_state_based_on_yes_no() {
   # Conditionally set or delete a state based on user's yes/no response.
   #
@@ -208,6 +182,78 @@ function _set_state_based_on_yes_no() {
   else
     _delete_state "$state_string" "$scope"
   fi
+}
+
+function _delete_states_matching() {
+  # Internal helper that deletes state files for a given scope, optionally filtered by persistence type.
+  #
+  # Arguments:
+  #   $1: the "scope," either 'system' or 'user'
+  #   $2: (optional) persistence filter, either 'SESH' or 'PERM'. If omitted, deletes all state files.
+  #
+  # Usage:
+  #   _delete_states_matching "user"          # deletes all user state files
+  #   _delete_states_matching "user" "SESH"   # deletes only user SESH state files
+  #
+  local scope="$1"
+  local persistence="$2"  # optional
+  local state_dir
+  state_dir="$(_state_directory_for_scope "$scope")" || return 1
+
+  [[ -d "${state_dir}" ]] || {
+    report "State directory does not exist: ${state_dir}" ; success_or_not
+    return 0
+  }
+
+  local pattern
+  if [[ -n "$persistence" ]]; then
+    # Determine the prefix based on scope: GMS for system, GMU for user
+    local prefix
+    if [[ "$scope" == "system" ]]; then
+      prefix="GMS"
+    elif [[ "$scope" == "user" ]]; then
+      prefix="GMU"
+    else
+      report "Invalid scope: ${scope}"
+      return 1
+    fi
+    pattern="${prefix}_${persistence}_*"
+  else
+    pattern="*"
+  fi
+
+  local state_files=("${state_dir}"/${~pattern}."${GENOMAC_STATE_FILE_EXTENSION}"(N))
+
+  if (( ${#state_files[@]} > 0 )); then
+    rm -f "${state_files[@]}"
+    local description
+    if [[ -n "$persistence" ]]; then
+      description="${#state_files[@]} ${persistence} state file(s)"
+    else
+      description="all ${#state_files[@]} state file(s)"
+    fi
+    report_action_taken "Deleted ${description} in ${state_dir}"
+  else
+    local description
+    if [[ -n "$persistence" ]]; then
+      description="${persistence} state files"
+    else
+      description="state files"
+    fi
+    report "No ${description} to delete in ${state_dir}" ; success_or_not
+  fi
+}
+
+function _delete_all_states() {
+  # Deletes all state files for a given scope.
+  # Usage: _delete_all_states "user"
+  _delete_states_matching "$1"
+}
+
+function _delete_all_SESH_states() {
+  # Deletes all SESH (session) state files for a given scope.
+  # Usage: _delete_all_SESH_states "user"
+  _delete_states_matching "$1" "SESH"
 }
 
 # User-scope state functions
@@ -252,4 +298,28 @@ function reset_genomac_system_state() {
 
 function set_system_state_based_on_yes_no() {
   _set_state_based_on_yes_no "$1" "$2" "system"
+}
+
+function _delete_all_system_states() {
+  # Deletes all state files for system scope.
+  # Usage: _delete_all_system_states
+  _delete_states_matching "system"
+}
+
+function _delete_all_user_states() {
+  # Deletes all state files for user scope.
+  # Usage: _delete_all_user_states
+  _delete_states_matching "user"
+}
+
+function _delete_all_GMS_SESH_states() {
+  # Deletes all SESH (session) state files for system scope.
+  # Usage: _delete_all_GMS_SESH_states
+  _delete_states_matching "system" "SESH"
+}
+
+function _delete_all_GMU_SESH_states() {
+  # Deletes all SESH (session) state files for user scope.
+  # Usage: _delete_all_GMU_SESH_states
+  _delete_states_matching "user" "SESH"
 }
