@@ -54,18 +54,14 @@ function _state_file_path() {
   echo "${state_dir}/${state_string}.${GENOMAC_STATE_FILE_EXTENSION}"
 }
 
-# TODO: Why do _user_state_file_path(), _system_state_file_path(), and _state_file_path() all exist
-#		when neither _user_state_file_path() nor _system_state_file_path() reference
-#		_state_file_path()?
-
 function _user_state_file_path() {
     # Internal helper: returns the path of the state file corresponding to a given state string
-    echo "${GENOMAC_USER_LOCAL_STATE_DIRECTORY}/${1}.${GENOMAC_STATE_FILE_EXTENSION}"
+	_state_file_path "$1" "user"
 }
 
 function _system_state_file_path() {
     # Internal helper: returns the path of the state file corresponding to a given state string
-    echo "${GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY}/${1}.${GENOMAC_STATE_FILE_EXTENSION}"
+    _state_file_path "$1" "system"
 }
 
 function _test_state() {
@@ -73,15 +69,16 @@ function _test_state() {
   #
   # Internal helper. Takes two string arguments:
   #   $1: the “state string” that labels the state
-  #   $2: the “scope,” either 'system' or 'user' depending on whether this state characterizes (a) the entire 'system'
-  #		  (e.g., that Mac) or instead (b) characterizes a particular 'user'
+  #   $2: the “scope,” either 'system' or 'user' depending on whether this state characterizes 
+  # 	  (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
   #
   # Returns 0 if the state exists, 1 otherwise.
   # Usage: test_state "launch-and-sign-in-to-microsoft-word" "user"
   #
   # NOTE: Currently, a state's existence is equivalent to the existence of a corresponding .state 
-  #		  (more generally .GENOMAC_STATE_FILE_EXTENSION) file.
-  #		  This is an implementation detail. The test_state() API does not rely upon or expose this implementation detail.
+  #		  file (more generally a file with .GENOMAC_STATE_FILE_EXTENSION).
+  #		  This is an implementation detail. The test_state() API does not rely upon or expose this 
+  # 	  implementation detail.
   #
   #	Example:
   #    if ! _test_state "launch-and-sign-in-to-microsoft-word" "user"; then
@@ -91,11 +88,9 @@ function _test_state() {
   #        read
   #        set_state "launch-and-sign-in-to-microsoft-word" "user"
   #    fi
-  #
+  
   local state_string="$1"
   local scope="$2"
-  local state_dir
-  state_dir="$(_state_directory_for_scope "$scope")" || return 1
   local state_file
   state_file="$(_state_file_path "$state_string" "$scope")" || return 1
   if [[ -f "$state_file" ]]; then
