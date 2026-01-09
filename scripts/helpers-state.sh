@@ -8,6 +8,10 @@
 #	  GENOMAC_STATE_FILE_EXTENSION
 #	  GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
 
+# TODOs: Rather than `_reset_state()`, what I really need is:
+#		 - delete_all_SESH_state()
+#		 - delete_all_PERM_state() (though it’s not clear this was is necessary)
+
 function _state_directory_for_scope() {
   # Internal helper. Takes one argument that is either 'system' or 'user' and returns correspondingly either 
   # (a) $GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY or (b) $GENOMAC_USER_LOCAL_STATE_DIRECTORY, respectively
@@ -15,7 +19,7 @@ function _state_directory_for_scope() {
   #    state_dir="$(_state_directory_for_scope "user")"   # Returns user directory
   #    state_dir="$(_state_directory_for_scope "system")" # Returns system directory
   #    state_dir="$(_state_directory_for_scope "bogus")"  # Reports error, returns 1
-  #
+  
   local scope="$1"
   case "$scope" in
     user)
@@ -189,8 +193,8 @@ function _set_state_based_on_yes_no() {
   # Internal helper. Takes three string arguments:
   #   $1: the "state string" that labels the state
   #   $2: the prompt to display to the user
-  #   $3: the "scope," either 'system' or 'user' depending on whether this state characterizes (a) the entire 'system'
-  #       (e.g., that Mac) or instead (b) characterizes a particular 'user'
+  #   $3: the "scope," either 'system' or 'user' depending on whether this state characterizes 
+  #       (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
   #
   # Prompts the user with a yes/no question. If yes, sets the state; if no, deletes the state.
   #
