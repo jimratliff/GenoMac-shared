@@ -107,12 +107,13 @@ function _set_state() {
   #
   # Internal helper. Takes two string arguments:
   #   $1: the "state string" that labels the state
-  #   $2: the "scope," either 'system' or 'user' depending on whether this state characterizes (a) the entire 'system'
-  #		  (e.g., that Mac) or instead (b) characterizes a particular 'user'
+  #   $2: the "scope," either 'system' or 'user' depending on whether this state characterizes 
+  # 	  (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
   #
   # NOTE: Currently, a state's existence is equivalent to the existence of a corresponding .state 
   #		  (more generally .GENOMAC_STATE_FILE_EXTENSION) file.
-  #		  This is an implementation detail. The test_state() API does not rely upon or expose this implementation detail.
+  #		  This is an implementation detail. The test_state() API does not rely upon or expose this 
+  # 	  implementation detail.
   #
   # 	  Creates the state directory if it doesn't exist.
   #
@@ -120,13 +121,11 @@ function _set_state() {
   #
   local state_string="$1"
   local scope="$2"
-  local state_dir
-  state_dir="$(_state_directory_for_scope "$scope")" || return 1
   local state_file
   state_file="$(_state_file_path "$state_string" "$scope")" || return 1
   mkdir -p "${state_dir}"
   report_action_taken "Setting state: “${state_string}”"
-  touch "$state_file"
+  touch "$state_file" ; success_or_not
 }
 
 function _delete_state() {
@@ -134,12 +133,13 @@ function _delete_state() {
   #
   # Internal helper. Takes two string arguments:
   #   $1: the "state string" that labels the state
-  #   $2: the "scope," either 'system' or 'user' depending on whether this state characterizes (a) the entire 'system'
-  #		  (e.g., that Mac) or instead (b) characterizes a particular 'user'
+  #   $2: the "scope," either 'system' or 'user' depending on whether this state characterizes 
+  # 	  (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
   #
   # NOTE: Currently, a state's existence is equivalent to the existence of a corresponding .state 
   #		  (more generally .GENOMAC_STATE_FILE_EXTENSION) file.
-  #		  This is an implementation detail. The _delete_state() API does not rely upon or expose this implementation detail.
+  #		  This is an implementation detail. The _delete_state() API does not rely upon or expose this 
+  # 	  implementation detail.
   #
   # 	  Does nothing if the state does not exist.
   #
@@ -147,8 +147,6 @@ function _delete_state() {
   #
   local state_string="$1"
   local scope="$2"
-  local state_dir
-  state_dir="$(_state_directory_for_scope "$scope")" || return 1
   local state_file
   state_file="$(_state_file_path "$state_string" "$scope")" || return 1
   if [[ -f "$state_file" ]]; then
@@ -160,29 +158,29 @@ function _delete_state() {
 }
 
 function _reset_state() {
-	# Resets all state for a given scope by deleting all state files, but leaving the state directory intact.
-	#
-	# Internal helper. Takes one string argument:
-	#   $1: the "scope," either 'system' or 'user' depending on whether to reset (a) system-wide state
-	#		  or (b) the current user's state
-	# Exits normally even if state directory doesn’t exist or is empty.
-	#
-	# Usage: _reset_state "user"
-	#
-	local scope="$1"
-	local state_dir
-	state_dir="$(_state_directory_for_scope "$scope")" || return 1
-	[[ -d "${state_dir}" ]] || {
-		report "State directory does not exist: ${state_dir}"
-		return 0
-	}
-	local state_files=("${state_dir}"/*."${GENOMAC_STATE_FILE_EXTENSION}"(N))
-	if (( ${#state_files[@]} > 0 )); then
-		rm -f "${state_files[@]}"
-		report_action_taken "Reset all state in ${state_dir}"
-	else
-		report "No state files to reset in ${state_dir}"
-	fi
+  # Resets all state for a given scope by deleting all state files, but leaving the state directory intact.
+  #
+  # Internal helper. Takes one string argument:
+  #   $1: the "scope," either 'system' or 'user' depending on whether to reset (a) system-wide state
+  #       or (b) the current user's state
+  # Exits normally even if state directory doesn’t exist or is empty.
+  #
+  # Usage: _reset_state "user"
+  #
+  local scope="$1"
+  local state_dir
+  state_dir="$(_state_directory_for_scope "$scope")" || return 1
+  [[ -d "${state_dir}" ]] || {
+    report "State directory does not exist: ${state_dir}" ; success_or_not
+    return 0
+  }
+  local state_files=("${state_dir}"/*."${GENOMAC_STATE_FILE_EXTENSION}"(N))
+  if (( ${#state_files[@]} > 0 )); then
+    report_action_taken "Reset all state in ${state_dir}"
+    rm -f "${state_files[@]}" ; success_or_not
+  else
+    report "No state files to reset in ${state_dir}" ; success_or_not
+  fi
 }
 
 function _set_state_based_on_yes_no() {
