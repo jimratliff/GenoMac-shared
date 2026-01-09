@@ -44,7 +44,12 @@ fi
 
 ############### State-related
 
+# TODO: Make the following are exported
+
 GENOMAC_STATE_FILE_EXTENSION="state"
+
+GENOMAC_STATE_SESSION_SCOPE_LABEL="SESH"
+GENOMAC_STATE_PERMANENT_SCOPE="PERM"
 
 # The following environment variable, despite its name being specific to -system, is used
 # by BOTH GenoMac-system and GenoMac-user
