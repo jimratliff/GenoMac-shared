@@ -36,8 +36,8 @@ function _state_file_path() {
   #
   # Internal helper. Takes two string arguments:
   #   $1: the “state string” that labels the state
-  #   $2: the “scope,” either 'system' or 'user' depending on whether this state characterizes (a) the entire 'system'
-  #		  (e.g., that Mac) or instead (b) characterizes a particular 'user'
+  #   $2: the “scope,” either 'system' or 'user' depending on whether this state characterizes
+  # 	  (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
   # Returns the path of the corresponding state file.
   #
   # Usage:
@@ -46,13 +46,17 @@ function _state_file_path() {
   #
   #     _state_file_path "machine-is-laptop" "system"
   #   Returns: /etc/genomac/state/machine-is-laptop.state
-  #
+
   local state_string="$1"
   local scope="$2"
   local state_dir
   state_dir="$(_state_directory_for_scope "$scope")" || return 1
   echo "${state_dir}/${state_string}.${GENOMAC_STATE_FILE_EXTENSION}"
 }
+
+# TODO: Why do _user_state_file_path(), _system_state_file_path(), and _state_file_path() all exist
+#		when neither _user_state_file_path() nor _system_state_file_path() reference
+#		_state_file_path()?
 
 function _user_state_file_path() {
     # Internal helper: returns the path of the state file corresponding to a given state string
