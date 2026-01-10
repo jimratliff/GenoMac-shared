@@ -121,13 +121,15 @@ function _set_state() {
   #
   # 	  Creates the state directory if it doesn't exist.
   #
+  #		  If the state file already exists, its timestamp is updated.
+  #
   # Usage: _set_state "launch-and-sign-in-to-microsoft-word" "user"
   #
   local state_string="$1"
   local scope="$2"
   local state_file
   state_file="$(_state_file_path "$state_string" "$scope")" || return 1
-  mkdir -p "${state_dir}"
+  mkdir -p "${state_file:h}"  # zsh: :h gives the "head" (directory portion)
   report_action_taken "Setting state: “${state_string}”"
   touch "$state_file" ; success_or_not
 }
