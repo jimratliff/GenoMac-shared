@@ -86,17 +86,49 @@ function quit_app_by_bundle_id_if_running() {
 }
 
 function launch_app_and_prompt_user_to_act() {
-  # Launches an app, prompts the user to sign in or complete a task, waits for acknowledgment,
-  # then quits the app if it's still running.
-  # Examples:
-  #   launch_app_and_prompt_user_to_act "com.apple.AppStore" "sign in to your Apple ID"
-  #   launch_app_and_prompt_user_to_act "com.dropbox.client" "complete Dropbox setup"
+  # Launches an app, prompts user to take action, waits for acknowledgment, and quits app
+  #
+  # Arguments:
+  #   $1: bundle_id of the app to launch
+  #   $2: prompt text to display to user
+  #   --show-doc <filepath>: (optional, any position) path to a file to display via Quick Look
+  #
+  # Usage:
+  #   launch_app_and_prompt_user_to_act "com.example.some_app" "Please do the thing"
+  #   launch_app_and_prompt_user_to_act --show-doc "/path/to/doc.md" "com.example.some_app" "Please do the thing"
+  #   launch_app_and_prompt_user_to_act "com.example.some_app" "Please do the thing" --show-doc "/path/to/doc.md"
   
-  local bundle_id="$1"
-  local task_description="${2:-sign in or complete the required task}"
+  # Validate argument count: must be exactly 2 or 4
+  if (( $# != 2 && $# != 4 )); then
+    report_fail "Error: expected 2 arguments (bundle_id, prompt) or 4 arguments (--show-doc filepath bundle_id prompt), got $#"
+    return 1
+  fi
+  
+  local doc_to_show=""
+  local positional=()
+  
+  # Parse arguments
+  while (( $# > 0 )); do
+    case "$1" in
+      --show-doc)
+        doc_to_show="$2"
+        shift 2
+        ;;
+      *)
+        positional+=("$1")
+        shift
+        ;;
+    esac
+  done
+  
+  local bundle_id="${positional[1]}"
+  local task_description="${positional[2]}"
   local confirmation_word="done"
   
-  report_action_taken "Launch app $bundle_id to wait for user action"
+  # Show documentation if specified
+  if [[ -n "$doc_to_show" ]]; then
+    show_file_using_quicklook "$doc_to_show"
+  fi
   
   # Launch app in foreground so user can interact with it
   report_action_taken "Launching app $bundle_id"
@@ -106,6 +138,7 @@ function launch_app_and_prompt_user_to_act() {
   echo ""
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo "  ACTION REQUIRED: Please $task_description"
+  echo "  When complete, please type: $confirmation_word"
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo ""
   
