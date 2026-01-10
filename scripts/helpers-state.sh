@@ -302,25 +302,25 @@ function set_system_state_based_on_yes_no() {
   _set_state_based_on_yes_no "$1" "$2" "system"
 }
 
-function _delete_all_system_states() {
+function delete_all_system_states() {
   # Deletes all state files for system scope.
   # Usage: _delete_all_system_states
   _delete_states_matching "system"
 }
 
-function _delete_all_user_states() {
+function delete_all_user_states() {
   # Deletes all state files for user scope.
   # Usage: _delete_all_user_states
   _delete_states_matching "user"
 }
 
-function _delete_all_GMS_SESH_states() {
+function delete_all_GMS_SESH_states() {
   # Deletes all SESH (session) state files for system scope.
   # Usage: _delete_all_GMS_SESH_states
   _delete_states_matching "system" "SESH"
 }
 
-function _delete_all_GMU_SESH_states() {
+function delete_all_GMU_SESH_states() {
   # Deletes all SESH (session) state files for user scope.
   # Usage: _delete_all_GMU_SESH_states
   _delete_states_matching "user" "SESH"
