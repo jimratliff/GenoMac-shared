@@ -36,11 +36,6 @@ function quit_app_by_bundle_id_if_running() {
   #     2. Sleep briefly to allow a clean shutdown.
   #     3. If still running, force-kill any processes under the app's
   #        Contents/MacOS directory, using Spotlight (mdfind) to locate the .app.
-  #
-  # Requires:
-  # - macOS
-  # - mdfind (Spotlight enabled)
-  # - report_action_taken, success_or_not helpers already defined.
   
   local delay_in_seconds_for_normal_quitting=3
   local bundle_id="$1"
@@ -88,6 +83,8 @@ function quit_app_by_bundle_id_if_running() {
 function launch_app_and_prompt_user_to_act() {
   # Launches an app, prompts user to take action, waits for acknowledgment, and quits app
   #
+  # The acknowledgment must be a case-insensitive match to `done`
+  #
   # Arguments:
   #   $1: bundle_id of the app to launch
   #   $2: prompt text to display to user
@@ -125,7 +122,7 @@ function launch_app_and_prompt_user_to_act() {
   local task_description="${positional[2]}"
   local confirmation_word="done"
   
-  # Show documentation if specified
+  # Show documentation using Quick Look if specified
   if [[ -n "$doc_to_show" ]]; then
     show_file_using_quicklook "$doc_to_show"
   fi
