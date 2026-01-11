@@ -1,13 +1,13 @@
 ############### Helpers related to the Hypervisor
 
 # Relies upon:
-#   helpers-reporting.sh
-#   helpers-state.sh
+#   - helpers-reporting.sh
+#   - helpers-state.sh
 #
 #   Environment variables:
-#	    GMU_HYPERVISOR_HOW_TO_RESTART_STRING
-#	    GENOMAC_STATE_FILE_EXTENSION
-#	    GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
+#	  - GMU_HYPERVISOR_HOW_TO_RESTART_STRING
+#	  - GENOMAC_STATE_FILE_EXTENSION
+#	  - GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
 
 function _run_based_on_state() {
   # Executes a function based on whether a state variable is set or not.
