@@ -134,7 +134,7 @@ function launch_app_and_prompt_user_to_act() {
   # Prompt user to complete the task
   echo ""
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "  ACTION REQUIRED: Please $task_description"
+  echo "  ACTION REQUIRED: $task_description"
   echo "  When complete, please type: $confirmation_word"
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo ""
