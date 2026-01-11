@@ -296,12 +296,6 @@ function test_genomac_user_state() {
   _test_state "$1" "user"
 }
 
-function list_system_states() {
-  # List all system-scope states.
-  # Usage: _list_system_states
-  _list_states "system"
-}
-
 function list_user_states() {
   # List all user-scope states.
   # Usage: _list_user_states
@@ -328,6 +322,12 @@ function set_user_state_based_on_yes_no() {
 
 function test_genomac_system_state() {
   _test_state "$1" "system"
+}
+
+function list_system_states() {
+  # List all system-scope states.
+  # Usage: _list_system_states
+  _list_states "system"
 }
 
 function set_genomac_system_state() {
