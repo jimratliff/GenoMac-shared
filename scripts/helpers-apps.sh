@@ -5,6 +5,7 @@
 #       take a bundle_id as their first argument.
 
 # Relies upon:
+#   helpers-misc.sh (for show_file_using_quicklook().)
 #   helpers-reporting.sh
 
 function launch_and_quit_app() {
