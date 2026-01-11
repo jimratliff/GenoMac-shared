@@ -122,14 +122,14 @@ function launch_app_and_prompt_user_to_act() {
   local task_description="${positional[2]}"
   local confirmation_word="done"
   
+  # Launch app in foreground so user can interact with it
+  report_action_taken "Launching app $bundle_id"
+  open -b "$bundle_id" ; success_or_not
+  
   # Show documentation using Quick Look if specified
   if [[ -n "$doc_to_show" ]]; then
     show_file_using_quicklook "$doc_to_show"
   fi
-  
-  # Launch app in foreground so user can interact with it
-  report_action_taken "Launching app $bundle_id"
-  open -b "$bundle_id" ; success_or_not
   
   # Prompt user to complete the task
   echo ""
