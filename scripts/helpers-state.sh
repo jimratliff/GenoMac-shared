@@ -102,6 +102,42 @@ function _test_state() {
   fi
 }
 
+function _list_states() {
+  # List all states for a given scope.
+  #
+  # Internal helper. Takes one string argument:
+  #   $1: the "scope," either 'system' or 'user' depending on whether to list
+  #       (a) system-wide states or (b) the current user's states
+  #
+  # Prints each state name (without path or extension) on its own line.
+  # Exits normally if state directory doesn't exist or is empty.
+  #
+  # Usage: _list_states "user"
+  #
+  local scope="$1"
+  local state_dir
+  state_dir="$(_state_directory_for_scope "$scope")" || return 1
+
+  [[ -d "${state_dir}" ]] || {
+    report "State directory does not exist: ${state_dir}"
+    return 0
+  }
+
+  local state_files=("${state_dir}"/*."${GENOMAC_STATE_FILE_EXTENSION}"(N))
+
+  if (( ${#state_files[@]} > 0 )); then
+    local state_file
+    for state_file in "${state_files[@]}"; do
+      # Extract just the state name: remove directory and extension
+      local state_name="${state_file:t}"          # :t gives the "tail" (filename)
+      state_name="${state_name%.${GENOMAC_STATE_FILE_EXTENSION}}"  # remove extension
+      print -r -- "$state_name"
+    done
+  else
+    report "No states found in ${state_dir}"
+  fi
+}
+
 function _set_state() {
   # Establish a state for a given (key, scope) pair.
   #
@@ -258,6 +294,18 @@ function _delete_all_SESH_states() {
 
 function test_genomac_user_state() {
   _test_state "$1" "user"
+}
+
+function list_system_states() {
+  # List all system-scope states.
+  # Usage: _list_system_states
+  _list_states "system"
+}
+
+function list_user_states() {
+  # List all user-scope states.
+  # Usage: _list_user_states
+  _list_states "user"
 }
 
 function set_genomac_user_state() {
