@@ -5,7 +5,8 @@
 set -euo pipefail
 
 # Specify a variable that, when expanded, is a newline character
-# I can use this inside my `report()` series functions without changing how I quote strings.
+# I can use $NEWLINE inside arguments to my `report()` series functions without changing how 
+# I quote strings.
 NEWLINE=$'\n'
 
 # Specify the location of the user’s `Dropbox` directory
@@ -22,6 +23,11 @@ GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
 # Specify URL for cloning the public GenoMac-user repository using HTTPS
 GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
 
+############### Custom alert sound
+# (These environment variables are located in GenoMac-shared because (a) GenoMac-system *installs*
+# the custom alert sound but (b) it is GenoMac-user that *consumes* the alert sound, so both the
+# -system and -user repos need to know the installation location.)
+
 # Systemwide directory that stores available alert sounds
 SYSTEM_ALERT_SOUNDS_DIRECTORY="/Library/Audio/Sounds/Alerts"
 
@@ -29,12 +35,10 @@ SYSTEM_ALERT_SOUNDS_DIRECTORY="/Library/Audio/Sounds/Alerts"
 CUSTOM_ALERT_SOUND_FILENAME="Uh_oh.aiff"
 
 # Path to installed custom alert sound
-# This needs to be available to both (a) GenoMac-system (because it installs the sound at this location)
-# and (b) GenoMac-user (because it designates where to find the chosen alert sound file).
 PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE="${SYSTEM_ALERT_SOUNDS_DIRECTORY}/${CUSTOM_ALERT_SOUND_FILENAME}"
 
 ############### GENOMAC_ALERT_LOG
-# Specify name of temporary file to accumulate warning/failure messages for
+# Creates and names a temporary file to accumulate warning/failure messages for
 #   later regurgitation at the end of a main script.
 # Only create if not already defined (e.g. nested/nested sourcing)
 if [[ -z "${GENOMAC_ALERT_LOG-}" ]]; then
@@ -44,21 +48,18 @@ fi
 
 ############### State-related
 
-# TODO: Make the following are exported
-
 GENOMAC_STATE_FILE_EXTENSION="state"
 
-# The following environment variable, despite its name being specific to -system, is used
-# by BOTH GenoMac-system and GenoMac-user
 # Despite each being seemingly specific to either GenoMac-system or GenoMac-user,
 #   these two environment variables are defined in GenoMac-shared because:
-#   - GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY is used by GenoMac-user, because GenoMac-user *does*
-#     about system-level state
+#   - GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY is used by GenoMac-user, because GenoMac-user *can*
+#     care about system-level state
 #   - GENOMAC_USER_LOCAL_STATE_DIRECTORY appears in helpers-state.sh » _state_directory_for_scope()
 #     (although that reference should never be encountered in the normal operation of GenoMac-user)
+
 # Specify local directory in which machine-level state can be stored
 GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY="/etc/genomac/state"
-# Specify local directory that will retain state information about run-only-once operations
+# Specify local directory that will retain user-level state information
 GENOMAC_USER_LOCAL_STATE_DIRECTORY="${GENOMAC_USER_LOCAL_DIRECTORY}-state"
 
 ############### Homebrew-related
@@ -125,3 +126,18 @@ export_and_report HOMEBREW_PREFIX
 export_and_report NEWLINE
 export_and_report PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE
 export_and_report SYSTEM_ALERT_SOUNDS_DIRECTORY
+
+export_and_report BUNDLE_ID_1PASSWORD
+export_and_report BUNDLE_ID_ALAN_APP
+export_and_report BUNDLE_ID_ALFRED
+export_and_report BUNDLE_ID_BBEDIT
+export_and_report BUNDLE_ID_BETTERTOUCHTOOL
+export_and_report BUNDLE_ID_CLAUDE
+export_and_report BUNDLE_ID_DROPBOX
+export_and_report BUNDLE_ID_GLANCE
+export_and_report BUNDLE_ID_KEYBOARDMAESTRO_EDITOR
+export_and_report BUNDLE_ID_KEYBOARDMAESTRO_ENGINE
+export_and_report BUNDLE_ID_MICROSOFT_WORD
+export_and_report BUNDLE_ID_PLAIN_TEXT_EDITOR
+export_and_report BUNDLE_ID_TEXTEDIT
+export_and_report BUNDLE_ID_TEXTEXPANDER
