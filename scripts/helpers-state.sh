@@ -231,7 +231,7 @@ function _delete_states_matching() {
   #   _delete_states_matching "user" "SESH"   # deletes only user SESH state files
   #
   local scope="$1"
-  local persistence="$2"  # optional
+  local persistence="${2:-}"  # optional - defaults to empty string
   local state_dir
   state_dir="$(_state_directory_for_scope "$scope")" || return 1
 
