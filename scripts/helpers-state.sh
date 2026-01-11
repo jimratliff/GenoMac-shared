@@ -290,7 +290,9 @@ function _delete_all_SESH_states() {
   _delete_states_matching "$1" "SESH"
 }
 
-# User-scope state functions
+##############################
+# State functions scoped specifically to either (a) user or (b) system
+############### User-scope state functions
 
 function test_genomac_user_state() {
   _test_state "$1" "user"
@@ -310,15 +312,11 @@ function delete_genomac_user_state() {
   _delete_state "$1" "user"
 }
 
-function reset_genomac_user_state() {
-  _reset_state "user"
-}
-
 function set_user_state_based_on_yes_no() {
   _set_state_based_on_yes_no "$1" "$2" "user"
 }
 
-# System-scope state functions
+############### System-scope state functions
 
 function test_genomac_system_state() {
   _test_state "$1" "system"
@@ -336,10 +334,6 @@ function set_genomac_system_state() {
 
 function delete_genomac_system_state() {
   _delete_state "$1" "system"
-}
-
-function reset_genomac_system_state() {
-  _reset_state "system"
 }
 
 function set_system_state_based_on_yes_no() {
