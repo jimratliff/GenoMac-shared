@@ -8,10 +8,6 @@
 #	  GENOMAC_STATE_FILE_EXTENSION
 #	  GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
 
-# TODOs: Rather than `_reset_state()`, what I really need is:
-#		 - delete_all_SESH_state()
-#		 - delete_all_PERM_state() (though it’s not clear this was is necessary)
-
 function _state_directory_for_scope() {
   # Internal helper. Takes one argument that is either 'system' or 'user' and returns correspondingly either 
   # (a) $GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY or (b) $GENOMAC_USER_LOCAL_STATE_DIRECTORY, respectively
