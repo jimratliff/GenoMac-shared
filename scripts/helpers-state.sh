@@ -127,6 +127,7 @@ function _list_states() {
 
   if (( ${#state_files[@]} > 0 )); then
     local state_file
+	print -r -- "$scope states:"
     for state_file in "${state_files[@]}"; do
       # Extract just the state name: remove directory and extension
       local state_name="${state_file:t}"          # :t gives the "tail" (filename)
