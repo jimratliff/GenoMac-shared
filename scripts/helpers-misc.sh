@@ -93,5 +93,8 @@ function show_file_using_quicklook() {
   report_action_taken "I am showing you a file: «$1»${NEWLINE}Don’t see it? Look behind other windows."
   /usr/bin/qlmanage -p "$1" >/dev/null 2>&1 &
 
+  sleep 0.1
+  osascript -e 'tell application "System Events" to set frontmost of process "qlmanage" to true' 2>/dev/null
+
   report_end_phase_standard
 }
