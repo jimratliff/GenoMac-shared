@@ -129,6 +129,7 @@ function launch_app_and_prompt_user_to_act() {
   
   # Show documentation using Quick Look if specified
   if [[ -n "$doc_to_show" ]]; then
+    sleep 2 # To give time for $bundle_id to fully open, so that the Quick Look window is on top
     show_file_using_quicklook "$doc_to_show"
   fi
   
