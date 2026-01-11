@@ -316,6 +316,12 @@ function set_user_state_based_on_yes_no() {
   _set_state_based_on_yes_no "$1" "$2" "user"
 }
 
+function delete_all_user_states() {
+  # Deletes all state files for user scope.
+  # Usage: _delete_all_user_states
+  _delete_states_matching "user"
+}
+
 ############### System-scope state functions
 
 function test_genomac_system_state() {
@@ -344,12 +350,6 @@ function delete_all_system_states() {
   # Deletes all state files for system scope.
   # Usage: _delete_all_system_states
   _delete_states_matching "system"
-}
-
-function delete_all_user_states() {
-  # Deletes all state files for user scope.
-  # Usage: _delete_all_user_states
-  _delete_states_matching "user"
 }
 
 function delete_all_GMS_SESH_states() {
