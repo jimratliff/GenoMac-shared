@@ -17,6 +17,18 @@ function keep_sudo_alive() {
   done 2>/dev/null &  # background process, silence errors
 }
 
+safe_source() {
+  # Ensures that an error is raised if a `source` of the file in the supplied argument fails.
+  # Usage:
+  #  safe_source "${GMU_PREFS_SCRIPTS}/set_safari_settings.sh"
+  local file="$1"
+  if ! source "$file"; then
+    report_fail "ERROR: Failed to source ${file}"
+    exit 1
+  fi
+  report_success "Sourced ${file}"
+}
+
 function this_mac_is_a_laptop() {
   # Exits with zero if Mac is a laptop (has a battery installed); otherwise exits with 1
   #
