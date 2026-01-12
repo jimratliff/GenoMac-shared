@@ -4,12 +4,12 @@
 #
 # Relies on 0_initialize_me.sh having already defined source_with_report()
 
-# Prevent multiple sourcing
-if [[ -n "${__already_loaded_genomac_bootstrap_helpers_sh:-}" ]]; then return 0; fi
-__already_loaded_genomac_bootstrap_helpers_sh=1
-export __already_loaded_genomac_bootstrap_helpers_sh
-
 set -euo pipefail
+
+# Prevent multiple sourcing
+if [[ -n "${__already_loaded_genomac_shared_helpers_sh:-}" ]]; then return 0; fi
+__already_loaded_genomac_shared_helpers_sh=1
+export __already_loaded_genomac_shared_helpers_sh
 
 # Resolve this script's directory (even if sourced)
 this_script_path="${0:A}"
