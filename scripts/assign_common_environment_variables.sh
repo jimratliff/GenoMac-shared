@@ -108,6 +108,11 @@ BUNDLE_ID_PREVIEW="com.apple.Preview"
 BUNDLE_ID_TEXTEDIT="com.apple.TextEdit"
 BUNDLE_ID_TEXTEXPANDER="com.smileonmymac.textexpander"
 
+############### Domain for defaults write commands
+DEFAULTS_DOMAINS_KEYBOARD_MAESTRO="com.stairways.keyboardmaestro"
+DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_EDITOR="com.stairways.keyboardmaestro.editor"
+DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_ENGINE="com.stairways.keyboardmaestro.engine"
+
 
 ############### Export and report
 echo "Exporting environment variables common to both GenoMac-system and GenoMac-user"
@@ -149,3 +154,7 @@ export_and_report BUNDLE_ID_PLAIN_TEXT_EDITOR
 export_and_report BUNDLE_ID_PREVIEW
 export_and_report BUNDLE_ID_TEXTEDIT
 export_and_report BUNDLE_ID_TEXTEXPANDER
+
+export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO
+export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_EDITOR
+export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_ENGINE
