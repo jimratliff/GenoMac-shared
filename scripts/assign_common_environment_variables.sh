@@ -97,6 +97,7 @@ BUNDLE_ID_BETTERTOUCHTOOL="com.hegenberg.BetterTouchTool"
 BUNDLE_ID_CLAUDE="com.anthropic.claudefordesktop"
 BUNDLE_ID_DISKUTILITY="com.apple.DiskUtility"
 BUNDLE_ID_DROPBOX="com.getdropbox.dropbox"
+BUNDLE_ID_ELMEDIA_PLAYER_MAS="com.Eltima.ElmediaPlayer.MAS"
 BUNDLE_ID_GLANCE="com.chamburr.Glance"
 BUNDLE_ID_ITERM2="com.googlecode.iterm2"
 BUNDLE_ID_KEYBOARDMAESTRO_EDITOR="com.stairways.keyboardmaestro.editor"
@@ -138,6 +139,7 @@ export_and_report BUNDLE_ID_BETTERTOUCHTOOL
 export_and_report BUNDLE_ID_CLAUDE
 export_and_report BUNDLE_ID_DISKUTILITY
 export_and_report BUNDLE_ID_DROPBOX
+export_and_report BUNDLE_ID_ELMEDIA_PLAYER_MAS
 export_and_report BUNDLE_ID_GLANCE
 export_and_report BUNDLE_ID_ITERM2
 export_and_report BUNDLE_ID_KEYBOARDMAESTRO_EDITOR
