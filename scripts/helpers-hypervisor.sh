@@ -63,6 +63,8 @@ function _run_based_on_state() {
   local func_to_run="${positional[2]}"
   local skip_message="${positional[3]}"
 
+  report "_run_based_on_state: function_to_run:${func_to_run} state_var:${state_var}"
+
   # Determine whether to run based on state and negation flag
   local should_run=false
   if $negate_state; then
@@ -83,7 +85,7 @@ function _run_based_on_state() {
     report_action_taken "$skip_message"
   fi
 
-  report_end_phase_standard
+  report_end_phase "_run_based_on_state: function_to_run:${func_to_run} state_var:${state_var}"
 }
 
 function _run_if_not_already_done() {
