@@ -158,4 +158,7 @@ function force_user_logout(){
 
   # Graceful logout using familiar system behavior
   osascript -e 'tell application "System Events" to log out'
+
+  # Ensure the calling script doesn’t continue to run
+  exit
 }
