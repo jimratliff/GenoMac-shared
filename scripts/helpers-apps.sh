@@ -149,7 +149,7 @@ function launch_app_and_prompt_user_to_act() {
   
   report_action_taken "User confirmed task completion for $bundle_id"
   
-  quit_app_by_bundle_id_if_running "$bundle_id"
+  # quit_app_by_bundle_id_if_running "$bundle_id"
 }
 
 function force_user_logout(){
