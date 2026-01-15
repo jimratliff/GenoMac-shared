@@ -314,6 +314,12 @@ function delete_all_user_states() {
   _delete_states_matching "user"
 }
 
+function delete_all_user_SESH_states() {
+  # Deletes all SESH (session) state files for user scope.
+  # Usage: _delete_all_GMU_SESH_states
+  _delete_states_matching "user" "SESH"
+}
+
 ############### System-scope state functions
 
 function test_genomac_system_state() {
@@ -344,14 +350,8 @@ function delete_all_system_states() {
   _delete_states_matching "system"
 }
 
-function delete_all_GMS_SESH_states() {
+function delete_all_system_SESH_states() {
   # Deletes all SESH (session) state files for system scope.
   # Usage: _delete_all_GMS_SESH_states
   _delete_states_matching "system" "SESH"
-}
-
-function delete_all_GMU_SESH_states() {
-  # Deletes all SESH (session) state files for user scope.
-  # Usage: _delete_all_GMU_SESH_states
-  _delete_states_matching "user" "SESH"
 }
