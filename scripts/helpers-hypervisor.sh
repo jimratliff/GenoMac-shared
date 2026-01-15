@@ -104,7 +104,7 @@ function _run_if_not_already_done() {
   #   skip_message    Message to display if state is already set and action is skipped.
   #
   # Usage examples:
-  #   _run_if_not_already_done "$GMU_PERM_INTRO_QUESTIONS_ASKED_AND_ANSWERED" \
+  #   _run_if_not_already_done "$PERM_INTRO_QUESTIONS_ASKED_AND_ANSWERED" \
   #     ask_initial_questions \
   #     "Skipping introductory questions, because you've answered them in the past."
   #   
