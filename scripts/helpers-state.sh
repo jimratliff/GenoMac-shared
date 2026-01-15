@@ -8,6 +8,12 @@
 #	  GENOMAC_STATE_FILE_EXTENSION
 #	  GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
 
+# Assumptions about state-file filenames: Each:
+# - ends in `.state` (GENOMAC_STATE_FILE_EXTENSION)
+# - begins with a prefix followed by an underscore, where the prefix is either:
+#   - `PERM`	(GENOMAC_STATE_PERSISTENCE_PERMANENT)
+#   - `SESH`	(GENOMAC_STATE_PERSISTENCE_SESSION)
+
 function _state_directory_for_scope() {
   # Internal helper. Takes one argument that is either 'system' or 'user' and returns correspondingly either 
   # (a) $GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY or (b) $GENOMAC_USER_LOCAL_STATE_DIRECTORY, respectively
@@ -222,16 +228,17 @@ function _set_state_based_on_yes_no() {
 function _delete_states_matching() {
   # Internal helper that deletes state files for a given scope, optionally filtered by persistence type.
   #
+  #
   # Arguments:
-  #   $1: the "scope," either 'system' or 'user'
+  #   $1: the "scope," either 'system' or 'user', which determines the directory in which the state files reside.
   #   $2: (optional) persistence filter, either 'SESH' or 'PERM'. If omitted, deletes all state files.
   #
   # Usage:
-  #   _delete_states_matching "user"          # deletes all user state files
-  #   _delete_states_matching "user" "SESH"   # deletes only user SESH state files
-  #
+  #   _delete_states_matching scope:"user"           # deletes all user state files
+  #   _delete_states_matching scope: "user" "SESH"   # deletes all user state files with SESH prefix
+  
   local scope="$1"
-  local persistence="${2:-}"  # optional - defaults to empty string
+  local persistence="${2:-}"			# optional - defaults to empty string
   local state_dir
   state_dir="$(_state_directory_for_scope "$scope")" || return 1
 
@@ -242,17 +249,7 @@ function _delete_states_matching() {
 
   local pattern
   if [[ -n "$persistence" ]]; then
-    # Determine the prefix based on scope: GMS for system, GMU for user
-    local prefix
-    if [[ "$scope" == "system" ]]; then
-      prefix="GMS"
-    elif [[ "$scope" == "user" ]]; then
-      prefix="GMU"
-    else
-      report "Invalid scope: ${scope}"
-      return 1
-    fi
-    pattern="${prefix}_${persistence}_*"
+    pattern="${persistence}_*"
   else
     pattern="*"
   fi
@@ -277,12 +274,6 @@ function _delete_states_matching() {
     fi
     report "No ${description} to delete in ${state_dir}" ; success_or_not
   fi
-}
-
-function _delete_all_states() {
-  # Deletes all state files for a given scope.
-  # Usage: _delete_all_states "user"
-  _delete_states_matching "$1"
 }
 
 function _delete_all_SESH_states() {
