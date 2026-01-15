@@ -50,6 +50,9 @@ fi
 
 GENOMAC_STATE_FILE_EXTENSION="state"
 
+GENOMAC_STATE_PERSISTENCE_PERMANENT="PERM"
+GENOMAC_STATE_PERSISTENCE_SESSION="SESH"
+
 # Despite each being seemingly specific to either GenoMac-system or GenoMac-user,
 #   these two environment variables are defined in GenoMac-shared because:
 #   - GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY is used by GenoMac-user, because GenoMac-user *can*
@@ -126,6 +129,8 @@ function export_and_report() {
 export_and_report CUSTOM_ALERT_SOUND_FILENAME
 export_and_report GENOMAC_ALERT_LOG
 export_and_report GENOMAC_STATE_FILE_EXTENSION
+export_and_report GENOMAC_STATE_PERSISTENCE_PERMANENT
+export_and_report GENOMAC_STATE_PERSISTENCE_SESSION
 export_and_report GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_USER_DROPBOX_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_DIRECTORY
