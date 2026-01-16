@@ -112,6 +112,7 @@ BUNDLE_ID_TEXTEDIT="com.apple.TextEdit"
 BUNDLE_ID_TEXTEXPANDER="com.smileonmymac.textexpander"
 
 ############### Domain for defaults write commands
+DEFAULTS_DOMAINS_ALFRED="com.runningwithcrayons.Alfred-Preferences"
 DEFAULTS_DOMAINS_KEYBOARD_MAESTRO="com.stairways.keyboardmaestro"
 DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_EDITOR="com.stairways.keyboardmaestro.editor"
 DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_ENGINE="com.stairways.keyboardmaestro.engine"
@@ -161,6 +162,7 @@ export_and_report BUNDLE_ID_PREVIEW
 export_and_report BUNDLE_ID_TEXTEDIT
 export_and_report BUNDLE_ID_TEXTEXPANDER
 
+export_and_report DEFAULTS_DOMAINS_ALFRED
 export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO
 export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_EDITOR
 export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_ENGINE
