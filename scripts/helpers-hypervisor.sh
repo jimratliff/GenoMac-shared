@@ -194,9 +194,9 @@ function run_if_user_has_not_done() {
   report_start_phase_standard "Entering run_if_user_has_not_done $*"
 
   # TODO: NEEDS REFACTORING, after other refactoring has been done first
-  _run_based_on_state --negate-state "$@"
+  # _run_based_on_state --negate-state "$@"
   # The following command will be the correct syntax after other refactoring has been done
-  # _run_based_on_state 'user' --negate-state "$@"
+  _run_based_on_state 'user' --negate-state "$@"
 
   report_end_phase "Leaving run_if_user_has_not_done $*"
 }
@@ -220,10 +220,11 @@ function run_if_user_state() {
   report_start_phase_standard "Entering run_if_user_state $*"
 
   # TODO: NEEDS REFACTORING, after other refactoring has been done first
-  
-  _run_based_on_state "$@"
+
+  # The following command is deprecated in light of refactoring
+  # _run_based_on_state "$@"
   # The following command will be the correct syntax after other refactoring has been done
-  # _run_based_on_state 'user' "$@"
+  _run_based_on_state 'user' "$@"
 
   report_end_phase "Leaving run_if_user_state $*"
 }
