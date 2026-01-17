@@ -123,11 +123,11 @@ function _run_if_not_already_done() {
   #     stow_dotfiles \
   #     "Skipping stowing dotfiles, because you've already stowed them during this session."
 
-  report_start_phase_standard "_run_if_not_already_done $*"
+  report_start_phase_standard "Entering _run_if_not_already_done $*"
 
   _run_based_on_state --negate-state "$@"
 
-  report_end_phase "_run_if_not_already_done $*"
+  report_end_phase "Leaving _run_if_not_already_done $*"
 }
 
 function _run_if_state() {
