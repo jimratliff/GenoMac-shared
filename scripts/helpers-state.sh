@@ -14,6 +14,25 @@
 #   - `PERM`	(GENOMAC_STATE_PERSISTENCE_PERMANENT)
 #   - `SESH`	(GENOMAC_STATE_PERSISTENCE_SESSION)
 
+function _validate_scope() {
+  # Validates that the given scope is either 'user' or 'system'.
+  #
+  # Usage:
+  #   _validate_scope "$scope" || return 1
+  #
+  # Parameters:
+  #   $1: scope - must be either 'user' or 'system'
+  #
+  # Returns:
+  #   0 if valid, 1 if invalid
+
+  local scope="$1"
+  if [[ "$scope" != "user" && "$scope" != "system" ]]; then
+    report_fail "Error: scope must be 'user' or 'system', got '$scope'"
+    return 1
+  fi
+}
+
 function _state_directory_for_scope() {
   # Internal helper. Takes one argument that is either 'system' or 'user' and returns correspondingly either 
   # (a) $GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY or (b) $GENOMAC_USER_LOCAL_STATE_DIRECTORY, respectively
