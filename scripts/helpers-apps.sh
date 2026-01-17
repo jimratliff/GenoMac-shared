@@ -176,3 +176,11 @@ function force_user_logout(){
   # Ensure the calling script doesn’t continue to run
   exit
 }
+
+function ensure_homebrew_is_installed() {
+  # Fail fast if Homebrew not installed
+  if [ ! -x /opt/homebrew/bin/brew ]; then
+    report_fail "ERROR: Homebrew not found at /opt/homebrew/bin/brew; Install Homebrew first!"
+    return 1
+  fi
+}
