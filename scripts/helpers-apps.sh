@@ -90,19 +90,23 @@ function launch_app_and_prompt_user_to_act() {
   #   $1: bundle_id of the app to launch
   #   $2: prompt text to display to user
   #   --show-doc <filepath>: (optional, any position) path to a file to display via Quick Look
+  #   --show-folder <folderpath>: (optional, any position) path to a folder to open in Finder
   #
   # Usage:
   #   launch_app_and_prompt_user_to_act "com.example.some_app" "Please do the thing"
   #   launch_app_and_prompt_user_to_act --show-doc "/path/to/doc.md" "com.example.some_app" "Please do the thing"
   #   launch_app_and_prompt_user_to_act "com.example.some_app" "Please do the thing" --show-doc "/path/to/doc.md"
+  #   launch_app_and_prompt_user_to_act --show-folder "/path/to/folder" "com.example.some_app" "Please do the thing"
+  #   launch_app_and_prompt_user_to_act "com.example.some_app" "Please do the thing" --show-folder "/path/to/folder"
   
-  # Validate argument count: must be exactly 2 or 4
-  if (( $# != 2 && $# != 4 )); then
-    report_fail "Error: expected 2 arguments (bundle_id, prompt) or 4 arguments (--show-doc filepath bundle_id prompt), got $#"
+  # Validate argument count: must be exactly 2, 4, or 6
+  if (( $# != 2 && $# != 4 && $# != 6 )); then
+    report_fail "Error: expected 2 arguments (bundle_id, prompt), 4 arguments (with one option), or 6 arguments (with both options), got $#"
     return 1
   fi
   
   local doc_to_show=""
+  local folder_to_show=""
   local positional=()
   
   # Parse arguments
@@ -110,6 +114,10 @@ function launch_app_and_prompt_user_to_act() {
     case "$1" in
       --show-doc)
         doc_to_show="$2"
+        shift 2
+        ;;
+      --show-folder)
+        folder_to_show="$2"
         shift 2
         ;;
       *)
@@ -131,6 +139,12 @@ function launch_app_and_prompt_user_to_act() {
   if [[ -n "$doc_to_show" ]]; then
     sleep 2 # To give time for $bundle_id to fully open, so that the Quick Look window is on top
     show_file_using_quicklook "$doc_to_show"
+  fi
+  
+  # Open folder in Finder if specified
+  if [[ -n "$folder_to_show" ]]; then
+    sleep 2 # To give time for $bundle_id to fully open, so that the Finder window is on top
+    open "$folder_to_show"
   fi
   
   # Prompt user to complete the task
