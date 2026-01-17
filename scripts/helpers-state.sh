@@ -32,7 +32,7 @@ function _state_directory_for_scope() {
       ;;
     *)
       report_fail "Unexpected value '$scope'. Expected either 'system' or 'user'."
-      return 1
+      exit 1
       ;;
   esac
 }
