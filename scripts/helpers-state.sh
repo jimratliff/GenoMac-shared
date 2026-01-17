@@ -29,7 +29,7 @@ function _validate_scope() {
   local scope="$1"
   if [[ "$scope" != "user" && "$scope" != "system" ]]; then
     report_fail "Error: scope must be 'user' or 'system', got '$scope'"
-    return 1
+    exit 1
   fi
 }
 
