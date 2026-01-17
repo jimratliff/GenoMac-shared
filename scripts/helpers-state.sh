@@ -42,6 +42,7 @@ function _state_directory_for_scope() {
   #    state_dir="$(_state_directory_for_scope "bogus")"  # Reports error, returns 1
   
   local scope="$1"
+  _validate_scope "$scope" || return 1
   case "$scope" in
     user)
       echo "${GENOMAC_USER_LOCAL_STATE_DIRECTORY}"
@@ -50,7 +51,7 @@ function _state_directory_for_scope() {
       echo "${GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY}"
       ;;
     *)
-      report_fail "Unexpected value '$scope'. Expected either 'system' or 'user'."
+      report_fail "Unexpected value '$scope' (slipped through _validate_scope!). Expected either 'system' or 'user'."
       exit 1
       ;;
   esac
@@ -186,6 +187,7 @@ function _set_state() {
   local state_string="$1"
   local scope="$2"
   local state_file
+  _validate_scope "$scope" || return 1
   state_file="$(_state_file_path "$state_string" "$scope")" || return 1
   mkdir -p "${state_file:h}"  # zsh: :h gives the "head" (directory portion)
   report_action_taken "Setting state: “${state_string}”"
@@ -212,6 +214,7 @@ function _delete_state() {
   local state_string="$1"
   local scope="$2"
   local state_file
+  _validate_scope "$scope" || return 1
   state_file="$(_state_file_path "$state_string" "$scope")" || return 1
   if [[ -f "$state_file" ]]; then
   	rm -f "$state_file"
@@ -237,6 +240,7 @@ function _set_state_based_on_yes_no() {
   local state_string="$1"
   local prompt="$2"
   local scope="$3"
+  _validate_scope "$scope" || return 1
   if get_yes_no_answer_to_question "$prompt"; then
     _set_state "$state_string" "$scope"
   else
@@ -259,6 +263,7 @@ function _delete_states_matching() {
   local scope="$1"
   local persistence="${2:-}"			# optional - defaults to empty string
   local state_dir
+  _validate_scope "$scope" || return 1
   state_dir="$(_state_directory_for_scope "$scope")" || return 1
 
   [[ -d "${state_dir}" ]] || {
@@ -298,7 +303,9 @@ function _delete_states_matching() {
 function _delete_all_SESH_states() {
   # Deletes all SESH (session) state files for a given scope.
   # Usage: _delete_all_SESH_states "user"
-  _delete_states_matching "$1" "SESH"
+  local scope="$1"
+  _validate_scope "$scope" || return 1
+  _delete_states_matching "$scope" "SESH"
 }
 
 ##############################
