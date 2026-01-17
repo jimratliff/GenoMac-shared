@@ -4,6 +4,8 @@
 
 set -euo pipefail
 
+GENOMAC_NAMESPACE="com.virtualperfection.genomac"
+
 # Specify a variable that, when expanded, is a newline character
 # I can use $NEWLINE inside arguments to my `report()` series functions without changing how 
 # I quote strings.
@@ -130,6 +132,7 @@ function export_and_report() {
 
 export_and_report CUSTOM_ALERT_SOUND_FILENAME
 export_and_report GENOMAC_ALERT_LOG
+export_and_report GENOMAC_NAMESPACE
 export_and_report GENOMAC_STATE_FILE_EXTENSION
 export_and_report GENOMAC_STATE_PERSISTENCE_PERMANENT
 export_and_report GENOMAC_STATE_PERSISTENCE_SESSION
