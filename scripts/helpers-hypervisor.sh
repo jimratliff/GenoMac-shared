@@ -87,7 +87,7 @@ function _run_based_on_state() {
     report_action_taken "Running $func_to_run"
     $func_to_run
     report_action_taken "Back from ${func_to_run}. Setting $state_var"
-    _set_state "$scope" "$state_var"
+    _set_state "$state_var" "$scope"
     report_action_taken "Back from ${func_to_run}. After setting $state_var"
     if $force_logout; then
       hypervisor_force_logout
