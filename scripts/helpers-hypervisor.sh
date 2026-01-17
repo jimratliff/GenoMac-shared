@@ -14,7 +14,7 @@ function _run_based_on_state() {
   # Core helper that powers both _run_if_not_already_done and _run_if_state.
   #
   # Usage:
-  #   _run_based_on_state [--negate-state] [--force-logout] <state_var> <func_to_run> <skip_message>
+  #   _run_based_on_state [--negate-state] [--force-logout] <scope> <state_var> <func_to_run> <skip_message>
   #
   # Flags can appear in any position.
   #
@@ -22,6 +22,7 @@ function _run_based_on_state() {
   #   --negate-state  Optional. If present, runs func_to_run when state is NOT set.
   #                   If absent, runs func_to_run when state IS set.
   #   --force-logout  Optional. If present, calls hypervisor_force_logout after execution.
+  #   scope           Either 'user' or 'system'.
   #   state_var       The state variable to check (e.g., $GMU_SESH_...).
   #   func_to_run     Name of the function to execute if condition is met.
   #   skip_message    Message to display if condition is not met and action is skipped.
@@ -54,32 +55,39 @@ function _run_based_on_state() {
   done
 
   # Validate positional argument count
-  if (( ${#positional[@]} != 3 )); then
-    report_fail "Error: expected 3 positional arguments (state_var, func_to_run, skip_message), got ${#positional[@]}"
+  if (( ${#positional[@]} != 4 )); then
+    report_fail "Error: expected 4 positional arguments (scope, state_var, func_to_run, skip_message), got ${#positional[@]}"
     return 1
   fi
 
-  local state_var="${positional[1]}"
-  local func_to_run="${positional[2]}"
-  local skip_message="${positional[3]}"
+  local scope="${positional[1]}"
+  local state_var="${positional[2]}"
+  local func_to_run="${positional[3]}"
+  local skip_message="${positional[4]}"
 
-  report "Entering _run_based_on_state: function_to_run:${func_to_run} state_var:${state_var}"
+  # Validate scope
+  if [[ "$scope" != "user" && "$scope" != "system" ]]; then
+    report_fail "Error: scope must be 'user' or 'system', got '$scope'"
+    return 1
+  fi
+
+  report "Entering _run_based_on_state: function_to_run:${func_to_run} state_var:${state_var} scope:${scope}"
 
   # Determine whether to run based on state and negation flag
   local should_run=false
   if $negate_state; then
     # Run if state is NOT set
-    test_genomac_user_state "$state_var" || should_run=true
+    _test_state "$scope" "$state_var" || should_run=true
   else
     # Run if state IS set
-    test_genomac_user_state "$state_var" && should_run=true
+    _test_state "$scope" "$state_var" && should_run=true
   fi
 
   if $should_run; then
     report_action_taken "Running $func_to_run"
     $func_to_run
     report_action_taken "Back from ${func_to_run}. Setting $state_var"
-    set_genomac_user_state "$state_var"
+    _set_state "$scope" "$state_var"
     report_action_taken "Back from ${func_to_run}. After setting $state_var"
     if $force_logout; then
       hypervisor_force_logout
