@@ -76,6 +76,7 @@ function _state_file_path() {
   local state_string="$1"
   local scope="$2"
   local state_dir
+  _validate_scope "$scope" || return 1
   state_dir="$(_state_directory_for_scope "$scope")" || return 1
   echo "${state_dir}/${state_string}.${GENOMAC_STATE_FILE_EXTENSION}"
 }
