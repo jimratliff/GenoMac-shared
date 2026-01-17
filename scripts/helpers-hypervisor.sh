@@ -30,7 +30,7 @@ function _run_based_on_state() {
   # If func_to_run is executed, then state_var is SET. (This has effect only when --negate-state,
   # because when --negate-state is absent, func_to_run is executed only when state_var is already set.)
 
-  report_start_phase_standard
+  report_start_phase "Entering _run_based_on_state $*"
 
   local negate_state=false
   local force_logout=false
@@ -64,12 +64,7 @@ function _run_based_on_state() {
   local state_var="${positional[2]}"
   local func_to_run="${positional[3]}"
   local skip_message="${positional[4]}"
-
-  # Validate scope
-  if [[ "$scope" != "user" && "$scope" != "system" ]]; then
-    report_fail "Error: scope must be 'user' or 'system', got '$scope'"
-    return 1
-  fi
+  _validate_scope "$scope" || return 1
 
   report "Entering _run_based_on_state: function_to_run:${func_to_run} state_var:${state_var} scope:${scope}"
 
@@ -191,7 +186,7 @@ function run_if_user_has_not_done() {
   #     stow_dotfiles \
   #     "Skipping stowing dotfiles, because you've already stowed them during this session."
 
-  report_start_phase_standard "Entering run_if_user_has_not_done $*"
+  report_start_phase "Entering run_if_user_has_not_done $*"
 
   # TODO: NEEDS REFACTORING, after other refactoring has been done first
   # _run_based_on_state --negate-state "$@"
@@ -217,7 +212,7 @@ function run_if_user_state() {
   #   func_to_run     Name of the function to execute if state is set.
   #   skip_message    Message to display if state is not set and action is skipped.
 
-  report_start_phase_standard "Entering run_if_user_state $*"
+  report_start_phase "Entering run_if_user_state $*"
 
   # TODO: NEEDS REFACTORING, after other refactoring has been done first
 
