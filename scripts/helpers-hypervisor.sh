@@ -76,8 +76,11 @@ function _run_based_on_state() {
   fi
 
   if $should_run; then
+    report_action_taken "Running $func_to_run"
     $func_to_run
+    report_action_taken "Back from ${func_to_run}. Setting $state_var"
     set_genomac_user_state "$state_var"
+    report_action_taken "Back from ${func_to_run}. After setting $state_var"
     if $force_logout; then
       hypervisor_force_logout
     fi
@@ -112,7 +115,11 @@ function _run_if_not_already_done() {
   #     stow_dotfiles \
   #     "Skipping stowing dotfiles, because you've already stowed them during this session."
 
+  report_start_phase_standard "_run_if_not_already_done $*"
+
   _run_based_on_state --negate-state "$@"
+
+  report_end_phase "_run_if_not_already_done $*"
 }
 
 function _run_if_state() {
@@ -129,7 +136,11 @@ function _run_if_state() {
   #   func_to_run     Name of the function to execute if state is set.
   #   skip_message    Message to display if state is not set and action is skipped.
 
+  report_start_phase_standard "_run_if_state $*"
+  
   _run_based_on_state "$@"
+
+  report_end_phase "_run_if_state $*"
 }
 
 function hypervisor_force_logout() {
