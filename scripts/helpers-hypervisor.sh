@@ -66,16 +66,16 @@ function _run_based_on_state() {
   local skip_message="${positional[4]}"
   _validate_scope "$scope" || return 1
 
-  report "Entering _run_based_on_state: function_to_run:${func_to_run} state_var:${state_var} scope:${scope}"
+  report "Args parsed for _run_based_on_state: function_to_run:${func_to_run} state_var:${state_var} scope:${scope}"
 
   # Determine whether to run based on state and negation flag
   local should_run=false
   if $negate_state; then
     # Run if state is NOT set
-    _test_state "$scope" "$state_var" || should_run=true
+    _test_state "$state_var" "$scope" || should_run=true
   else
     # Run if state IS set
-    _test_state "$scope" "$state_var" && should_run=true
+    _test_state "$state_var" "$scope" && should_run=true
   fi
 
   if $should_run; then
