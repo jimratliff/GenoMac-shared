@@ -48,19 +48,23 @@ function get_yes_no_answer_to_question() {
     esac
   done
 }
-
 function get_confirmed_answer_to_question() {
   # Output supplied line of text in distinctive color (COLOR_QUESTION), prefixed by SYMBOL_QUESTION,
-  # prompt user for response, ask user to confirm, and iterate until user provides an affirmative confirmation.
+  # prompt user for response, strip leading/trailing whitespace, ask user to confirm the trimmed value,
+  # and iterate until user provides an affirmative confirmation.
   #
   # Usage example: folder=$(get_confirmed_answer_to_question "Where should I save the results?")
   local prompt="$1"
-  local answer confirm
+  local answer_raw answer confirm
 
   while true; do
     ask_question "$prompt"
-    read "answer?→ "
-    [[ -z "${answer// }" ]] && continue
+    read "answer_raw?→ "
+    
+    # Strip leading/trailing whitespace
+    answer=$(echo "$answer_raw" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+    
+    [[ -z "$answer" ]] && continue
 
     ask_question "You entered: '$answer'. Is this correct? (y/n)"
     read "confirm?→ "
