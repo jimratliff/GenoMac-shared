@@ -75,3 +75,19 @@ function get_confirmed_answer_to_question() {
 function open_privacy_panel_for_full_disk_permissions() {
   open "$PRIVACY_SECURITY_PANEL_URL_FULL_DISK"
 }
+
+function tell_Terminal_to_require_full_disk_access() {
+  # Tells Terminal to execute a command that requires disk-access permissions it doesn't 
+  # have. macOS will respond by adding Terminal to the list of apps under Privacy » Full Disk Access
+  # (but with that permission unchecked). This makes it easier for the user to then enable that permission.
+  osascript -e "tell application id \"$BUNDLE_ID_TERMINAL\" to do script \"ls ~/Library/Mail &>/dev/null; exit\""  &>/dev/null
+}
+
+function tell_iTerm_to_require_full_disk_access() {
+  # Tells iTerm to execute a command that requires disk-access permissions it doesn't 
+  # have. macOS will respond by adding iTerm to the list of apps under Privacy » Full Disk Access
+  # (but with that permission unchecked). This makes it easier for the user to then enable that permission.
+  osascript -e "tell application id \"$BUNDLE_ID_ITERM2\" to create window with default profile command \"ls ~/Library/Mail &>/dev/null; exit\"" &>/dev/null
+}
+
+
