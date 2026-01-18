@@ -120,6 +120,12 @@ DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_EDITOR="com.stairways.keyboardmaestro.editor"
 DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_ENGINE="com.stairways.keyboardmaestro.engine"
 DEFAULTS_DOMAINS_ITERM2="com.googlecode.iterm2"
 
+############### Privacy & Security panel URLs
+PRIVACY_SECURITY_PANEL_URL_STUB="x-apple.systempreferences:com.apple.preference.security"
+PRIVACY_SECURITY_PANEL_URL_MAIN="${PRIVACY_SECURITY_PANEL_URL_STUB}?Privacy"
+PRIVACY_SECURITY_PANEL_URL_ACCESSIBILITY="${PRIVACY_SECURITY_PANEL_URL_STUB}?Privacy_Accessibility"
+PRIVACY_SECURITY_PANEL_URL_SCREEN_RECORDING="${PRIVACY_SECURITY_PANEL_URL_STUB}?Privacy_ScreenCapture"
+
 
 ############### Export and report
 echo "Exporting environment variables common to both GenoMac-system and GenoMac-user"
@@ -170,3 +176,7 @@ export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO
 export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_EDITOR
 export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_ENGINE
 export_and_report DEFAULTS_DOMAINS_ITERM2
+
+export_and_report PRIVACY_SECURITY_PANEL_URL_MAIN
+export_and_report PRIVACY_SECURITY_PANEL_URL_ACCESSIBILITY
+export_and_report PRIVACY_SECURITY_PANEL_URL_SCREEN_RECORDING
