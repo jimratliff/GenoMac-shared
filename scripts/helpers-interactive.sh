@@ -71,3 +71,7 @@ function get_confirmed_answer_to_question() {
 
   echo "$answer"
 }
+
+function open_privacy_panel_for_full_disk_permissions() {
+  open "$PRIVACY_SECURITY_PANEL_URL_FULL_DISK"
+}
