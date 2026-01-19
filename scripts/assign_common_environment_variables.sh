@@ -108,6 +108,7 @@ HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(/usr/bin/env brew --prefix)}"
 BUNDLE_ID_1PASSWORD="com.1password.1password"
 BUNDLE_ID_ALAN_APP="studio.retina.Alan"
 BUNDLE_ID_ALFRED="com.runningwithcrayons.Alfred"
+BUNDLE_ID_APP_STORE="com.apple.AppStore"
 BUNDLE_ID_BBEDIT="com.barebones.bbedit"
 BUNDLE_ID_BETTERTOUCHTOOL="com.hegenberg.BetterTouchTool"
 BUNDLE_ID_CLAUDE="com.anthropic.claudefordesktop"
@@ -171,6 +172,7 @@ export_and_report SYSTEM_ALERT_SOUNDS_DIRECTORY
 export_and_report BUNDLE_ID_1PASSWORD
 export_and_report BUNDLE_ID_ALAN_APP
 export_and_report BUNDLE_ID_ALFRED
+export_and_report BUNDLE_ID_APP_STORE
 export_and_report BUNDLE_ID_BBEDIT
 export_and_report BUNDLE_ID_BETTERTOUCHTOOL
 export_and_report BUNDLE_ID_CLAUDE
