@@ -242,8 +242,8 @@ function ensure_terminal_has_fda() {
       open_privacy_panel_for_full_disk_permissions
       launch_app_and_prompt_user_to_act \
         --no-app \
-        --show-doc "${GENOMAC_USER_LOCAL_DOCUMENTATION_DIRECTORY}/full_disk_access_how_to_configure.md" \
-        "Follow the instructions in the Quick Look window to to grant the current terminal app Full Disk Access"
+        --show-doc "${GENOMAC_SHARED_DOCS_TO_DISPLAY}/full_disk_access_how_to_configure.md" \
+        "Follow the instructions in the Quick Look window to grant the current terminal app Full Disk Access"
         
     else
       # The session is not interactive
