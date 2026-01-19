@@ -16,7 +16,7 @@ NEWLINE=$'\n'
 #   GenoMac-system as a place from which to obtain resources for user creation (such as
 #   profile avatars. For this reason, I’m including this environment variable in GenoMac-shared.
 #
-# TODO: GENOMAC_USER_DROPBOX_DIRECTORY should be refactored to USER_DROPBOX_DIRECTORY
+# TODO: GENOMAC_USER_DROPBOX_DIRECTORY should be refactored/renamed to USER_DROPBOX_DIRECTORY
 #       because GENOMAC_USER_DROPBOX_DIRECTORY misleadingly suggests it’s associated
 #       with the GenoMac-user repo, rather than as intended: the location of the user’s
 #       Dropbox directory within the user’s home directory.
