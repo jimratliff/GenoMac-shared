@@ -15,6 +15,11 @@ NEWLINE=$'\n'
 # Although currently (1/2/2026) used only by GenoMac-user, it may well be soon used by
 #   GenoMac-system as a place from which to obtain resources for user creation (such as
 #   profile avatars. For this reason, I’m including this environment variable in GenoMac-shared.
+#
+# TODO: GENOMAC_USER_DROPBOX_DIRECTORY should be refactored to USER_DROPBOX_DIRECTORY
+#       because GENOMAC_USER_DROPBOX_DIRECTORY misleadingly suggests it’s associated
+#       with the GenoMac-user repo, rather than as intended: the location of the user’s
+#       Dropbox directory within the user’s home directory.
 GENOMAC_USER_DROPBOX_DIRECTORY="$HOME/Library/CloudStorage/Dropbox"
 
 ############### Related to cloning GenoMac-user
@@ -24,6 +29,9 @@ GENOMAC_USER_DROPBOX_DIRECTORY="$HOME/Library/CloudStorage/Dropbox"
 GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
 # Specify URL for cloning the public GenoMac-user repository using HTTPS
 GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
+
+############### Location of submodule within each GenoMac-system and GenoMac-user repo
+GENOMAC_SUBMODULE_DIRECTORY="external/genomac-shared"
 
 ############### Custom alert sound
 # (These environment variables are located in GenoMac-shared because (a) GenoMac-system *installs*
@@ -141,6 +149,7 @@ function export_and_report() {
 export_and_report CUSTOM_ALERT_SOUND_FILENAME
 export_and_report GENOMAC_ALERT_LOG
 export_and_report GENOMAC_NAMESPACE
+export_and_report GENOMAC_SUBMODULE_DIRECTORY
 export_and_report GENOMAC_STATE_FILE_EXTENSION
 export_and_report GENOMAC_STATE_PERSISTENCE_PERMANENT
 export_and_report GENOMAC_STATE_PERSISTENCE_SESSION
