@@ -34,7 +34,7 @@ GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
 this_scripts_directory=${0:A:h}
 GENOMAC_SHARED_ROOT="${this_scripts_directory:h}"
 GENOMAC_SHARED_RESOURCES="${GENOMAC_SHARED_ROOT}/resources"
-GENOMAC_SHARED_DOCS_TO_DISPLAY="${GENOMAC_SHARED_RESOURCES}/docs_to_display_to_user"
+GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY="${GENOMAC_SHARED_RESOURCES}/docs_to_display_to_user"
 
 ############### Custom alert sound
 # (These environment variables are located in GenoMac-shared because (a) GenoMac-system *installs*
