@@ -221,8 +221,8 @@ function ensure_terminal_has_fda() {
   # app has Full Disk Access (FDA) permission.
   #
   # If the terminal app does *not* have FDA, the Settings » Privacy & Security » Full Disk Access
-  # panel is opened, this terminal app should already be pre-populated (but un-enabled) on the 
-  # list of apps, so the user can simply flip the switch for this app.
+  # panel is opened (this terminal app should already be pre-populated—but un-enabled—on the 
+  # list of apps), so the user can simply flip the switch for this app.
   #
   # The reason this terminal app will be pre-populated on the FDA list: The current script tests
   # whether the current terminal app has FDA by attempting to query a restricted location.
