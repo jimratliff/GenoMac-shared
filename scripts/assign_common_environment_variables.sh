@@ -31,7 +31,10 @@ GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
 GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
 
 ############### Location of submodule within each GenoMac-system and GenoMac-user repo
-GENOMAC_SUBMODULE_DIRECTORY="external/genomac-shared"
+this_scripts_directory=${0:A:h}
+GENOMAC_SHARED_ROOT="${this_scripts_directory:h}"
+GENOMAC_SHARED_RESOURCES="${GENOMAC_SHARED_ROOT}/resources"
+GENOMAC_SHARED_DOCS_TO_DISPLAY="${GENOMAC_SHARED_RESOURCES}/docs_to_display_to_user"
 
 ############### Custom alert sound
 # (These environment variables are located in GenoMac-shared because (a) GenoMac-system *installs*
@@ -149,7 +152,9 @@ function export_and_report() {
 export_and_report CUSTOM_ALERT_SOUND_FILENAME
 export_and_report GENOMAC_ALERT_LOG
 export_and_report GENOMAC_NAMESPACE
-export_and_report GENOMAC_SUBMODULE_DIRECTORY
+export_and_report GENOMAC_SHARED_DOCS_TO_DISPLAY
+export_and_report GENOMAC_SHARED_RESOURCES
+export_and_report GENOMAC_SHARED_ROOT
 export_and_report GENOMAC_STATE_FILE_EXTENSION
 export_and_report GENOMAC_STATE_PERSISTENCE_PERMANENT
 export_and_report GENOMAC_STATE_PERSISTENCE_SESSION
