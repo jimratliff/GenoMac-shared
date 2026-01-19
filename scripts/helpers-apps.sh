@@ -216,7 +216,7 @@ function ensure_homebrew_is_installed() {
   fi
 }
 
-function ensure_terminal_has_fda() {
+function interactive_ensure_terminal_has_fda() {
   # Run at the beginning of a terminal session to try to ensure that the currently running terminal
   # app has Full Disk Access (FDA) permission.
   #
