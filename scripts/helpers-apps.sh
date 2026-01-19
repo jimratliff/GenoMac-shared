@@ -86,9 +86,14 @@ function launch_app_and_prompt_user_to_act() {
   #
   # The acknowledgment must be a case-insensitive match to `done`
   #
-  # Arguments:
-  #   $1: bundle_id of the app to launch
-  #   $2: prompt text to display to user
+# Arguments:
+  #   Without --no-app:
+  #     $1: bundle_id of the app to launch
+  #     $2: prompt text to display to user
+  #   With --no-app:
+  #     $1: prompt text to display to user
+  #
+  #   --no-app: (optional, any position) skip launching an app
   #   --show-doc <filepath>: (optional, any position) path to a file to display via Quick Look
   #   --show-folder <folderpath>: (optional, any position) path to a folder to open in Finder
   #
@@ -98,20 +103,20 @@ function launch_app_and_prompt_user_to_act() {
   #   launch_app_and_prompt_user_to_act "com.example.some_app" "Please do the thing" --show-doc "/path/to/doc.md"
   #   launch_app_and_prompt_user_to_act --show-folder "/path/to/folder" "com.example.some_app" "Please do the thing"
   #   launch_app_and_prompt_user_to_act "com.example.some_app" "Please do the thing" --show-folder "/path/to/folder"
-  
-  # Validate argument count: must be exactly 2, 4, or 6
-  if (( $# != 2 && $# != 4 && $# != 6 )); then
-    report_fail "Error: expected 2 arguments (bundle_id, prompt), 4 arguments (with one option), or 6 arguments (with both options), got $#"
-    return 1
-  fi
+  #   launch_app_and_prompt_user_to_act --no-app "Please do the thing"
   
   local doc_to_show=""
   local folder_to_show=""
+  local no_app=false
   local positional=()
   
   # Parse arguments
   while (( $# > 0 )); do
     case "$1" in
+      --no-app)
+        no_app=true
+        shift
+        ;;
       --show-doc)
         doc_to_show="$2"
         shift 2
@@ -127,23 +132,45 @@ function launch_app_and_prompt_user_to_act() {
     esac
   done
   
-  local bundle_id="${positional[1]}"
-  local task_description="${positional[2]}"
-  local confirmation_word="done"
+  local bundle_id=""
+  local task_description=""
   
-  # Launch app in foreground so user can interact with it
-  report_action_taken "Launching app $bundle_id"
-  open -b "$bundle_id" ; success_or_not
+  if $no_app; then
+    # With --no-app, expect only 1 positional argument (prompt)
+    if (( ${#positional[@]} != 1 )); then
+      report_fail "Error: with --no-app, expected 1 positional argument (prompt), got ${#positional[@]}"
+      return 1
+    fi
+    task_description="${positional[1]}"
+  else
+    # Without --no-app, expect 2 positional arguments (bundle_id, prompt)
+    if (( ${#positional[@]} != 2 )); then
+      report_fail "Error: expected 2 positional arguments (bundle_id, prompt), got ${#positional[@]}"
+      return 1
+    fi
+    bundle_id="${positional[1]}"
+    task_description="${positional[2]}"
+    
+    # Launch app in foreground so user can interact with it
+    report_action_taken "Launching app $bundle_id"
+    open -b "$bundle_id" ; success_or_not
+  fi
+  
+  local confirmation_word="done"
   
   # Show documentation using Quick Look if specified
   if [[ -n "$doc_to_show" ]]; then
-    sleep 2 # To give time for $bundle_id to fully open, so that the Quick Look window is on top
+    if [[ -n "$bundle_id" ]]; then
+      sleep 2 # To give time for $bundle_id to fully open, so that the Quick Look window is on top
+    fi
     show_file_using_quicklook "$doc_to_show"
   fi
   
   # Open folder in Finder if specified
   if [[ -n "$folder_to_show" ]]; then
-    sleep 2 # To give time for $bundle_id to fully open, so that the Finder window is on top
+    if [[ -n "$bundle_id" ]]; then
+      sleep 2 # To give time for $bundle_id to fully open, so that the Finder window is on top
+    fi
     open "$folder_to_show"
   fi
   
@@ -161,7 +188,11 @@ function launch_app_and_prompt_user_to_act() {
     read -r "user_response?Type '$confirmation_word' to confirm task completion: "
   done
   
-  report_action_taken "User confirmed task completion for $bundle_id"
+  if [[ -n "$bundle_id" ]]; then
+    report_action_taken "User confirmed task completion for $bundle_id"
+  else
+    report_action_taken "User confirmed task completion"
+  fi
   
   # quit_app_by_bundle_id_if_running "$bundle_id"
 }
