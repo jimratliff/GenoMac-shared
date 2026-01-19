@@ -48,6 +48,7 @@ function get_yes_no_answer_to_question() {
     esac
   done
 }
+
 function get_confirmed_answer_to_question() {
   # Output supplied line of text in distinctive color (COLOR_QUESTION), prefixed by SYMBOL_QUESTION,
   # prompt user for response, strip leading/trailing whitespace, ask user to confirm the trimmed value,
@@ -80,18 +81,157 @@ function open_privacy_panel_for_full_disk_permissions() {
   open "$PRIVACY_SECURITY_PANEL_URL_FULL_DISK"
 }
 
-#  function tell_Terminal_to_require_full_disk_access() {
-#    # Tells Terminal to execute a command that requires disk-access permissions it doesn't 
-#    # have. macOS will respond by adding Terminal to the list of apps under Privacy » Full Disk Access
-#    # (but with that permission unchecked). This makes it easier for the user to then enable that permission.
-#    osascript -e "tell application id \"$BUNDLE_ID_TERMINAL\" to do script \"ls ~/Library/Mail &>/dev/null; exit\""  &>/dev/null
-#  }
-#  
-#  function tell_iTerm_to_require_full_disk_access() {
-#    # Tells iTerm to execute a command that requires disk-access permissions it doesn't 
-#    # have. macOS will respond by adding iTerm to the list of apps under Privacy » Full Disk Access
-#    # (but with that permission unchecked). This makes it easier for the user to then enable that permission.
-#    osascript -e "tell application id \"$BUNDLE_ID_ITERM2\" to create window with default profile command \"ls ~/Library/Mail &>/dev/null; exit\"" &>/dev/null
-#  }
+function launch_app_and_prompt_user_to_act() {
+  # Launches an app, prompts user to take action, waits for acknowledgment, and quits app
+  #
+  # The acknowledgment must be a case-insensitive match to `done`
+  #
+# Arguments:
+  #   Without --no-app:
+  #     $1: bundle_id of the app to launch
+  #     $2: prompt text to display to user
+  #   With --no-app:
+  #     $1: prompt text to display to user
+  #
+  #   --no-app: (optional, any position) skip launching an app
+  #   --show-doc <filepath>: (optional, any position) path to a file to display via Quick Look
+  #   --show-folder <folderpath>: (optional, any position) path to a folder to open in Finder
+  #
+  # Usage:
+  #   launch_app_and_prompt_user_to_act "com.example.some_app" "Please do the thing"
+  #   launch_app_and_prompt_user_to_act --show-doc "/path/to/doc.md" "com.example.some_app" "Please do the thing"
+  #   launch_app_and_prompt_user_to_act "com.example.some_app" "Please do the thing" --show-doc "/path/to/doc.md"
+  #   launch_app_and_prompt_user_to_act --show-folder "/path/to/folder" "com.example.some_app" "Please do the thing"
+  #   launch_app_and_prompt_user_to_act "com.example.some_app" "Please do the thing" --show-folder "/path/to/folder"
+  #   launch_app_and_prompt_user_to_act --no-app "Please do the thing"
+  
+  local doc_to_show=""
+  local folder_to_show=""
+  local no_app=false
+  local positional=()
+  
+  # Parse arguments
+  while (( $# > 0 )); do
+    case "$1" in
+      --no-app)
+        no_app=true
+        shift
+        ;;
+      --show-doc)
+        doc_to_show="$2"
+        shift 2
+        ;;
+      --show-folder)
+        folder_to_show="$2"
+        shift 2
+        ;;
+      *)
+        positional+=("$1")
+        shift
+        ;;
+    esac
+  done
+  
+  local bundle_id=""
+  local task_description=""
+  
+  if $no_app; then
+    # With --no-app, expect only 1 positional argument (prompt)
+    if (( ${#positional[@]} != 1 )); then
+      report_fail "Error: with --no-app, expected 1 positional argument (prompt), got ${#positional[@]}"
+      return 1
+    fi
+    task_description="${positional[1]}"
+  else
+    # Without --no-app, expect 2 positional arguments (bundle_id, prompt)
+    if (( ${#positional[@]} != 2 )); then
+      report_fail "Error: expected 2 positional arguments (bundle_id, prompt), got ${#positional[@]}"
+      return 1
+    fi
+    bundle_id="${positional[1]}"
+    task_description="${positional[2]}"
+    
+    # Launch app in foreground so user can interact with it
+    report_action_taken "Launching app $bundle_id"
+    open -b "$bundle_id" ; success_or_not
+  fi
+  
+  local confirmation_word="done"
+  
+  # Show documentation using Quick Look if specified
+  if [[ -n "$doc_to_show" ]]; then
+    if [[ -n "$bundle_id" ]]; then
+      sleep 2 # To give time for $bundle_id to fully open, so that the Quick Look window is on top
+    fi
+    show_file_using_quicklook "$doc_to_show"
+  fi
+  
+  # Open folder in Finder if specified
+  if [[ -n "$folder_to_show" ]]; then
+    if [[ -n "$bundle_id" ]]; then
+      sleep 2 # To give time for $bundle_id to fully open, so that the Finder window is on top
+    fi
+    open "$folder_to_show"
+  fi
+  
+  # Prompt user to complete the task
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "  ACTION REQUIRED: $task_description"
+  echo "  When complete, please type: $confirmation_word"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+  
+  # Wait for explicit user confirmation
+  local user_response=""
+  while [[ "${user_response:l}" != "$confirmation_word" ]]; do
+    read -r "user_response?Type '$confirmation_word' to confirm task completion: "
+  done
+  
+  if [[ -n "$bundle_id" ]]; then
+    report_action_taken "User confirmed task completion for $bundle_id"
+  else
+    report_action_taken "User confirmed task completion"
+  fi
+  
+  # quit_app_by_bundle_id_if_running "$bundle_id"
+}
 
+function interactive_ensure_terminal_has_fda() {
+  # Run at the beginning of a terminal session to try to ensure that the currently running terminal
+  # app has Full Disk Access (FDA) permission.
+  #
+  # If the terminal app does *not* have FDA, the Settings » Privacy & Security » Full Disk Access
+  # panel is opened (this terminal app should already be pre-populated—but un-enabled—on the 
+  # list of apps), so the user can simply flip the switch for this app.
+  #
+  # The reason this terminal app will be pre-populated on the FDA list: The current script tests
+  # whether the current terminal app has FDA by attempting to query a restricted location.
+  # If the app doesn’t have FDA, this query is sufficient for macOS to add this app to that list.
+
+  report_start_phase_standard
+  
+  # Query a restricted location (a) to test FDA and (b) if not, add terminal app to list
+  if ! ls ~/Library/Mail &>/dev/null; then
+    # The currently running terminal app does *not* have FDA
+    # macOS will add the terminal app to the list, but un-enabled
+
+    # Tests whether this is an interactive session
+    if [[ -t 0 ]]; then
+    
+      # The session is interactive
+      open_privacy_panel_for_full_disk_permissions
+      launch_app_and_prompt_user_to_act \
+        --no-app \
+        --show-doc "${GENOMAC_SHARED_DOCS_TO_DISPLAY}/full_disk_access_how_to_configure.md" \
+        "Follow the instructions in the Quick Look window to grant the current terminal app Full Disk Access"
+        
+    else
+      # The session is not interactive
+      report_warning "Warning: Terminal lacks FDA and no interactive session to fix it"
+      return 1
+    fi
+  fi
+  report_end_phase_standard
+}
 
