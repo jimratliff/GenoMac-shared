@@ -215,11 +215,13 @@ function interactive_ensure_terminal_has_fda() {
   if ! ls ~/Library/Mail &>/dev/null; then
     # The currently running terminal app does *not* have FDA
     # macOS will add the terminal app to the list, but un-enabled
+    report_warning "The currently running terminal app needs, but doesn’t have, Full Disk Access."
 
     # Tests whether this is an interactive session
     if [[ -t 0 ]]; then
     
       # The session is interactive
+      report_action_taken "I will open (a) the Full Disk Access panel in System Settings and (b) a Quick Look window with instructions"
       open_privacy_panel_for_full_disk_permissions
       launch_app_and_prompt_user_to_act \
         --no-app \
