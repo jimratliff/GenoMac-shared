@@ -164,8 +164,6 @@ function run_if_user_has_not_done() {
   # Executes a function if a user completion state variable is false (absent) indicating a task hasn't been done yet.
   # Sets the state variable after successful execution.
   #
-  # TODO: Needs refactoring after the function it calls is refactored to accept a scope variable
-  #
   # Usage:
   #   run_if_user_has_not_done [--force-logout] <state_var> <func_to_run> <skip_message>
   #
@@ -188,18 +186,13 @@ function run_if_user_has_not_done() {
 
   report_start_phase "Entering run_if_user_has_not_done $*"
 
-  # TODO: NEEDS REFACTORING, after other refactoring has been done first
-  # _run_based_on_state --negate-state "$@"
-  # The following command will be the correct syntax after other refactoring has been done
   _run_based_on_state 'user' --negate-state "$@"
 
   report_end_phase "Leaving run_if_user_has_not_done $*"
 }
 
 function run_if_user_state() {
-  # Executes a function if a completion state variable is true (present) indicating a task has been done.
-  #
-  # TODO: Needs refactoring after the function it calls is refactored to accept a scope variable
+  # Executes a function if a user completion state variable is true (present) indicating a task has been done.
   #
   # Usage:
   #   _run_if_state [--force-logout] <state_var> <func_to_run> <skip_message>
@@ -214,13 +207,64 @@ function run_if_user_state() {
 
   report_start_phase "Entering run_if_user_state $*"
 
-  # TODO: NEEDS REFACTORING, after other refactoring has been done first
-
-  # The following command is deprecated in light of refactoring
-  # _run_based_on_state "$@"
-  # The following command will be the correct syntax after other refactoring has been done
   _run_based_on_state 'user' "$@"
 
   report_end_phase "Leaving run_if_user_state $*"
 }
+
+
+############### Scope: system
+
+function run_if_system_has_not_done() {
+  # Executes a function if a system completion state variable is false (absent) indicating a task hasn't been done yet.
+  # Sets the state variable after successful execution.
+  #
+  # Usage:
+  #   run_if_system_has_not_done [--force-logout] <state_var> <func_to_run> <skip_message>
+  #
+  # Flags can appear in any position.
+  #
+  # Parameters:
+  #   --force-logout  Optional. If present, calls hypervisor_force_logout after setting state.
+  #   state_var       The system state variable to check and set (e.g., $SESH_...).
+  #   func_to_run     Name of the function to execute if state is not set.
+  #   skip_message    Message to display if state is already set and action is skipped.
+  #
+  # Usage examples:
+  #   run_if_system_has_not_done "$PERM_INTRO_QUESTIONS_ASKED_AND_ANSWERED" \
+  #     ask_initial_questions \
+  #     "Skipping introductory questions, because you've answered them in the past."
+  #   
+  #   run_if_system_has_not_done --force-logout "$SESH_DOTFILES_HAVE_BEEN_STOWED" \
+  #     stow_dotfiles \
+  #     "Skipping stowing dotfiles, because you've already stowed them during this session."
+
+  report_start_phase "Entering run_if_system_has_not_done $*"
+
+  _run_based_on_state 'system' --negate-state "$@"
+
+  report_end_phase "Leaving run_if_system_has_not_done $*"
+}
+
+function run_if_system_state() {
+  # Executes a function if a system completion state variable is true (present) indicating a task has been done.
+  #
+  # Usage:
+  #   run_if_system_state [--force-logout] <state_var> <func_to_run> <skip_message>
+  #
+  # Flags can appear in any position.
+  #
+  # Parameters:
+  #   --force-logout  Optional. If present, calls hypervisor_force_logout after execution.
+  #   state_var       The state variable to check (e.g., $SESH_...).
+  #   func_to_run     Name of the function to execute if state is set.
+  #   skip_message    Message to display if state is not set and action is skipped.
+
+  report_start_phase "Entering run_if_system_state $*"
+
+  _run_based_on_state 'system' "$@"
+
+  report_end_phase "Leaving run_if_system_state $*"
+}
+
 
