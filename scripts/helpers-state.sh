@@ -68,6 +68,7 @@ function _state_file_path() {
   #
   # Usage:
   #     _state_file_path "launch-and-sign-in-to-microsoft-word" "user"
+  #
   #   Returns: ~/.genomac-user-state/launch-and-sign-in-to-microsoft-word.state
   #
   #     _state_file_path "machine-is-laptop" "system"
