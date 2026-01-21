@@ -251,7 +251,7 @@ function _set_state_based_on_yes_no() {
   fi
 }
 
-function _delete_states_matching() {
+function _delete_states_matching_persistence() {
   # Internal helper that deletes state files for a given scope, optionally filtered by persistence type.
   #
   #
@@ -260,8 +260,8 @@ function _delete_states_matching() {
   #   $2: (optional) persistence filter, either 'SESH' or 'PERM'. If omitted, deletes all state files.
   #
   # Usage:
-  #   _delete_states_matching scope:"user"           # deletes all user state files
-  #   _delete_states_matching scope: "user" "SESH"   # deletes all user state files with SESH prefix
+  #   _delete_states_matching_persistence scope:"user"           # deletes all user state files
+  #   _delete_states_matching_persistence scope: "user" "SESH"   # deletes all user state files with SESH prefix
   
   local scope="$1"
   local persistence="${2:-}"			# optional - defaults to empty string
@@ -308,7 +308,7 @@ function _delete_all_SESH_states() {
   # Usage: _delete_all_SESH_states "user"
   local scope="$1"
   _validate_scope "$scope" || return 1
-  _delete_states_matching "$scope" "SESH"
+  _delete_states_matching_persistence "$scope" "SESH"
 }
 
 ##############################
@@ -340,13 +340,13 @@ function set_user_state_based_on_yes_no() {
 function delete_all_user_states() {
   # Deletes all state files for user scope.
   # Usage: _delete_all_user_states
-  _delete_states_matching "user"
+  _delete_states_matching_persistence "user"
 }
 
 function delete_all_user_SESH_states() {
   # Deletes all SESH (session) state files for user scope.
   # Usage: _delete_all_GMU_SESH_states
-  _delete_states_matching "user" "SESH"
+  _delete_states_matching_persistence "user" "SESH"
 }
 
 ############### System-scope state functions
@@ -376,11 +376,11 @@ function set_system_state_based_on_yes_no() {
 function delete_all_system_states() {
   # Deletes all state files for system scope.
   # Usage: _delete_all_system_states
-  _delete_states_matching "system"
+  _delete_states_matching_persistence "system"
 }
 
 function delete_all_system_SESH_states() {
   # Deletes all SESH (session) state files for system scope.
   # Usage: _delete_all_GMS_SESH_states
-  _delete_states_matching "system" "SESH"
+  _delete_states_matching_persistence "system" "SESH"
 }
