@@ -35,14 +35,8 @@ GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY="${GENOMAC_SHARED_RESOURCE_DIRECTORY}/d
 # (These environment variables are located in GenoMac-shared because (a) GenoMac-system *installs*
 # the custom alert sound but (b) it is GenoMac-user that *consumes* the alert sound, so both the
 # -system and -user repos need to know the installation location.)
-
-# Systemwide directory that stores available alert sounds
 SYSTEM_ALERT_SOUNDS_DIRECTORY="/Library/Audio/Sounds/Alerts"
-
-# Name of custom-chosen alert sound
 CUSTOM_ALERT_SOUND_FILENAME="Uh_oh.aiff"
-
-# Path to installed custom alert sound
 PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE="${SYSTEM_ALERT_SOUNDS_DIRECTORY}/${CUSTOM_ALERT_SOUND_FILENAME}"
 
 ############### GENOMAC_ALERT_LOG
@@ -63,14 +57,14 @@ GENOMAC_STATE_PERSISTENCE_SESSION="SESH"
 
 # Despite each being seemingly specific to either GenoMac-system or GenoMac-user,
 #   these two environment variables are defined in GenoMac-shared because:
-#   - GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY is used by GenoMac-user, because GenoMac-user *can*
+#   - GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY might be used by GenoMac-user, because GenoMac-user *can*
 #     care about system-level state
 #   - GENOMAC_USER_LOCAL_STATE_DIRECTORY appears in helpers-state.sh » _state_directory_for_scope()
 #     (although that reference should never be encountered in the normal operation of GenoMac-user)
 
 # Specify local directory in which machine-level state can be stored
-GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY="/etc/genomac/state"
-# Specify local directory that will retain user-level state information
+GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY="/etc/${GENOMAC_NAMESPACE}/state"
+# Specify local directory that will retain user-level state information, e.g., ~/.genomac-state
 GENOMAC_USER_LOCAL_STATE_DIRECTORY="${GENOMAC_USER_LOCAL_DIRECTORY}-state"
 
 ############### Homebrew-related
@@ -78,21 +72,25 @@ GENOMAC_USER_LOCAL_STATE_DIRECTORY="${GENOMAC_USER_LOCAL_DIRECTORY}-state"
 # NOTE: Even though Homebrew seems directly related only to GenoMac-system rather than
 #       GenoMac-user, the below code (a) enforcing the presence of Homebrew and (b) setting
 #       HOMEBREW_PREFIX *is* used by GenoMac-user.
+#
+# NOTE: The below Homebrew-checking code is uncommented out because it definitely
+#       shouldn’t appear here in GenoMac-shared in a place where it’d be executed immediately
+#       because then it would run before GenoMac-system has had a chance to install Homebrew.
 # --- Homebrew: hard dependency ------------------------------------------------
-if ! command -v brew >/dev/null 2>&1; then
-  # First attempt failed - try adding Homebrew to PATH and retry
-  if [ -x /opt/homebrew/bin/brew ]; then
-    # Homebrew exists but isn't in PATH - fix temporarily
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-    if ! command -v brew >/dev/null 2>&1; then
-      echo "❌ Homebrew installation appears corrupted. Aborting."
-      exit 1
-    fi
-  else
-    echo "❌ Homebrew is required but not installed. Aborting."
-    exit 1
-  fi
-fi
+# if ! command -v brew >/dev/null 2>&1; then
+#   # First attempt failed - try adding Homebrew to PATH and retry
+#   if [ -x /opt/homebrew/bin/brew ]; then
+#     # Homebrew exists but isn't in PATH - fix temporarily
+#     eval "$(/opt/homebrew/bin/brew shellenv)"
+#     if ! command -v brew >/dev/null 2>&1; then
+#       echo "❌ Homebrew installation appears corrupted. Aborting."
+#       exit 1
+#     fi
+#   else
+#     echo "❌ Homebrew is required but not installed. Aborting."
+#     exit 1
+#   fi
+# fi
 
 # Resolve once (don’t recompute if already set by the environment)
 HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(/usr/bin/env brew --prefix)}"
