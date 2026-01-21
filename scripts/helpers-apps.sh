@@ -16,6 +16,7 @@ function launch_and_quit_app() {
   # Examples:
   #   launch_and_quit_app "com.apple.DiskUtility"
   #   launch_and_quit_app "com.googlecode.iterm2"
+  report_start_phase_standard
   
   local bundle_id="$1"
   report_action_taken "Launch and quit app $bundle_id"
@@ -24,6 +25,8 @@ function launch_and_quit_app() {
   sleep 2
   report_action_taken "Quitting app $bundle_id"
   osascript -e "tell application id \"$bundle_id\" to quit" ; success_or_not
+
+  report_end_phase_standard
 }
 
 function quit_app_by_bundle_id_if_running() {
@@ -37,6 +40,7 @@ function quit_app_by_bundle_id_if_running() {
   #     2. Sleep briefly to allow a clean shutdown.
   #     3. If still running, force-kill any processes under the app's
   #        Contents/MacOS directory, using Spotlight (mdfind) to locate the .app.
+  report_start_phase_standard
   
   local delay_in_seconds_for_normal_quitting=3
   local bundle_id="$1"
@@ -77,16 +81,21 @@ function quit_app_by_bundle_id_if_running() {
       false
     fi
   fi
-
+  
+  report_end_phase_standard
   return 0
 }
 
 function force_user_logout(){
+  report_start_phase_standard
+  
   report_action_taken $'\n\nYou are about to be logged out…'
   sleep 3  # Give user time to read the message
 
   # Graceful logout using familiar system behavior
   osascript -e 'tell application "System Events" to log out'
+
+  report_end_phase_standard
 
   # Ensure the calling script doesn’t continue to run
   exit
@@ -94,8 +103,12 @@ function force_user_logout(){
 
 function crash_if_homebrew_not_installed() {
   # Fail fast if Homebrew not installed
+  report_start_phase_standard
+  
   if [ ! -x /opt/homebrew/bin/brew ]; then
     report_fail "ERROR: Homebrew not found at /opt/homebrew/bin/brew; Install Homebrew first!"
     return 1
   fi
+
+  report_end_phase_standard
 }
