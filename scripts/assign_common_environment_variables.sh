@@ -15,12 +15,7 @@ NEWLINE=$'\n'
 # Although currently (1/2/2026) used only by GenoMac-user, it may well be soon used by
 #   GenoMac-system as a place from which to obtain resources for user creation (such as
 #   profile avatars. For this reason, I’m including this environment variable in GenoMac-shared.
-#
-# TODO: GENOMAC_USER_DROPBOX_DIRECTORY should be refactored/renamed to USER_DROPBOX_DIRECTORY
-#       because GENOMAC_USER_DROPBOX_DIRECTORY misleadingly suggests it’s associated
-#       with the GenoMac-user repo, rather than as intended: the location of the user’s
-#       Dropbox directory within the user’s home directory.
-GENOMAC_USER_DROPBOX_DIRECTORY="$HOME/Library/CloudStorage/Dropbox"
+LOCAL_DROPBOX_DIRECTORY="$HOME/Library/CloudStorage/Dropbox"
 
 ############### Related to cloning GenoMac-user
 # Note: These variables must be available to GenoMac-system because that repo has a script
@@ -160,11 +155,11 @@ export_and_report GENOMAC_STATE_FILE_EXTENSION
 export_and_report GENOMAC_STATE_PERSISTENCE_PERMANENT
 export_and_report GENOMAC_STATE_PERSISTENCE_SESSION
 export_and_report GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
-export_and_report GENOMAC_USER_DROPBOX_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_USER_REPO_URL
 export_and_report HOMEBREW_PREFIX
+export_and_report LOCAL_DROPBOX_DIRECTORY
 export_and_report NEWLINE
 export_and_report PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE
 export_and_report SYSTEM_ALERT_SOUNDS_DIRECTORY
