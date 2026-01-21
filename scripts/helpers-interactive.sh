@@ -208,6 +208,9 @@ function interactive_ensure_terminal_has_fda() {
   # The reason this terminal app will be pre-populated on the FDA list: The current script tests
   # whether the current terminal app has FDA by attempting to query a restricted location.
   # If the app doesn’t have FDA, this query is sufficient for macOS to add this app to that list.
+  # NOTE: This is *not* conditioned on a PERM state variable, because there are multiple possible
+  #       terminal apps. Each would need to tracked separately, requiring the script to interrogate
+  #       what terminal app was running for that shell session. Too complicated!
 
   report_start_phase_standard
   
