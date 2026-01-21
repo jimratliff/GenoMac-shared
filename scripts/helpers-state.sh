@@ -72,7 +72,8 @@ function _state_file_path() {
   #   Returns: ~/.genomac-user-state/launch-and-sign-in-to-microsoft-word.state
   #
   #     _state_file_path "machine-is-laptop" "system"
-  #   Returns: /etc/genomac/state/machine-is-laptop.state
+  #
+  #   Returns: /etc/com.virtualperfection.genomac/state/machine-is-laptop.state
 
   local state_string="$1"
   local scope="$2"
@@ -192,7 +193,7 @@ function _set_state() {
   _validate_scope "$scope" || return 1
   state_file="$(_state_file_path "$state_string" "$scope")" || return 1
   mkdir -p "${state_file:h}"  # zsh: :h gives the "head" (directory portion)
-  report_action_taken "Setting state: “${state_string}”"
+  report_action_taken "Setting ${scope} state: “${state_string}”"
   touch "$state_file" ; success_or_not
 }
 
