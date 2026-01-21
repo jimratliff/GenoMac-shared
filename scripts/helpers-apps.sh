@@ -103,6 +103,7 @@ function force_user_logout(){
 
 function crash_if_homebrew_not_installed() {
   # Fail fast if Homebrew not installed
+  # TODO: WARNING: The test assumes an Apple Silicon Mac rather than Intel
   report_start_phase_standard
   
   if [ ! -x /opt/homebrew/bin/brew ]; then
