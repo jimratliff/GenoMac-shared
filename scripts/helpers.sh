@@ -30,7 +30,7 @@ source_with_report "${this_script_dir}/helpers-reporting.sh"
 source_with_report "${this_script_dir}/helpers-state.sh"
 
 function main() {
-  # define_colors_and_symbols is defined in from scripts/helpers-reporting.sh
+  # define_colors_and_symbols is defined in scripts/helpers-reporting.sh
   define_colors_and_symbols
 }
 
