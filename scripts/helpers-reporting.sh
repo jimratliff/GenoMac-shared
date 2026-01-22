@@ -1,3 +1,5 @@
+#!/usr/bin/env zs
+
 ############### Helpers related to reporting events to the executing user
 
 # Relies upon:
