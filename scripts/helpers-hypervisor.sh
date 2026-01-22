@@ -1,3 +1,5 @@
+#!/usr/bin/env zs
+
 ############### Helpers related to the Hypervisor
 
 # Relies upon:
