@@ -2,6 +2,14 @@
 
 # Establishes values for environment variables shared by both GenoMac-system and GenoMac-user 
 
+# Is is assumed that the following has already been defined and exports:
+#
+# In the case of GenoMac-system:
+#   GENOMAC_SYSTEM_LOCAL_DIRECTORY="$HOME/.genomac-system"
+# In the case of GenoMac-user:
+#   GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
+
+
 GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 
 # Specify a variable that, when expanded, is a newline character
