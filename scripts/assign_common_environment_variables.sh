@@ -27,7 +27,7 @@ LOCAL_DROPBOX_DIRECTORY="$HOME/Library/CloudStorage/Dropbox"
 # Note: These variables must be available to GenoMac-system because that repo has a script
 #       that facilitates cloning GenoMac-user
 # Specify local directory into which the GenoMac-user repository will be cloned
-GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
+# GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user" # Assumed already defined/exported by GenoMac-user
 # Specify URL for cloning the public GenoMac-user repository using HTTPS
 GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
 
