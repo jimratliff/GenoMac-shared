@@ -1,3 +1,5 @@
+#!/usr/bin/env zs
+
 ############### Helpers related to copying resources
 
 # Relies upon:
