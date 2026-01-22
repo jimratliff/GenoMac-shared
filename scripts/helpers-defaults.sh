@@ -1,3 +1,5 @@
+#!/usr/bin/env zs
+
 ############### Helpers related to using the macOS `defaults write` command
 
 # Relies upon:
