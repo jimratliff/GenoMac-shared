@@ -1,3 +1,5 @@
+#!/usr/bin/env zs
+
 ############### Helpers: Miscellaneous
 
 # Relies upon:
