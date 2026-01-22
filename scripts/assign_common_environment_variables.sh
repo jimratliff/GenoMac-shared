@@ -2,8 +2,6 @@
 
 # Establishes values for environment variables shared by both GenoMac-system and GenoMac-user 
 
-set -euo pipefail
-
 GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 
 # Specify a variable that, when expanded, is a newline character
