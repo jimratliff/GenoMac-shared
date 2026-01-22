@@ -1,3 +1,5 @@
+#!/usr/bin/env zs
+
 ############### Helpers related to asking for and receiving input from the executing user
 
 # Relies upon:
