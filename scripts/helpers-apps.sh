@@ -1,3 +1,5 @@
+#!/usr/bin/env zs
+
 ############### Helpers related to launching/quitting apps (and logging out generally)
 
 # TODO: As of 1/2/2026, the function naming is inconsistent: `quit_app_by_bundle_id_if_running` includes
