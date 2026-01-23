@@ -29,6 +29,10 @@ LOCAL_DROPBOX_DIRECTORY="$HOME/Library/CloudStorage/Dropbox"
 GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
 
 ############### Location of submodule within each GenoMac-system and GenoMac-user repo
+# NOTE: GenoMac-system (and presumably, after refactoring, so will GenoMac-user) exports a corresponding
+#       environment variable (expressed from the perspective of the parent repo): 
+#       GMS_HELPERS_DIR (external/genomac-shared/scripts)
+
 this_scripts_directory=${0:A:h}
 GENOMAC_SHARED_ROOT="${this_scripts_directory:h}"
 GENOMAC_SHARED_RESOURCE_DIRECTORY="${GENOMAC_SHARED_ROOT}/resources"
