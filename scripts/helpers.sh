@@ -1,8 +1,8 @@
 #!/usr/bin/env zs
 
+# Sources all of this repo’s helper scripts and common (cross-repo) environment variables.
 # Intended to be called from 0_initialize_me_second.sh from either GenoMac-system or GenoMac-user.
-#
-# Relies on 0_initialize_me_first.sh having already defined source_with_report()
+# Relies on 0_initialize_me_first.sh having already defined source_with_report().
 
 set -euo pipefail
 
