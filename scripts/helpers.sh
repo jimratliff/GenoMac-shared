@@ -1,8 +1,8 @@
 #!/usr/bin/env zs
 
-# Intended to be called from 0_initialize_me.sh from either GenoMac-system or GenoMac-user.
+# Intended to be called from 0_initialize_me_second.sh from either GenoMac-system or GenoMac-user.
 #
-# Relies on 0_initialize_me.sh having already defined source_with_report()
+# Relies on 0_initialize_me_first.sh having already defined source_with_report()
 
 set -euo pipefail
 
@@ -12,6 +12,11 @@ __already_loaded_genomac_shared_helpers_sh=1
 export __already_loaded_genomac_shared_helpers_sh
 
 # Resolve this script's directory (even if sourced)
+# NOTE: There are two methods for specifying the location of GenoMac-shared code:
+# - the method employed here, querying the location of this script
+# - the GMS_HELPERS_DIR environment variable, which is exported by 0_initialize_me_second.sh
+#   which gives the path to the scripts directory of the GenoMac-shared repository as
+#   included as a submodule.
 this_script_path="${0:A}"
 this_script_dir="${this_script_path:h}"
 
