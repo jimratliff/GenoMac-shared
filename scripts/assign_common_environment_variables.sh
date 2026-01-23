@@ -4,11 +4,8 @@
 
 # Is is assumed that the following has already been defined and exports:
 #
-# In the case of GenoMac-system:
-#   GENOMAC_SYSTEM_LOCAL_DIRECTORY="$HOME/.genomac-system"
 # In the case of GenoMac-user:
 #   GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
-
 
 GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 
@@ -27,7 +24,7 @@ LOCAL_DROPBOX_DIRECTORY="$HOME/Library/CloudStorage/Dropbox"
 # Note: These variables must be available to GenoMac-system because that repo has a script
 #       that facilitates cloning GenoMac-user
 # Specify local directory into which the GenoMac-user repository will be cloned
-# GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user" # Assumed already defined/exported by GenoMac-user
+# GMU_LOCAL_DIRECTORY="$HOME/.genomac-user" # Assumed already defined/exported by GenoMac-user
 # Specify URL for cloning the public GenoMac-user repository using HTTPS
 GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
 
@@ -57,7 +54,6 @@ fi
 ############### State-related
 
 GENOMAC_STATE_FILE_EXTENSION="state"
-
 GENOMAC_STATE_PERSISTENCE_PERMANENT="PERM"
 GENOMAC_STATE_PERSISTENCE_SESSION="SESH"
 
@@ -71,7 +67,7 @@ GENOMAC_STATE_PERSISTENCE_SESSION="SESH"
 # Specify local directory in which machine-level state can be stored
 GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY="/etc/${GENOMAC_NAMESPACE}/state"
 # Specify local directory that will retain user-level state information, e.g., ~/.genomac-user-state
-GENOMAC_USER_LOCAL_STATE_DIRECTORY="${GENOMAC_USER_LOCAL_DIRECTORY}-state"
+GENOMAC_USER_LOCAL_STATE_DIRECTORY="${GMU_LOCAL_DIRECTORY}-state"
 
 ############### Bundle IDs
 
@@ -105,12 +101,13 @@ DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_ENGINE="com.stairways.keyboardmaestro.engine"
 DEFAULTS_DOMAINS_ITERM2="com.googlecode.iterm2"
 
 ############### Privacy & Security panel URLs
+# Not all of these are currently used, but this is a convenient place to memorialize ones
+# that might be useful in the future
 PRIVACY_SECURITY_PANEL_URL_STUB="x-apple.systempreferences:com.apple.preference.security"
 PRIVACY_SECURITY_PANEL_URL_MAIN="${PRIVACY_SECURITY_PANEL_URL_STUB}?Privacy"
 PRIVACY_SECURITY_PANEL_URL_FULL_DISK="${PRIVACY_SECURITY_PANEL_URL_STUB}?Privacy_AllFiles"
 PRIVACY_SECURITY_PANEL_URL_ACCESSIBILITY="${PRIVACY_SECURITY_PANEL_URL_STUB}?Privacy_Accessibility"
 PRIVACY_SECURITY_PANEL_URL_SCREEN_RECORDING="${PRIVACY_SECURITY_PANEL_URL_STUB}?Privacy_ScreenCapture"
-
 
 ############### Export and report
 echo "Exporting environment variables common to both GenoMac-system and GenoMac-user"
@@ -131,7 +128,6 @@ export_and_report GENOMAC_STATE_FILE_EXTENSION
 export_and_report GENOMAC_STATE_PERSISTENCE_PERMANENT
 export_and_report GENOMAC_STATE_PERSISTENCE_SESSION
 export_and_report GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
-export_and_report GENOMAC_USER_LOCAL_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_USER_REPO_URL
 export_and_report LOCAL_DROPBOX_DIRECTORY
