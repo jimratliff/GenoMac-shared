@@ -7,6 +7,15 @@
 # In the case of GenoMac-user:
 #   GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
 
+############### GENOMAC_ALERT_LOG
+# Creates and names a temporary file to accumulate warning/failure messages for
+#   later regurgitation at the end of a main script.
+# Only create if not already defined (e.g. nested/nested sourcing)
+if [[ -z "${GENOMAC_ALERT_LOG-}" ]]; then
+  local tmpdir="${TMPDIR:-/tmp}"
+  GENOMAC_ALERT_LOG="$(mktemp "${tmpdir}/genomac_alerts.XXXXXX")"
+fi
+
 GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 
 # Specify a variable that, when expanded, is a newline character
@@ -45,15 +54,6 @@ GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY="${GENOMAC_SHARED_RESOURCE_DIRECTORY}/d
 SYSTEM_ALERT_SOUNDS_DIRECTORY="/Library/Audio/Sounds/Alerts"
 CUSTOM_ALERT_SOUND_FILENAME="Uh_oh.aiff"
 PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE="${SYSTEM_ALERT_SOUNDS_DIRECTORY}/${CUSTOM_ALERT_SOUND_FILENAME}"
-
-############### GENOMAC_ALERT_LOG
-# Creates and names a temporary file to accumulate warning/failure messages for
-#   later regurgitation at the end of a main script.
-# Only create if not already defined (e.g. nested/nested sourcing)
-if [[ -z "${GENOMAC_ALERT_LOG-}" ]]; then
-  local tmpdir="${TMPDIR:-/tmp}"
-  GENOMAC_ALERT_LOG="$(mktemp "${tmpdir}/genomac_alerts.XXXXXX")"
-fi
 
 ############### State-related
 
