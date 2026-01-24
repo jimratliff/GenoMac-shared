@@ -53,21 +53,22 @@ function configure_split_remote_GenoMac_user()
   report_end_phase_standard
 }
 
-function configure_split_remote_URLs_for_public_GitHub_if_cloned() {
-  # Locally configures public GitHub repo to fetch without authentication using HTTPS
-  # but push using SSH.
+function configure_split_remote_URLs_for_public_GitHub_repo_if_cloned() {
+  # Locally configures clone of public GitHub repo to (a) fetch without authentication 
+  # using HTTPS but (b) push using SSH.
   #
-  # Addresses GitHub policy to not allow CLI authentication using HTTPS without
-  # inconveniently and pointlessly requiring authentication for fetch of a public repo.
+  # $1: local directory into which the repo is cloned
+  # $2: name of the repository (e.g., 'repo_name' in 'https://github.com/some_dev/repo_name'
   #
-  # NOTE: These command work by editing the local ~/.git/config file
+  # Addresses GitHub policy disallowing CLI authentication using HTTPS but inconveniently
+  # and pointlessly requiring authentication for fetch using SSH of a public repo.
+  #
+  # NOTE: These commands work by editing the local ~/.git/config file
   #
   # Usage:
-  #   cd ~/.genomac-system
-  #   configure_split_remote_URLs_by_public_GitHub_repo_name "GenoMac-system"
-  #
-  #   cd ~/.genomac-user
-  #   configure_split_remote_URLs_by_public_GitHub_repo_name "GenoMac-user"
+  #   configure_split_remote_URLs_for_public_GitHub_repo_if_cloned "~/.genomac-system" "GenoMac-system"
+  #   configure_split_remote_URLs_for_public_GitHub_repo_if_cloned "~/.genomac-user" "GenoMac-user"
+  #   configure_split_remote_URLs_for_public_GitHub_repo_if_cloned "~/.genomac-shared" "GenoMac-shared"
   
   report_start_phase_standard
 
