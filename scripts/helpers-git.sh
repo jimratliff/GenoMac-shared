@@ -5,12 +5,62 @@
 # Relies upon:
 #   helpers-reporting.sh
 
-function configure_split_remote_URLs_by_public_GitHub_repo_name() {
+function configure_split_remote_for_GenoMac_repos() {
+  # Configures local GenoMac-system repo to (a) pull using HTTPS without authentication
+  # but (b) push using SSH
+  #
+  # Because this works by editing ~/.git/config, which is modified by GenoMac-user’s use
+  # of stowing dotfiles, this function should be called *after* GenoMac-user's stow commands.
+  # NOTE: Therefore both configure_split_remote_GenoMac_user and configure_split_remote_GenoMac_system
+  #       should be called by GenoMac-user. configure_split_remote_GenoMac_system shouldn’t
+  #       be called by GenoMac-system.
+  
+  report_start_phase_standard
+  
+  configure_split_remote_URLs_by_public_GitHub_repo_name "$GENOMAC_SYSTEM_REPO_NAME"
+  
+  report_end_phase_standard
+}
+
+function configure_split_remote_GenoMac_system() {
+  # Configures local GenoMac-system repo to (a) pull using HTTPS without authentication
+  # but (b) push using SSH
+  #
+  # Because this works by editing ~/.git/config, which is modified by GenoMac-user’s use
+  # of stowing dotfiles, this function should be called *after* GenoMac-user's stow commands.
+  # NOTE: Therefore both configure_split_remote_GenoMac_user and configure_split_remote_GenoMac_system
+  #       should be called by GenoMac-user. configure_split_remote_GenoMac_system shouldn’t
+  #       be called by GenoMac-system.
+  
+  report_start_phase_standard
+  
+  configure_split_remote_URLs_by_public_GitHub_repo_name "$GENOMAC_SYSTEM_REPO_NAME"
+  
+  report_end_phase_standard
+}
+
+function configure_split_remote_GenoMac_user() 
+  # Configures local GenoMac-user repo to (a) pull using HTTPS without authentication
+  # but (b) push using SSH
+  #
+  # Because this works by editing ~/.git/config, which is modified by GenoMac-user’s use
+  # of stowing dotfiles, this function should be called *after* GenoMac-user's stow commands.
+  
+  report_start_phase_standard
+  
+  configure_split_remote_URLs_by_public_GitHub_repo_name "$GENOMAC_USER_REPO_NAME"
+  
+  report_end_phase_standard
+}
+
+function configure_split_remote_URLs_for_public_GitHub_if_cloned() {
   # Locally configures public GitHub repo to fetch without authentication using HTTPS
   # but push using SSH.
   #
   # Addresses GitHub policy to not allow CLI authentication using HTTPS without
   # inconveniently and pointlessly requiring authentication for fetch of a public repo.
+  #
+  # NOTE: These command work by editing the local ~/.git/config file
   #
   # Usage:
   #   cd ~/.genomac-system
@@ -21,14 +71,20 @@ function configure_split_remote_URLs_by_public_GitHub_repo_name() {
   
   report_start_phase_standard
 
-  local github_repo_name="$1"
-  
-  # Configure split remote URLs (HTTPS fetch / SSH push)
-  report_action_taken "Configure local clone of ${github_repo_name} to fetch with HTTPS but push with SSH"
-  report_adjust_setting "Configure ${github_repo_name} to fetch via HTTPS"
-  git remote set-url origin https://github.com/jimratliff/"${github_repo_name}".git ; success_or_not
-  report_adjust_setting "Configure ${github_repo_name} to push via SSH"
-  git remote set-url --push origin git@github.com:jimratliff/"${github_repo_name}".git ; success_or_not
+  local local_repo_dir="$1"
+  local github_repo_name="$2"
+
+  report_action_taken "Configure split remote for local clone of ${github_repo_name} to fetch with HTTPS but push with SSH, if local clone exists."
+
+  if [[ -d "${local_repo_dir}/.git" ]]; then
+    cd "$local_repo_dir"
+    report_adjust_setting "Configure ${github_repo_name} to fetch via HTTPS"
+    git remote set-url origin "${GENOMAC_COMMON_GITHUB_URL_ROOT}/${github_repo_name}".git ; success_or_not
+    report_adjust_setting "Configure ${github_repo_name} to push via SSH"
+    git remote set-url --push origin "${GENOMAC_COMMON_GITHUB_SCP_URL_ROOT}/${github_repo_name}".git ; success_or_not
+  else
+    report_action_taken "Skipping split-remote configuration of ${github_repo_name}: not cloned at ${local_repo_dir}"
+  fi
   
   report_end_phase_standard
 }
