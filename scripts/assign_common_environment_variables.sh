@@ -16,6 +16,9 @@ if [[ -z "${GENOMAC_ALERT_LOG-}" ]]; then
   GENOMAC_ALERT_LOG="$(mktemp "${tmpdir}/genomac_alerts.XXXXXX")"
 fi
 
+GENOMAC_SYSTEM_REPO_NAME="GenoMac-system"
+GENOMAC_USER_REPO_NAME="GenoMac-user"
+
 GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 
 # Specify a variable that, when expanded, is a newline character
@@ -132,7 +135,9 @@ export_and_report GENOMAC_STATE_FILE_EXTENSION
 export_and_report GENOMAC_STATE_PERSISTENCE_PERMANENT
 export_and_report GENOMAC_STATE_PERSISTENCE_SESSION
 export_and_report GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
+export_and_report GENOMAC_SYSTEM_REPO_NAME
 export_and_report GENOMAC_USER_LOCAL_STATE_DIRECTORY
+export_and_report GENOMAC_USER_REPO_NAME
 export_and_report GENOMAC_USER_REPO_URL
 export_and_report LOCAL_DROPBOX_DIRECTORY
 export_and_report NEWLINE
