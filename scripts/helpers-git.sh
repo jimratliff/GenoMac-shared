@@ -53,6 +53,18 @@ function configure_split_remote_GenoMac_user()
   report_end_phase_standard
 }
 
+function configure_split_remote_URLs_for_GenoMac_system() {
+  report_start_phase_standard
+  configure_split_remote_URLs_for_public_GitHub_repo_if_cloned "${GENOMAC_USER_LOCAL_DIRECTORY}" "${GENOMAC_SYSTEM_REPO_NAME}"
+  report_end_phase_standard
+}
+
+function configure_split_remote_URLs_for_GenoMac_user() {
+  report_start_phase_standard
+  configure_split_remote_URLs_for_public_GitHub_repo_if_cloned "${GENOMAC_USER_LOCAL_DIRECTORY}" "${GENOMAC_USER_REPO_NAME}"
+  report_end_phase_standard
+}
+
 function configure_split_remote_URLs_for_public_GitHub_repo_if_cloned() {
   # Locally configures clone of public GitHub repo to (a) fetch without authentication 
   # using HTTPS but (b) push using SSH.
