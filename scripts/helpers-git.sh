@@ -75,14 +75,14 @@ function configure_split_remote_URLs_for_public_GitHub_repo_if_cloned() {
   local local_repo_dir="$1"
   local github_repo_name="$2"
 
-  report_action_taken "Configure split remote for local clone of ${github_repo_name} to fetch with HTTPS but push with SSH, if local clone exists."
+  report_action_taken "Configure split remote for local clone of ${github_repo_name} to fetch with HTTPS but push with SSH, if local clone exists at ${local_repo_dir}."
 
   if [[ -d "${local_repo_dir}/.git" ]]; then
     cd "$local_repo_dir"
     report_adjust_setting "Configure ${github_repo_name} to fetch via HTTPS"
-    git remote set-url origin "${GENOMAC_COMMON_GITHUB_URL_ROOT}/${github_repo_name}".git ; success_or_not
+    git remote set-url origin "${GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT}/${github_repo_name}.git" ; success_or_not
     report_adjust_setting "Configure ${github_repo_name} to push via SSH"
-    git remote set-url --push origin "${GENOMAC_COMMON_GITHUB_SCP_URL_ROOT}/${github_repo_name}".git ; success_or_not
+    git remote set-url --push origin "${GENOMAC_COMMON_GITHUB_SCP_URL_ROOT}/${github_repo_name}.git" ; success_or_not
   else
     report_action_taken "Skipping split-remote configuration of ${github_repo_name}: not cloned at ${local_repo_dir}"
   fi
