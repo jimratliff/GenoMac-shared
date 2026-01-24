@@ -16,6 +16,7 @@ if [[ -z "${GENOMAC_ALERT_LOG-}" ]]; then
   GENOMAC_ALERT_LOG="$(mktemp "${tmpdir}/genomac_alerts.XXXXXX")"
 fi
 
+GENOMAC_SHARED_REPO_NAME="GenoMac-shared"
 GENOMAC_SYSTEM_REPO_NAME="GenoMac-system"
 GENOMAC_USER_REPO_NAME="GenoMac-user"
 
@@ -129,6 +130,7 @@ export_and_report CUSTOM_ALERT_SOUND_FILENAME
 export_and_report GENOMAC_ALERT_LOG
 export_and_report GENOMAC_NAMESPACE
 export_and_report GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY
+export_and_report GENOMAC_SHARED_REPO_NAME
 export_and_report GENOMAC_SHARED_RESOURCE_DIRECTORY
 export_and_report GENOMAC_SHARED_ROOT
 export_and_report GENOMAC_STATE_FILE_EXTENSION
