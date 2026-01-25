@@ -8,12 +8,6 @@
 function configure_split_remote_for_GenoMac_repos() {
   # Configures local GenoMac-system repo to (a) pull using HTTPS without authentication
   # but (b) push using SSH
-  #
-  # Because this works by editing ~/.git/config, which is modified by GenoMac-user’s use
-  # of stowing dotfiles, this function should be called *after* GenoMac-user's stow commands.
-  # NOTE: Therefore both configure_split_remote_GenoMac_user and configure_split_remote_GenoMac_system
-  #       should be called by GenoMac-user. configure_split_remote_GenoMac_system shouldn’t
-  #       be called by GenoMac-system.
   
   report_start_phase_standard
   
@@ -25,12 +19,6 @@ function configure_split_remote_for_GenoMac_repos() {
 function configure_split_remote_GenoMac_system() {
   # Configures local GenoMac-system repo to (a) pull using HTTPS without authentication
   # but (b) push using SSH
-  #
-  # Because this works by editing ~/.git/config, which is modified by GenoMac-user’s use
-  # of stowing dotfiles, this function should be called *after* GenoMac-user's stow commands.
-  # NOTE: Therefore both configure_split_remote_GenoMac_user and configure_split_remote_GenoMac_system
-  #       should be called by GenoMac-user. configure_split_remote_GenoMac_system shouldn’t
-  #       be called by GenoMac-system.
   
   report_start_phase_standard
   
@@ -42,9 +30,6 @@ function configure_split_remote_GenoMac_system() {
 function configure_split_remote_GenoMac_user() 
   # Configures local GenoMac-user repo to (a) pull using HTTPS without authentication
   # but (b) push using SSH
-  #
-  # Because this works by editing ~/.git/config, which is modified by GenoMac-user’s use
-  # of stowing dotfiles, this function should be called *after* GenoMac-user's stow commands.
   
   report_start_phase_standard
   
@@ -75,7 +60,7 @@ function configure_split_remote_URLs_for_public_GitHub_repo_if_cloned() {
   # Addresses GitHub policy disallowing CLI authentication using HTTPS but inconveniently
   # and pointlessly requiring authentication for fetch using SSH of a public repo.
   #
-  # NOTE: These commands work by editing the local ~/.git/config file
+  # NOTE: These commands work by editing the  path_to_repo/.git/config file
   #
   # Usage:
   #   configure_split_remote_URLs_for_public_GitHub_repo_if_cloned "~/.genomac-system" "GenoMac-system"
