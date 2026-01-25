@@ -5,27 +5,6 @@
 # Relies upon:
 #   helpers-reporting.sh
 
-function set_env_var_if_not_set() {
-  # Sets an environment variable to a default value if it’s not already defined.
-  #
-  # $1: the name of the environment variable
-  # $2: the default value to set if the variable is not already defined
-  #
-  # Usage:
-  #   set_env_var_if_not_set "GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT" "https://github.com/jimratliff"
-
-  local var_name="$1"
-  local default_value="$2"
-
-  # NOTES regarding the below:
-  # - The ${!var_name} is bash indirect expansion. It treats the value of var_name as the name of another variable and returns that variable’s value.
-  # - The :- handles the set -u case, preventing an error if the variable is unset.
-
-  if [[ -z "${!var_name:-}" ]]; then
-    export "$var_name"="$default_value"
-  fi
-}
-
 function keep_sudo_alive() {
   report_action_taken "I very likely am about to ask you for your administrator password. I hope you trust me! 😉"
 
@@ -101,23 +80,25 @@ is_semantic_version_arg1_at_least_arg2() {
   is-at-least "$arg2" "$arg1"
 }
 
-function show_file_using_quicklook() {
-  # Shows a file using Quick Look, where that file is supplied by a path string in the only argument
+function set_env_var_if_not_set() {
+  # TODO: This is likely DEPRECATED because it is no longer used.
+  #
+  # Sets an environment variable to a default value if it’s not already defined.
+  #
+  # $1: the name of the environment variable
+  # $2: the default value to set if the variable is not already defined
   #
   # Usage:
-  #   show_file_using_quicklook "${GENOMAC_USER_LOCAL_DOCUMENTATION_DIRECTORY}/test.md"
-  
-  report_start_phase_standard
+  #   set_env_var_if_not_set "GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT" "https://github.com/jimratliff"
 
-  # Test whether argument specifies a valid file
-  [[ -f $1 ]] || { report_warn "Error: file not found: $1" >&2; exit 1; }
+  local var_name="$1"
+  local default_value="$2"
 
-  # Displays the file to user using QuickLook
-  report_action_taken "I am showing you a file: «$1»${NEWLINE}Don’t see it? Look behind other windows."
-  /usr/bin/qlmanage -p "$1" >/dev/null 2>&1 &
+  # NOTES regarding the below:
+  # - The ${!var_name} is bash indirect expansion. It treats the value of var_name as the name of another variable and returns that variable’s value.
+  # - The :- handles the set -u case, preventing an error if the variable is unset.
 
-  sleep 0.1
-  osascript -e 'tell application "System Events" to set frontmost of process "qlmanage" to true' 2>/dev/null
-
-  report_end_phase_standard
+  if [[ -z "${!var_name:-}" ]]; then
+    export "$var_name"="$default_value"
+  fi
 }
