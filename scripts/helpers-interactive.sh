@@ -1,4 +1,4 @@
-#!/usr/bin/env zs
+#!/usr/bin/env zsh
 
 ############### Helpers related to asking for and receiving input from the executing user
 
