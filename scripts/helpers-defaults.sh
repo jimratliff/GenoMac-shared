@@ -1,4 +1,4 @@
-#!/usr/bin/env zs
+#!/usr/bin/env zsh
 
 ############### Helpers related to using the macOS `defaults write` command
 
