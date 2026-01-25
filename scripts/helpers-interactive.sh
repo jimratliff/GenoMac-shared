@@ -83,6 +83,27 @@ function open_privacy_panel_for_full_disk_permissions() {
   open "$PRIVACY_SECURITY_PANEL_URL_FULL_DISK"
 }
 
+function show_file_using_quicklook() {
+  # Shows a file using Quick Look, where that file is supplied by a path string in the only argument
+  #
+  # Usage:
+  #   show_file_using_quicklook "${GENOMAC_USER_LOCAL_DOCUMENTATION_DIRECTORY}/test.md"
+  
+  report_start_phase_standard
+
+  # Test whether argument specifies a valid file
+  [[ -f $1 ]] || { report_warn "Error: file not found: $1" >&2; exit 1; }
+
+  # Displays the file to user using QuickLook
+  report_action_taken "I am showing you a file: «$1»${NEWLINE}Don’t see it? Look behind other windows."
+  /usr/bin/qlmanage -p "$1" >/dev/null 2>&1 &
+
+  sleep 0.1
+  osascript -e 'tell application "System Events" to set frontmost of process "qlmanage" to true' 2>/dev/null
+
+  report_end_phase_standard
+}
+
 function launch_app_and_prompt_user_to_act() {
   # Launches an app, prompts user to take action, waits for acknowledgment, and quits app
   #
