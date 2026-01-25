@@ -20,10 +20,6 @@ export __already_loaded_genomac_shared_helpers_sh
 this_script_path="${0:A}"
 this_script_dir="${this_script_path:h}"
 
-# Source common environment variables
-# Assumes that assign_common_environment_variables.sh resides in same directory as this file
-source_with_report "${this_script_dir}/assign_common_environment_variables.sh"
-
 # Source each subsidiary helper file, all assumed to reside in same directory as this file
 source_with_report "${this_script_dir}/helpers-apps.sh"
 source_with_report "${this_script_dir}/helpers-copying.sh"
@@ -34,6 +30,10 @@ source_with_report "${this_script_dir}/helpers-interactive.sh"
 source_with_report "${this_script_dir}/helpers-misc.sh"
 source_with_report "${this_script_dir}/helpers-reporting.sh"
 source_with_report "${this_script_dir}/helpers-state.sh"
+
+# Source common environment variables
+# Assumes that assign_common_environment_variables.sh resides in same directory as this file
+source_with_report "${this_script_dir}/assign_common_environment_variables.sh"
 
 function main() {
   # define_colors_and_symbols is defined in scripts/helpers-reporting.sh
