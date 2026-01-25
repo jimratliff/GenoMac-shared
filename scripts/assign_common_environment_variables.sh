@@ -29,6 +29,18 @@ set_env_var_if_not_set "GENOMAC_SYSTEM_LOCAL_DIRECTORY" "$HOME/.genomac-system"
 # GENOMAC_USER_LOCAL_DIRECTORY (set by GenoMac-user’s 0_initialize_me_first.sh, if run)
 set_env_var_if_not_set "GENOMAC_USER_LOCAL_DIRECTORY" "$HOME/.genomac-user"
 
+############### Related to cloning GenoMac-user
+# Note: These variables must be available to GenoMac-system because that repo has a script
+#       that facilitates cloning GenoMac-user
+
+# WARNING: TODO: Below comment MAKES NO SENSE: "Assumed already defined/exported by GenoMac-user"
+#                because it can’t be assumed that GenoMac-user has run, since this -shared repo
+#                also works with GenoMac-system
+# Specify local directory into which the GenoMac-user repository will be cloned
+# GMU_LOCAL_DIRECTORY="$HOME/.genomac-user" # Assumed already defined/exported by GenoMac-user
+# Specify URL for cloning the public GenoMac-user repository using HTTPS
+GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
+
 GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 
 # Specify a variable that, when expanded, is a newline character
@@ -42,17 +54,7 @@ NEWLINE=$'\n'
 #   profile avatars). For this reason, I’m including this environment variable in GenoMac-shared.
 LOCAL_DROPBOX_DIRECTORY="$HOME/Library/CloudStorage/Dropbox"
 
-############### Related to cloning GenoMac-user
-# Note: These variables must be available to GenoMac-system because that repo has a script
-#       that facilitates cloning GenoMac-user
 
-# WARNING: TODO: Below comment MAKES NO SENSE: "Assumed already defined/exported by GenoMac-user"
-#                because it can’t be assumed that GenoMac-user has run, since this -shared repo
-#                also works with GenoMac-system
-# Specify local directory into which the GenoMac-user repository will be cloned
-# GMU_LOCAL_DIRECTORY="$HOME/.genomac-user" # Assumed already defined/exported by GenoMac-user
-# Specify URL for cloning the public GenoMac-user repository using HTTPS
-GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
 
 ############### Location of submodule within each GenoMac-system and GenoMac-user repo
 # NOTE: GenoMac-system (and presumably, after refactoring, so will GenoMac-user) exports a corresponding
