@@ -39,7 +39,7 @@ set_env_var_if_not_set "GENOMAC_USER_LOCAL_DIRECTORY" "$HOME/.genomac-user"
 # Specify local directory into which the GenoMac-user repository will be cloned
 # GMU_LOCAL_DIRECTORY="$HOME/.genomac-user" # Assumed already defined/exported by GenoMac-user
 # Specify URL for cloning the public GenoMac-user repository using HTTPS
-GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
+# GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
 
 GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 
@@ -159,7 +159,7 @@ export_and_report GENOMAC_SYSTEM_REPO_NAME
 export_and_report GENOMAC_USER_LOCAL_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_USER_REPO_NAME
-export_and_report GENOMAC_USER_REPO_URL
+# export_and_report GENOMAC_USER_REPO_URL
 export_and_report LOCAL_DROPBOX_DIRECTORY
 export_and_report NEWLINE
 export_and_report PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE
