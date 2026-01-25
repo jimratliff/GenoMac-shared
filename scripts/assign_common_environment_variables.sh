@@ -16,11 +16,18 @@ if [[ -z "${GENOMAC_ALERT_LOG-}" ]]; then
   GENOMAC_ALERT_LOG="$(mktemp "${tmpdir}/genomac_alerts.XXXXXX")"
 fi
 
+# Repository specifiers
 GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT="https://github.com/jimratliff"
 GENOMAC_COMMON_GITHUB_SCP_URL_ROOT="git@github.com:jimratliff"
 GENOMAC_SHARED_REPO_NAME="GenoMac-shared"
 GENOMAC_SYSTEM_REPO_NAME="GenoMac-system"
 GENOMAC_USER_REPO_NAME="GenoMac-user"
+
+# Local directories
+# GENOMAC_SYSTEM_LOCAL_DIRECTORY (set by GenoMac-system’s 0_initialize_me_first.sh, if run)
+set_env_var_if_not_set "GENOMAC_SYSTEM_LOCAL_DIRECTORY" "$HOME/.genomac-system"
+# GENOMAC_USER_LOCAL_DIRECTORY (set by GenoMac-user’s 0_initialize_me_first.sh, if run)
+set_env_var_if_not_set "GENOMAC_USER_LOCAL_DIRECTORY" "$HOME/.genomac-user"
 
 GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 
