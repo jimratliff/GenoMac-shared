@@ -1,4 +1,4 @@
-#!/usr/bin/env zs
+#!/usr/bin/env zsh
 
 ############### Helpers related to managing state for GenoMac
 
