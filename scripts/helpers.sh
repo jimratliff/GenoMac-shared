@@ -33,6 +33,7 @@ source_with_report "${this_script_dir}/helpers-state.sh"
 
 # Source common environment variables
 # Assumes that assign_common_environment_variables.sh resides in same directory as this file
+# Requires set_env_var_if_not_set() from helpers-misc.sh, and thus is sourced after the helpers
 source_with_report "${this_script_dir}/assign_common_environment_variables.sh"
 
 function main() {
