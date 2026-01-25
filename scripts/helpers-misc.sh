@@ -5,6 +5,12 @@
 # Relies upon:
 #   helpers-reporting.sh
 
+function export_and_report() {
+  local var_name="$1"
+  report_action_taken "Export $var_name: '${(P)var_name}'"
+  export "$var_name"
+}
+
 function keep_sudo_alive() {
   report_action_taken "I very likely am about to ask you for your administrator password. I hope you trust me! 😉"
 
