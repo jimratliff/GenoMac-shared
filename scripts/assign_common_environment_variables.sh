@@ -29,18 +29,6 @@ set_env_var_if_not_set "GENOMAC_SYSTEM_LOCAL_DIRECTORY" "$HOME/.genomac-system"
 # GENOMAC_USER_LOCAL_DIRECTORY (set by GenoMac-user’s 0_initialize_me_first.sh, if run)
 set_env_var_if_not_set "GENOMAC_USER_LOCAL_DIRECTORY" "$HOME/.genomac-user"
 
-############### Related to cloning GenoMac-user
-# Note: These variables must be available to GenoMac-system because that repo has a script
-#       that facilitates cloning GenoMac-user
-
-# WARNING: TODO: Below comment MAKES NO SENSE: "Assumed already defined/exported by GenoMac-user"
-#                because it can’t be assumed that GenoMac-user has run, since this -shared repo
-#                also works with GenoMac-system
-# Specify local directory into which the GenoMac-user repository will be cloned
-# GMU_LOCAL_DIRECTORY="$HOME/.genomac-user" # Assumed already defined/exported by GenoMac-user
-# Specify URL for cloning the public GenoMac-user repository using HTTPS
-# GENOMAC_USER_REPO_URL="https://github.com/jimratliff/GenoMac-user.git"
-
 GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 
 # Specify a variable that, when expanded, is a newline character
@@ -159,7 +147,6 @@ export_and_report GENOMAC_SYSTEM_REPO_NAME
 export_and_report GENOMAC_USER_LOCAL_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_USER_REPO_NAME
-# export_and_report GENOMAC_USER_REPO_URL
 export_and_report LOCAL_DROPBOX_DIRECTORY
 export_and_report NEWLINE
 export_and_report PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE
