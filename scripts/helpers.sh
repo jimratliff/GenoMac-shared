@@ -20,6 +20,21 @@ export __already_loaded_genomac_shared_helpers_sh
 this_script_path="${0:A}"
 this_script_dir="${this_script_path:h}"
 
+function source_with_report() {
+  # Ensures that an error is raised if a `source` of the file in the supplied argument fails.
+  #
+  # Defining this function here solves a chicken-or-egg problem: We’d like to use the helper 
+  # safe_source(), but it hasn’t been sourced yet. The current function is not quite as full functional 
+  # but will do for the initial sourcing of helpers.
+  local file="$1"
+  if source "$file"; then
+    echo "Sourced: $file"
+  else
+    echo "Failed to source: $file"
+    return 1
+  fi
+}
+
 # Source each subsidiary helper file, all assumed to reside in same directory as this file
 source_with_report "${this_script_dir}/helpers-apps.sh"
 source_with_report "${this_script_dir}/helpers-copying.sh"
