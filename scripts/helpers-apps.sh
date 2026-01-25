@@ -1,4 +1,4 @@
-#!/usr/bin/env zs
+#!/usr/bin/env zsh
 
 ############### Helpers related to launching/quitting apps (and logging out generally)
 
