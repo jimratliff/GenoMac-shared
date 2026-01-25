@@ -1,48 +1,13 @@
 #!/usr/bin/env zs
 
-############### WARNING! TODO: WIP
-
 ############### Helpers: Git
 
 # Relies upon:
 #   helpers-reporting.sh
 
-function configure_split_remote_for_GenoMac_repos() {
-  # Configures local GenoMac-system repo to (a) pull using HTTPS without authentication
-  # but (b) push using SSH
-  
-  report_start_phase_standard
-  
-  configure_split_remote_URLs_by_public_GitHub_repo_name "$GENOMAC_SYSTEM_REPO_NAME"
-  
-  report_end_phase_standard
-}
-
-function configure_split_remote_GenoMac_system() {
-  # Configures local GenoMac-system repo to (a) pull using HTTPS without authentication
-  # but (b) push using SSH
-  
-  report_start_phase_standard
-  
-  configure_split_remote_URLs_by_public_GitHub_repo_name "$GENOMAC_SYSTEM_REPO_NAME"
-  
-  report_end_phase_standard
-}
-
-function configure_split_remote_GenoMac_user() 
-  # Configures local GenoMac-user repo to (a) pull using HTTPS without authentication
-  # but (b) push using SSH
-  
-  report_start_phase_standard
-  
-  configure_split_remote_URLs_by_public_GitHub_repo_name "$GENOMAC_USER_REPO_NAME"
-  
-  report_end_phase_standard
-}
-
 function configure_split_remote_URLs_for_GenoMac_system() {
   report_start_phase_standard
-  configure_split_remote_URLs_for_public_GitHub_repo_if_cloned "${GENOMAC_USER_LOCAL_DIRECTORY}" "${GENOMAC_SYSTEM_REPO_NAME}"
+  configure_split_remote_URLs_for_public_GitHub_repo_if_cloned "${GENOMAC_SYSTEM_LOCAL_DIRECTORY}" "${GENOMAC_SYSTEM_REPO_NAME}"
   report_end_phase_standard
 }
 
