@@ -1,4 +1,4 @@
-#!/usr/bin/env zs
+#!/usr/bin/env zsh
 
 # Sources all of this repo’s helper scripts and common (cross-repo) environment variables.
 # Intended to be called from 0_initialize_me_second.sh from either GenoMac-system or GenoMac-user.
