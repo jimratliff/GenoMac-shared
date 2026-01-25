@@ -2,10 +2,9 @@
 
 # Establishes values for environment variables shared by both GenoMac-system and GenoMac-user 
 
-# Is is assumed that the following has already been defined and exports:
-#
-# In the case of GenoMac-user:
-#   GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
+# Relies upon:
+#   helpers-misc.sh
+#   - set_env_var_if_not_set()
 
 ############### GENOMAC_ALERT_LOG
 # Creates and names a temporary file to accumulate warning/failure messages for
