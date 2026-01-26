@@ -15,20 +15,52 @@ if [[ -z "${GENOMAC_ALERT_LOG-}" ]]; then
   GENOMAC_ALERT_LOG="$(mktemp "${tmpdir}/genomac_alerts.XXXXXX")"
 fi
 
-# Repository specifiers
+############### Repository specifiers
 GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT="https://github.com/jimratliff"
 GENOMAC_COMMON_GITHUB_SCP_URL_ROOT="git@github.com:jimratliff"
 GENOMAC_SHARED_REPO_NAME="GenoMac-shared"
 GENOMAC_SYSTEM_REPO_NAME="GenoMac-system"
 GENOMAC_USER_REPO_NAME="GenoMac-user"
 
-# Local directories
+############### Location of submodule within each GenoMac-system and GenoMac-user repo
+# Get path of THIS script, even when sourced
+# Explanation:
+# %x — zsh prompt escape meaning "path of the script being sourced"
+# ${(%):-%x} — trick to evaluate a prompt escape outside a prompt (the (%) flag)
+# ${...:A} — resolve to absolute path
+# So ${${(%):-%x}:A} means "the absolute path of the file currently being sourced."
+this_script_path="${${(%):-%x}:A}"                  
+this_scripts_directory=${this_script_path:h}
+GENOMAC_SHARED_ROOT="${this_scripts_directory:h}"
+GENOMAC_SHARED_RESOURCE_DIRECTORY="${GENOMAC_SHARED_ROOT}/resources"
+GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY="${GENOMAC_SHARED_RESOURCE_DIRECTORY}/docs_to_display_to_user"
+
+############### Local directories
 # NOTE: These are located in GenoMac-shared because (a) each is the basis for the name of
-#       its repo’s state directory and (b) each repo can have a reason to read/write state
-#       in the other repo’s state directory
+#       its repo’s state-management directory and (b) each repo can have a reason to
+#       read/write state in the other repo’s state directory.
 GENOMAC_SYSTEM_LOCAL_DIRECTORY="$HOME/.genomac-system"
 GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
 
+# Custom alert sound
+# (These environment variables are located in GenoMac-shared because (a) GenoMac-system *installs*
+# the custom alert sound but (b) it is GenoMac-user that *consumes* the alert sound, so both the
+# -system and -user repos need to know the installation location.)
+SYSTEM_ALERT_SOUNDS_DIRECTORY="/Library/Audio/Sounds/Alerts"
+CUSTOM_ALERT_SOUND_FILENAME="Uh_oh.aiff"
+PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE="${SYSTEM_ALERT_SOUNDS_DIRECTORY}/${CUSTOM_ALERT_SOUND_FILENAME}"
+
+# User’s Dropbox directory
+# Specify the location of the user’s `Dropbox` directory
+# Although currently (1/2/2026) used only by GenoMac-user, it may well be soon used by
+#   GenoMac-system as a place from which to obtain resources for user creation (such as
+#   profile avatars). For this reason, I’m including this environment variable in GenoMac-shared.
+LOCAL_DROPBOX_DIRECTORY="$HOME/Library/CloudStorage/Dropbox"
+
+###
+
+# GENOMAC_NAMESPACE is used whenever a script needs to create a file or folder
+# in an area available to others
 GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 
 # Specify a variable that, when expanded, is a newline character
@@ -36,31 +68,11 @@ GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 # I quote strings.
 NEWLINE=$'\n'
 
-# Specify the location of the user’s `Dropbox` directory
-# Although currently (1/2/2026) used only by GenoMac-user, it may well be soon used by
-#   GenoMac-system as a place from which to obtain resources for user creation (such as
-#   profile avatars). For this reason, I’m including this environment variable in GenoMac-shared.
-LOCAL_DROPBOX_DIRECTORY="$HOME/Library/CloudStorage/Dropbox"
 
 
 
-############### Location of submodule within each GenoMac-system and GenoMac-user repo
-# NOTE: GenoMac-system (and presumably, after refactoring, so will GenoMac-user) exports a corresponding
-#       environment variable (expressed from the perspective of the parent repo): 
-#       GMS_HELPERS_DIR (external/genomac-shared/scripts)
 
-this_scripts_directory=${0:A:h}
-GENOMAC_SHARED_ROOT="${this_scripts_directory:h}"
-GENOMAC_SHARED_RESOURCE_DIRECTORY="${GENOMAC_SHARED_ROOT}/resources"
-GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY="${GENOMAC_SHARED_RESOURCE_DIRECTORY}/docs_to_display_to_user"
 
-############### Custom alert sound
-# (These environment variables are located in GenoMac-shared because (a) GenoMac-system *installs*
-# the custom alert sound but (b) it is GenoMac-user that *consumes* the alert sound, so both the
-# -system and -user repos need to know the installation location.)
-SYSTEM_ALERT_SOUNDS_DIRECTORY="/Library/Audio/Sounds/Alerts"
-CUSTOM_ALERT_SOUND_FILENAME="Uh_oh.aiff"
-PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE="${SYSTEM_ALERT_SOUNDS_DIRECTORY}/${CUSTOM_ALERT_SOUND_FILENAME}"
 
 ############### State-related
 
