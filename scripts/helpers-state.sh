@@ -170,6 +170,18 @@ function _list_states() {
   fi
 }
 
+function _sudo_or_not_sudo_prefix() {
+  # The state directory for "system" scope requires sudo for write operations.
+  # Usage:
+  #   $(_sudo_or_not_sudo_prefix "$scope") mkdir -p "$(dirname "$state_file")"
+  #   $(_sudo_or_not_sudo_prefix "$scope") touch "$state_file"
+  #   $(_sudo_or_not_sudo_prefix "$scope") rm "$state_file"
+  local scope="$1"
+  if [[ "$scope" == "system" ]]; then
+    echo "sudo"
+  fi
+}
+
 function _set_state() {
   # Establish a state for a given (key, scope) pair.
   #
@@ -194,9 +206,9 @@ function _set_state() {
   local state_file
   _validate_scope "$scope" || return 1
   state_file="$(_state_file_path "$state_string" "$scope")" || return 1
-  mkdir -p "${state_file:h}"  # zsh: :h gives the "head" (directory portion)
+  $(_sudo_or_not_sudo_prefix "$scope") mkdir -p "${state_file:h}"  # zsh: :h gives the "head" (directory portion)
   report_action_taken "Setting ${scope} state: “${state_string}”"
-  touch "$state_file" ; success_or_not
+  $(_sudo_or_not_sudo_prefix "$scope") touch "$state_file" ; success_or_not
 }
 
 function _delete_state() {
@@ -222,7 +234,7 @@ function _delete_state() {
   _validate_scope "$scope" || return 1
   state_file="$(_state_file_path "$state_string" "$scope")" || return 1
   if [[ -f "$state_file" ]]; then
-  	rm -f "$state_file"
+  	$(_sudo_or_not_sudo_prefix "$scope") rm -f "$state_file"
   	report_action_taken "Deleted state: “${state_string}”"
   else
   	report "State not present (nothing to delete): “${state_string}”"
@@ -286,7 +298,7 @@ function _delete_states_matching_persistence() {
   local state_files=("${state_dir}"/${~pattern}."${GENOMAC_STATE_FILE_EXTENSION}"(N))
 
   if (( ${#state_files[@]} > 0 )); then
-    rm -f "${state_files[@]}"
+    $(_sudo_or_not_sudo_prefix "$scope") rm -f "${state_files[@]}"
     local description
     if [[ -n "$persistence" ]]; then
       description="${#state_files[@]} ${persistence} state file(s)"
