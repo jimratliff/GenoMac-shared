@@ -68,12 +68,6 @@ GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 # I quote strings.
 NEWLINE=$'\n'
 
-
-
-
-
-
-
 ############### State-related
 
 GENOMAC_STATE_FILE_EXTENSION="state"
