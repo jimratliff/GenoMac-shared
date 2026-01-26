@@ -32,9 +32,9 @@ GENOMAC_USER_REPO_NAME="GenoMac-user"
 # So ${${(%):-%x}:A} means "the absolute path of the file currently being sourced."
 this_script_path="${${(%):-%x}:A}"                  
 this_scripts_directory=${this_script_path:h}
-GENOMAC_SHARED_ROOT="${this_scripts_directory:h}"
-GENOMAC_SHARED_RESOURCE_DIRECTORY="${GENOMAC_SHARED_ROOT}/resources"
-GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY="${GENOMAC_SHARED_RESOURCE_DIRECTORY}/docs_to_display_to_user"
+GENOMAC_SHARED_ROOT="${this_scripts_directory:h}" # ~/.genomac-system/external/genomac-shared
+GENOMAC_SHARED_RESOURCE_DIRECTORY="${GENOMAC_SHARED_ROOT}/resources" # ~/.genomac-system/external/genomac-shared/resources
+GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY="${GENOMAC_SHARED_RESOURCE_DIRECTORY}/docs_to_display_to_user" # ~/.genomac-system/external/genomac-shared/resources/docs_to_display_to_user
 
 ############### Local directories
 # NOTE: These are located in GenoMac-shared because (a) each is the basis for the name of
@@ -49,7 +49,7 @@ GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
 # -system and -user repos need to know the installation location.)
 SYSTEM_ALERT_SOUNDS_DIRECTORY="/Library/Audio/Sounds/Alerts"
 CUSTOM_ALERT_SOUND_FILENAME="Uh_oh.aiff"
-PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE="${SYSTEM_ALERT_SOUNDS_DIRECTORY}/${CUSTOM_ALERT_SOUND_FILENAME}"
+PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE="${SYSTEM_ALERT_SOUNDS_DIRECTORY}/${CUSTOM_ALERT_SOUND_FILENAME}" # /Library/Audio/Sounds/Alerts/Uh_oh.aiff
 
 # User’s Dropbox directory
 # Specify the location of the user’s `Dropbox` directory
@@ -83,9 +83,9 @@ GENOMAC_STATE_PERSISTENCE_SESSION="SESH"
 #     (although that reference should never be encountered in the normal operation of GenoMac-user)
 
 # Specify local directory in which machine-level state can be stored
-GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY="/etc/${GENOMAC_NAMESPACE}/state"
+GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY="/etc/${GENOMAC_NAMESPACE}/state"  # /etc/com.virtualperfection.genomac/state
 # Specify local directory that will retain user-level state information, e.g., ~/.genomac-user-state
-GENOMAC_USER_LOCAL_STATE_DIRECTORY="${GENOMAC_USER_LOCAL_DIRECTORY}-state"
+GENOMAC_USER_LOCAL_STATE_DIRECTORY="${GENOMAC_USER_LOCAL_DIRECTORY}-state" # ~/.genomac-user-state
 
 ############### Bundle IDs
 
