@@ -13,6 +13,7 @@
 if [[ -z "${GENOMAC_ALERT_LOG-}" ]]; then
   local tmpdir="${TMPDIR:-/tmp}"
   GENOMAC_ALERT_LOG="$(mktemp "${tmpdir}/genomac_alerts.XXXXXX")"
+  # E.g., '/var/folders/3k/rjdqbxcn3s5dw3ktj883__br0000gp/T//genomac_alerts.W1DICe'
 fi
 
 ############### Repository specifiers
