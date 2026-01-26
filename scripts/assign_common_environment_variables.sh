@@ -84,7 +84,7 @@ GENOMAC_STATE_PERSISTENCE_SESSION="SESH"
 # Specify local directory in which machine-level state can be stored
 GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY="/etc/${GENOMAC_NAMESPACE}/state"
 # Specify local directory that will retain user-level state information, e.g., ~/.genomac-user-state
-GENOMAC_USER_LOCAL_STATE_DIRECTORY="${GMU_LOCAL_DIRECTORY}-state"
+GENOMAC_USER_LOCAL_STATE_DIRECTORY="${GENOMAC_USER_LOCAL_DIRECTORY}-state"
 
 ############### Bundle IDs
 
