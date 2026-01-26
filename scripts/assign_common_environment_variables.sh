@@ -23,10 +23,11 @@ GENOMAC_SYSTEM_REPO_NAME="GenoMac-system"
 GENOMAC_USER_REPO_NAME="GenoMac-user"
 
 # Local directories
-# GENOMAC_SYSTEM_LOCAL_DIRECTORY (set by GenoMac-system’s 0_initialize_me_first.sh, if run)
-set_env_var_if_not_set "GENOMAC_SYSTEM_LOCAL_DIRECTORY" "$HOME/.genomac-system"
-# GENOMAC_USER_LOCAL_DIRECTORY (set by GenoMac-user’s 0_initialize_me_first.sh, if run)
-set_env_var_if_not_set "GENOMAC_USER_LOCAL_DIRECTORY" "$HOME/.genomac-user"
+# NOTE: These are located in GenoMac-shared because (a) each is the basis for the name of
+#       its repo’s state directory and (b) each repo can have a reason to read/write state
+#       in the other repo’s state directory
+GENOMAC_SYSTEM_LOCAL_DIRECTORY="$HOME/.genomac-system"
+GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
 
 GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 
