@@ -45,8 +45,8 @@ function get_yes_no_answer_to_question() {
     ask_question "$prompt (y/n)"
     read "response?→ "
     case "${response:l}" in  # `:l` lowercases in Zsh
-      y|yes) echo "yes"; return 0 ;;
-      n|no)  echo "no";  return 1 ;;
+      y|yes) return 0 ;;
+      n|no) return 1 ;;
     esac
   done
 }
