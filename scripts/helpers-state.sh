@@ -171,6 +171,10 @@ function _list_states() {
 }
 
 function _sudo_or_not_sudo_prefix() {
+  # Returns a 'sudo' prefix when scope is 'system'; otherwise empty string.
+  #
+  # $1: scope ('system' or 'user')
+  #
   # The state directory for "system" scope requires sudo for write operations.
   # Usage:
   #   $(_sudo_or_not_sudo_prefix "$scope") mkdir -p "$(dirname "$state_file")"
@@ -189,6 +193,8 @@ function _set_state() {
   #   $1: the "state string" that labels the state
   #   $2: the "scope," either 'system' or 'user' depending on whether this state characterizes 
   # 	  (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
+  #
+  #	Assumes that 'system' scope requires 'sudo'.
   #
   # NOTE: Currently, a state's existence is equivalent to the existence of a corresponding .state 
   #		  (more generally .GENOMAC_STATE_FILE_EXTENSION) file.
@@ -218,6 +224,8 @@ function _delete_state() {
   #   $1: the "state string" that labels the state
   #   $2: the "scope," either 'system' or 'user' depending on whether this state characterizes 
   # 	  (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
+  #
+  #	Assumes that 'system' scope requires 'sudo'.
   #
   # NOTE: Currently, a state's existence is equivalent to the existence of a corresponding .state 
   #		  (more generally .GENOMAC_STATE_FILE_EXTENSION) file.
@@ -268,10 +276,11 @@ function _set_state_based_on_yes_no() {
 function _delete_states_matching_persistence() {
   # Internal helper that deletes state files for a given scope, optionally filtered by persistence type.
   #
-  #
   # Arguments:
   #   $1: the "scope," either 'system' or 'user', which determines the directory in which the state files reside.
   #   $2: (optional) persistence filter, either 'SESH' or 'PERM'. If omitted, deletes all state files.
+  #
+  #	Assumes that 'system' scope requires 'sudo'.
   #
   # Usage:
   #   _delete_states_matching_persistence scope:"user"           # deletes all user state files
