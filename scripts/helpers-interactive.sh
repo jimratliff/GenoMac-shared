@@ -6,8 +6,8 @@
 #   helpers-reporting.sh (for only `define_colors_and_symbols()`)
 
 function ask_question() {
-  # Output supplied line of text in distinctive color (COLOR_QUESTION), prefixed by SYMBOL_QUESTION
-  printf "%b%s%s%b\n" "$COLOR_QUESTION" "$SYMBOL_QUESTION" "$1" "$COLOR_RESET"
+  # Output to stderr supplied line of text in distinctive color (COLOR_QUESTION), prefixed by SYMBOL_QUESTION
+  printf "%b%s%s%b\n" "$COLOR_QUESTION" "$SYMBOL_QUESTION" "$1" "$COLOR_RESET" >&2
 }
 
 function get_nonblank_answer_to_question() {
@@ -19,7 +19,7 @@ function get_nonblank_answer_to_question() {
   local answer
 
   while true; do
-    ask_question "$prompt" >&2 # Redirects question to stderr to keep it out of returned string
+    ask_question "$prompt"
     read "answer?→ "
     [[ -n "${answer// }" ]] && break
   done
@@ -61,7 +61,7 @@ function get_confirmed_answer_to_question() {
   local answer_raw answer confirm
 
   while true; do
-    ask_question "$prompt" >&2 # Redirects question to stderr to keep it out of returned string
+    ask_question "$prompt"
     read "answer_raw?→ "
     
     # Strip leading/trailing whitespace
@@ -69,7 +69,7 @@ function get_confirmed_answer_to_question() {
     
     [[ -z "$answer" ]] && continue
 
-    ask_question "You entered: '$answer'. Is this correct? (y/n)" > &2 # Redirects question to stderr to keep it out of returned string
+    ask_question "You entered: '$answer'. Is this correct? (y/n)"
     read "confirm?→ "
     case "$confirm" in
       [Yy]*) break ;;
