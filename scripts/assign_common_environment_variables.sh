@@ -65,6 +65,10 @@ LOCAL_DROPBOX_DIRECTORY="$HOME/Library/CloudStorage/Dropbox"
 # in an area available to others
 GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 
+############### Hypervisor related
+HYPERVISOR_MAKE_COMMAND_STRING="make run-hypervisor"
+HYPERVISOR_HOW_TO_RESTART_STRING="To restart, re-execute ${HYPERVISOR_MAKE_COMMAND_STRING} and we’ll pick up where we left off."
+
 # Specify a variable that, when expanded, is a newline character
 # I can use $NEWLINE inside arguments to my `report()` series functions without changing how 
 # I quote strings.
@@ -159,6 +163,8 @@ export_and_report GENOMAC_USER_HTTP_REPO_URL
 export_and_report GENOMAC_USER_LOCAL_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_USER_REPO_NAME
+export_and_report HYPERVISOR_HOW_TO_RESTART_STRING
+export_and_report HYPERVISOR_MAKE_COMMAND_STRING
 export_and_report LOCAL_DROPBOX_DIRECTORY
 export_and_report NEWLINE
 export_and_report PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE
