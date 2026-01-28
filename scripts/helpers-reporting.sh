@@ -46,20 +46,23 @@ print_banner_text() {
   # Print banner text using figlet if available, otherwise fall back to echo
   
   local font
+  local width="100"
   local text="$1"
 
   local FONT_DEFAULT="standard"
-  local FONT_BIG="big"
   local FONT_BANNER="banner"
+  local FONT_BIG="big"
+  local FONT_MINI="mini"
 
   # Un-comment exactly one of the following font assignments
   font="$FONT_DEFAULT"
   # font="$FONT_BIG"
   # font="$FONT_BANNER"
+  # font="$FONT_MINI"
 
   # Test whether figlet is in PATH
   if command -v figlet &>/dev/null; then
-    figlet -k -f "${font}" "$text"
+    figlet -k -w "${width}" -f "${font}" "$text"
   else
     # figlet not in PATH. Fall back to echo
     echo "=== $text ==="
