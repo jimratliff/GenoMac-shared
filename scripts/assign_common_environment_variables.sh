@@ -89,7 +89,7 @@ GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY="/etc/${GENOMAC_NAMESPACE}/state"  # /etc/c
 GENOMAC_USER_LOCAL_STATE_DIRECTORY="${GENOMAC_USER_LOCAL_DIRECTORY}-state" # ~/.genomac-user-state
 
 # User-domain state that must be accessible by system
-PERM_USER_THIS_USER_IS_A_USER_CONFIGGER="PERM_USER_THIS_USER_IS_A_USER_CONFIGGER"
+PERM_THIS_USER_IS_A_USER_CONFIGGER="PERM_this_user_is_a_user_configger"
 
 ############### Bundle IDs
 
@@ -162,7 +162,7 @@ export_and_report GENOMAC_USER_REPO_NAME
 export_and_report LOCAL_DROPBOX_DIRECTORY
 export_and_report NEWLINE
 export_and_report PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE
-export_and_report PERM_USER_THIS_USER_IS_A_USER_CONFIGGER
+export_and_report PERM_THIS_USER_IS_A_USER_CONFIGGER
 export_and_report SYSTEM_ALERT_SOUNDS_DIRECTORY
 
 export_and_report BUNDLE_ID_1PASSWORD
