@@ -69,7 +69,7 @@ function get_confirmed_answer_to_question() {
     
     [[ -z "$answer" ]] && continue
 
-    ask_question "You entered: '$answer'. Is this correct? (y/n)"
+    ask_question "You entered: '$answer'. Is this correct? (y/n)" > &2 # Redirects question to stderr to keep it out of returned string
     read "confirm?→ "
     case "$confirm" in
       [Yy]*) break ;;
