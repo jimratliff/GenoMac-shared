@@ -68,6 +68,7 @@ GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 ############### Hypervisor related
 HYPERVISOR_MAKE_COMMAND_STRING="make run-hypervisor"
 HYPERVISOR_HOW_TO_RESTART_STRING="To restart, re-execute ${HYPERVISOR_MAKE_COMMAND_STRING} and we’ll pick up where we left off."
+###
 
 # Specify a variable that, when expanded, is a newline character
 # I can use $NEWLINE inside arguments to my `report()` series functions without changing how 
