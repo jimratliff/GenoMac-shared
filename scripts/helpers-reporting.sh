@@ -42,6 +42,30 @@ function define_colors_and_symbols() {
   SYMBOL_WARNING="🚨 "
 }
 
+print_banner_text() {
+  # Print banner text using figlet if available, otherwise fall back to echo
+  
+  local font
+  local text="$1"
+
+  local FONT_DEFAULT="standard"
+  local FONT_BIG="big"
+  local FONT_BANNER="banner"
+
+  # Un-comment exactly one of the following font assignments
+  font="$FONT_DEFAULT"
+  font="$FONT_BIG"
+  font="$FONT_BANNER"
+
+  # Test whether figlet is in PATH
+  if command -v figlet &>/dev/null; then
+    figlet -k -f "${font}" "$text"
+  else
+    # figlet not in PATH. Fall back to echo
+    echo "=== $text ==="
+  fi
+}
+
 function success_or_not() {
   # Print SYMBOL_SUCCESS if success (based on error code); otherwise SYMBOL_FAILURE
   if [[ $? -eq 0 ]]; then
