@@ -61,7 +61,7 @@ function get_confirmed_answer_to_question() {
   local answer_raw answer confirm
 
   while true; do
-    ask_question "$prompt"
+    ask_question "$prompt" >&2 # Redirects question to stderr to keep it out of returned string
     read "answer_raw?→ "
     
     # Strip leading/trailing whitespace
