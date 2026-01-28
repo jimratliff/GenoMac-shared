@@ -54,8 +54,8 @@ print_banner_text() {
 
   # Un-comment exactly one of the following font assignments
   font="$FONT_DEFAULT"
-  font="$FONT_BIG"
-  font="$FONT_BANNER"
+  # font="$FONT_BIG"
+  # font="$FONT_BANNER"
 
   # Test whether figlet is in PATH
   if command -v figlet &>/dev/null; then
