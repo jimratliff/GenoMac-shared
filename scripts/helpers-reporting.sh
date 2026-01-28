@@ -44,8 +44,6 @@ function define_colors_and_symbols() {
 
 print_banner_text() {
   # Print banner text using figlet if available, otherwise fall back to echo
-
-  report_start_phase_standard
   
   local font
   local width="100"
@@ -69,8 +67,6 @@ print_banner_text() {
     # figlet not in PATH. Fall back to echo
     echo "=== $text ==="
   fi
-
-  report_end_phase_standard
 }
 
 function success_or_not() {
