@@ -22,6 +22,7 @@ GENOMAC_COMMON_GITHUB_SCP_URL_ROOT="git@github.com:jimratliff"
 GENOMAC_SHARED_REPO_NAME="GenoMac-shared"
 GENOMAC_SYSTEM_REPO_NAME="GenoMac-system"
 GENOMAC_USER_REPO_NAME="GenoMac-user"
+GENOMAC_USER_HTTP_REPO_URL="${GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT}/${GENOMAC_USER_REPO_NAME}.git"
 
 ############### Location of submodule within each GenoMac-system and GenoMac-user repo
 # Get path of THIS script, even when sourced
@@ -151,6 +152,7 @@ export_and_report GENOMAC_STATE_PERSISTENCE_SESSION
 export_and_report GENOMAC_SYSTEM_LOCAL_DIRECTORY
 export_and_report GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_SYSTEM_REPO_NAME
+export_and_report GENOMAC_USER_HTTP_REPO_URL
 export_and_report GENOMAC_USER_LOCAL_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_USER_REPO_NAME
