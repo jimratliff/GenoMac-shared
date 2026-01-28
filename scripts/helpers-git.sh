@@ -7,8 +7,8 @@
 #
 #   Environment variables:
 #     GENOMAC_SYSTEM_LOCAL_DIRECTORY
-#	    GENOMAC_SYSTEM_REPO_NAME
-#	    GENOMAC_USER_LOCAL_DIRECTORY
+#     GENOMAC_SYSTEM_REPO_NAME
+#     GENOMAC_USER_LOCAL_DIRECTORY
 #     GENOMAC_USER_REPO_NAME
 
 function configure_split_remote_URLs_for_GenoMac_system() {
