@@ -253,13 +253,19 @@ function interactive_ensure_terminal_has_fda() {
         --no-app \
         --show-doc "${GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY}/full_disk_access_how_to_configure.md" \
         "Follow the instructions in the Quick Look window to grant the current terminal app Full Disk Access"
+
+      report "Configuring user confirms they have given FDA to the running terminal application"
+      report_end_phase_standard
+      return 0
         
     else
       # The session is not interactive
       report_warning "Warning: Terminal lacks FDA and no interactive session to fix it"
+      report_end_phase_standard
       return 1
     fi
   fi
+  report "This terminal application already had Full Disk Access"
   report_end_phase_standard
 }
 
