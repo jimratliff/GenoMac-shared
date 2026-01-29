@@ -7,7 +7,7 @@
 #   - helpers-state.sh
 #
 #   Environment variables:
-#   - GMU_HYPERVISOR_HOW_TO_RESTART_STRING
+#   - HYPERVISOR_HOW_TO_RESTART_STRING
 #   - GENOMAC_STATE_FILE_EXTENSION
 #   - GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
 
@@ -152,7 +152,7 @@ function hypervisor_force_logout() {
   echo ""
   echo "ℹ️  You will be logged out semi-automatically to fully internalize all the work we’ve done."
   echo "   Please log back in."
-  echo "   $GMU_HYPERVISOR_HOW_TO_RESTART_STRING."
+  echo "   $HYPERVISOR_HOW_TO_RESTART_STRING."
   echo ""
 
   dump_accumulated_warnings_failures
