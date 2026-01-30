@@ -269,4 +269,28 @@ function run_if_system_state() {
   report_end_phase "Leaving run_if_system_state $*"
 }
 
+function output_hypervisor_welcome_banner() {
+  # Takes 1 argument: scope, either 'system' or 'user', corresponding to GenoMac-system
+  # or GenoMac-user, respectively
+  local scope="$1"
+  local welcome_prefix
+  if test_genomac_system_state "$SESH_SESSION_HAS_STARTED"; then
+    welcome_prefix="Welcome back"
+  else
+    welcome_prefix="Welcome"
+  fi
+
+  welcome_message="${welcome_prefix} to the GenoMac-${scope} Hypervisor!"
+  print_banner_text "${welcome_message}"
+  report "$HYPERVISOR_HOW_TO_RESTART_STRING"
+}
+
+function output_hypervisor_departure_banner() {
+  # Takes 1 argument: scope, either 'system' or 'user', corresponding to GenoMac-system
+  # or GenoMac-user, respectively
+  local scope="$1"
+  departure_message="TTFN!"
+  print_banner_text "${departure_message}"
+}
+
 
