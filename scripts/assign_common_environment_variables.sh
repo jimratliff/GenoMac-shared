@@ -127,6 +127,7 @@ DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_EDITOR="com.stairways.keyboardmaestro.editor"
 DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_ENGINE="com.stairways.keyboardmaestro.engine"
 DEFAULTS_DOMAINS_ITERM2="com.googlecode.iterm2"
 DEFAULTS_DOMAINS_SAFARI="com.apple.Safari"
+DEFAULTS_DOMAINS_SYMBOLICHOTKEYS="com.apple.symbolichotkeys"
 
 ############### Privacy & Security panel URLs
 # Not all of these are currently used, but this is a convenient place to memorialize ones
@@ -200,6 +201,7 @@ export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO
 export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_EDITOR
 export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_ENGINE
 export_and_report DEFAULTS_DOMAINS_SAFARI
+export_and_report DEFAULTS_DOMAINS_SYMBOLICHOTKEYS
 
 export_and_report PRIVACY_SECURITY_PANEL_URL_ACCESSIBILITY
 export_and_report PRIVACY_SECURITY_PANEL_URL_FULL_DISK
