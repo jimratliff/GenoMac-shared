@@ -81,6 +81,9 @@ GENOMAC_STATE_FILE_EXTENSION="state"
 GENOMAC_STATE_PERSISTENCE_PERMANENT="PERM"
 GENOMAC_STATE_PERSISTENCE_SESSION="SESH"
 
+GENOMAC_SCOPE_SYSTEM="system"
+GENOMAC_SCOPE_USER="user"
+
 # Despite each being seemingly specific to either GenoMac-system or GenoMac-user,
 #   these two environment variables are defined in GenoMac-shared because:
 #   - GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY might be used by GenoMac-user, because GenoMac-user *can*
@@ -156,6 +159,8 @@ export_and_report GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY
 export_and_report GENOMAC_SHARED_REPO_NAME
 export_and_report GENOMAC_SHARED_RESOURCE_DIRECTORY
 export_and_report GENOMAC_SHARED_ROOT
+export_and_report GENOMAC_SCOPE_SYSTEM
+export_and_report GENOMAC_SCOPE_USER
 export_and_report GENOMAC_STATE_FILE_EXTENSION
 export_and_report GENOMAC_STATE_PERSISTENCE_PERMANENT
 export_and_report GENOMAC_STATE_PERSISTENCE_SESSION
