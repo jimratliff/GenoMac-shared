@@ -11,6 +11,38 @@
 #     GENOMAC_USER_LOCAL_DIRECTORY
 #     GENOMAC_USER_REPO_NAME
 
+function local_clone_was_updated_from_remote() {
+  # Checks whether the local clone at the local directory in $1 is
+  # pointing at the same commit as its remote.
+  # If the two commits are different, pulls the changes from the remote.
+  # Exits with 0 if the local and remote of the repo were different.
+  # Exits with 1 if the local and remote were the same.
+  # $1: local directory (e.g., "${HOME}/.genomac-system")
+
+  report_start_phase_standard
+
+  local local_dir="$1"
+  
+  local local_commit_hash
+  local remote_commit_hash
+
+  git -C "${local_dir}" fetch origin main
+  local_commit_hash=$(git -C "${local_dir}" rev-parse HEAD)
+  remote_commit_hash=$(git -C "${local_dir}" rev-parse origin/main)
+
+  report_action_taken "Testing remote of clone at ${local_dir} for changes"
+  if [[ "$local_commit_hash" != "$remote_commit_hash" ]]; then
+    report_action_taken "Update available. Pulling update."
+    git -C "${local_dir}" pull origin main
+    report_end_phase_standard
+    return 0
+  else
+    report "The local clone was up to date"
+    report_end_phase_standard
+    return 1
+  fi
+}
+
 function configure_split_remote_URLs_for_GenoMac_system() {
   report_start_phase_standard
   configure_split_remote_URLs_for_public_GitHub_repo_if_cloned "${GENOMAC_SYSTEM_LOCAL_DIRECTORY}" "${GENOMAC_SYSTEM_REPO_NAME}"
