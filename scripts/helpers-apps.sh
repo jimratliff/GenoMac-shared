@@ -109,7 +109,7 @@ function crash_if_homebrew_not_installed() {
   report_start_phase_standard
 
   report_action_taken "Test for presence of Homebrew"
-  if [ ! -x /opt/homebrew/bin/brew ]; then
+  if ! type brew &>/dev/null; then
     report_fail "ERROR: Homebrew not found at /opt/homebrew/bin/brew; Install Homebrew first!"
     return 1
   fi
