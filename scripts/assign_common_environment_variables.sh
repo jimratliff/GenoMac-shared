@@ -45,7 +45,7 @@ GENOMAC_SYSTEM_LOCAL_DIRECTORY="$HOME/.genomac-system"
 GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
 
 # Resolve once (don’t recompute if already set by the environment)
-HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(/usr/bin/env brew --prefix)}"
+HOMEBREW_PREFIX="$(get_homebrew_prefix)"
 
 # Custom alert sound
 # (These environment variables are located in GenoMac-shared because (a) GenoMac-system *installs*
