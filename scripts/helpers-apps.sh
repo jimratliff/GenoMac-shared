@@ -103,6 +103,16 @@ function force_user_logout(){
   exit
 }
 
+get_homebrew_prefix() {
+  # Usage:
+  #   export HOMEBREW_PREFIX="$(get_homebrew_prefix)"
+  if [[ -d /opt/homebrew ]]; then
+    print /opt/homebrew
+  else
+    print /usr/local
+  fi
+}
+
 function crash_if_homebrew_not_installed() {
   # Fail fast if Homebrew not installed
   # TODO: WARNING: The test assumes an Apple Silicon Mac rather than Intel
