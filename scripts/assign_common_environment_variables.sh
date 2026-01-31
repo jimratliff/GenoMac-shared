@@ -44,6 +44,9 @@ GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY="${GENOMAC_SHARED_RESOURCE_DIRECTORY}/d
 GENOMAC_SYSTEM_LOCAL_DIRECTORY="$HOME/.genomac-system"
 GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
 
+# Resolve once (don’t recompute if already set by the environment)
+HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(/usr/bin/env brew --prefix)}"
+
 # Custom alert sound
 # (These environment variables are located in GenoMac-shared because (a) GenoMac-system *installs*
 # the custom alert sound but (b) it is GenoMac-user that *consumes* the alert sound, so both the
@@ -171,6 +174,7 @@ export_and_report GENOMAC_USER_HTTP_REPO_URL
 export_and_report GENOMAC_USER_LOCAL_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_USER_REPO_NAME
+export_and_report HOMEBREW_PREFIX
 export_and_report HYPERVISOR_HOW_TO_RESTART_STRING
 export_and_report HYPERVISOR_MAKE_COMMAND_STRING
 export_and_report LOCAL_DROPBOX_DIRECTORY
