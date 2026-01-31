@@ -108,23 +108,11 @@ get_homebrew_prefix() {
   #   export HOMEBREW_PREFIX="$(get_homebrew_prefix)"
   if [[ -d /opt/homebrew ]]; then
     print /opt/homebrew
-  else
+  elif [[ -d /usr/local/Homebrew ]]; then
     print /usr/local
-  fi
-}
-
-function crash_if_homebrew_not_installed() {
-  # Fail fast if Homebrew not installed
-  # TODO: WARNING: The test assumes an Apple Silicon Mac rather than Intel
-  report_start_phase_standard
-
-  report_action_taken "Test for presence of Homebrew"
-  if ! type brew &>/dev/null; then
-    report_fail "ERROR: Homebrew not found at /opt/homebrew/bin/brew; Install Homebrew first!"
+  else
+    report_fail "Homebrew not installed. Install Homebrew first."
     return 1
   fi
-
-  report_success "Homebrew found at /opt/homebrew/bin/brew" ; success_or_not
-
-  report_end_phase_standard
 }
+
