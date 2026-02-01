@@ -102,7 +102,8 @@ function interactive_ensure_terminal_has_fda() {
   #       what terminal app was running for that shell session. Too complicated!
 
   report_start_phase_standard
-  
+
+  report_action_taken "Testing whether currently running terminal application has FUll Disk Access."
   # Query a restricted location (a) to test FDA and (b) if not, add terminal app to list
   if ! ls ~/Library/Mail &>/dev/null; then
     # The currently running terminal app does *not* have FDA
@@ -120,7 +121,7 @@ function interactive_ensure_terminal_has_fda() {
         --show-doc "${GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY}/full_disk_access_how_to_configure.md" \
         "Follow the instructions in the Quick Look window to grant the current terminal app Full Disk Access"
 
-      report "Configuring user confirms they have given FDA to the running terminal application"
+      report "Configuring user confirms they have given FDA to the running terminal application" ; success_or_not
       report_end_phase_standard
       return 0
         
@@ -131,7 +132,7 @@ function interactive_ensure_terminal_has_fda() {
       return 1
     fi
   fi
-  report "This terminal application already had Full Disk Access"
+  report "This terminal application already had Full Disk Access. No additional action required." ; success_or_not
   report_end_phase_standard
 }
 
