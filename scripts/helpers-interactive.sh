@@ -80,7 +80,11 @@ function get_confirmed_answer_to_question() {
 }
 
 function open_privacy_panel_for_full_disk_permissions() {
-  open "$PRIVACY_SECURITY_PANEL_URL_FULL_DISK"
+  open "$SYSTEM_SETTINGS_PRIVACY_SECURITY_PANEL_URL_FULL_DISK"
+}
+
+function open_wallpaper_panel() {
+  open "$SYSTEM_SETTINGS_WALLPAPER_PANEL_URL"
 }
 
 function show_file_using_quicklook() {
