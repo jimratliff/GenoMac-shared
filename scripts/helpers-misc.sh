@@ -132,7 +132,7 @@ function interactive_ensure_terminal_has_fda() {
       return 1
     fi
   fi
-  report "This terminal application already had Full Disk Access. No additional action required." ; success_or_not
+  report_success "This terminal application already had Full Disk Access. No additional action required."
   report_end_phase_standard
 }
 
