@@ -119,7 +119,8 @@ BUNDLE_ID_GLANCE="com.chamburr.Glance"
 BUNDLE_ID_ITERM2="com.googlecode.iterm2"
 BUNDLE_ID_KEYBOARDMAESTRO_EDITOR="com.stairways.keyboardmaestro.editor"
 BUNDLE_ID_KEYBOARDMAESTRO_ENGINE="com.stairways.keyboardmaestro.engine"
-BUNDLE_ID_MICROSOFT_WORD="com.microsoft.Word"
+BUNDLE_ID_MICROSOFT_WORD="com.microsoft.Word
+BUNDLE_ID_ORION="com.kagi.kagimacOS"
 BUNDLE_ID_PLAIN_TEXT_EDITOR="com.sindresorhus.Plain-Text-Editor"
 BUNDLE_ID_PREVIEW="com.apple.Preview"
 BUNDLE_ID_TERMINAL="com.apple.Terminal"
@@ -200,6 +201,7 @@ export_and_report BUNDLE_ID_KEYBOARDMAESTRO_EDITOR
 export_and_report BUNDLE_ID_KEYBOARDMAESTRO_ENGINE
 export_and_report BUNDLE_ID_MICROSOFT_WORD
 export_and_report BUNDLE_ID_PLAIN_TEXT_EDITOR
+export_and_report BUNDLE_ID_ORION
 export_and_report BUNDLE_ID_PREVIEW
 export_and_report BUNDLE_ID_TERMINAL
 export_and_report BUNDLE_ID_TEXTEDIT
