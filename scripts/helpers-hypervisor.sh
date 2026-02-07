@@ -32,7 +32,7 @@ function _run_based_on_state() {
   # If func_to_run is executed, then state_var is SET. (This has effect only when --negate-state,
   # because when --negate-state is absent, func_to_run is executed only when state_var is already set.)
 
-  report_start_phase "Entering _run_based_on_state $*"
+  # report_start_phase "Entering _run_based_on_state $*"
 
   local negate_state=false
   local force_logout=false
@@ -68,7 +68,7 @@ function _run_based_on_state() {
   local skip_message="${positional[4]}"
   _validate_scope "$scope" || return 1
 
-  report "Args parsed for _run_based_on_state: function_to_run:${func_to_run} state_var:${state_var} scope:${scope}"
+  # report "Args parsed for _run_based_on_state: function_to_run:${func_to_run} state_var:${state_var} scope:${scope}"
 
   # Determine whether to run based on state and negation flag
   local should_run=false
@@ -93,7 +93,7 @@ function _run_based_on_state() {
     report_action_taken "$skip_message"
   fi
 
-  report_end_phase "Leaving _run_based_on_state: function_to_run:${func_to_run} state_var:${state_var}"
+  # report_end_phase "Leaving _run_based_on_state: function_to_run:${func_to_run} state_var:${state_var}"
 }
 
 function _run_if_not_already_done() {
@@ -120,11 +120,11 @@ function _run_if_not_already_done() {
   #     stow_dotfiles \
   #     "Skipping stowing dotfiles, because you've already stowed them during this session."
 
-  report_start_phase_standard "Entering _run_if_not_already_done $*"
+  # report_start_phase_standard "Entering _run_if_not_already_done $*"
 
   _run_based_on_state --negate-state "$@"
 
-  report_end_phase "Leaving _run_if_not_already_done $*"
+  # report_end_phase "Leaving _run_if_not_already_done $*"
 }
 
 function _run_if_state() {
@@ -141,11 +141,11 @@ function _run_if_state() {
   #   func_to_run     Name of the function to execute if state is set.
   #   skip_message    Message to display if state is not set and action is skipped.
 
-  report_start_phase_standard "_run_if_state $*"
+  # report_start_phase_standard "_run_if_state $*"
   
   _run_based_on_state "$@"
 
-  report_end_phase "_run_if_state $*"
+  # report_end_phase "_run_if_state $*"
 }
 
 function hypervisor_force_logout() {
