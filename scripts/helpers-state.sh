@@ -405,5 +405,7 @@ function delete_all_system_states() {
 function delete_all_system_SESH_states() {
   # Deletes all SESH (session) state files for system scope.
   # Usage: _delete_all_GMS_SESH_states
+
+  report_action_taken "Deleting all system SESH states"
   _delete_states_matching_persistence "system" "SESH"
 }
