@@ -120,7 +120,7 @@ BUNDLE_ID_HELIUM="net.imput.helium"
 BUNDLE_ID_ITERM2="com.googlecode.iterm2"
 BUNDLE_ID_KEYBOARDMAESTRO_EDITOR="com.stairways.keyboardmaestro.editor"
 BUNDLE_ID_KEYBOARDMAESTRO_ENGINE="com.stairways.keyboardmaestro.engine"
-BUNDLE_ID_MICROSOFT_WORD="com.microsoft.Word
+BUNDLE_ID_MICROSOFT_WORD="com.microsoft.Word"
 BUNDLE_ID_ORION="com.kagi.kagimacOS"
 BUNDLE_ID_PLAIN_TEXT_EDITOR="com.sindresorhus.Plain-Text-Editor"
 BUNDLE_ID_PREVIEW="com.apple.Preview"
@@ -135,6 +135,7 @@ DEFAULTS_DOMAINS_KEYBOARD_MAESTRO="com.stairways.keyboardmaestro"
 DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_EDITOR="com.stairways.keyboardmaestro.editor"
 DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_ENGINE="com.stairways.keyboardmaestro.engine"
 DEFAULTS_DOMAINS_ITERM2="com.googlecode.iterm2"
+DEFAULTS_DOMAINS_ORION="com.kagi.kagimacOS"
 DEFAULTS_DOMAINS_SAFARI="com.apple.Safari"
 DEFAULTS_DOMAINS_SYMBOLICHOTKEYS="com.apple.symbolichotkeys"
 
@@ -216,6 +217,7 @@ export_and_report DEFAULTS_DOMAINS_ITERM2
 export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO
 export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_EDITOR
 export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_ENGINE
+export_and_report DEFAULTS_DOMAINS_ORION
 export_and_report DEFAULTS_DOMAINS_SAFARI
 export_and_report DEFAULTS_DOMAINS_SYMBOLICHOTKEYS
 
