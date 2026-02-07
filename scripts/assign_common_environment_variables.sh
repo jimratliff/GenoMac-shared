@@ -116,6 +116,7 @@ BUNDLE_ID_DISKUTILITY="com.apple.DiskUtility"
 BUNDLE_ID_DROPBOX="com.getdropbox.dropbox"
 BUNDLE_ID_ELMEDIA_PLAYER_MAS="com.Eltima.ElmediaPlayer.MAS"
 BUNDLE_ID_GLANCE="com.chamburr.Glance"
+BUNDLE_ID_HELIUM="net.imput.helium"
 BUNDLE_ID_ITERM2="com.googlecode.iterm2"
 BUNDLE_ID_KEYBOARDMAESTRO_EDITOR="com.stairways.keyboardmaestro.editor"
 BUNDLE_ID_KEYBOARDMAESTRO_ENGINE="com.stairways.keyboardmaestro.engine"
@@ -197,6 +198,7 @@ export_and_report BUNDLE_ID_DISKUTILITY
 export_and_report BUNDLE_ID_DROPBOX
 export_and_report BUNDLE_ID_ELMEDIA_PLAYER_MAS
 export_and_report BUNDLE_ID_GLANCE
+export_and_report BUNDLE_ID_HELIUM
 export_and_report BUNDLE_ID_ITERM2
 export_and_report BUNDLE_ID_KEYBOARDMAESTRO_EDITOR
 export_and_report BUNDLE_ID_KEYBOARDMAESTRO_ENGINE
