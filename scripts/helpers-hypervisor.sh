@@ -32,7 +32,7 @@ function _run_based_on_state() {
   # If func_to_run is executed, then state_var is SET. (This has effect only when --negate-state,
   # because when --negate-state is absent, func_to_run is executed only when state_var is already set.)
 
-  report_start_phase "Entering _run_based_on_state $*"
+  # report_start_phase "Entering _run_based_on_state $*"
 
   local negate_state=false
   local force_logout=false
@@ -93,7 +93,7 @@ function _run_based_on_state() {
     report_action_taken "$skip_message"
   fi
 
-  report_end_phase "Leaving _run_based_on_state: function_to_run:${func_to_run} state_var:${state_var}"
+  # report_end_phase "Leaving _run_based_on_state: function_to_run:${func_to_run} state_var:${state_var}"
 }
 
 function _run_if_not_already_done() {
@@ -186,11 +186,11 @@ function run_if_user_has_not_done() {
   #     stow_dotfiles \
   #     "Skipping stowing dotfiles, because you've already stowed them during this session."
 
-  report_start_phase "Entering run_if_user_has_not_done $*"
+  # report_start_phase "Entering run_if_user_has_not_done $*"
 
   _run_based_on_state 'user' --negate-state "$@"
 
-  report_end_phase "Leaving run_if_user_has_not_done $*"
+  # report_end_phase "Leaving run_if_user_has_not_done $*"
 }
 
 function run_if_user_state() {
@@ -207,11 +207,11 @@ function run_if_user_state() {
   #   func_to_run     Name of the function to execute if state is set.
   #   skip_message    Message to display if state is not set and action is skipped.
 
-  report_start_phase "Entering run_if_user_state $*"
+  # report_start_phase "Entering run_if_user_state $*"
 
   _run_based_on_state 'user' "$@"
 
-  report_end_phase "Leaving run_if_user_state $*"
+  # report_end_phase "Leaving run_if_user_state $*"
 }
 
 
@@ -241,11 +241,11 @@ function run_if_system_has_not_done() {
   #     stow_dotfiles \
   #     "Skipping stowing dotfiles, because you've already stowed them during this session."
 
-  report_start_phase "Entering run_if_system_has_not_done $*"
+  # report_start_phase "Entering run_if_system_has_not_done $*"
 
   _run_based_on_state 'system' --negate-state "$@"
 
-  report_end_phase "Leaving run_if_system_has_not_done $*"
+  # report_end_phase "Leaving run_if_system_has_not_done $*"
 }
 
 function run_if_system_state() {
@@ -262,11 +262,11 @@ function run_if_system_state() {
   #   func_to_run     Name of the function to execute if state is set.
   #   skip_message    Message to display if state is not set and action is skipped.
 
-  report_start_phase "Entering run_if_system_state $*"
+  # report_start_phase "Entering run_if_system_state $*"
 
   _run_based_on_state 'system' "$@"
 
-  report_end_phase "Leaving run_if_system_state $*"
+  # report_end_phase "Leaving run_if_system_state $*"
 }
 
 function output_hypervisor_welcome_banner() {
