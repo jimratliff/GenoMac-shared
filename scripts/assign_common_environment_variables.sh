@@ -138,6 +138,7 @@ DEFAULTS_DOMAINS_ITERM2="com.googlecode.iterm2"
 DEFAULTS_DOMAINS_ORION="com.kagi.kagimacOS"
 DEFAULTS_DOMAINS_SAFARI="com.apple.Safari"
 DEFAULTS_DOMAINS_SYMBOLICHOTKEYS="com.apple.symbolichotkeys"
+DEFAULTS_DOMAINS_WATERFOX="net.waterfox.waterfox"
 
 ############### Privacy & Security panel URLs
 # Not all of these are currently used, but this is a convenient place to memorialize ones
@@ -220,6 +221,7 @@ export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_ENGINE
 export_and_report DEFAULTS_DOMAINS_ORION
 export_and_report DEFAULTS_DOMAINS_SAFARI
 export_and_report DEFAULTS_DOMAINS_SYMBOLICHOTKEYS
+export_and_report DEFAULTS_DOMAINS_WATERFOX
 
 export_and_report SYSTEM_SETTINGS_PRIVACY_SECURITY_PANEL_URL_ACCESSIBILITY
 export_and_report SYSTEM_SETTINGS_PRIVACY_SECURITY_PANEL_URL_FULL_DISK
