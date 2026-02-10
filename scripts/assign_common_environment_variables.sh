@@ -134,6 +134,7 @@ DEFAULTS_DOMAINS_ALFRED="com.runningwithcrayons.Alfred-Preferences"
 DEFAULTS_DOMAINS_KEYBOARD_MAESTRO="com.stairways.keyboardmaestro"
 DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_EDITOR="com.stairways.keyboardmaestro.editor"
 DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_ENGINE="com.stairways.keyboardmaestro.engine"
+DEFAULTS_DOMAINS_HELIUM="net.imput.helium"
 DEFAULTS_DOMAINS_ITERM2="com.googlecode.iterm2"
 DEFAULTS_DOMAINS_ORION="com.kagi.kagimacOS"
 DEFAULTS_DOMAINS_SAFARI="com.apple.Safari"
@@ -214,6 +215,7 @@ export_and_report BUNDLE_ID_TEXTEXPANDER
 export_and_report BUNDLE_ID_WATERFOX
 
 export_and_report DEFAULTS_DOMAINS_ALFRED
+export_and_report DEFAULTS_DOMAINS_HELIUM
 export_and_report DEFAULTS_DOMAINS_ITERM2
 export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO
 export_and_report DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_EDITOR
