@@ -369,6 +369,8 @@ function delete_all_user_states() {
 function delete_all_user_SESH_states() {
   # Deletes all SESH (session) state files for user scope.
   # Usage: _delete_all_GMU_SESH_states
+
+  report_action_taken "Deleting all user SESH states"
   _delete_states_matching_persistence "user" "SESH"
 }
 
