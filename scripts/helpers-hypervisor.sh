@@ -274,7 +274,7 @@ function output_hypervisor_welcome_banner() {
   # or GenoMac-user, respectively
   local scope="$1"
   local welcome_prefix
-  if test_genomac_system_state "$SESH_SESSION_HAS_STARTED"; then
+  if _test_state "$SESH_SESSION_HAS_STARTED" "$scope" ; then
     welcome_prefix="Welcome back"
   else
     welcome_prefix="Welcome"
