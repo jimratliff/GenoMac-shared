@@ -74,7 +74,7 @@ function quit_app_by_bundle_id_if_running() {
     app_path=$(mdfind "kMDItemCFBundleIdentifier == '${bundle_id}'" | head -n 1)
 
     if [[ -n "$app_path" ]]; then
-      report_action_taken "App ${bundle_id} still running despite our polite request; forcing quit for processes under ${app_path}/Contents/MacOS/"
+      report_warning "App ${bundle_id} still running despite our polite request; forcing quit for processes under ${app_path}/Contents/MacOS/"
       # pkill returns 1 if nothing matched; that's fine for our semantics
       # ("ensure it's not running"), so we mask that with `|| true` to avoid making success_or_not print a ❌.
       pkill -9 -f "${app_path}/Contents/MacOS/" >/dev/null 2>&1 || true
