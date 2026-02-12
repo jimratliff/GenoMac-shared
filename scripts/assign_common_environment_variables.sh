@@ -111,11 +111,14 @@ BUNDLE_ID_ALFRED="com.runningwithcrayons.Alfred"
 BUNDLE_ID_APP_STORE="com.apple.AppStore"
 BUNDLE_ID_BBEDIT="com.barebones.bbedit"
 BUNDLE_ID_BETTERTOUCHTOOL="com.hegenberg.BetterTouchTool"
+BUNDLE_ID_BRAVE="com.brave.Browser"
 BUNDLE_ID_CLAUDE="com.anthropic.claudefordesktop"
 BUNDLE_ID_DISKUTILITY="com.apple.DiskUtility"
 BUNDLE_ID_DROPBOX="com.getdropbox.dropbox"
 BUNDLE_ID_ELMEDIA_PLAYER_MAS="com.Eltima.ElmediaPlayer.MAS"
+BUNDLE_ID_FIREFOX="org.mozilla.firefox"
 BUNDLE_ID_GLANCE="com.chamburr.Glance"
+BUNDLE_ID_GOOGLE_CHROME="com.google.chrome"
 BUNDLE_ID_HELIUM="net.imput.helium"
 BUNDLE_ID_ITERM2="com.googlecode.iterm2"
 BUNDLE_ID_KEYBOARDMAESTRO_EDITOR="com.stairways.keyboardmaestro.editor"
@@ -124,6 +127,7 @@ BUNDLE_ID_MICROSOFT_WORD="com.microsoft.Word"
 BUNDLE_ID_ORION="com.kagi.kagimacOS"
 BUNDLE_ID_PLAIN_TEXT_EDITOR="com.sindresorhus.Plain-Text-Editor"
 BUNDLE_ID_PREVIEW="com.apple.Preview"
+BUNDLE_ID_SAFARI="com.apple.safari"
 BUNDLE_ID_TERMINAL="com.apple.Terminal"
 BUNDLE_ID_TEXTEDIT="com.apple.TextEdit"
 BUNDLE_ID_TEXTEXPANDER="com.smileonmymac.textexpander"
@@ -196,11 +200,14 @@ export_and_report BUNDLE_ID_ALFRED
 export_and_report BUNDLE_ID_APP_STORE
 export_and_report BUNDLE_ID_BBEDIT
 export_and_report BUNDLE_ID_BETTERTOUCHTOOL
+export_and_report BUNDLE_ID_BRAVE
 export_and_report BUNDLE_ID_CLAUDE
 export_and_report BUNDLE_ID_DISKUTILITY
 export_and_report BUNDLE_ID_DROPBOX
 export_and_report BUNDLE_ID_ELMEDIA_PLAYER_MAS
+export_and_report BUNDLE_ID_FIREFOX
 export_and_report BUNDLE_ID_GLANCE
+export_and_report BUNDLE_ID_GOOGLE_CHROME
 export_and_report BUNDLE_ID_HELIUM
 export_and_report BUNDLE_ID_ITERM2
 export_and_report BUNDLE_ID_KEYBOARDMAESTRO_EDITOR
@@ -209,6 +216,7 @@ export_and_report BUNDLE_ID_MICROSOFT_WORD
 export_and_report BUNDLE_ID_PLAIN_TEXT_EDITOR
 export_and_report BUNDLE_ID_ORION
 export_and_report BUNDLE_ID_PREVIEW
+export_and_report BUNDLE_ID_SAFARI
 export_and_report BUNDLE_ID_TERMINAL
 export_and_report BUNDLE_ID_TEXTEDIT
 export_and_report BUNDLE_ID_TEXTEXPANDER
