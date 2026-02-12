@@ -25,8 +25,11 @@ function launch_and_quit_app() {
   report_action_taken "Launching app $bundle_id (in the background, if possible)"
   open -gj -b "$bundle_id" 2>/dev/null || open -g -b "$bundle_id" ; success_or_not
   sleep 2
-  report_action_taken "Quitting app $bundle_id"
-  osascript -e "tell application id \"$bundle_id\" to quit" ; success_or_not
+  
+  # report_action_taken "Quitting app $bundle_id"
+  # osascript -e "tell application id \"$bundle_id\" to quit" ; success_or_not
+
+  quit_app_by_bundle_id_if_running "$bundle_id"
 
   report_end_phase_standard
 }
