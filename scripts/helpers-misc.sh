@@ -103,7 +103,7 @@ function interactive_ensure_terminal_has_fda() {
 
   report_start_phase_standard
 
-  report_action_taken "Testing whether currently running terminal application has FUll Disk Access."
+  report_action_taken "Testing whether currently running terminal application has Full Disk Access."
   # Query a restricted location (a) to test FDA and (b) if not, add terminal app to list
   if ! ls ~/Library/Mail &>/dev/null; then
     # The currently running terminal app does *not* have FDA
