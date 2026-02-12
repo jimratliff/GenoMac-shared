@@ -54,7 +54,8 @@ function quit_app_by_bundle_id_if_running() {
   # If osascript errors (e.g., unknown bundle ID), grep sees nothing and this
   # condition is just false -> we treat that as "not running".
   if ! osascript -e "application id \"$bundle_id\" is running" 2>/dev/null | grep -qi true; then
-    # Not running; nothing to do.
+    report_success "Application ${bundle_id} is not running. Nothing to do."
+    report_end_phase_standard
     return 0
   fi
 
