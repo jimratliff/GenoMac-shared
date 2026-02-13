@@ -12,17 +12,22 @@ function export_and_report() {
 }
 
 function keep_sudo_alive() {
+  # Don't spawn another loop if one is already running
+  if [[ -n "$SUDO_KEEPALIVE_PID" ]] && kill -0 "$SUDO_KEEPALIVE_PID" 2>/dev/null; then
+    sudo -v  # just refresh, no new background process
+    return
+  fi
+
   report_action_taken "I very likely am about to ask you for your administrator password. I hope you trust me! 😉"
 
-  # Update user’s cached credentials for `sudo`.
   sudo -v
 
-  # Keep-alive: update existing `sudo` time stamp until this shell exits
-  while true; do 
+  while true; do
     sudo -n true
     sleep 60
     kill -0 "$$" || exit
-  done 2>/dev/null &  # background process, silence errors
+  done 2>/dev/null &
+  SUDO_KEEPALIVE_PID=$!
 }
 
 safe_source() {
