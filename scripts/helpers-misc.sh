@@ -13,7 +13,7 @@ function export_and_report() {
 
 function keep_sudo_alive() {
   # Don't spawn another loop if one is already running
-  if [[ -n "$SUDO_KEEPALIVE_PID" ]] && kill -0 "$SUDO_KEEPALIVE_PID" 2>/dev/null; then
+  if [[ -n "${SUDO_KEEPALIVE_PID:-}" ]] && kill -0 "$SUDO_KEEPALIVE_PID" 2>/dev/null; then
     sudo -v  # just refresh, no new background process
     return
   fi
