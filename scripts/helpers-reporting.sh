@@ -60,11 +60,11 @@ print_banner_text() {
   # font="$FONT_BANNER"
   # font="$FONT_MINI"
 
-  # Test whether figlet is in PATH
-  if command -v figlet &>/dev/null; then
-    figlet -k -w "${width}" -f "${font}" "$text"
+  # Test whether figlet and lolcat is in PATH
+  if command -v figlet &>/dev/null && command -v lolcat &>/dev/null; then
+    figlet -k -w "${width}" -f "${font}" "$text" | lolcat
   else
-    # figlet not in PATH. Fall back to echo
+    report_warning "Either/both figlet and lolcat not found in PATH ⇒ Printing vanilla banner."
     echo "=== $text ==="
   fi
 }
