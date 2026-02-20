@@ -84,6 +84,8 @@ function configure_split_remote_URLs_for_public_GitHub_repo_if_cloned() {
     git -C "$local_repo_dir" remote set-url origin "${GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT}/${github_repo_name}.git" ; success_or_not
     report_adjust_setting "Configure ${github_repo_name} to push via SSH"
     git -C "$local_repo_dir" remote set-url --push origin "${GENOMAC_COMMON_GITHUB_SCP_URL_ROOT}/${github_repo_name}.git" ; success_or_not
+    report_adjust_setting "Use merge rather than rebase. This is more compatible with having a submodule."
+    git config pull.rebase false
   else
     report_action_taken "Skipping split-remote configuration of ${github_repo_name}: not cloned at ${local_repo_dir}"
   fi
