@@ -197,16 +197,16 @@ function _set_state() {
   #	Assumes that 'system' scope requires 'sudo'.
   #
   # NOTE: Currently, a state's existence is equivalent to the existence of a corresponding .state 
-  #		  (more generally .GENOMAC_STATE_FILE_EXTENSION) file.
-  #		  This is an implementation detail. The test_state() API does not rely upon or expose this 
-  # 	  implementation detail.
+  #       (more generally .GENOMAC_STATE_FILE_EXTENSION) file.
+  #       This is an implementation detail. The test_state() API does not rely upon or expose this 
+  #       implementation detail.
   #
-  # 	  Creates the state directory if it doesn't exist.
+  #       Creates the state directory if it doesn't exist.
   #
-  #		  If the state file already exists, its timestamp is updated.
+  #       If the state file already exists, its timestamp is updated.
   #
   # Usage: _set_state "launch-and-sign-in-to-microsoft-word" "user"
-  #
+  
   local state_string="$1"
   local scope="$2"
   local state_file
