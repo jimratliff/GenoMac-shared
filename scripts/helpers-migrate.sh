@@ -9,7 +9,7 @@ _migrate_states() {
   #
   # $1: scope, either 'system' or 'user'
   # $2: the ID of a particular migration. This is a string that begins with MIGRATION_STATE_PREFIX
-  #     The migration ID itself refers to a state in the state spaced specified by scope ($1).
+  #     The migration ID itself refers to a state in the state space specified by scope ($1).
   #     If this state does not exist, the remainder of this function runs, at the end of which this 
   #     state is created.
   #     If this state already exists, then this migration had already been completed, and this function
@@ -20,6 +20,7 @@ _migrate_states() {
   #           These are the states to be deleted as part of this migration.
   
   report_start_phase_standard
+  
   local scope="$1"
   local migration_id="$2"
   local -a states_to_delete
@@ -69,4 +70,48 @@ _migrate_states() {
   report_end_phase_standard
 }
 
+function migrate_system_states() {
+  # Migrates state(s) of the 'system' scope
+  #
+  # Takes one positional argument (migration_id) and one option (--delete) followed by a sequence of strings.
+  #
+  # $1: the ID of a particular migration. This is a string that begins with MIGRATION_STATE_PREFIX
+  #     The migration ID itself refers to a state in the 'system' state space.
+  #     If this state does not exist, the remainder of this function runs, at the end of which this 
+  #     state is created.
+  #     If this state already exists, then this migration had already been completed, and this function
+  #     exits normally.
+  # --delete: Currently, this is mandatory and the only available option.
+  #           It must be followed by a sequence of one or more strings, each of which refers to a
+  #           state within the 'system' state space.
+  #           These are the states to be deleted as part of this migration.
+  
+  report_start_phase_standard
+  
+  _migrate_states "system" "$@"
+  
+  report_end_phase_standard
+}
 
+function migrate_user_states() {
+  # Migrates state(s) of the 'user' scope
+  #
+  # Takes one positional argument (migration_id) and one option (--delete) followed by a sequence of strings.
+  #
+  # $1: the ID of a particular migration. This is a string that begins with MIGRATION_STATE_PREFIX
+  #     The migration ID itself refers to a state in the 'user' state space.
+  #     If this state does not exist, the remainder of this function runs, at the end of which this 
+  #     state is created.
+  #     If this state already exists, then this migration had already been completed, and this function
+  #     exits normally.
+  # --delete: Currently, this is mandatory and the only available option.
+  #           It must be followed by a sequence of one or more strings, each of which refers to a
+  #           state within the 'user' state space.
+  #           These are the states to be deleted as part of this migration.
+  
+  report_start_phase_standard
+  
+  _migrate_states "user" "$@"
+  
+  report_end_phase_standard
+}
