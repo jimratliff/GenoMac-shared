@@ -29,5 +29,5 @@ Instead, Project GenoMac acknowledges that there are default settings out of the
 identifies only settings whose default values are different from Project GenoMac’s *desired* values.[^EMPHASIZING_DEFAULTS]
 
 [^EMPHASIZING_DEFAULTS]: In some cases, Project Genomac chooses to enforce a setting even when the enforced setting is
-                         identical to the default setting.
+identical to the default setting.
 
