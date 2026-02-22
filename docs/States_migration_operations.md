@@ -13,8 +13,8 @@ The settings effected by Project GenoMac can usefully be thought of as bifurcate
 - bootstrap-only operations, which are run typically only once per environment
   - These operations are run typically only once per environment because of some combination of:
     - the operation isn’t idempotent: Repetition would mutate state undesirably
-    - the operation, even if idempotent, is too expensive to run arbitrarily repeatedly. E.g., a step that
-      can’t be purely scripted but instead requires a costly-to-our-human interactive operation.
+    - the operation, even if idempotent, is too expensive to run arbitrarily repeatedly.
+      - e.g., a step that can’t be purely scripted but instead requires a costly-to-our-human interactive operation.
     - the operation is meant to provide a baseline upon which the user can freely expand. Repetition of this 
       operation would undesirably overwrite any such expansion by the user
       - e.g., specifying a base set of persistent apps to occupy the Dock
