@@ -1,12 +1,20 @@
 # The two types of operations in Project GenoMac and their corresponding families of states
 
+## Status: Incomplete, WIP (2/22/2026)
+The ultimate goal of this section is to explain why the migration methodology is necessary at all:
+- Maintenance steps are self-migrating: Revise the code, the revised repo is pulled, and the next run replaces
+  the former settings with the new settings.
+  - these correspond to SESH states
+- Bootstrap-only settings are no self-migrating because by default they are not revisited. To revisit a
+  not designed to be routinely revisited, we typically need to retract a PERM state that recorded that
+  the operation had already been performed.
+- Thus, the migration mechanism is aimed at PERM states and their associated bootstrapping steps.
+
 ## Some terminology: environment
 Let “environment” refer to a combination of (a) a particular startup volume (necessarily on a particular Mac)
-and (b) a particular user defined on that startup volume. In the case of GenoMac-system, only one user matters: USER_CONFIGURER. So there is one environment per
-startup volume.
+and (b) a particular user defined on that startup volume.
 
-
-
+In the case of GenoMac-system, only one user matters: USER_CONFIGURER. So there is one environment per startup volume.
 
 ## Project GenoMac operations are either (a) bootstrap-only or (b) maintenance
 The settings effected by Project GenoMac can usefully be thought of as bifurcated into:
@@ -21,6 +29,12 @@ The settings effected by Project GenoMac can usefully be thought of as bifurcate
 - maintenance steps, run repeatedly to enforce a set of settings
   - The first time such a step is run, it acts as a bootstrap step by establishing a starting-point departure from the status quo.
   - Subsequent runs of a maintenance step enforces a return to the specified state with respect to the particular setting.
+ 
+Although “bootstrap-only” steps *typically* (or perhaps more accurately *ideally*) are performed only once per environment,
+it is possible that the desired setting for a bootstrap-only operation changes at some point after the operation was
+performed on one or more active environments.
+ 
+## 
 
 ## Project GenoMac is somewhat, but not fully, declarative about the resulting state of the system
 Project GenoMac *could*, but does *not*, attempt to specify all settings for a user or a macOS installation.
