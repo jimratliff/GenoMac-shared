@@ -5,10 +5,11 @@ The ultimate goal of this section is to explain why the migration methodology is
 - Maintenance steps are self-migrating: Revise the code, the revised repo is pulled, and the next run replaces
   the former settings with the new settings.
   - these correspond to SESH states
-- Bootstrap-only settings are no self-migrating because by default they are not revisited. To revisit a
-  not designed to be routinely revisited, we typically need to retract a PERM state that recorded that
-  the operation had already been performed.
-- Thus, the migration mechanism is aimed at PERM states and their associated bootstrapping steps.
+- Bootstrap-only settings, on the other hand, are not self-migrating because by default they are not
+  not designed to be routinely revisited. To revisit a bootstrap-only setting, we typically need to
+  retract a PERM state that recorded that the operation had already been performed.
+- Thus, the migration mechanism is aimed at PERM states—and then usually at deleting them—and their
+  associated bootstrapping steps.
 
 ## Some terminology: environment
 Let “environment” refer to a combination of (a) a particular startup volume (necessarily on a particular Mac)
