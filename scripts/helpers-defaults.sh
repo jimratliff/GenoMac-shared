@@ -19,6 +19,7 @@ function sandboxed_plist_path_from_domain() {
   # passed as an argument.
   # Usage:
   #   local plist_path=$(sandboxed_plist_path_from_domain "$domain")
+  
   local domain="$1"
   local plist_path="$HOME/Library/Containers/${domain}/Data/Library/Preferences/${domain}.plist"
   echo "$plist_path"
