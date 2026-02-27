@@ -79,6 +79,7 @@ function quit_app_by_bundle_id_if_running() {
       # pkill returns 1 if nothing matched; that's fine for our semantics
       # ("ensure it's not running"), so we mask that with `|| true` to avoid making success_or_not print a ❌.
       pkill -9 -f "${app_path}/Contents/MacOS/" >/dev/null 2>&1 || true
+      sleep $delay_in_seconds_for_normal_quitting
       success_or_not
     else
       # We think it's running but can't find the bundle on disk; that's
