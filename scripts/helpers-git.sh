@@ -33,7 +33,7 @@ function local_clone_was_updated_from_remote() {
   report_action_taken "Testing remote of clone at ${local_dir} for changes"
   if [[ "$local_commit_hash" != "$remote_commit_hash" ]]; then
     report_action_taken "Update available. Pulling update."
-    git -C "${local_dir}" pull origin main
+    git -C "${local_dir}" pull origin main --recurse-submodules
     report_end_phase_standard
     return 0
   else
