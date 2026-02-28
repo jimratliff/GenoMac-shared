@@ -135,7 +135,6 @@ BUNDLE_ID_TERMINAL="com.apple.Terminal"
 BUNDLE_ID_TEXTEDIT="com.apple.TextEdit"
 BUNDLE_ID_TEXTEXPANDER="com.smileonmymac.textexpander"
 BUNDLE_ID_WATERFOX="net.waterfox.waterfox"
-BUNDLE_ID_WITCH="com.manytricks.Witch"
 
 ############### Domain for defaults write commands
 DEFAULTS_DOMAINS_ALFRED="com.runningwithcrayons.Alfred-Preferences"
@@ -227,7 +226,6 @@ export_and_report BUNDLE_ID_TERMINAL
 export_and_report BUNDLE_ID_TEXTEDIT
 export_and_report BUNDLE_ID_TEXTEXPANDER
 export_and_report BUNDLE_ID_WATERFOX
-export_and_report BUNDLE_ID_WITCH
 
 export_and_report DEFAULTS_DOMAINS_ALFRED
 export_and_report DEFAULTS_DOMAINS_HELIUM
