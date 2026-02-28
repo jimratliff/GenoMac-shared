@@ -29,6 +29,9 @@ function local_clone_was_updated_from_remote() {
   git -C "${local_dir}" fetch origin main
   local_commit_hash=$(git -C "${local_dir}" rev-parse HEAD)
   remote_commit_hash=$(git -C "${local_dir}" rev-parse origin/main)
+  report "Local hash: ${local_commit_hash}"
+  report "Remote hash: ${remote_commit_hash}"
+  echo "Branch: $(git -C "${local_dir}" rev-parse --abbrev-ref HEAD)"
 
   report_action_taken "Testing remote of clone at ${local_dir} for changes"
   if [[ "$local_commit_hash" != "$remote_commit_hash" ]]; then
