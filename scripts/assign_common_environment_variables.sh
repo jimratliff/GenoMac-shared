@@ -6,6 +6,9 @@
 #   helpers-misc.sh
 #   - set_env_var_if_not_set()
 
+# Specify location of PlistBuddy
+PLISTBUDDY_PATH='/usr/libexec/PlistBuddy'
+
 ############### GENOMAC_ALERT_LOG
 # Creates and names a temporary file to accumulate warning/failure messages for
 #   later regurgitation at the end of a main script.
@@ -197,6 +200,7 @@ export_and_report MIGRATION_STATE_PREFIX
 export_and_report NEWLINE
 export_and_report PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE
 export_and_report PERM_THIS_USER_IS_A_USER_CONFIGGER
+export_and_report PLISTBUDDY_PATH
 export_and_report SYSTEM_ALERT_SOUNDS_DIRECTORY
 
 export_and_report BUNDLE_ID_1PASSWORD
