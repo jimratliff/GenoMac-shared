@@ -65,7 +65,7 @@ function ensure_plist_path_exists() {
   fi
 }
 
-function set_or_add_plist_bool() {
+function set_or_add_plist_value() {
 	# Sets a boolean key in a plist file, or adds it if it doesn’t yet exist.
 	# This makes the operation idempotent: safe to call on both first runs (when
 	# the key is absent) and subsequent re-runs (when the key already exists).
@@ -83,22 +83,23 @@ function set_or_add_plist_bool() {
 	#   $3  path   Absolute path to the .plist file
 	#
 	# Usage:
-	#   set_or_add_plist_bool 'Show Search Field' false "$witch_plist_path"
-  #   set_or_add_plist_bool 'Spring-Load' true "$witch_plist_path"
+  #   set_or_add_plist_value 'Show Search Field' bool false "$witch_plist_path"
+  #   set_or_add_plist_value 'Spring-Load' bool true "$witch_plist_path"
+
 
   report_start_phase_standard
 
-  local key value path
+  local key type value path
 	key="$1" 
-	value="$2" 
-	path="$3"
+	type="$2"
+	value="$3" 
+	path="$4"
 
-  report_action_taken "Setting plist item. Key: ${key} to value: {$value}"
+  report_action_taken "Setting plist item. Key/type: ${key} (${type}) to value: {$value}"
   
-	"$PLISTBUDDY_PATH" -c "Set '$key' $value" "$path" 2>/dev/null \
-		|| "$PLISTBUDDY_PATH" -c "Add '$key' bool $value" "$path"
+  "$PLISTBUDDY_PATH" -c "Set '$key' $value" "$path" 2>/dev/null \
+    || "$PLISTBUDDY_PATH" -c "Add '$key' $type $value" "$path"
   success_or_not
 
   report_end_phase_standard
 }
-
