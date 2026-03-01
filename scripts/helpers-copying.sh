@@ -66,14 +66,17 @@ function copy_resource_between_local_directories() {
   local mode
   local cp_flags
   local chown_flags
+  local parent_dir
   if [[ -d "$source_path" ]]; then
     is_directory=true
+    parent_dir="$destination_path"
     mode="755"        # Directories need execute permission for traversal
     cp_flags="-R"     # Recursive copy for directories
     chown_flags="-R"  # Recursive ownership for directories
     report "Source is a directory/package."
   else
     is_directory=false
+    parent_dir=$(dirname "$destination_path")
     mode="644"         # Files: owner read/write, others read-only
     cp_flags="-f"      # Force copy for files
     chown_flags=""
@@ -92,8 +95,6 @@ function copy_resource_between_local_directories() {
   fi
   
   # Create parent directory
-  local parent_dir
-  parent_dir=$(dirname "$destination_path")
   report_action_taken "Ensure destination folder exists: $parent_dir"
   $sudo_prefix mkdir -p "$parent_dir" ; success_or_not
   
@@ -103,10 +104,7 @@ function copy_resource_between_local_directories() {
   report_action_taken "Copy ${resource_name} to $(dirname "$destination_path") (idempotent)"
   
   local needs_copy=false
-  if [[ ! -e "$destination_path" ]]; then
-    needs_copy=true
-    report "Resource doesn’t exist at destination, will copy"
-  elif [[ "$is_directory" == true ]]; then
+  if [[ "$is_directory" == true ]]; then
     # For directories, use rsync dry-run to check if content differs
     if [[ -n $(rsync -aqn --out-format="%n" "$source_path/" "$destination_path/") ]] \
        || [[ -z "$(ls -A "$destination_path")" ]]; then
@@ -115,7 +113,10 @@ function copy_resource_between_local_directories() {
     fi
   else
     # For files, use cmp
-    if ! cmp -s "$source_path" "$destination_path" 2>/dev/null; then
+    if [[ ! -e "$destination_path" ]]; then
+      needs_copy=true
+      report "Resource doesn’t exist at destination, will copy"
+    elif ! cmp -s "$source_path" "$destination_path" 2>/dev/null; then
       needs_copy=true
       report "File contents differ, will update"
     fi
