@@ -53,6 +53,8 @@ function copy_resource_between_local_directories() {
     report_fail "Usage: copy_resource_between_local_directories <source_path> <destination_path> [--systemwide]"
     return 1
   fi
+
+  report "Source:${source_path}${NEWLINE}Destination:${destination_path}${NEWLINE}Systemwide?:${systemwide}"
   
   # Verify source exists
   report_action_taken "Verify that source resource exists"
@@ -60,6 +62,7 @@ function copy_resource_between_local_directories() {
     report_fail "Source resource not found at: $source_path"
     return 1
   fi
+  success_or_not
   
   # Determine if source is a file or directory and set appropriate flags/permissions
   local is_directory
@@ -101,7 +104,7 @@ function copy_resource_between_local_directories() {
   # Determine whether we need to copy
   local resource_name
   resource_name=$(basename "$destination_path")
-  report_action_taken "Copy ${resource_name} to $(dirname "$destination_path") (idempotent)"
+  report_action_taken "Copy ${resource_name} to ${parent_dir} (idempotent)"
   
   local needs_copy=false
   if [[ "$is_directory" == true ]]; then
@@ -109,6 +112,12 @@ function copy_resource_between_local_directories() {
     if [[ -n $(rsync -aqn --out-format="%n" "$source_path/" "$destination_path/") ]]; then
       needs_copy=true
       report "Directory contents differ, will update"
+    else
+      report "Directory contents are the same, will not update"
+      report "Source directory contents:"
+      ls -la "$source_path"
+      report "Destination directory contents:"
+      ls -la "$destination_path"
     fi
   else
     # For files, use cmp
