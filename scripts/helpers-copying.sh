@@ -109,7 +109,7 @@ function copy_resource_between_local_directories() {
   local needs_copy=false
   if [[ "$is_directory" == true ]]; then
     # For directories, use rsync dry-run to check if content differs
-    if [[ -n $(rsync -aqn --out-format="%n" "$source_path/" "$destination_path/") ]]; then
+    if [[ -n $(rsync -n --no-perms --no-times --out-format="%n" "$source_path/" "$destination_path/") ]]; then
       needs_copy=true
       report "Directory contents differ, will update"
     else
