@@ -114,10 +114,6 @@ function copy_resource_between_local_directories() {
       report "Directory contents differ, will update"
     else
       report "Directory contents are the same, will not update"
-      report "Source directory contents:"
-      ls -la "$source_path"
-      report "Destination directory contents:"
-      ls -la "$destination_path"
     fi
   else
     # For files, use cmp
@@ -138,7 +134,7 @@ function copy_resource_between_local_directories() {
     fi
     
     # Copy the resource
-    $sudo_prefix cp $cp_flags "$source_path" "$destination_path" ; success_or_not
+    $sudo_prefix cp $cp_flags "$source_path" "$destination_path"
     report_success "Installed or updated ${resource_name}"
   else
     report_success "${resource_name} already up to date"
