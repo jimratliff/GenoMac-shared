@@ -83,9 +83,11 @@ function open_privacy_panel_for_full_disk_permissions() {
   open "$SYSTEM_SETTINGS_PRIVACY_SECURITY_PANEL_URL_FULL_DISK"
 }
 
-function open_wallpaper_panel() {
-  open "$SYSTEM_SETTINGS_WALLPAPER_PANEL_URL"
-}
+# function open_wallpaper_panel() {
+#   # This is DEPRECATED because it was used only in conjunction with launch_app_and_prompt_user_to_act()
+#   # which now has its own --open option, so this operation can be built into the call.
+#   open "$SYSTEM_SETTINGS_WALLPAPER_PANEL_URL"
+# }
 
 function show_file_using_quicklook() {
   # Shows a file using Quick Look, where that file is supplied by a path string in the only argument
