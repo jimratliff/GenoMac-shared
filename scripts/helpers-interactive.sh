@@ -109,31 +109,34 @@ function show_file_using_quicklook() {
 }
 
 function launch_app_and_prompt_user_to_act() {
-  # Launches an app, prompts user to take action, waits for acknowledgment, and quits app
+  # Prompts user to take action, waits for acknowledgment, optionally launching an app,
+  # open-ing something, and/or showing a document via QuickLook.
   #
   # The acknowledgment must be a case-insensitive match to `done`
   #
-# Arguments:
-  #   Without --no-app:
-  #     $1: bundle_id of the app to launch
-  #     $2: prompt text to display to user
-  #   With --no-app:
-  #     $1: prompt text to display to user
+  # Arguments:
+  #   Positional (required):
+  #     Without --no-app:
+  #       $1: bundle_id
+  #       $2: prompt_text
+  #     With --no-app:    
+  #       $1: prompt_text
   #
-  #   --no-app: (optional, any position) skip launching an app
-  #   --show-doc <filepath>: (optional, any position) path to a file to display via Quick Look
-  #   --show-folder <folderpath>: (optional, any position) path to a folder to open in Finder
+  #   Options (all optional, any position):
+  #     --no-app              Skip launching an app by bundle_id
+  #     --open <path>         Path to open (e.g., .prefPane, URL, folder, file)
+  #     --show-doc <filepath> Display file via Quick Look
   #
   # Usage:
   #   launch_app_and_prompt_user_to_act "com.example.some_app" "Please do the thing"
   #   launch_app_and_prompt_user_to_act --show-doc "/path/to/doc.md" "com.example.some_app" "Please do the thing"
   #   launch_app_and_prompt_user_to_act "com.example.some_app" "Please do the thing" --show-doc "/path/to/doc.md"
-  #   launch_app_and_prompt_user_to_act --show-folder "/path/to/folder" "com.example.some_app" "Please do the thing"
-  #   launch_app_and_prompt_user_to_act "com.example.some_app" "Please do the thing" --show-folder "/path/to/folder"
   #   launch_app_and_prompt_user_to_act --no-app "Please do the thing"
+  #   launch_app_and_prompt_user_to_act --no-app --open ~/Library/PreferencePanes/Witch.prefPane "Configure Witch settings"
+  #   launch_app_and_prompt_user_to_act --no-app --open /path/to/folder "Review the files in this folder"
   
   local doc_to_show=""
-  local folder_to_show=""
+  local path_to_open=""
   local no_app=false
   local positional=()
   
@@ -144,12 +147,12 @@ function launch_app_and_prompt_user_to_act() {
         no_app=true
         shift
         ;;
-      --show-doc)
-        doc_to_show="$2"
+      --open)
+        path_to_open="$2"
         shift 2
         ;;
-      --show-folder)
-        folder_to_show="$2"
+      --show-doc)
+        doc_to_show="$2"
         shift 2
         ;;
       *)
@@ -183,22 +186,20 @@ function launch_app_and_prompt_user_to_act() {
     open -b "$bundle_id" ; success_or_not
   fi
   
+  # Open specified path if provided (e.g., .prefPane, URL, folder, file)
+  if [[ -n "$path_to_open" ]]; then
+    report_action_taken "Opening $path_to_open"
+    open "$path_to_open" ; success_or_not
+  fi
+  
   local confirmation_word="done"
   
   # Show documentation using Quick Look if specified
   if [[ -n "$doc_to_show" ]]; then
-    if [[ -n "$bundle_id" ]]; then
-      sleep 2 # To give time for $bundle_id to fully open, so that the Quick Look window is on top
+    if [[ -n "$bundle_id" ]] || [[ -n "$path_to_open" ]]; then
+      sleep 2 # To give time for app/path to fully open, so that the Quick Look window is on top
     fi
     show_file_using_quicklook "$doc_to_show"
-  fi
-  
-  # Open folder in Finder if specified
-  if [[ -n "$folder_to_show" ]]; then
-    if [[ -n "$bundle_id" ]]; then
-      sleep 2 # To give time for $bundle_id to fully open, so that the Finder window is on top
-    fi
-    open "$folder_to_show"
   fi
   
   # Prompt user to complete the task
@@ -217,11 +218,11 @@ function launch_app_and_prompt_user_to_act() {
   
   if [[ -n "$bundle_id" ]]; then
     report_action_taken "User confirmed task completion for $bundle_id"
+  elif [[ -n "$path_to_open" ]]; then
+    report_action_taken "User confirmed task completion for $path_to_open"
   else
     report_action_taken "User confirmed task completion"
   fi
   
   # quit_app_by_bundle_id_if_running "$bundle_id"
 }
-
-
