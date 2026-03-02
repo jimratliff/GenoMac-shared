@@ -114,6 +114,9 @@ function launch_app_and_prompt_user_to_act() {
   #
   # The acknowledgment must be a case-insensitive match to `done`
   #
+  # By default, assumes you want to launch an app by its bundle ID. If that’s not correct,
+  # use --no-app
+  #
   # Arguments:
   #   Positional (required):
   #     Without --no-app:
