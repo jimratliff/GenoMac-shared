@@ -120,9 +120,9 @@ function interactive_ensure_terminal_has_fda() {
     
       # The session is interactive
       report_action_taken "I will open (a) the Full Disk Access panel in System Settings and (b) a Quick Look window with instructions"
-      open_privacy_panel_for_full_disk_permissions
       launch_app_and_prompt_user_to_act \
         --no-app \
+        --open "$SYSTEM_SETTINGS_PRIVACY_SECURITY_PANEL_URL_FULL_DISK" \
         --show-doc "${GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY}/full_disk_access_how_to_configure.md" \
         "Follow the instructions in the Quick Look window to grant the current terminal app Full Disk Access"
 
