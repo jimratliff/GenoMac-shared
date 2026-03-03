@@ -103,7 +103,7 @@ function show_file_using_quicklook() {
   [[ -f $1 ]] || { report_warning "Error: file not found: $1" >&2; exit 1; }
 
   # Displays the file to user using QuickLook
-  report_action_taken "I am showing you a file: «$1»${NEWLINE}Don’t see it? Look behind other windows."
+  report_action_taken "I am showing you a file: «$(basename "$1")»${NEWLINE}Don’t see it? Look behind other windows."
   /usr/bin/qlmanage -p "$1" >/dev/null 2>&1 &
 
   sleep 0.1
