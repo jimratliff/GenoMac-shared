@@ -112,13 +112,16 @@ MIGRATION_STATE_PREFIX="MIGRATION_ID_"
 
 # Bundle IDs for apps
 BUNDLE_ID_1PASSWORD="com.1password.1password"
+BUNDLE_ID_ACTIVITY_MONITOR="com.apple.ActivityMonitor"
 BUNDLE_ID_ALAN_APP="studio.retina.Alan"
 BUNDLE_ID_ALFRED="com.runningwithcrayons.Alfred"
 BUNDLE_ID_APP_STORE="com.apple.AppStore"
 BUNDLE_ID_BBEDIT="com.barebones.bbedit"
 BUNDLE_ID_BETTERTOUCHTOOL="com.hegenberg.BetterTouchTool"
 BUNDLE_ID_BRAVE="com.brave.Browser"
+BUNDLE_ID_CALENDAR="com.apple.iCal"
 BUNDLE_ID_CLAUDE="com.anthropic.claudefordesktop"
+BUNDLE_ID_CONTACTS="com.apple.AddressBook"
 BUNDLE_ID_DISKUTILITY="com.apple.DiskUtility"
 BUNDLE_ID_DROPBOX="com.getdropbox.dropbox"
 BUNDLE_ID_ELMEDIA_PLAYER_MAS="com.Eltima.ElmediaPlayer.MAS"
@@ -130,10 +133,14 @@ BUNDLE_ID_ITERM2="com.googlecode.iterm2"
 BUNDLE_ID_KEYBOARDMAESTRO_EDITOR="com.stairways.keyboardmaestro.editor"
 BUNDLE_ID_KEYBOARDMAESTRO_ENGINE="com.stairways.keyboardmaestro.engine"
 BUNDLE_ID_MICROSOFT_WORD="com.microsoft.Word"
+BUNDLE_ID_NOTES="com.apple.Notes"
 BUNDLE_ID_ORION="com.kagi.kagimacOS"
 BUNDLE_ID_PLAIN_TEXT_EDITOR="com.sindresorhus.Plain-Text-Editor"
 BUNDLE_ID_PREVIEW="com.apple.Preview"
+BUNDLE_ID_REMINDERS="com.apple.reminders"
 BUNDLE_ID_SAFARI="com.apple.safari"
+BUNDLE_ID_STICKIES="com.apple.Stickies"
+BUNDLE_ID_SYSTEM_SETTINGS="com.apple.systempreferences"
 BUNDLE_ID_TERMINAL="com.apple.Terminal"
 BUNDLE_ID_TEXTEDIT="com.apple.TextEdit"
 BUNDLE_ID_TEXTEXPANDER="com.smileonmymac.textexpander"
@@ -204,13 +211,16 @@ export_and_report PLISTBUDDY_PATH
 export_and_report SYSTEM_ALERT_SOUNDS_DIRECTORY
 
 export_and_report BUNDLE_ID_1PASSWORD
+export_and_report BUNDLE_ID_ACTIVITY_MONITOR
 export_and_report BUNDLE_ID_ALAN_APP
 export_and_report BUNDLE_ID_ALFRED
 export_and_report BUNDLE_ID_APP_STORE
 export_and_report BUNDLE_ID_BBEDIT
 export_and_report BUNDLE_ID_BETTERTOUCHTOOL
 export_and_report BUNDLE_ID_BRAVE
+export_and_report BUNDLE_ID_CALENDAR
 export_and_report BUNDLE_ID_CLAUDE
+export_and_report BUNDLE_ID_CONTACTS
 export_and_report BUNDLE_ID_DISKUTILITY
 export_and_report BUNDLE_ID_DROPBOX
 export_and_report BUNDLE_ID_ELMEDIA_PLAYER_MAS
@@ -222,14 +232,19 @@ export_and_report BUNDLE_ID_ITERM2
 export_and_report BUNDLE_ID_KEYBOARDMAESTRO_EDITOR
 export_and_report BUNDLE_ID_KEYBOARDMAESTRO_ENGINE
 export_and_report BUNDLE_ID_MICROSOFT_WORD
-export_and_report BUNDLE_ID_PLAIN_TEXT_EDITOR
+export_and_report BUNDLE_ID_NOTES
 export_and_report BUNDLE_ID_ORION
+export_and_report BUNDLE_ID_PLAIN_TEXT_EDITOR
 export_and_report BUNDLE_ID_PREVIEW
+export_and_report BUNDLE_ID_REMINDERS
 export_and_report BUNDLE_ID_SAFARI
+export_and_report BUNDLE_ID_STICKIES
+export_and_report BUNDLE_ID_SYSTEM_SETTINGS
 export_and_report BUNDLE_ID_TERMINAL
 export_and_report BUNDLE_ID_TEXTEDIT
 export_and_report BUNDLE_ID_TEXTEXPANDER
 export_and_report BUNDLE_ID_WATERFOX
+
 
 export_and_report DEFAULTS_DOMAINS_ALFRED
 export_and_report DEFAULTS_DOMAINS_HELIUM
