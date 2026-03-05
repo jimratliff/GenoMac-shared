@@ -5,6 +5,13 @@
 # Relies upon:
 #   helpers-reporting.sh
 
+#!/usr/bin/env zsh
+
+############### Helpers related to copying resources
+
+# Relies upon:
+#   helpers-reporting.sh
+
 function copy_resource_between_local_directories() {
   # Helper function to copy a resource between two local directories.
   # The source resource may be either a file or a directory (e.g., package).
@@ -27,7 +34,6 @@ function copy_resource_between_local_directories() {
   local destination_path=""
   local systemwide=false
   local unzip=false
-  local resource_name=""
 
   report_start_phase_standard
   
@@ -41,15 +47,6 @@ function copy_resource_between_local_directories() {
       --unzip)
         unzip=true
         shift
-        ;;
-      --resource-name)
-        if [[ -z "${2:-}" ]]; then
-          report_fail "--resource-name requires a value"
-          report_end_phase_standard
-          return 1
-        fi
-        resource_name="$2"
-        shift 2
         ;;
       *)
         if [[ -z "$source_path" ]]; then
@@ -68,7 +65,7 @@ function copy_resource_between_local_directories() {
   
   # Validate required arguments
   if [[ -z "$source_path" ]] || [[ -z "$destination_path" ]]; then
-    report_fail "Usage: copy_resource_between_local_directories <source_path> <destination_path> [--systemwide] [--unzip] [--resource-name <name>]"
+    report_fail "Usage: copy_resource_between_local_directories <source_path> <destination_path> [--systemwide] [--unzip]"
     report_end_phase_standard
     return 1
   fi
@@ -100,11 +97,7 @@ function copy_resource_between_local_directories() {
     unzip -q "$source_path" -d "$tmp_dir" ; success_or_not
 
     # Locate the single top-level directory inside the zip
-    if [[ -n "$resource_name" ]]; then
-      source_path="${tmp_dir}/${resource_name}"
-    else
-      source_path="${tmp_dir}"/*(N)
-    fi
+    source_path="${tmp_dir}"/*(N)
 
     if [[ ! -d "$source_path" ]]; then
       report_fail "Expected a single top-level directory inside zip; got: $(ls "$tmp_dir")"
@@ -186,32 +179,4 @@ function copy_resource_between_local_directories() {
     fi
     
     # Copy the resource
-    $sudo_prefix cp $cp_flags "$source_path" "$destination_path"
-    report_success "Installed or updated ${dest_resource_name}"
-  else
-    report_success "${dest_resource_name} already up to date"
-  fi
-  
-  # Set ownership
-  report_action_taken "Set ownership to ${owner} on ${destination_path}"
-  $sudo_prefix chown $chown_flags "${owner}" "$destination_path" ; success_or_not
-  
-  # Set permissions (644 for files, 755 for directories)
-  report_action_taken "Set permissions to ${mode} on ${destination_path}"
-  $sudo_prefix chmod "$mode" "$destination_path" ; success_or_not
-  
-  # For directories, ensure all subdirectories have proper execute permissions
-  if [[ "$is_directory" == true ]]; then
-    $sudo_prefix find "$destination_path" -type d -exec chmod 755 {} \; 2>/dev/null
-  fi
-
-  # Clean up temp directory if we created one
-  if [[ -n "$tmp_dir" ]]; then
-    rm -rf "$tmp_dir"
-    trap - EXIT
-  fi
-
-  report_end_phase_standard
-  
-  return 0
-}
+    $sudo_prefix cp $
