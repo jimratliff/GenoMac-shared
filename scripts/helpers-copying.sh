@@ -12,6 +12,13 @@
 # Relies upon:
 #   helpers-reporting.sh
 
+#!/usr/bin/env zsh
+
+############### Helpers related to copying resources
+
+# Relies upon:
+#   helpers-reporting.sh
+
 function copy_resource_between_local_directories() {
   # Helper function to copy a resource between two local directories.
   # The source resource may be either a file or a directory (e.g., package).
@@ -55,11 +62,6 @@ function copy_resource_between_local_directories() {
           destination_path="$1"
         else
           report_fail "Too many arguments provided to copy_resource_between_local_directories"
-          local i=1
-          for arg in "$@"; do
-            echo "Arg $i: [$arg]"
-            (( i++ ))
-          done
           report_end_phase_standard
           return 1
         fi
@@ -184,4 +186,33 @@ function copy_resource_between_local_directories() {
     fi
     
     # Copy the resource
-    $sudo_prefix cp $
+    $sudo_prefix cp $cp_flags "$source_path" "$destination_path"
+    report_success "Installed or updated ${dest_resource_name}"
+  else
+    report_success "${dest_resource_name} already up to date"
+  fi
+  
+  # Set ownership
+  report_action_taken "Set ownership to ${owner} on ${destination_path}"
+  $sudo_prefix chown $chown_flags "${owner}" "$destination_path" ; success_or_not
+  
+  # Set permissions (644 for files, 755 for directories)
+  report_action_taken "Set permissions to ${mode} on ${destination_path}"
+  $sudo_prefix chmod "$mode" "$destination_path" ; success_or_not
+  
+  # For directories, ensure all subdirectories have proper execute permissions
+  if [[ "$is_directory" == true ]]; then
+    $sudo_prefix find "$destination_path" -type d -exec chmod 755 {} \; 2>/dev/null
+  fi
+
+  # Clean up temp directory if we created one
+  if [[ -n "$tmp_dir" ]]; then
+    rm -rf "$tmp_dir"
+    trap - EXIT
+  fi
+
+  report_end_phase_standard
+  
+  return 0
+}
+
