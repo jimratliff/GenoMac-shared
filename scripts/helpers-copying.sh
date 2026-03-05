@@ -7,8 +7,8 @@
 
 function copy_resource_between_local_directories() {
   # Helper function to copy a resource between two local directories.
-  # The source resource may be either a file or a directory (e.g.,package).
-  # Usage: copy_resource_between_local_directories <source_path> <destination_path> [--systemwide]
+  # The source resource may be either a file or a directory (e.g., package).
+  # Usage: copy_resource_between_local_directories <source_path> <destination_path> [options]
   #
   # Arguments:
   #   source_path         Full path to the resource in a local directory
@@ -17,12 +17,22 @@ function copy_resource_between_local_directories() {
   # Options:
   #   --systemwide        Deploy systemwide (use sudo, set owner to root:wheel)
   #                       Default: false (deploy for current user)
+  #   --unzip             Source is a .zip file containing a single top-level
+  #                       directory; unzip to a temp directory first, then copy
+  #                       the extracted directory to destination_path.
+  #   --resource-name <name>
+  #                       Name of the top-level folder inside the zip. Use when
+  #                       the folder name inside the zip differs from the desired
+  #                       destination name. If omitted, auto-detected from the
+  #                       single top-level directory. Only valid with --unzip.
   #
   # Returns: 0 on success, 1 on failure
   
   local source_path=""
   local destination_path=""
   local systemwide=false
+  local unzip=false
+  local resource_name=""
 
   report_start_phase_standard
   
@@ -32,6 +42,19 @@ function copy_resource_between_local_directories() {
       --systemwide)
         systemwide=true
         shift
+        ;;
+      --unzip)
+        unzip=true
+        shift
+        ;;
+      --resource-name)
+        if [[ -z "${2:-}" ]]; then
+          report_fail "--resource-name requires a value"
+          report_end_phase_standard
+          return 1
+        fi
+        resource_name="$2"
+        shift 2
         ;;
       *)
         if [[ -z "$source_path" ]]; then
@@ -50,19 +73,53 @@ function copy_resource_between_local_directories() {
   
   # Validate required arguments
   if [[ -z "$source_path" ]] || [[ -z "$destination_path" ]]; then
-    report_fail "Usage: copy_resource_between_local_directories <source_path> <destination_path> [--systemwide]"
+    report_fail "Usage: copy_resource_between_local_directories <source_path> <destination_path> [--systemwide] [--unzip] [--resource-name <name>]"
+    report_end_phase_standard
     return 1
   fi
 
-  report "Source:${source_path}${NEWLINE}Destination:${destination_path}${NEWLINE}Systemwide?:${systemwide}"
+  report "Source:${source_path}${NEWLINE}Destination:${destination_path}${NEWLINE}Systemwide?:${systemwide}${NEWLINE}Unzip?:${unzip}"
   
   # Verify source exists
   report_action_taken "Verify that source resource exists"
   if [[ ! -e "$source_path" ]]; then
     report_fail "Source resource not found at: $source_path"
+    report_end_phase_standard
     return 1
   fi
   success_or_not
+
+  # If --unzip, extract to a temp directory and rewrite source_path
+  local tmp_dir=""
+  if [[ "$unzip" == true ]]; then
+    if [[ ! -f "$source_path" ]] || [[ "${source_path}" != *.zip ]]; then
+      report_fail "--unzip requires source_path to be a .zip file: $source_path"
+      report_end_phase_standard
+      return 1
+    fi
+
+    tmp_dir=$(mktemp -d)
+    trap 'rm -rf "$tmp_dir"' EXIT
+
+    report_action_taken "Unzip ${source_path} to temp directory"
+    unzip -q "$source_path" -d "$tmp_dir" ; success_or_not
+
+    # Locate the single top-level directory inside the zip
+    if [[ -n "$resource_name" ]]; then
+      source_path="${tmp_dir}/${resource_name}"
+    else
+      source_path="${tmp_dir}"/*(N)
+    fi
+
+    if [[ ! -d "$source_path" ]]; then
+      report_fail "Expected a single top-level directory inside zip; got: $(ls "$tmp_dir")"
+      rm -rf "$tmp_dir"
+      trap - EXIT
+      report_end_phase_standard
+      return 1
+    fi
+    report "Extracted source directory: $(basename "$source_path")"
+  fi
   
   # Determine if source is a file or directory and set appropriate flags/permissions
   local is_directory
@@ -102,9 +159,9 @@ function copy_resource_between_local_directories() {
   $sudo_prefix mkdir -p "$parent_dir" ; success_or_not
   
   # Determine whether we need to copy
-  local resource_name
-  resource_name=$(basename "$destination_path")
-  report_action_taken "Copy ${resource_name} to ${parent_dir} (idempotent)"
+  local dest_resource_name
+  dest_resource_name=$(basename "$destination_path")
+  report_action_taken "Copy ${dest_resource_name} to ${parent_dir} (idempotent)"
   
   local needs_copy=false
   if [[ "$is_directory" == true ]]; then
@@ -119,7 +176,7 @@ function copy_resource_between_local_directories() {
     # For files, use cmp
     if [[ ! -e "$destination_path" ]]; then
       needs_copy=true
-      report "Resource doesn’t exist at destination, will copy"
+      report "Resource doesn't exist at destination, will copy"
     elif ! cmp -s "$source_path" "$destination_path" 2>/dev/null; then
       needs_copy=true
       report "File contents differ, will update"
@@ -135,9 +192,9 @@ function copy_resource_between_local_directories() {
     
     # Copy the resource
     $sudo_prefix cp $cp_flags "$source_path" "$destination_path"
-    report_success "Installed or updated ${resource_name}"
+    report_success "Installed or updated ${dest_resource_name}"
   else
-    report_success "${resource_name} already up to date"
+    report_success "${dest_resource_name} already up to date"
   fi
   
   # Set ownership
@@ -151,6 +208,12 @@ function copy_resource_between_local_directories() {
   # For directories, ensure all subdirectories have proper execute permissions
   if [[ "$is_directory" == true ]]; then
     $sudo_prefix find "$destination_path" -type d -exec chmod 755 {} \; 2>/dev/null
+  fi
+
+  # Clean up temp directory if we created one
+  if [[ -n "$tmp_dir" ]]; then
+    rm -rf "$tmp_dir"
+    trap - EXIT
   fi
 
   report_end_phase_standard
