@@ -107,7 +107,8 @@ function copy_resource_between_local_directories() {
     ls -la "$tmp_dir"
 
     # Locate the single top-level directory inside the zip
-    source_path=${tmp_dir}/*(N)
+    # source_path=${tmp_dir}/*(N)
+    source_path=$(find "$tmp_dir" -mindepth 1 -maxdepth 1 -type d)
     report "DEBUG: source_path=${NEWLINE}[$source_path]"
 
     if [[ ! -d "$source_path" ]]; then
