@@ -55,6 +55,11 @@ function copy_resource_between_local_directories() {
           destination_path="$1"
         else
           report_fail "Too many arguments provided to copy_resource_between_local_directories"
+          local i=1
+          for arg in "$@"; do
+            echo "Arg $i: [$arg]"
+            (( i++ ))
+          done
           report_end_phase_standard
           return 1
         fi
