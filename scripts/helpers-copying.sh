@@ -20,11 +20,6 @@ function copy_resource_between_local_directories() {
   #   --unzip             Source is a .zip file containing a single top-level
   #                       directory; unzip to a temp directory first, then copy
   #                       the extracted directory to destination_path.
-  #   --resource-name <name>
-  #                       Name of the top-level folder inside the zip. Use when
-  #                       the folder name inside the zip differs from the desired
-  #                       destination name. If omitted, auto-detected from the
-  #                       single top-level directory. Only valid with --unzip.
   #
   # Returns: 0 on success, 1 on failure
   
