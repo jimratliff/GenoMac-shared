@@ -78,7 +78,7 @@ function copy_resource_between_local_directories() {
     return 1
   fi
 
-  report "Source:${source_path}${NEWLINE}Destination:${destination_path}${NEWLINE}Systemwide?:${systemwide}${NEWLINE}Unzip?:${unzip}"
+  report "Source:${source_path}${NEWLINE}Destination:${destination_path}${NEWLINE}Systemwide?:${systemwide} Unzip?:${unzip}"
   
   # Verify source exists
   report_action_taken "Verify that source resource exists"
