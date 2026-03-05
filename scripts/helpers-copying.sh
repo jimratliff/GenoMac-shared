@@ -108,6 +108,7 @@ function copy_resource_between_local_directories() {
 
     # Locate the single top-level directory inside the zip
     source_path="${tmp_dir}"/*(N)
+    report "DEBUG: source_path=${NEWLINE}[$source_path]"
 
     if [[ ! -d "$source_path" ]]; then
       report_fail "Expected a single top-level directory inside zip; got: $(ls "$tmp_dir")"
