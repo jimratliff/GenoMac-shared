@@ -101,7 +101,7 @@ function copy_resource_between_local_directories() {
     trap 'rm -rf "$tmp_dir"' EXIT
 
     report_action_taken "Unzip ${source_path} to temp directory"
-    unzip -q "$source_path" -d "$tmp_dir" ; success_or_not
+    unzip -q "$source_path" -d "$tmp_dir" -x '__MACOSX/*' ; success_or_not
 
     # Locate the single top-level directory inside the zip
     source_path="${tmp_dir}"/*(N)
