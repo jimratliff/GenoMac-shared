@@ -137,6 +137,7 @@ BUNDLE_ID_NOTES="com.apple.Notes"
 BUNDLE_ID_ORION="com.kagi.kagimacOS"
 BUNDLE_ID_PLAIN_TEXT_EDITOR="com.sindresorhus.Plain-Text-Editor"
 BUNDLE_ID_PREVIEW="com.apple.Preview"
+BUNDLE_ID_QUICKTIMEPLAYER="com.apple.QuickTimePlayerX"
 BUNDLE_ID_REMINDERS="com.apple.reminders"
 BUNDLE_ID_SAFARI="com.apple.safari"
 BUNDLE_ID_STICKIES="com.apple.Stickies"
@@ -237,6 +238,7 @@ export_and_report BUNDLE_ID_NOTES
 export_and_report BUNDLE_ID_ORION
 export_and_report BUNDLE_ID_PLAIN_TEXT_EDITOR
 export_and_report BUNDLE_ID_PREVIEW
+export_and_report BUNDLE_ID_QUICKTIMEPLAYER
 export_and_report BUNDLE_ID_REMINDERS
 export_and_report BUNDLE_ID_SAFARI
 export_and_report BUNDLE_ID_STICKIES
