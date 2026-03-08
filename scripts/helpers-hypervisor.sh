@@ -137,6 +137,30 @@ function _run_if_not_already_done() {
   # report_end_phase "Leaving _run_if_not_already_done $*"
 }
 
+function _run_func_and_args_if_not_already_done() {
+  # Executes a function, optionally with arguments, if a completion state variable is false (absent) indicating
+  # a task hasn't been done yet.
+  # Sets the state variable after successful execution
+  #
+  # Flags can appear in any position.
+  # Like _run_if_not_already_done, but func_to_run can receive arguments.
+  # skip_message moves before func_to_run to allow variable-length args.
+  #
+  # Usage:
+  #   _run_func_and_args_if_not_already_done [--force-logout] <state_var> <skip_message> <func_to_run> [args...]
+  #
+  # Flags can appear in any position.
+  #
+  # Parameters:
+  #   --force-logout  Optional. If present, calls hypervisor_force_logout after setting state.
+  #   state_var       The state variable to check and set (e.g., $GMU_SESH_...).
+  #   skip_message    Message to display if state is already set and action is skipped.
+  #   func_to_run     Name of the function to execute if state is not set.
+  #   [args...]       Optional arguments to pass to func_to_run.
+
+  _run_func_and_args_based_on_state --negate-state "$@"
+}
+
 function _run_if_state() {
   # Executes a function if a completion state variable is true (present) indicating a task has been done.
   #
