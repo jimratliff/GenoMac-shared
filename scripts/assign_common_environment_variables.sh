@@ -144,6 +144,7 @@ BUNDLE_ID_SYSTEM_SETTINGS="com.apple.systempreferences"
 BUNDLE_ID_TERMINAL="com.apple.Terminal"
 BUNDLE_ID_TEXTEDIT="com.apple.TextEdit"
 BUNDLE_ID_TEXTEXPANDER="com.smileonmymac.textexpander"
+BUNDLE_ID_TV="com.apple.TV"
 BUNDLE_ID_WATERFOX="net.waterfox.waterfox"
 
 ############### Domain for defaults write commands
@@ -243,6 +244,7 @@ export_and_report BUNDLE_ID_SYSTEM_SETTINGS
 export_and_report BUNDLE_ID_TERMINAL
 export_and_report BUNDLE_ID_TEXTEDIT
 export_and_report BUNDLE_ID_TEXTEXPANDER
+export_and_report BUNDLE_ID_TV
 export_and_report BUNDLE_ID_WATERFOX
 
 
