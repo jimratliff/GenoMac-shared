@@ -12,7 +12,7 @@
 #   - GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
 
 function _run_based_on_state() {
-  # Executes a function based on whether a state variable is set or not.
+  # Executes a function based on whether a state variable is set.
   # Core helper that powers both _run_if_not_already_done and _run_if_state.
   #
   # Usage:
@@ -93,6 +93,77 @@ function _run_based_on_state() {
   fi
 
   # report_end_phase "Leaving _run_based_on_state: function_to_run:${func_to_run} state_var:${state_var}"
+}
+
+function _run_func_and_args_based_on_state() {
+  # Executes a function, optionally with arguments, based on whether a state variable is set.
+  # Core helper that powers both _run_func_and_args_if_not_already_done and _run_func_and_args_if_state.
+  #
+  # Usage:
+  #   _run_func_and_args_based_on_state [--negate-state] [--force-logout] <scope> <state_var> <skip_message> <func_to_run> [args...]
+  #
+  # Flags can appear in any position.
+  #
+  # Parameters:
+  #   --negate-state  Optional. If present, runs func_to_run when state is NOT set.
+  #                   If absent, runs func_to_run when state IS set.
+  #   --force-logout  Optional. If present, calls hypervisor_force_logout after execution.
+  #   scope           Either 'user' or 'system'.
+  #   state_var       The state variable to check (e.g., $GMU_SESH_...).
+  #   skip_message    Message to display if condition is not met and action is skipped.
+  #   func_to_run     Name of the function to execute if condition is met.
+  #   [args, …]       Optional arguments to func_to_run
+  #
+  # If func_to_run is executed, then state_var is SET. (This has effect only when --negate-state
+  # because when --negate-state is absent, func_to_run is executed only when state_var is already set.)
+  #
+  # This is a refactor of _run_based_on_state, which didn’t accept arguments to func_to_run, that required a breaking
+  # reordering of parameters: skip_message moves before func_to_run to allow variable-length args.
+
+  local negate_state=false
+  local force_logout=false
+  local positional=()
+  local func_desc
+
+  while (( $# > 0 )); do
+    case "$1" in
+      --negate-state) negate_state=true; shift ;;
+      --force-logout) force_logout=true; shift ;;
+      *)              positional+=("$1"); shift ;;
+    esac
+  done
+
+  if (( ${#positional[@]} < 4 )); then
+    report_fail "Error: expected at least 4 positional arguments (scope, state_var, skip_message, func_to_run [args...]), got ${#positional[@]}"
+    return 1
+  fi
+
+  local scope="${positional[1]}"
+  local state_var="${positional[2]}"
+  local skip_message="${positional[3]}"
+  local func_to_run="${positional[4]}"
+  local func_args=("${positional[@]:4}")
+  _validate_scope "$scope" || return 1
+
+  local should_run=false
+  if $negate_state; then
+    _test_state "$state_var" "$scope" || should_run=true
+  else
+    _test_state "$state_var" "$scope" && should_run=true
+  fi
+
+  if $should_run; then
+    report_action_taken "Running $func_to_run"
+    $func_to_run "${func_args[@]}"
+    func_desc="$func_to_run${func_args:+ ${func_args[*]}}"
+    report_action_taken "Back from ${func_desc}.${NEWLINE}Setting $state_var"
+    _set_state "$state_var" "$scope"
+    if $force_logout; then
+      hypervisor_force_logout
+    fi
+  else
+    report_action_taken "$skip_message"
+  fi
 }
 
 function _run_if_not_already_done() {
