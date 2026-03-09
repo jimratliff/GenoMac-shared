@@ -246,6 +246,49 @@ function run_if_user_state() {
   # report_end_phase "Leaving run_if_user_state $*"
 }
 
+function run_func_and_args_if_user_has_not_done() {
+  # Executes a function if a user completion state variable is false (absent) indicating a task hasn't been done yet.
+  # Sets the state variable after successful execution.
+  #
+  # Usage:
+  #   run_func_and_args_if_user_has_not_done [--force-logout] <state_var>  <skip_message> <func_to_run> [args…]
+  #
+  # Flags can appear in any position.
+  #
+  # Parameters:
+  #   --force-logout  Optional. If present, calls hypervisor_force_logout after setting state.
+  #   state_var       The user state variable to check and set (e.g., $SESH_...).
+  #   skip_message    Message to display if state is already set and action is skipped.
+  #   func_to_run     Name of the function to execute if state is not set.
+  #   [args…]         Optional arguments to pass to func_to_run
+  #
+  # Usage examples:
+  #   run_func_and_args_if_user_has_not_done "$PERM_INTRO_QUESTIONS_ASKED_AND_ANSWERED" \
+  #     "Skipping introductory questions, because you've answered them in the past." \
+  #     ask_initial_questions \
+  #     "value for some argument not yet implemented"
+
+  _run_func_and_args_based_on_state 'user' --negate-state "$@"
+}
+
+function run_func_and_args_if_user_state() {
+  # Executes a function if a user completion state variable is true (present) indicating a task has been done.
+  #
+  # Usage:
+  #   run_func_and_args_if_user_state [--force-logout] <state_var> <skip_message> <func_to_run> [args…]
+  #
+  # Flags can appear in any position.
+  #
+  # Parameters:
+  #   --force-logout  Optional. If present, calls hypervisor_force_logout after execution.
+  #   state_var       The state variable to check (e.g., $GMU_SESH_...).
+  #   skip_message    Message to display if state is not set and action is skipped.
+  #   func_to_run     Name of the function to execute if state is set.
+  #   [args…]         Optional arguments to pass to func_to_run
+
+  _run_based_on_state 'user' "$@"
+}
+
 
 ############### Scope: system
 
