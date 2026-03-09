@@ -180,27 +180,6 @@ function _run_func_and_args_if_not_already_done() {
   _run_func_and_args_based_on_state --negate-state "$@"
 }
 
-function _run_if_state() {
-  # Executes a function if a completion state variable is true (present) indicating a task has been done.
-  #
-  # Usage:
-  #   _run_if_state [--force-logout] <state_var> <func_to_run> <skip_message>
-  #
-  # Flags can appear in any position.
-  #
-  # Parameters:
-  #   --force-logout  Optional. If present, calls hypervisor_force_logout after execution.
-  #   state_var       The state variable to check (e.g., $GMU_SESH_...).
-  #   func_to_run     Name of the function to execute if state is set.
-  #   skip_message    Message to display if state is not set and action is skipped.
-
-  # report_start_phase_standard "_run_if_state $*"
-  
-  _run_based_on_state "$@"
-
-  # report_end_phase "_run_if_state $*"
-}
-
 function hypervisor_force_logout() {
   echo ""
   echo "ℹ️  You will be logged out semi-automatically to fully internalize all the work we’ve done."
@@ -250,7 +229,7 @@ function run_if_user_state() {
   # Executes a function if a user completion state variable is true (present) indicating a task has been done.
   #
   # Usage:
-  #   _run_if_state [--force-logout] <state_var> <func_to_run> <skip_message>
+  #   run_if_user_state [--force-logout] <state_var> <func_to_run> <skip_message>
   #
   # Flags can appear in any position.
   #
