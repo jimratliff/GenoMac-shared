@@ -184,7 +184,7 @@ function hypervisor_force_logout() {
   echo ""
   echo "ℹ️  You will be logged out semi-automatically to fully internalize all the work we’ve done."
   echo "   Please log back in."
-  echo "   $HYPERVISOR_HOW_TO_RESTART_STRING."
+  echo "   $HYPERVISOR_HOW_TO_RESTART_STRING"
   echo ""
 
   dump_accumulated_warnings_failures
