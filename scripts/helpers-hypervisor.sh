@@ -12,6 +12,25 @@
 #   - GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
 
 function _run_based_on_state() {
+  # Executes a function (with no arguments) based on whether a state variable is set.
+  # Core helper that powers both _run_if_not_already_done and _run_if_state and run_if_user_state.
+  #
+  # Usage:
+  #   _run_based_on_state [--negate-state] [--force-logout] <scope> <state_var>  <func_to_run> <skip_message>
+  #
+  # Flags can appear in any position.
+  #
+  # Parameters:
+  #   --negate-state  Optional. If present, runs func_to_run when state is NOT set.
+  #                   If absent, runs func_to_run when state IS set.
+  #   --force-logout  Optional. If present, calls hypervisor_force_logout after execution.
+  #   scope           Either 'user' or 'system'.
+  #   state_var       The state variable to check (e.g., $GMU_SESH_...).
+  #   func_to_run     Name of the function to execute if condition is met.
+  #   skip_message    Message to display if condition is not met and action is skipped.
+  #
+  # If func_to_run is executed, then state_var is SET. (This has effect only when --negate-state
+  # because when --negate-state is absent, func_to_run is executed only when state_var is already set.)
   # Legacy wrapper. Positional order: scope, state_var, func_to_run, skip_message
   # New function expects:              scope, state_var, skip_message, func_to_run
 
