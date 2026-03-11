@@ -357,6 +357,8 @@ function delete_genomac_user_state() {
 }
 
 function set_user_state_based_on_yes_no() {
+  # $1: the "state string" that labels the state
+  # $2: the prompt to display to the user
   _set_state_based_on_yes_no "$1" "$2" "user"
 }
 
