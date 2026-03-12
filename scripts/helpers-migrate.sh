@@ -125,6 +125,9 @@ function migrate_system_states() {
   #           It must be followed by a sequence of one or more strings, each of which refers to a
   #           state within the 'system' state space.
   #           These are the states to be deleted as part of this migration.
+  #
+  # Usage:
+  #   migrate_system_states "MIGRATION_ID_2026_03_11" --delete "$PERM_MAC_NAMES_AND_LOGIN_WINDOW_MESSAGE_OBTAINED"
   
   report_start_phase_standard
   
