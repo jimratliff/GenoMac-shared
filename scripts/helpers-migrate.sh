@@ -47,7 +47,7 @@ _migrate_states() {
   # This function is intended to be called by either migrate_system_states() or migrate_user_states()
   #
   # Usage:
-  #   _migrate_states "user" "MIGRATION_ID_2026_03_11" "$PERM_PREVIEW_BASE_TOOLBAR_HAS_BEEN_SPECIFIED"
+  #   _migrate_states "user" "MIGRATION_ID_2026_03_11" --delete "$PERM_PREVIEW_BASE_TOOLBAR_HAS_BEEN_SPECIFIED"
   #
   # Migrations are to be specified in hypervisor.sh (a) after the repo has been tested for changes (and updated if
   # necessary) and (b) before calling `subdermis`.
@@ -148,6 +148,9 @@ function migrate_user_states() {
   #           It must be followed by a sequence of one or more strings, each of which refers to a
   #           state within the 'user' state space.
   #           These are the states to be deleted as part of this migration.
+  #
+  # Usage:
+  #   migrate_user_states "MIGRATION_ID_2026_03_11" --delete "$PERM_PREVIEW_BASE_TOOLBAR_HAS_BEEN_SPECIFIED"
   
   report_start_phase_standard
   
