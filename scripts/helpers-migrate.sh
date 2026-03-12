@@ -48,6 +48,14 @@ _migrate_states() {
   #
   # Usage:
   #   _migrate_states "user" "MIGRATION_ID_2026_03_11" "$PERM_PREVIEW_BASE_TOOLBAR_HAS_BEEN_SPECIFIED"
+  #
+  # Migrations are to be specified in hypervisor.sh (a) after the repo has been tested for changes (and updated if
+  # necessary) and (b) before calling `subdermis`.
+  # If there are multiple migrations specified, they will be performed in the order they are listed. Typically, then,
+  # new migrations should be *appended* to the list of migrations.
+  # There is no rush to remove a migration from hypevisor.sh, because a migration will never to be repeated for the
+  # same environment. That said, after it is clear that all environments have executed a given migration, it can be
+  # pruned from the migration list as a housekeeping step.
   
   report_start_phase_standard
   
@@ -69,6 +77,8 @@ _migrate_states() {
     report_end_phase_standard
     return 0
   fi
+
+  report_action_taken "Performing state migration ${migration_id}"
 
   # Parse options
   shift 2
