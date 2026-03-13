@@ -25,9 +25,11 @@ GENOMAC_COMMON_GITHUB_SCP_URL_ROOT="git@github.com:jimratliff"
 GENOMAC_SHARED_REPO_NAME="GenoMac-shared"
 GENOMAC_SYSTEM_REPO_NAME="GenoMac-system"
 GENOMAC_USER_REPO_NAME="GenoMac-user"
+
+# GENOMAC_USER_HTTP_REPO_URL is used by GenoMac-system when it clones GenoMac-user for USER_CONFIGURER
 GENOMAC_USER_HTTP_REPO_URL="${GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT}/${GENOMAC_USER_REPO_NAME}.git"
 
-############### Location of submodule within each GenoMac-system and GenoMac-user repo
+############### Compute location of GenoMac-shared submodule within each GenoMac-system and GenoMac-user repo
 # Get path of THIS script, even when sourced
 # Explanation:
 # %x — zsh prompt escape meaning "path of the script being sourced"
@@ -41,9 +43,9 @@ GENOMAC_SHARED_RESOURCE_DIRECTORY="${GENOMAC_SHARED_ROOT}/resources" # ~/.genoma
 GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY="${GENOMAC_SHARED_RESOURCE_DIRECTORY}/docs_to_display_to_user" # ~/.genomac-system/external/genomac-shared/resources/docs_to_display_to_user
 
 ############### Local directories
-# NOTE: These are located in GenoMac-shared because (a) each is the basis for the name of
-#       its repo’s state-management directory and (b) each repo can have a reason to
-#       read/write state in the other repo’s state directory.
+# NOTE: These environment variables are located in GenoMac-shared because (a) each is the basis for the name of
+#       its repo’s state-management directory and (b) each repo can have a reason to read/write state in the
+#       other repo’s state directory.
 GENOMAC_SYSTEM_LOCAL_DIRECTORY="$HOME/.genomac-system"
 GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
 
