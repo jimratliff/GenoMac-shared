@@ -74,7 +74,7 @@ LOCAL_DROPBOX_DIRECTORY="$HOME/Library/CloudStorage/Dropbox"
 GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 
 ############### Hypervisor related
-HYPERVISOR_MAKE_COMMAND_STRING="make run-hypervisor"
+HYPERVISOR_MAKE_COMMAND_STRING="just run-hypervisor"
 HYPERVISOR_HOW_TO_RESTART_STRING="To restart, re-execute ${HYPERVISOR_MAKE_COMMAND_STRING} and we’ll pick up where we left off."
 ###
 
