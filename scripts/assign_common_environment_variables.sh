@@ -107,10 +107,6 @@ GENOMAC_USER_LOCAL_STATE_DIRECTORY="${GENOMAC_USER_LOCAL_DIRECTORY}-state" # ~/.
 # User-domain state that must be accessible by system
 PERM_THIS_USER_IS_A_USER_CONFIGGER="PERM_this_user_is_a_user_configger"
 
-# System-domain states that must be accessible by users
-PERM_DEFAULT_GIT_USER_NAME="PERM_default_git_user_name"
-PERM_DEFAULT_GIT_USER_EMAIL="PERM_default_git_user_email"
-
 # Migration related
 MIGRATION_STATE_PREFIX="MIGRATION_ID_"
 
@@ -214,8 +210,6 @@ export_and_report LOCAL_DROPBOX_DIRECTORY
 export_and_report MIGRATION_STATE_PREFIX
 export_and_report NEWLINE
 export_and_report PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE
-export_and_report PERM_DEFAULT_GIT_USER_EMAIL
-export_and_report PERM_DEFAULT_GIT_USER_NAME
 export_and_report PERM_THIS_USER_IS_A_USER_CONFIGGER
 export_and_report PLISTBUDDY_PATH
 export_and_report SYSTEM_ALERT_SOUNDS_DIRECTORY
