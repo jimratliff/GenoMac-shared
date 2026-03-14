@@ -72,21 +72,21 @@ print_banner_text() {
 function success_or_not() {
   # Print SYMBOL_SUCCESS if success (based on error code); otherwise SYMBOL_FAILURE
   if [[ $? -eq 0 ]]; then
-    printf " ${SYMBOL_SUCCESS}\n"
+    printf " ${SYMBOL_SUCCESS}\n" >&2
   else
-    printf "\n${SYMBOL_FAILURE}\n"
+    printf "\n${SYMBOL_FAILURE}\n" >&2
   fi
 }
 
 function report() {
   # Output supplied line of text in a distinctive color.
-  printf "%b%s%b\n" "$COLOR_REPORT" "$1" "$COLOR_RESET"
+  printf "%b%s%b\n" "$COLOR_REPORT" "$1" "$COLOR_RESET" >&2
 }
 
 function report_fail() {
   # Output supplied line of text in a distinctive color prefaced by SYMBOL_FAILURE.
   local message="$1"
-  printf "%b%s%s%b\n" "$COLOR_ERROR" "$SYMBOL_FAILURE" "$message" "$COLOR_RESET"
+  printf "%b%s%s%b\n" "$COLOR_ERROR" "$SYMBOL_FAILURE" "$message" "$COLOR_RESET" >&2
   
   # Also append a plain-text version to the alert log, if it's set.
   if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
@@ -96,13 +96,13 @@ function report_fail() {
 
 function report_success() {
   # Output supplied line of text in a distinctive color prefaced by SYMBOL_SUCCESS.
-  printf "%b%s%s%b\n" "$COLOR_SUCCESS" "$SYMBOL_SUCCESS" "$1" "$COLOR_RESET"
+  printf "%b%s%s%b\n" "$COLOR_SUCCESS" "$SYMBOL_SUCCESS" "$1" "$COLOR_RESET" >&2
 }
 
 function report_warning() {
   # Output supplied line of text in a distinctive color prefaced by SYMBOL_WARNING.
   local message="$1"
-  printf "%b%s%s%b\n" "$COLOR_WARNING" "$SYMBOL_WARNING" "$message" "$COLOR_RESET"
+  printf "%b%s%s%b\n" "$COLOR_WARNING" "$SYMBOL_WARNING" "$message" "$COLOR_RESET" >&2
 
   # Also append a plain-text version to the alert log, if it's set.
   if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
@@ -113,18 +113,18 @@ function report_warning() {
 function report_adjust_setting() {
   # Output supplied line of text in a distinctive color, prefaced by "$SYMBOL_ADJUST_SETTING.
   # It is intentional to NOT have a newline. This will be supplied by success().
-  printf "%b%s%s%b" "$COLOR_ADJUST_SETTING" "$SYMBOL_ADJUST_SETTING" "$1" "$COLOR_RESET"
+  printf "%b%s%s%b" "$COLOR_ADJUST_SETTING" "$SYMBOL_ADJUST_SETTING" "$1" "$COLOR_RESET" >&2
 }
 
 function report_action_taken() {
   # Output supplied line of text in a distinctive color, prefaced by "$SYMBOL_ADJUST_SETTING.
-  printf "%b%s%s%b\n" "$COLOR_ACTION_TAKEN" "$SYMBOL_ACTION_TAKEN" "$1" "$COLOR_RESET"
+  printf "%b%s%s%b\n" "$COLOR_ACTION_TAKEN" "$SYMBOL_ACTION_TAKEN" "$1" "$COLOR_RESET" >&2
 }
 
 function report_about_to_kill_app() {
   # Takes `app` as argument
   # Outputs message that the app was killed.
-  printf "%b%s %s is being killed (if necessary) %b" "$COLOR_KILLED" "$SYMBOL_KILLED" "$1" "$COLOR_RESET"
+  printf "%b%s %s is being killed (if necessary) %b" "$COLOR_KILLED" "$SYMBOL_KILLED" "$1" "$COLOR_RESET" >&2
 }
 
 dump_accumulated_warnings_failures() {
@@ -195,39 +195,39 @@ dump_accumulated_warnings_failures() {
 ################################################################################
 
 function report_start_phase() {
-  printf "\n%b%s%b\n" "$COLOR_MAGENTA" "********************************************************************************" "$COLOR_RESET"
+  printf "\n%b%s%b\n" "$COLOR_MAGENTA" "********************************************************************************" "$COLOR_RESET" >&2
 
   if (( $# == 2 )); then
     if [[ "$2" == "-" ]]; then
-      printf "%bEntering: %s%b\n" "$COLOR_MAGENTA" "$1" "$COLOR_RESET"
+      printf "%bEntering: %s%b\n" "$COLOR_MAGENTA" "$1" "$COLOR_RESET" >&2
     else
-      printf "%bEntering: %s (file: %s)%b\n" "$COLOR_MAGENTA" "$1" "$2" "$COLOR_RESET"
+      printf "%bEntering: %s (file: %s)%b\n" "$COLOR_MAGENTA" "$1" "$2" "$COLOR_RESET" >&2
     fi
   elif (( $# == 1 )); then
-    printf "%b%s%b\n" "$COLOR_MAGENTA" "$1" "$COLOR_RESET"
+    printf "%b%s%b\n" "$COLOR_MAGENTA" "$1" "$COLOR_RESET" >&2
   else
-    printf "%bEntering phase%b\n" "$COLOR_MAGENTA" "$COLOR_RESET"
+    printf "%bEntering phase%b\n" "$COLOR_MAGENTA" "$COLOR_RESET" >&2
   fi
 
-  printf "%b%s%b\n\n" "$COLOR_MAGENTA" "********************************************************************************" "$COLOR_RESET"
+  printf "%b%s%b\n\n" "$COLOR_MAGENTA" "********************************************************************************" "$COLOR_RESET" >&2
 }
 
 function report_end_phase() {
-  printf "\n%b%s%b\n" "$COLOR_YELLOW" "--------------------------------------------------------------------------------" "$COLOR_RESET"
+  printf "\n%b%s%b\n" "$COLOR_YELLOW" "--------------------------------------------------------------------------------" "$COLOR_RESET" >&2
 
   if (( $# == 2 )); then
     if [[ "$2" == "-" ]]; then
-      printf "%bLeaving: %s%b\n" "$COLOR_YELLOW" "$1" "$COLOR_RESET"
+      printf "%bLeaving: %s%b\n" "$COLOR_YELLOW" "$1" "$COLOR_RESET" >&2
     else
-      printf "%bLeaving: %s (file: %s)%b\n" "$COLOR_YELLOW" "$1" "$2" "$COLOR_RESET"
+      printf "%bLeaving: %s (file: %s)%b\n" "$COLOR_YELLOW" "$1" "$2" "$COLOR_RESET" >&2
     fi
   elif (( $# == 1 )); then
-    printf "%b%s%b\n" "$COLOR_YELLOW" "$1" "$COLOR_RESET"
+    printf "%b%s%b\n" "$COLOR_YELLOW" "$1" "$COLOR_RESET" >&2
   else
-    printf "%bLeaving phase%b\n" "$COLOR_YELLOW" "$COLOR_RESET"
+    printf "%bLeaving phase%b\n" "$COLOR_YELLOW" "$COLOR_RESET" >&2
   fi
 
-  printf "%b%s%b\n\n" "$COLOR_YELLOW" "--------------------------------------------------------------------------------" "$COLOR_RESET"
+  printf "%b%s%b\n\n" "$COLOR_YELLOW" "--------------------------------------------------------------------------------" "$COLOR_RESET" >&2
 }
 
 function report_start_phase_standard() {
