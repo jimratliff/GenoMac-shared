@@ -38,9 +38,10 @@ GENOMAC_USER_HTTP_REPO_URL="${GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT}/${GENOMAC_US
 # So ${${(%):-%x}:A} means "the absolute path of the file currently being sourced."
 this_script_path="${${(%):-%x}:A}"                  
 this_scripts_directory=${this_script_path:h}
-GENOMAC_SHARED_ROOT="${this_scripts_directory:h}" # ~/.genomac-system/external/genomac-shared
-GENOMAC_SHARED_RESOURCE_DIRECTORY="${GENOMAC_SHARED_ROOT}/resources" # ~/.genomac-system/external/genomac-shared/resources
-GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY="${GENOMAC_SHARED_RESOURCE_DIRECTORY}/docs_to_display_to_user" # ~/.genomac-system/external/genomac-shared/resources/docs_to_display_to_user
+# In the following, "xxxx" is either (a) "user" or (b) "system" depending on which of the two repos you’re in.
+GENOMAC_SHARED_ROOT="${this_scripts_directory:h}" # ~/.genomac-xxxx/external/genomac-shared
+GENOMAC_SHARED_RESOURCE_DIRECTORY="${GENOMAC_SHARED_ROOT}/resources" # ~/.genomac-xxxx/external/genomac-shared/resources
+GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY="${GENOMAC_SHARED_RESOURCE_DIRECTORY}/docs_to_display_to_user" # ~/.genomac-xxxx/external/genomac-shared/resources/docs_to_display_to_user
 
 ############### Local directories
 # NOTE: These environment variables are located in GenoMac-shared because (a) each is the basis for the name of
