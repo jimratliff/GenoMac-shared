@@ -53,7 +53,7 @@ GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
 # Resolve once (don’t recompute if already set by the environment)
 HOMEBREW_PREFIX="$(get_homebrew_prefix)"
 
-# Custom alert sound
+# Local directory for custom alert sound
 # (These environment variables are located in GenoMac-shared because (a) GenoMac-system *installs*
 # the custom alert sound but (b) it is GenoMac-user that *consumes* the alert sound, so both the
 # -system and -user repos need to know the installation location.)
@@ -78,11 +78,6 @@ GENOMAC_NAMESPACE="com.virtualperfection.genomac"
 HYPERVISOR_MAKE_COMMAND_STRING="just run-hypervisor"
 HYPERVISOR_HOW_TO_RESTART_STRING="To restart, re-execute ${HYPERVISOR_MAKE_COMMAND_STRING} and we’ll pick up where we left off."
 ###
-
-# Specify a variable that, when expanded, is a newline character
-# I can use $NEWLINE inside arguments to my `report()` series functions without changing how 
-# I quote strings.
-NEWLINE=$'\n'
 
 ############### State-related
 
@@ -110,6 +105,15 @@ PERM_THIS_USER_IS_A_USER_CONFIGGER="PERM_this_user_is_a_user_configger"
 
 # Migration related
 MIGRATION_STATE_PREFIX="MIGRATION_ID_"
+
+############### 1Password-related
+1PASSWORD_VAULT_FOR_GENOMAC_STUFF="Dev"
+
+############### Miscellaneous
+# Specify a variable that, when expanded, is a newline character
+# I can use $NEWLINE inside arguments to my `report()` series functions without changing how 
+# I quote strings.
+NEWLINE=$'\n'
 
 ############### Bundle IDs
 
@@ -183,6 +187,7 @@ function export_and_report() {
   export "$var_name"
 }
 
+export_and_report 1PASSWORD_VAULT_FOR_GENOMAC_STUFF
 export_and_report CUSTOM_ALERT_SOUND_FILENAME
 export_and_report GENOMAC_ALERT_LOG
 export_and_report GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT
