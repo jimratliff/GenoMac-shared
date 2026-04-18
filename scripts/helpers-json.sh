@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+# Assumes that jq has been installed.
+
 populate_associative_array_from_json_object() {
 	# Populate a shell associative array from a JSON object selected by jq.
 	#
