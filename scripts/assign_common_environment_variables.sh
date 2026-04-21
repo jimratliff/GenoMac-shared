@@ -107,7 +107,7 @@ PERM_THIS_USER_IS_A_USER_CONFIGGER="PERM_this_user_is_a_user_configger"
 MIGRATION_STATE_PREFIX="MIGRATION_ID_"
 
 ############### 1Password-related
-1PASSWORD_VAULT_FOR_GENOMAC_STUFF="Dev"
+ONEPASSWORD_VAULT_FOR_GENOMAC_STUFF="Dev"
 
 ############### Miscellaneous
 # Specify a variable that, when expanded, is a newline character
@@ -187,7 +187,7 @@ function export_and_report() {
   export "$var_name"
 }
 
-export_and_report 1PASSWORD_VAULT_FOR_GENOMAC_STUFF
+export_and_report ONEPASSWORD_VAULT_FOR_GENOMAC_STUFF
 export_and_report CUSTOM_ALERT_SOUND_FILENAME
 export_and_report GENOMAC_ALERT_LOG
 export_and_report GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT
