@@ -293,7 +293,7 @@ function _delete_states_matching_persistence() {
   state_dir="$(_state_directory_for_scope "$scope")" || return 1
 
   [[ -d "${state_dir}" ]] || {
-    report "State directory does not exist: ${state_dir}" ; success_or_not
+    report "State directory does not exist: ${state_dir}"
     return 0
   }
 
@@ -307,14 +307,14 @@ function _delete_states_matching_persistence() {
   local state_files=("${state_dir}"/${~pattern}."${GENOMAC_STATE_FILE_EXTENSION}"(N))
 
   if (( ${#state_files[@]} > 0 )); then
-    $(_sudo_or_not_sudo_prefix "$scope") rm -f "${state_files[@]}"
     local description
     if [[ -n "$persistence" ]]; then
       description="${#state_files[@]} ${persistence} state file(s)"
     else
       description="all ${#state_files[@]} state file(s)"
     fi
-    report_action_taken "Deleted ${description} in ${state_dir}"
+    report_action_taken "Delete ${description} in ${state_dir}"
+	$(_sudo_or_not_sudo_prefix "$scope") rm -f "${state_files[@]}" ; success_or_not
   else
     local description
     if [[ -n "$persistence" ]]; then
@@ -322,7 +322,7 @@ function _delete_states_matching_persistence() {
     else
       description="state files"
     fi
-    report "No ${description} to delete in ${state_dir}" ; success_or_not
+    report "No ${description} to delete in ${state_dir}"
   fi
 }
 
