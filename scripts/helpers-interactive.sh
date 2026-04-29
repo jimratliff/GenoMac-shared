@@ -94,7 +94,7 @@ function get_answer_from_numbered_choices() {
   #       "auxiliary_volume"
   #   )
 
-  emulate -L zsh
+  report_start_phase_standard
 
   local prompt="$1"
   shift
@@ -106,7 +106,7 @@ function get_answer_from_numbered_choices() {
   local i
 
   if (( ${#choices} == 0 )); then
-    report_fail "get_answer_from_numbered_choices requires at least one choice."
+    report_fail "get_answer_from_numbered_choices requires at least one option from which to choose."
     return 1
   fi
 
@@ -120,7 +120,7 @@ function get_answer_from_numbered_choices() {
     read -r "response?→ "
 
     # Numbered choice
-    if [[ "$response" == <-> ]] && (( response >= 1 && response <= ${#choices} )); then
+    if [[ "$response" =~ '^[0-9]+$' ]] && (( response >= 1 && response <= ${#choices} )); then
       print -r -- "$choices[$response]"
       return 0
     fi
@@ -135,6 +135,8 @@ function get_answer_from_numbered_choices() {
 
     report_warning "Please enter a number from 1 to ${#choices}."
   done
+
+  report_end_phase_standard
 }
 
 function show_file_using_quicklook() {
