@@ -119,7 +119,7 @@ function get_answer_from_numbered_choices() {
 
     read -r "response?→ "
 
-    # Numbered choice
+    # Require a positive integer before using arithmetic comparison.
     if [[ "$response" =~ '^[0-9]+$' ]] && (( response >= 1 && response <= ${#choices} )); then
       print -r -- "$choices[$response]"
       return 0
@@ -133,7 +133,7 @@ function get_answer_from_numbered_choices() {
       fi
     done
 
-    report_warning "Please enter a number from 1 to ${#choices}."
+    ask_question "Please enter a number from 1 to ${#choices}."
   done
 
   report_end_phase_standard
