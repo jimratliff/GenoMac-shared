@@ -79,6 +79,53 @@ function get_confirmed_answer_to_question() {
   echo "$answer"
 }
 
+function get_value_from_numbered_choices() {
+  # Choices are supplied as alternating description/value pairs.
+  #
+  # Usage:
+  #   user_class=$(
+  #     get_value_from_numbered_choices \
+  #       "Choose user class:" \
+  #       "Personal user" "personal" \
+  #       "Work user"     "work" \
+  #       "Auxiliary user" "auxiliary"
+  #   )
+
+  local prompt="$1"
+  shift
+
+  local -a labels values
+  local i response
+
+  if (( $# == 0 || $# % 2 != 0 )); then
+    report_fail "get_value_from_numbered_choices requires description/value pairs."
+    return 1
+  fi
+
+  while (( $# > 0 )); do
+    labels+=("$1")
+    values+=("$2")
+    shift 2
+  done
+
+  while true; do
+    ask_question "$prompt"
+
+    for (( i = 1; i <= ${#labels}; i++ )); do
+      printf "  %2d) %s\n" "$i" "$labels[$i]" >&2
+    done
+
+    read -r "response?→ "
+
+    if [[ "$response" == <-> ]] && (( response >= 1 && response <= ${#labels} )); then
+      print -r -- "$values[$response]"
+      return 0
+    fi
+
+    report_warning "Please enter a number from 1 to ${#labels}."
+  done
+}
+
 function get_answer_from_numbered_choices() {
   # Ask a question and require the user to choose one item from a numbered list.
   #
