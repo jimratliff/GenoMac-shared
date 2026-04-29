@@ -79,6 +79,64 @@ function get_confirmed_answer_to_question() {
   echo "$answer"
 }
 
+function get_answer_from_numbered_choices() {
+  # Ask a question and require the user to choose one item from a numbered list.
+  #
+  # Echoes the selected choice to stdout.
+  #
+  # Usage:
+  #   volume_key=$(
+  #     get_answer_from_numbered_choices \
+  #       "Which volume should this user belong to?" \
+  #       "startup_volume" \
+  #       "personal_volume" \
+  #       "work_volume" \
+  #       "auxiliary_volume"
+  #   )
+
+  emulate -L zsh
+
+  local prompt="$1"
+  shift
+
+  local -a choices
+  choices=("$@")
+
+  local response
+  local i
+
+  if (( ${#choices} == 0 )); then
+    report_fail "get_answer_from_numbered_choices requires at least one choice."
+    return 1
+  fi
+
+  while true; do
+    ask_question "$prompt"
+
+    for (( i = 1; i <= ${#choices}; i++ )); do
+      printf "  %2d) %s\n" "$i" "$choices[$i]" >&2
+    done
+
+    read -r "response?→ "
+
+    # Numbered choice
+    if [[ "$response" == <-> ]] && (( response >= 1 && response <= ${#choices} )); then
+      print -r -- "$choices[$response]"
+      return 0
+    fi
+
+    # Optional convenience: allow typing the exact choice, case-insensitively.
+    for (( i = 1; i <= ${#choices}; i++ )); do
+      if [[ "${response:l}" == "${choices[$i]:l}" ]]; then
+        print -r -- "$choices[$i]"
+        return 0
+      fi
+    done
+
+    report_warning "Please enter a number from 1 to ${#choices}."
+  done
+}
+
 function show_file_using_quicklook() {
   # Shows a file using Quick Look, where that file is supplied by a path string in the only argument
   #
