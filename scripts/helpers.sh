@@ -36,6 +36,7 @@ function source_with_report() {
 }
 
 # Source each subsidiary helper file, all assumed to reside in same directory as this file
+source_with_report "${this_script_dir}/helpers-1password.sh"
 source_with_report "${this_script_dir}/helpers-apps.sh"
 source_with_report "${this_script_dir}/helpers-copying.sh"
 source_with_report "${this_script_dir}/helpers-defaults.sh"
