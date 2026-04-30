@@ -42,6 +42,48 @@ safe_source() {
   report_success "Sourced ${file}"
 }
 
+function required_value_for_option() {
+  # Validate and echo the value following an option that requires an argument.
+  #
+  # Intended for hand-rolled option parsers. e.g.:
+  #
+  #   --container <apfs container reference>
+  #   --volume    <volume name>
+  #
+  # This rejects both:
+  #
+  #   --container
+  #   --container --volume "Some_Volume"
+  #
+  # Usage:
+  #
+  #   apfs_container=$(required_value_for_option "$1" "${2-}") || return 1
+  #   shift 2
+  #
+  # The "${2-}" form is important under `set -u`: it safely expands to the empty
+  # string if $2 is unset, rather than triggering an unbound-parameter error
+  # before this helper can produce a friendly error message.
+  #
+  # Return status:
+  #   0 = value is valid; value is echoed to stdout
+  #   1 = value is missing, blank, or appears to be another long option
+
+  local option_name="$1"
+  local option_value="${2-}"
+
+  if [[ -z "$option_value" ]]; then
+    report_fail "Missing value for ${option_name}."
+    return 1
+  fi
+
+  if [[ "$option_value" == --* ]]; then
+    report_fail "Missing value for ${option_name}; got another option instead: ${option_value}"
+    return 1
+  fi
+
+  print -r -- "$option_value"
+}
+
 function this_mac_is_a_laptop() {
   # Exits with zero if Mac is a laptop (has a battery installed); otherwise exits with 1
   #
