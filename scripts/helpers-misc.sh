@@ -60,6 +60,29 @@ function required_value_for_option() {
   #   apfs_container=$(required_value_for_option "$1" "${2-}") || return 1
   #   shift 2
   #
+  #   More explicitly:
+  #       while (( $# > 0 )); do
+  #         case "$1" in
+  #           --container)
+  #             apfs_container=$(required_value_for_option "$1" "${2-}") || return 1
+  #             shift 2
+  #             ;;
+  #           --startup-container)
+  #             use_startup_container=true
+  #             shift
+  #             ;;
+  #           --volume-name)
+  #             vol_name=$(required_value_for_option "$1" "${2-}") || return 1
+  #             shift 2
+  #             ;;
+  #           *)
+  #             report_fail "Unknown parameter: $1"
+  #             return 1
+  #             ;;
+  #         esac
+  #       done
+  #
+  #
   # The "${2-}" form is important under `set -u`: it safely expands to the empty
   # string if $2 is unset, rather than triggering an unbound-parameter error
   # before this helper can produce a friendly error message.
