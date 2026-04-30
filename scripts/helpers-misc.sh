@@ -42,6 +42,33 @@ safe_source() {
   report_success "Sourced ${file}"
 }
 
+function require_mandatory_parameters() {
+  # Validate that each named variable has a nonblank value.
+  #
+  # Arguments are alternating pairs:
+  #   <variable_name> <option_name>
+  #
+  # Example:
+  #   require_mandatory_parameters \
+  #     short_name      --short-name \
+  #     uid             --uid \
+  #     home            --home \
+  #     admin_user_name --admin-user-name
+
+  local variable_name option_name
+
+  while (( $# > 0 )); do
+    variable_name="$1"
+    option_name="$2"
+    shift 2
+
+    if [[ -z "${(P)variable_name}" ]]; then
+      report_fail "Missing mandatory parameter ${option_name}."
+      return 1
+    fi
+  done
+}
+
 function required_value_for_option() {
   # Validate and echo the value following an option that requires an argument.
   #
