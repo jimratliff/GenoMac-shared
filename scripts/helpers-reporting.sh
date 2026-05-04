@@ -209,7 +209,7 @@ function report_start_phase() {
     printf "%bEntering phase%b\n" "$COLOR_MAGENTA" "$COLOR_RESET" >&2
   fi
 
-  printf "%b%s%b\n\n" "$COLOR_MAGENTA" "********************************************************************************" "$COLOR_RESET" >&2
+  printf "%b%s%b\n" "$COLOR_MAGENTA" "********************************************************************************" "$COLOR_RESET" >&2
 }
 
 function report_end_phase() {
@@ -227,7 +227,7 @@ function report_end_phase() {
     printf "%bLeaving phase%b\n" "$COLOR_YELLOW" "$COLOR_RESET" >&2
   fi
 
-  printf "%b%s%b\n\n" "$COLOR_YELLOW" "--------------------------------------------------------------------------------" "$COLOR_RESET" >&2
+  printf "%b%s%b\n" "$COLOR_YELLOW" "--------------------------------------------------------------------------------" "$COLOR_RESET" >&2
 }
 
 function report_start_phase_standard() {
