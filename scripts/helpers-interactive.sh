@@ -14,7 +14,7 @@ function get_nonblank_answer_to_question() {
   # Output supplied line of text in distinctive color (COLOR_QUESTION), prefixed by SYMBOL_QUESTION,
   # prompt user for response, iterating until user provides a nonblank response.
   #
-  # Usage example: name=$(get_nonblank_answer_to_question "What should the diff be named?")
+  # Usage example: name="$(get_nonblank_answer_to_question "What should the diff be named?")"
   local prompt="$1"
   local answer
 
@@ -56,7 +56,7 @@ function get_confirmed_answer_to_question() {
   # prompt user for response, strip leading/trailing whitespace, ask user to confirm the trimmed value,
   # and iterate until user provides an affirmative confirmation.
   #
-  # Usage example: folder=$(get_confirmed_answer_to_question "Where should I save the results?")
+  # Usage example: folder="$(get_confirmed_answer_to_question "Where should I save the results?")"
   local prompt="$1"
   local answer_raw answer confirm
 
@@ -83,13 +83,13 @@ function get_value_from_numbered_choices() {
   # Choices are supplied as alternating description/value pairs.
   #
   # Usage:
-  #   user_class=$(
+  #   user_class="$(
   #     get_value_from_numbered_choices \
   #       "Choose user class:" \
   #       "Personal user" "personal" \
   #       "Work user"     "work" \
   #       "Auxiliary user" "auxiliary"
-  #   )
+  #   )"
 
   local prompt="$1"
   shift
@@ -132,14 +132,14 @@ function get_answer_from_numbered_choices() {
   # Echoes the selected choice to stdout.
   #
   # Usage:
-  #   volume_key=$(
+  #   volume_key="$(
   #     get_answer_from_numbered_choices \
   #       "Which volume should this user belong to?" \
   #       "startup_volume" \
   #       "personal_volume" \
   #       "work_volume" \
   #       "auxiliary_volume"
-  #   )
+  #   )"
 
   report_start_phase_standard
 
