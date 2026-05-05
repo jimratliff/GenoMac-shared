@@ -128,25 +128,32 @@ function report_about_to_kill_app() {
 }
 
 function report_argument_vector() {
-  # Report an argv array in a readable form to stderr.
+  # Report argv in a readable form to stderr.
   #
-  # Arg $1: name of array variable, e.g. adduser_args
+  # Arg $1: the function’s positional parameters
   #
   # Usage:
-  #   report_argument_vector adduser_args
+  #   report_argument_vector "${adduser_args[@]}"
+  #
+  # If the argument of an argument/value pair contains "password", the value is reported as "REDACTED".
 
-  local array_name="$1"
-  typeset -n argv_ref="$array_name"
+  local -a argv
+  argv=("$@")
   local i=1
   local arg=""
   local next_arg=""
 
-  while (( i <= ${#argv_ref[@]} )); do
-    arg="${argv_ref[i]}"
+  while (( i <= ${#argv[@]} )); do
+    arg="${argv[i]}"
 
     if [[ "$arg" == --* ]]; then
-      if (( i < ${#argv_ref[@]} )) && [[ "${argv_ref[i+1]}" != --* ]]; then
-        next_arg="${argv_ref[i+1]}"
+      if (( i < ${#argv[@]} )) && [[ "${argv[i+1]}" != --* ]]; then
+        next_arg="${argv[i+1]}"
+        
+				if [[ "$arg" == *password* ]]; then
+					next_arg="REDACTED"
+				fi
+
         report "  ${arg}  ${next_arg}"
         (( i += 2 ))
       else
