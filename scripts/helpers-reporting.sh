@@ -136,10 +136,9 @@ function report_argument_vector() {
   # If the option name in an option/value pair contains "password",
   # the value is reported as "REDACTED".
   
-  report_start_phase_standard
   local arg=""
   local next_arg=""
-  report "Arguments to be supplied:"
+
   while (( $# > 0 )); do
     arg="$1"
     if [[ "$arg" == --* ]]; then
@@ -159,7 +158,6 @@ function report_argument_vector() {
       shift
     fi
   done
-  report_end_phase_standard
 }
 
 function dump_accumulated_warnings_failures() {
