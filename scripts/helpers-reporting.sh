@@ -127,7 +127,37 @@ function report_about_to_kill_app() {
   printf "%b%s %s is being killed (if necessary) %b" "$COLOR_KILLED" "$SYMBOL_KILLED" "$1" "$COLOR_RESET" >&2
 }
 
-dump_accumulated_warnings_failures() {
+function report_argument_vector() {
+  # Report an argv array in a readable form to stderr.
+  #
+  # Arg $1: name of array variable, e.g. adduser_args
+
+  local array_name="$1"
+  typeset -n argv_ref="$array_name"
+  local i=1
+  local arg=""
+  local next_arg=""
+
+  while (( i <= ${#argv_ref[@]} )); do
+    arg="${argv_ref[i]}"
+
+    if [[ "$arg" == --* ]]; then
+      if (( i < ${#argv_ref[@]} )) && [[ "${argv_ref[i+1]}" != --* ]]; then
+        next_arg="${argv_ref[i+1]}"
+        report "  ${arg}  ${next_arg}"
+        (( i += 2 ))
+      else
+        report "  ${arg}"
+        (( i += 1 ))
+      fi
+    else
+      report "  ${arg}"
+      (( i += 1 ))
+    fi
+  done
+}
+
+function dump_accumulated_warnings_failures() {
   # Prints all assumulated warnings and/or failures from GENOMAC_ALERT_LOG
   
   # If we somehow never initialized, bail quietly.
