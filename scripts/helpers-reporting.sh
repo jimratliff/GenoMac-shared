@@ -131,6 +131,9 @@ function report_argument_vector() {
   # Report an argv array in a readable form to stderr.
   #
   # Arg $1: name of array variable, e.g. adduser_args
+  #
+  # Usage:
+  #   report_argument_vector adduser_args
 
   local array_name="$1"
   typeset -n argv_ref="$array_name"
