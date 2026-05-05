@@ -130,39 +130,33 @@ function report_about_to_kill_app() {
 function report_argument_vector() {
   # Report argv in a readable form to stderr.
   #
-  # Arg $1: the function’s positional parameters
-  #
   # Usage:
   #   report_argument_vector "${adduser_args[@]}"
   #
-  # If the argument of an argument/value pair contains "password", the value is reported as "REDACTED".
+  # If the option name in an option/value pair contains "password",
+  # the value is reported as "REDACTED".
+  
   report_start_phase_standard
-  local -a argv
-  argv=("$@")
-  local i=1
   local arg=""
   local next_arg=""
-
-  while (( i <= ${#argv[@]} )); do
-    arg="${argv[i]}"
-
+  report "Arguments to be supplied:"
+  while (( $# > 0 )); do
+    arg="$1"
     if [[ "$arg" == --* ]]; then
-      if (( i < ${#argv[@]} )) && [[ "${argv[i+1]}" != --* ]]; then
-        next_arg="${argv[i+1]}"
-        
-    		if [[ "$arg" == *password* ]]; then
-    			next_arg="REDACTED"
-    		fi
-
+      if (( $# >= 2 )) && [[ "$2" != --* ]]; then
+        next_arg="$2"
+        if [[ "$arg" == *password* ]]; then
+          next_arg="REDACTED"
+        fi
         report "  ${arg}  ${next_arg}"
-        (( i += 2 ))
+        shift 2
       else
         report "  ${arg}"
-        (( i += 1 ))
+        shift
       fi
     else
       report "  ${arg}"
-      (( i += 1 ))
+      shift
     fi
   done
   report_end_phase_standard
