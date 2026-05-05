@@ -136,7 +136,7 @@ function report_argument_vector() {
   #   report_argument_vector "${adduser_args[@]}"
   #
   # If the argument of an argument/value pair contains "password", the value is reported as "REDACTED".
-
+  report_start_phase_standard
   local -a argv
   argv=("$@")
   local i=1
@@ -150,9 +150,9 @@ function report_argument_vector() {
       if (( i < ${#argv[@]} )) && [[ "${argv[i+1]}" != --* ]]; then
         next_arg="${argv[i+1]}"
         
-				if [[ "$arg" == *password* ]]; then
-					next_arg="REDACTED"
-				fi
+    		if [[ "$arg" == *password* ]]; then
+    			next_arg="REDACTED"
+    		fi
 
         report "  ${arg}  ${next_arg}"
         (( i += 2 ))
@@ -165,6 +165,7 @@ function report_argument_vector() {
       (( i += 1 ))
     fi
   done
+  report_end_phase_standard
 }
 
 function dump_accumulated_warnings_failures() {
