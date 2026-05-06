@@ -28,7 +28,7 @@ git push origin main
 ## Each time this GenoMac-shared repository is modified on GitHub, update both container repositories
 Whenever GenoMac-shared is modified on GitHub (whether (a) modified directly on GitHub or (b) a local repo is modified and pushed to GitHub), each container repository must be updated so that its reference to GenoMac-shared will be updated to the newly current commit:
 ```
-# Pick one
+# Pick one of the following two `cd` commands, then execute the remainder in order
 cd ~/.genomac-system
 # cd ~/.genomac-user
 
@@ -38,7 +38,16 @@ git add external/genomac-shared                 # stage the new commit reference
 git commit -m "Update genomac-shared submodule"
 git push origin main
 ```
-This process is codified in a one-liner:
+This process is codified in a one-liner.
+(a) For GenoMac-system
 ```
 make dev-update-repo-and-submodule
+```
+or, if `just` has already been installed (i.e., Homebrew has installed apps at least once):
+```
+just dev-update-repo-and-submodule
+```
+(b) for GenoMac-user
+```
+just dev-update-repo-and-submodule
 ```
