@@ -130,8 +130,12 @@ function report_about_to_kill_app() {
 function report_argument_vector() {
   # Report argv in a readable form to stderr.
   #
-  # Usage:
-  #   report_argument_vector "${adduser_args[@]}"
+  # Usage:[@]}"
+  #   Report the received arguments to a function
+  #     report_argument_vector "$@"
+  #
+  #   Report an array of argument-value pairs (where the value may be absent)
+  #     report_argument_vector "${adduser_args
   #
   # If the option name in an option/value pair contains "password",
   # the value is reported as "REDACTED".
