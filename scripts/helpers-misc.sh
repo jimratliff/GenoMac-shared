@@ -5,6 +5,9 @@
 # Relies upon:
 #   helpers-reporting.sh
 
+# is-at-least is builtin to zsh but must be explicitly loaded before called.
+autoload -Uz is-at-least
+
 function export_and_report() {
   local var_name="$1"
   report_action_taken "Export $var_name: '${(P)var_name}'"
@@ -155,7 +158,7 @@ function sanitize_filename() {
   echo "$1" | tr -cd '[:alnum:]._-'
 }
 
-is_semantic_version_arg1_at_least_arg2() {
+function is_semantic_version_arg1_at_least_arg2() {
   # is_semantic_version_arg1_at_least_arg2 ARG1 ARG2
   #
   # Returns 0 (success) iff (normalized ARG1) >= (normalized ARG2)
