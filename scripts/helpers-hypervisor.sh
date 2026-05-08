@@ -11,6 +11,30 @@
 #   - GENOMAC_STATE_FILE_EXTENSION
 #   - GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
 
+function output_hypervisor_welcome_banner() {
+  # Takes 1 argument: scope, either 'system' or 'user', corresponding to GenoMac-system
+  # or GenoMac-user, respectively
+  local scope="$1"
+  local welcome_prefix
+  if _test_state "$SESH_SESSION_HAS_STARTED" "$scope" ; then
+    welcome_prefix="Welcome back"
+  else
+    welcome_prefix="Welcome"
+  fi
+
+  welcome_message="${welcome_prefix} to the GenoMac-${scope} Hypervisor!"
+  print_banner_text "${welcome_message}"
+  report "$HYPERVISOR_HOW_TO_RESTART_STRING"
+}
+
+function output_hypervisor_departure_banner() {
+  # Takes 1 argument: scope, either 'system' or 'user', corresponding to GenoMac-system
+  # or GenoMac-user, respectively
+  local scope="$1"
+  departure_message="TTFN!"
+  print_banner_text "${departure_message}"
+}
+
 function _run_based_on_state() {
   # Executes a function (with no arguments) based on whether a state variable is set.
   # Core helper that powers both _run_if_not_already_done and _run_if_state and run_if_user_state.
@@ -289,7 +313,6 @@ function run_func_and_args_if_user_state() {
   _run_based_on_state 'user' "$@"
 }
 
-
 ############### Scope: system
 
 function run_if_system_has_not_done() {
@@ -344,28 +367,5 @@ function run_if_system_state() {
   # report_end_phase "Leaving run_if_system_state $*"
 }
 
-function output_hypervisor_welcome_banner() {
-  # Takes 1 argument: scope, either 'system' or 'user', corresponding to GenoMac-system
-  # or GenoMac-user, respectively
-  local scope="$1"
-  local welcome_prefix
-  if _test_state "$SESH_SESSION_HAS_STARTED" "$scope" ; then
-    welcome_prefix="Welcome back"
-  else
-    welcome_prefix="Welcome"
-  fi
-
-  welcome_message="${welcome_prefix} to the GenoMac-${scope} Hypervisor!"
-  print_banner_text "${welcome_message}"
-  report "$HYPERVISOR_HOW_TO_RESTART_STRING"
-}
-
-function output_hypervisor_departure_banner() {
-  # Takes 1 argument: scope, either 'system' or 'user', corresponding to GenoMac-system
-  # or GenoMac-user, respectively
-  local scope="$1"
-  departure_message="TTFN!"
-  print_banner_text "${departure_message}"
-}
 
 
