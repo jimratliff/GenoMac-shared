@@ -74,8 +74,13 @@ function success_or_not() {
   if [[ $? -eq 0 ]]; then
     printf " ${SYMBOL_SUCCESS}\n" >&2
   else
-    printf "\n${SYMBOL_FAILURE}\n" >&2
+    # printf "\n${SYMBOL_FAILURE}\n" >&2
+    success_or_not_NOT
   fi
+}
+
+function success_or_not_NOT() (
+  printf "\n${SYMBOL_FAILURE}\n" >&2
 }
 
 function report() {
