@@ -292,6 +292,7 @@ function _set_state_based_on_yes_no() {
   #
   # Usage: _set_state_based_on_yes_no "machine-is-laptop" "Is this machine a laptop?" "system"
   #
+  # TODO: For consistency, refactor to use _determine_state_based_on_value()
   local state_string="$1"
   local prompt="$2"
   local scope="$3"
