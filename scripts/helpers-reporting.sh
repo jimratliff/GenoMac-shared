@@ -79,7 +79,7 @@ function success_or_not() {
   fi
 }
 
-function success_or_not_NOT() (
+function success_or_not_NOT() {
   printf "\n${SYMBOL_FAILURE}\n" >&2
 }
 
