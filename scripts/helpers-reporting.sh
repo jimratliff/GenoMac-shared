@@ -42,7 +42,7 @@ function define_colors_and_symbols() {
   SYMBOL_WARNING="🚨 "
 }
 
-print_banner_text() {
+function print_banner_text() {
   # Print banner text using figlet if available, otherwise fall back to echo
   
   local font
