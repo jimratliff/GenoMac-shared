@@ -249,6 +249,36 @@ function _delete_state() {
   fi
 }
 
+function _determine_state_based_on_value() {
+  # Conditionally set or delete a state based on whether value is zero/nonzero, respectively
+  #
+  # Internal helper. Takes three string arguments:
+  #   $1: the "state string" that labels the state
+  #   $2: the value that determines the state
+  #   $3: the "scope," either 'system' or 'user' depending on whether this state characterizes 
+  #       (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
+  #
+  # If the value is zero, sets the state; otherwise, deletes the state.
+  #
+  # Usage: _determine_state_based_on_value "machine-is-laptop" "value" "system"
+  #
+  local state_string="$1"
+  local value="$2"
+  local scope="$3"
+  _validate_scope "$scope" || return 1
+  
+	if [[ ! "$value" =~ '^-?[0-9]+$' ]]; then
+	  report_fail "_determine_state_based_on_value expected numeric value, got: $value"
+	  return 1
+	fi
+  
+  if (( value == 0 )); then
+    _set_state "$state_string" "$scope"
+  else
+    _delete_state "$state_string" "$scope"
+  fi
+}
+
 function _set_state_based_on_yes_no() {
   # Conditionally set or delete a state based on user's yes/no response.
   #
