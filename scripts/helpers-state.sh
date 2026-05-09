@@ -260,7 +260,8 @@ function _determine_state_based_on_value() {
   #
   # If the value is zero, sets the state; otherwise, deletes the state.
   #
-  # Usage: _determine_state_based_on_value "machine-is-laptop" "value" "system"
+  # Usage: _determine_state_based_on_value "machine-is-laptop" 0 "system"
+  #        _determine_state_based_on_value "machine-is-laptop" 1 "system"
   #
   local state_string="$1"
   local value="$2"
