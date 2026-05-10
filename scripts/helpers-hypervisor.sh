@@ -205,10 +205,35 @@ function _run_func_and_args_if_not_already_done() {
 }
 
 function hypervisor_force_logout() {
+  # Dumps accumulated warnings/failures, forces user to log out, and prints instructions.
+  #   --final: Do not include $HYPERVISOR_HOW_TO_RESTART_STRING" in the instructions.
+  #
+  # --final is intended to be used when this function is called at the end of a Hypervisor
+  # session, in which case you don’t want to instruct the user to re-run the Hypervisor.
+  
+  local final=false
+
+  while (( $# )); do
+    case "$1" in
+      --final)
+        final=true
+        shift
+        ;;
+      *)
+        report_fail "Unknown option to hypervisor_force_logout: $1"
+        return 1
+        ;;
+    esac
+  done
+
   echo ""
   echo "ℹ️  You will be logged out semi-automatically to fully internalize all the work we’ve done."
   echo "   Please log back in."
-  echo "   $HYPERVISOR_HOW_TO_RESTART_STRING"
+
+  if [[ "$final" != true ]]; then
+    echo "   $HYPERVISOR_HOW_TO_RESTART_STRING"
+  fi
+
   echo ""
 
   dump_accumulated_warnings_failures
