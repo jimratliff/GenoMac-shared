@@ -228,9 +228,9 @@ function hypervisor_force_logout() {
 
   echo ""
   echo "ℹ️  You will be logged out semi-automatically to fully internalize all the work we’ve done."
-  echo "   Please log back in."
 
   if [[ "$final" != true ]]; then
+    echo "   Please log back in."
     echo "   $HYPERVISOR_HOW_TO_RESTART_STRING"
   fi
 
