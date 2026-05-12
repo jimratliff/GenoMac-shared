@@ -36,18 +36,4 @@ The settings effected by Project GenoMac can usefully be thought of as bifurcate
 Although “bootstrap-only” steps *typically* (or perhaps more accurately *ideally*) are performed only once per environment,
 it is possible that the desired setting for a bootstrap-only operation changes at some point after the operation was
 performed on one or more active environments.
- 
-## 
-
-## Project GenoMac is somewhat, but not fully, declarative about the resulting state of the system
-Project GenoMac *could*, but does *not*, attempt to specify all settings for a user or a macOS installation.
-
-Instead, Project GenoMac acknowledges that there are default settings out of the box. Project GenoMac, for the most part,
-identifies only settings whose default values are different from Project GenoMac’s *desired* values.[^EMPHASIZING_DEFAULTS]
-
-Thus, repetition of maintenance steps is not guaranteed to restoring a system to the same state that was reached after the first full
-run, because the user may have changed a default setting with which Project Genomac did not disagree and thus does not enforce.
-
-[^EMPHASIZING_DEFAULTS]: In some cases, Project Genomac chooses to enforce a setting even when the enforced setting is
-identical to the default setting. This is sometimes accompanied by “emphasizes the default.”
 
