@@ -1,5 +1,7 @@
 # The two types of operations in Project GenoMac and their corresponding families of states
 
+(This is part of the documentation within [GenoMac-shared](https://github.com/jimratliff/GenoMac-shared) that relates to both the [GenoMac-system](https://github.com/jimratliff/GenoMac-system) and [GenoMac-user](https://github.com/jimratliff/GenoMac-user) repositories.)
+
 ## Status: Incomplete, WIP (2/22/2026)
 The ultimate goal of this section is to explain why the migration methodology is necessary at all:
 - Maintenance steps are self-migrating: Revise the code, the revised repo is pulled, and the next run replaces
