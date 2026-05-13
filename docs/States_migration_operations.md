@@ -13,13 +13,26 @@ The ultimate goal of this section is to explain why the migration methodology is
 - Thus, the migration mechanism is aimed at PERM states—and then usually at deleting them—and their
   associated bootstrapping steps.
 
-## Some terminology: environment
-Let “environment” refer to a combination of (a) a particular startup volume (necessarily on a particular Mac)
-and (b) a particular user defined on that startup volume.
 
-In the case of GenoMac-system, only one user matters: USER_CONFIGURER. So there is one environment per startup volume.
+## Operations can be bifurcated as performed either (a) typically one time only or (b) every time the Hypervisor is run
+Project GenoMac operations can be bifurcated as performed either (a) the first time Hypervisor is run in the environment[^environment] and then only by exceptional request (which I’ll refer by the shorthand “typically one time only”) or (b) every time the Hypervisor is run.
 
-## Project GenoMac operations are either (a) bootstrap-only or (b) maintenance
+[^environment]: An environment is a particular user home directory. Unaddressed nuances arise because a Mac can have multiple startup volumes. So GenoMac-system doesn’t merely “set up a Mac” but rather sets up a particular startup volume on a specific Mac.
+
+Consider three types of operations: (a) those inherently desirably performed only once, (b) those inherently desirably performed regularly/often, and (c)
+
+Some operations are inherently desirably performed only once. For example:
+- GenoMac-system
+  - installing macOS onto a particular volume
+  - creating a particular user account on a particular macOS installation
+  - cloning a particular repository into a particular local directory
+  - installing a particular into `/Applications` of a particular startup volume
+- GenoMac-user
+  - Configuring 1Password’s SSH Agent
+  - Signing into Dropbox and configuring to sync a particular local `Dropbox` directory
+  - Creating additional Mission Control Spaces
+
+## Project GenoMac operations are either (a) bootstrap-only or (b) bootstrap *and* maintenance
 The settings effected by Project GenoMac can usefully be thought of as bifurcated into:
 - bootstrap-only operations, which are run typically only once per environment
   - These operations are run typically only once per environment because of some combination of:
