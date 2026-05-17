@@ -47,6 +47,8 @@ function require_mandatory_parameters() {
   #
   # Arguments are alternating pairs:
   #   <variable_name> <option_name>
+  # The <option_name> is supplied so that the error message can name the option name when 
+  # variable name is not defined.
   #
   # Example:
   #   require_mandatory_parameters \
