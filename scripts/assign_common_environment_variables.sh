@@ -68,6 +68,11 @@ PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE="${SYSTEM_ALERT_SOUNDS_DIRECTORY}/${CU
 #   profile avatars). For this reason, I’m including this environment variable in GenoMac-shared.
 LOCAL_DROPBOX_DIRECTORY="$HOME/Library/CloudStorage/Dropbox"
 
+# Specify the local directory in which preferences and other files shared across users are stored
+# These may contain secrets, so this directory is NOT within a repo
+# E.g., this would be within each user’s Dropbox directory.
+GENOMAC_USER_SHARED_PREFERENCES_DIRECTORY="${LOCAL_DROPBOX_DIRECTORY}/Preferences_common"
+
 ###
 
 # GENOMAC_NAMESPACE is used whenever a script needs to create a file or folder
@@ -205,6 +210,7 @@ export_and_report GENOMAC_USER_HTTP_REPO_URL
 export_and_report GENOMAC_USER_LOCAL_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_USER_REPO_NAME
+export_and_report GENOMAC_USER_SHARED_PREFERENCES_DIRECTORY
 export_and_report HOMEBREW_PREFIX
 export_and_report HYPERVISOR_HOW_TO_RESTART_STRING
 export_and_report HYPERVISOR_MAKE_COMMAND_STRING
