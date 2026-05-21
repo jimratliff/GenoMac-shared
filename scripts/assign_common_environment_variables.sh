@@ -108,6 +108,9 @@ GENOMAC_USER_LOCAL_STATE_DIRECTORY="${GENOMAC_USER_LOCAL_DIRECTORY}-state" # ~/.
 # User-domain state that must be accessible by system
 PERM_THIS_USER_IS_A_USER_CONFIGGER="PERM_this_user_is_a_user_configger"
 
+# User-attribute state
+USER_ATTRIBUTE_PREFIX="USER_ATTRIBUTE_"
+
 # Migration related
 MIGRATION_STATE_PREFIX="MIGRATION_ID_"
 
@@ -221,6 +224,7 @@ export_and_report PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE
 export_and_report PERM_THIS_USER_IS_A_USER_CONFIGGER
 export_and_report PLISTBUDDY_PATH
 export_and_report SYSTEM_ALERT_SOUNDS_DIRECTORY
+export_and_report USER_ATTRIBUTE_PREFIX
 
 export_and_report BUNDLE_ID_1PASSWORD
 export_and_report BUNDLE_ID_ACTIVITY_MONITOR
