@@ -346,7 +346,7 @@ function _delete_states_matching_persistence() {
       description="all ${#state_files[@]} state file(s)"
     fi
     report_action_taken "Delete ${description} in ${state_dir}"
-	$(_sudo_or_not_sudo_prefix "$scope") rm -f "${state_files[@]}" ; success_or_not
+	  $(_sudo_or_not_sudo_prefix "$scope") rm -f "${state_files[@]}" ; success_or_not
   else
     local description
     if [[ -n "$persistence" ]]; then
@@ -364,6 +364,61 @@ function _delete_all_SESH_states() {
   local scope="$1"
   _validate_scope "$scope" || return 1
   _delete_states_matching_persistence "$scope" "SESH"
+}
+
+function _state_strings_with_prefix() {
+  # Find states in the given scope whose state strings begin with prefix.
+  #
+  # Internal helper. Takes two string arguments:
+  #   $1: state string prefix to match
+  #   $2: scope: 'system' or 'user'
+  #
+  # Sets:
+  #   reply: array of matching state strings, without the state-file suffix
+  #
+  # Returns:
+  #   0 if the state directory can be determined
+  #   1 otherwise
+  #
+  # Usage:
+  #   local -a matching_state_files
+  #   local matched_state_file
+  #
+  #   _state_strings_with_prefix "$some_prefix" "user" || return 1
+  #   matching_state_strings=("${reply[@]}")
+  #
+  #   if (( ! ${#matching_state_strings[@]} )); then
+  #     report "No state files found with prefix: “${some_prefix}”"
+  #     return 0
+  #   fi
+  #
+  #   report "Found ${#matching_state_strings[@]} matching state file(s)."
+  #
+  #   for matched_state_string in "${matching_state_strings[@]}"; do
+  #     _process_matched_state_string "$matched_state_string" || return 1
+  #   done
+
+  local prefix="${1:?missing/empty prefix}"
+  local scope="${2:?missing/empty scope}"
+  local state_directory
+  local state_file_suffix
+  local -a state_file_names
+
+  state_directory="$(_state_directory_for_scope "$scope")" || return 1
+  state_file_suffix=".${GENOMAC_STATE_FILE_EXTENSION}"
+
+  state_file_names=(
+    "${state_directory}/${prefix}"*"${state_file_suffix}"(N:t)
+  )
+
+  reply=()
+
+  local state_file_name
+  for state_file_name in "${state_file_names[@]}"; do
+    reply+=( "${state_file_name%${state_file_suffix}}" )
+  done
+
+  return 0
 }
 
 ##############################
