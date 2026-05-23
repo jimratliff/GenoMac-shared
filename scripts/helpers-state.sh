@@ -384,7 +384,7 @@ function _state_strings_with_prefix() {
   #   local -a matching_state_strings
   #   local matched_state_string
   #
-  #   _state_strings_with_prefix "$some_prefix" "user" || return 1
+  #   _state_strings_with_prefix "$some_prefix" "user" || exit 70
   #   matching_state_strings=("${reply[@]}")
   #
   #   if (( ! ${#matching_state_strings[@]} )); then
@@ -395,7 +395,7 @@ function _state_strings_with_prefix() {
   #   report "Found ${#matching_state_strings[@]} matching state file(s)."
   #
   #   for matched_state_string in "${matching_state_strings[@]}"; do
-  #     _process_matched_state_string "$matched_state_string" || return 1
+  #     _process_matched_state_string "$matched_state_string"
   #   done
 
   local prefix="${1:?missing/empty prefix}"
@@ -404,7 +404,7 @@ function _state_strings_with_prefix() {
   local state_file_suffix
   local -a state_file_names
 
-  state_directory="$(_state_directory_for_scope "$scope")" || return 1
+  state_directory="$(_state_directory_for_scope "$scope")" || exit 70
   state_file_suffix=".${GENOMAC_STATE_FILE_EXTENSION}"
 
   state_file_names=(
