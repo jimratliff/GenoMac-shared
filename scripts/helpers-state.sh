@@ -381,8 +381,8 @@ function _state_strings_with_prefix() {
   #   1 otherwise
   #
   # Usage:
-  #   local -a matching_state_files
-  #   local matched_state_file
+  #   local -a matching_state_strings
+  #   local matched_state_string
   #
   #   _state_strings_with_prefix "$some_prefix" "user" || return 1
   #   matching_state_strings=("${reply[@]}")
