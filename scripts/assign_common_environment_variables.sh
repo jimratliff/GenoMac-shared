@@ -108,6 +108,10 @@ GENOMAC_USER_LOCAL_STATE_DIRECTORY="${GENOMAC_USER_LOCAL_DIRECTORY}-state" # ~/.
 # User-domain state that must be accessible by system
 PERM_THIS_USER_IS_A_USER_CONFIGGER="PERM_this_user_is_a_user_configger"
 
+# Delimiters to separate fields in state strings
+GENOMAC_STATE_STRING_DELIMITER_A="∞§¶"
+GENOMAC_STATE_STRING_DELIMITER_B="¶§∞"
+
 # User-attribute state
 GENOMAC_STATE_USER_ATTRIBUTE_PREFIX="USER_ATTRIBUTE_"
 
@@ -206,6 +210,8 @@ export_and_report GENOMAC_SCOPE_USER
 export_and_report GENOMAC_STATE_FILE_EXTENSION
 export_and_report GENOMAC_STATE_PERSISTENCE_PERMANENT
 export_and_report GENOMAC_STATE_PERSISTENCE_SESSION
+export_and_report GENOMAC_STATE_STRING_DELIMITER_A
+export_and_report GENOMAC_STATE_STRING_DELIMITER_B
 export_and_report GENOMAC_SYSTEM_LOCAL_DIRECTORY
 export_and_report GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_SYSTEM_REPO_NAME
