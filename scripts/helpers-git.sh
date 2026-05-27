@@ -11,6 +11,57 @@
 #     GENOMAC_USER_LOCAL_DIRECTORY
 #     GENOMAC_USER_REPO_NAME
 
+function refresh_repo_from_remote_and_reexecute_hypervisor_if_updated() {
+  # Test whether a related repo has already been checked for remote changes
+  # during this session. If not, check the remote. If the local clone is updated,
+  # mark the repo as checked and re-execute the current script (Hypervisor).
+  #
+  # Arguments:
+  #   $1: test_state_function_name
+  #   $2: set_state_function_name
+  #   $3: state_string
+  #   $4: repo_name
+  #   $5: local_repo_directory
+  #
+  # Example (for GenoMac-user):
+  #   refresh_repo_from_remote_and_reexecute_hypervisor_if_updated \
+  #     test_genomac_user_state \
+  #     set_genomac_user_state \
+  #     "SESH_REPO_HAS_BEEN_TESTED_FOR_CHANGES" \
+  #     "$GENOMAC_USER_REPO_NAME" \
+  #     "$GENOMAC_USER_LOCAL_DIRECTORY"
+
+  report_start_phase_standard
+
+  local test_state_function_name="${1:?missing test_state_function_name}"
+  local set_state_function_name="${2:?missing set_state_function_name}"
+  local state_string="${3:?missing state_string}"
+  local repo_name="${4:?missing repo_name}"
+  local local_repo_directory="${5:?missing local_repo_directory}"
+
+  if ! "$test_state_function_name" "$state_string"; then
+    report_action_taken "Testing remote copy of ${repo_name} for changes"
+
+    if local_clone_was_updated_from_remote "$local_repo_directory"; then
+      # The local clone was found to be behind the remote; local clone was updated,
+      # so re-execute the current script using the updated repo code.
+      "$set_state_function_name" "$state_string"
+
+      report_action_taken "Re-execute Hypervisor using updated repo code"
+      report_end_phase_standard
+
+      exec "$0"
+    else
+      "$set_state_function_name" "$state_string"
+      report "Local clone of ${repo_name} was up to date"
+    fi
+  else
+    report_action_taken "Skipping test for changes to repo, because this has already been tested this session."
+  fi
+
+  report_end_phase_standard
+}
+
 function local_clone_was_updated_from_remote() {
   # Checks whether the local clone at the local directory in $1 is
   # pointing at the same commit as its remote.
