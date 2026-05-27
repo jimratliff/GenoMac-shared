@@ -48,6 +48,8 @@ source_with_report "${this_script_dir}/helpers-migrate.sh"
 source_with_report "${this_script_dir}/helpers-misc.sh"
 source_with_report "${this_script_dir}/helpers-reporting.sh"
 source_with_report "${this_script_dir}/helpers-state.sh"
+source_with_report "${this_script_dir}/helpers-state-xfer-btw-system-user.sh"
+
 
 # Source common environment variables
 # Assumes that assign_common_environment_variables.sh resides in same directory as this file
