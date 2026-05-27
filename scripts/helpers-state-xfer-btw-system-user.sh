@@ -21,6 +21,45 @@
 #     - writes a corresponding user-scoped state for that attribute
 #     - deletes the now-superfluous system-scoped state.
 
+function mark_user_as_in_need_of_initial_config(){
+  # Set system-scoped state to mark user as in need of initial configuration
+  report_start_phase_standard
+  local short_name="$1"
+  local state_string
+
+  state_string="$(construct_state_string_for_user_in_need_of_initial_config "$short_name")"
+  set_genomac_system_state "$state_string"
+  
+  report_end_phase_standard
+}
+
+function unmark_user_as_in_need_of_initial_config(){
+  # Un-sets, by deleting, system-scoped state that marks user as in need of initial configuration
+  report_start_phase_standard
+  local short_name="$1"
+  local state_string
+
+  state_string="$(construct_state_string_for_user_in_need_of_initial_config "$short_name")"
+  delete_genomac_system_state "$state_string"
+  
+  report_end_phase_standard
+}
+
+function construct_state_string_for_user_in_need_of_initial_config(){
+  # Constructs state string for the system-scoped state indicating a user is in
+  # need of initial configuration.
+
+  report_start_phase_standard
+  local short_name="$1"
+  local state_string
+
+  state_string="${GENOMAC_STATE_USER_IS_PENDING_INITIAL_CONFIGURATION_PREFIX}${GENOMAC_STATE_STRING_DELIMITER_A}${short_name}${GENOMAC_STATE_STRING_DELIMITER_B}"
+
+  print -- "$state_string"
+
+  report_end_phase_standard
+}
+
 ##############################
 # State functions for user attributes
 #
