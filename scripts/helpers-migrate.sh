@@ -115,12 +115,13 @@ function migrate_system_states() {
   #
   # Takes one positional argument (migration_id) and one option (--delete) followed by a sequence of strings.
   #
-  # $1: the ID of a particular migration. This is a string that begins with MIGRATION_STATE_PREFIX
+  # $1: the ID of a particular migration. This is a string that begins with $MIGRATION_STATE_PREFIX
   #     The migration ID itself refers to a state in the 'system' state space.
   #     If this state does not exist, the remainder of this function runs, at the end of which this 
   #     state is created.
   #     If this state already exists, then this migration had already been completed, and this function
   #     exits normally.
+  #
   # --delete: Currently, this is mandatory and the only available option.
   #           It must be followed by a sequence of one or more strings, each of which refers to a
   #           state within the 'system' state space.
@@ -141,12 +142,13 @@ function migrate_user_states() {
   #
   # Takes one positional argument (migration_id) and one option (--delete) followed by a sequence of strings.
   #
-  # $1: the ID of a particular migration. This is a string that begins with MIGRATION_STATE_PREFIX
+  # $1: the ID of a particular migration. This is a string that begins with $MIGRATION_STATE_PREFIX
   #     The migration ID itself refers to a state in the 'user' state space.
   #     If this state does not exist, the remainder of this function runs, at the end of which this 
   #     state is created.
   #     If this state already exists, then this migration had already been completed, and this function
   #     exits normally.
+  #
   # --delete: Currently, this is mandatory and the only available option.
   #           It must be followed by a sequence of one or more strings, each of which refers to a
   #           state within the 'user' state space.
