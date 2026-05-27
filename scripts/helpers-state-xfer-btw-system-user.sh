@@ -68,11 +68,11 @@ function set_system_state_for_user_attribute(){
   local short_name="${1:?missing short name}"
   local attribute_name="${2:?missing attribute name}"
   
-  # Hint: "$GENOMAC_STATE_USER_ATTRIBUTE_PREFIX="USER_ATTRIBUTE"
+  # Hint: GENOMAC_STATE_USER_ATTRIBUTE_PREFIX="USER_ATTRIBUTE"
   local state_string_prefix="$GENOMAC_STATE_USER_ATTRIBUTE_PREFIX"
   
   local state_string
-  state_string="${GENOMAC_STATE_USER_ATTRIBUTE_PREFIX}${GENOMAC_STATE_STRING_DELIMITER_A}${short_name}${GENOMAC_STATE_STRING_DELIMITER_B}${attribute_name}${GENOMAC_STATE_STRING_DELIMITER_C}"
+  state_string="${state_string_prefix}${GENOMAC_STATE_STRING_DELIMITER_A}${short_name}${GENOMAC_STATE_STRING_DELIMITER_B}${attribute_name}${GENOMAC_STATE_STRING_DELIMITER_C}"
   set_genomac_system_state "$state_string"
 
   report_end_phase_standard
