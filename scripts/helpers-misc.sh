@@ -174,10 +174,6 @@ function this_mac_is_a_laptop() {
   report_end_phase_standard
 }
 
-function sanitize_filename() {
-  echo "$1" | tr -cd '[:alnum:]._-'
-}
-
 function interactive_ensure_terminal_has_fda() {
   # Run at the beginning of a terminal session to try to ensure that the currently running terminal
   # app has Full Disk Access (FDA) permission.
