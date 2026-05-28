@@ -6,7 +6,7 @@ function sanitize_filename() {
   echo "$1" | tr -cd '[:alnum:]._-'
 }
 
-function content_between_delimiters(){
+function nonempty_content_between_delimiters(){
   # Prints the nonempty substring of string_to_parse that lies between
   # left_delimiter and right_delimiter.
   #
