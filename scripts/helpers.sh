@@ -49,6 +49,7 @@ source_with_report "${this_script_dir}/helpers-misc.sh"
 source_with_report "${this_script_dir}/helpers-reporting.sh"
 source_with_report "${this_script_dir}/helpers-state.sh"
 source_with_report "${this_script_dir}/helpers-state-xfer-btw-system-user.sh"
+source_with_report "${this_script_dir}/helpers-strings.sh"
 
 
 # Source common environment variables
