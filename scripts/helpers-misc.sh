@@ -42,7 +42,7 @@ safe_source() {
   report_success "Sourced ${file}"
 }
 
-function short_name_of_user() {
+function short_name_of_user_from_HOME() {
   # Prints the current user's short name, inferred from $HOME.
   #
   # Assumes the user's home directory path ends with the short name, e.g.:
