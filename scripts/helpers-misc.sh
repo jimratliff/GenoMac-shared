@@ -42,6 +42,27 @@ safe_source() {
   report_success "Sourced ${file}"
 }
 
+function short_name_of_user() {
+  # Prints the current user's short name, inferred from $HOME.
+  #
+  # Assumes the user's home directory path ends with the short name, e.g.:
+  #   /Users/configger
+  #   /Volumes/Personal/Users/jim
+  #
+  # Returns:
+  #   0 if $HOME appears usable
+  #   1 otherwise
+
+  local home_dir="${HOME:-}"
+
+  if [[ -z "$home_dir" ]]; then
+    report_fail "HOME is not set."
+    return 1
+  fi
+
+  print -- "${home_dir:t}"
+}
+
 function require_mandatory_parameters() {
   # Validate that each named variable has a nonblank value.
   #
