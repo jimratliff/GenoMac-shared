@@ -60,6 +60,12 @@ function construct_state_string_for_user_in_need_of_initial_config(){
   report_end_phase_standard
 }
 
+##############################
+# State functions for user attributes
+#
+# User-attribute states are system-scoped states because, at the time they are created, the
+# relevant user doesn’t yet have a home directory.
+
 function set_system_state_for_user_attribute(){
   # Set system-scoped state asserting given user has given attribute.
 
@@ -77,12 +83,6 @@ function set_system_state_for_user_attribute(){
 
   report_end_phase_standard
 }
-
-##############################
-# State functions for user attributes
-#
-# User-attribute states are system-scoped states because, at the time they are created, the
-# relevant user doesn’t yet have a home directory.
 
 function construct_state_string_for_user_attribute(){
   # Constructs the state string for a user attribute of the form: "USER_ATTRIBUTE_shortname_attributename"
