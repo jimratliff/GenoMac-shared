@@ -45,6 +45,15 @@ function unmark_user_as_in_need_of_initial_config(){
   report_end_phase_standard
 }
 
+function unmark_current_user_as_in_need_of_initial_config(){
+  # Un-sets, by deleting, system-scoped state that marks current user as in need of initial configuration
+  report_start_phase_standard
+  local short_name
+  short_name="$(short_name_of_user)"
+  unmark_user_as_in_need_of_initial_config "$short_name"
+  report_end_phase_standard
+}
+
 function construct_state_string_for_user_in_need_of_initial_config(){
   # Constructs state string for the system-scoped state indicating a user is in
   # need of initial configuration.
