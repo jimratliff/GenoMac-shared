@@ -21,6 +21,12 @@
 #     - writes a corresponding user-scoped state for that attribute
 #     - deletes the now-superfluous system-scoped state.
 
+##############################
+# State functions for marking a newly created user as in need of configuration
+#
+# These states are system-scoped states because, at the time they are created, the
+# relevant user doesn’t yet have a home directory.
+
 function mark_user_as_in_need_of_initial_config(){
   # Set system-scoped state to mark user as in need of initial configuration
   report_start_phase_standard
