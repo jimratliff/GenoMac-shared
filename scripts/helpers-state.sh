@@ -367,7 +367,8 @@ function _delete_all_SESH_states() {
 }
 
 function _state_strings_with_prefix() {
-  # Find states in the given scope whose state strings begin with prefix.
+  # Return array of state strings corresponding to states in the given scope
+  # whose state strings begin with specified prefix.
   #
   # Arguments:
   #   $1: state string prefix to match
