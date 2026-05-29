@@ -369,7 +369,7 @@ function _delete_all_SESH_states() {
 function _state_strings_with_prefix() {
   # Find states in the given scope whose state strings begin with prefix.
   #
-  # Internal helper. Takes two string arguments:
+  # Arguments:
   #   $1: state string prefix to match
   #   $2: scope: 'system' or 'user'
   #
@@ -400,25 +400,13 @@ function _state_strings_with_prefix() {
 
   local prefix="${1:?missing/empty prefix}"
   local scope="${2:?missing/empty scope}"
+  
   local state_directory
-  local state_file_suffix
-  local -a state_file_names
+  state_directory="$(_state_directory_for_scope "$scope")"
 
-  state_directory="$(_state_directory_for_scope "$scope")" || exit 70
-  state_file_suffix=".${GENOMAC_STATE_FILE_EXTENSION}"
-
-  state_file_names=(
-    "${state_directory}/${prefix}"*"${state_file_suffix}"(N:t)
+  reply=(
+    "${state_directory}/${prefix}"*"${GENOMAC_STATE_FILE_EXTENSION}"(N:t:r)
   )
-
-  reply=()
-
-  local state_file_name
-  for state_file_name in "${state_file_names[@]}"; do
-    reply+=( "${state_file_name%${state_file_suffix}}" )
-  done
-
-  return 0
 }
 
 ##############################
