@@ -7,9 +7,10 @@
 # - regarding new users pending initial configuration.
 #   - The existence of the newly created user is set by GenoMac-system in a system-scoped
 #     state.
-#   - This system-scoped state is read by GenoMac-user. After GenoMac-user completes the
-#     initial configuration of the user, GenoMac-user deletes this system-scoped 
-#     user-pending state.
+#     - GenoMac-system then presents a list of these users to user_configurer
+#   - After the newly created user uses GenoMac-user to complete that user’s
+#     initial configuration, GenoMac-user deletes this system-scoped user-pending state
+#     (so that this user will no longer be flagged as requiring initial configuration).
 # - reading and writer user attributes
 #   - When GenoMac-system creates new users, GenoMac-system reads a JSON configuration
 #     from an item in a 1Password vault, which contains a list of attributes for each
