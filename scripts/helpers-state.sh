@@ -396,7 +396,7 @@ function _state_strings_with_prefix() {
   #   report "Found ${#matching_state_strings[@]} matching state file(s)."
   #
   #   for matched_state_string in "${matching_state_strings[@]}"; do
-  #     _process_matched_state_string "$matched_state_string"
+  #     process_matched_state_string "$matched_state_string"
   #   done
 
   local prefix="${1:?missing/empty prefix}"
