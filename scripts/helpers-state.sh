@@ -123,7 +123,7 @@ function _test_state() {
   local state_string="$1"
   local scope="$2"
   local state_file
-  state_file="$(_state_file_path "$state_string" "$scope")" || return 1
+  state_file="$(_state_file_path "$state_string" "$scope")"
   if [[ -f "$state_file" ]]; then
   	report "State detected: “${state_string}”"
   	return 0
@@ -147,7 +147,7 @@ function _list_states() {
   #
   local scope="$1"
   local state_dir
-  state_dir="$(_state_directory_for_scope "$scope")" || return 1
+  state_dir="$(_state_directory_for_scope "$scope")"
 
   [[ -d "${state_dir}" ]] || {
     report "State directory does not exist: ${state_dir}"
@@ -211,7 +211,7 @@ function _set_state() {
   local scope="$2"
   local state_file
   _validate_scope "$scope" || return 1
-  state_file="$(_state_file_path "$state_string" "$scope")" || return 1
+  state_file="$(_state_file_path "$state_string" "$scope")"
   $(_sudo_or_not_sudo_prefix "$scope") mkdir -p "${state_file:h}"  # zsh: :h gives the "head" (directory portion)
   report_action_taken "Setting ${scope} state: “${state_string}”"
   $(_sudo_or_not_sudo_prefix "$scope") touch "$state_file" ; success_or_not
@@ -240,7 +240,7 @@ function _delete_state() {
   local scope="$2"
   local state_file
   _validate_scope "$scope" || return 1
-  state_file="$(_state_file_path "$state_string" "$scope")" || return 1
+  state_file="$(_state_file_path "$state_string" "$scope")"
   if [[ -f "$state_file" ]]; then
   	$(_sudo_or_not_sudo_prefix "$scope") rm -f "$state_file"
   	report_action_taken "Deleted state: “${state_string}”"
@@ -322,7 +322,7 @@ function _delete_states_matching_persistence() {
   local persistence="${2:-}"			# optional - defaults to empty string
   local state_dir
   _validate_scope "$scope" || return 1
-  state_dir="$(_state_directory_for_scope "$scope")" || return 1
+  state_dir="$(_state_directory_for_scope "$scope")"
 
   [[ -d "${state_dir}" ]] || {
     report "State directory does not exist: ${state_dir}"
@@ -385,7 +385,7 @@ function _state_strings_with_prefix() {
   #   local -a matching_state_strings
   #   local matched_state_string
   #
-  #   _state_strings_with_prefix "$some_prefix" "user" || exit 70
+  #   _state_strings_with_prefix "$some_prefix" "user"
   #   matching_state_strings=("${reply[@]}")
   #
   #   if (( ! ${#matching_state_strings[@]} )); then
