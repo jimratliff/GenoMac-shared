@@ -34,7 +34,7 @@ function mark_user_as_in_need_of_initial_config(){
   local short_name="$1"
   local state_string
 
-  state_string="$(construct_state_string_for_user_in_need_of_initial_config "$short_name")"
+  state_string="$(construct_system_state_string_for_user_in_need_of_initial_config "$short_name")"
   set_genomac_system_state "$state_string"
   
   report_end_phase_standard
@@ -46,7 +46,7 @@ function unmark_user_as_in_need_of_initial_config(){
   local short_name="$1"
   local state_string
 
-  state_string="$(construct_state_string_for_user_in_need_of_initial_config "$short_name")"
+  state_string="$(construct_system_state_string_for_user_in_need_of_initial_config "$short_name")"
   delete_genomac_system_state "$state_string"
   
   report_end_phase_standard
@@ -61,7 +61,7 @@ function unmark_current_user_as_in_need_of_initial_config(){
   report_end_phase_standard
 }
 
-function construct_state_string_for_user_in_need_of_initial_config(){
+function construct_system_state_string_for_user_in_need_of_initial_config(){
   # Constructs state string for the system-scoped state indicating a user is in
   # need of initial configuration.
 
