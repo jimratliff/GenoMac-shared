@@ -109,25 +109,74 @@ function _set_state_for_user_attribute(){
   _set_state "${state_string}" "$scope"
 }
 
-function construct_system_state_string_for_user_attribute(){
-  # Constructs the system-scoped state string for a user attribute of the form:
-  # "USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶"
+function construct_system_state_string_for_user_attribute() {
+  # Constructs a system-scoped user-attribute state string.
+  #
+  # Full form:
+  #   USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶
+  #
+  # With --user-only:
+  #   USER_ATTRIBUTE∞§¶shortname¶§∞
+  #
+  # Usage:
+  #   construct_system_state_string_for_user_attribute short_name attribute_name
+  #   construct_system_state_string_for_user_attribute --user-only short_name
+  #   construct_system_state_string_for_user_attribute short_name --user-only
+  
   # Hints: 
   #       GENOMAC_STATE_USER_ATTRIBUTE_PREFIX="USER_ATTRIBUTE"
   #       GENOMAC_STATE_STRING_DELIMITER_A="∞§¶"
   #       GENOMAC_STATE_STRING_DELIMITER_B="¶§∞"
   #       GENOMAC_STATE_STRING_DELIMITER_C="§∞¶"
   #
-  # $1: short_name: The user to whom the attribute belongs
-  # $2: attribute_name
-  #
-  # The result is printed to stdout
+  # Prints result to stdout.
 
-  local short_name="$1"
-  local attribute_name="$2"
+  local user_only=false
+  local short_name=""
+  local attribute_name=""
+  local arg
+
+  for arg in "$@"; do
+    case "$arg" in
+      --user-only)
+        user_only=true
+        ;;
+
+      --*)
+        report_fail "Unknown option: $arg"
+        return 1
+        ;;
+
+      *)
+        if [[ -z "$short_name" ]]; then
+          short_name="$arg"
+        elif [[ -z "$attribute_name" ]]; then
+          attribute_name="$arg"
+        else
+          report_fail "Too many positional arguments: $arg"
+          return 1
+        fi
+        ;;
+    esac
+  done
+
+  [[ -n "$short_name" ]] || {
+    report_fail "Missing short_name"
+    return 1
+  }
+
+  if [[ "$user_only" != true && -z "$attribute_name" ]]; then
+    report_fail "Missing attribute_name"
+    return 1
+  fi
+
   local state_string
 
-  state_string="${GENOMAC_STATE_USER_ATTRIBUTE_PREFIX}${GENOMAC_STATE_STRING_DELIMITER_A}${short_name}${GENOMAC_STATE_STRING_DELIMITER_B}${attribute_name}${GENOMAC_STATE_STRING_DELIMITER_C}"
+  state_string="${GENOMAC_STATE_USER_ATTRIBUTE_PREFIX}${GENOMAC_STATE_STRING_DELIMITER_A}${short_name}${GENOMAC_STATE_STRING_DELIMITER_B}"
+
+  if [[ "$user_only" != true ]]; then
+    state_string+="${attribute_name}${GENOMAC_STATE_STRING_DELIMITER_C}"
+  fi
 
   print -- "$state_string"
 }
