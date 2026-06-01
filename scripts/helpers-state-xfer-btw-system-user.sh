@@ -110,8 +110,14 @@ function _set_state_for_user_attribute(){
 }
 
 function construct_system_state_string_for_user_attribute(){
-  # Constructs the state string for a user attribute of the form: "USER_ATTRIBUTE_shortname_attributename"
-  # Hint: GENOMAC_STATE_USER_ATTRIBUTE_PREFIX="USER_ATTRIBUTE_"
+  # Constructs the system-scoped state string for a user attribute of the form:
+  # "USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶"
+  # Hints: 
+  #       GENOMAC_STATE_USER_ATTRIBUTE_PREFIX="USER_ATTRIBUTE"
+  #       GENOMAC_STATE_STRING_DELIMITER_A="∞§¶"
+  #       GENOMAC_STATE_STRING_DELIMITER_B="¶§∞"
+  #       GENOMAC_STATE_STRING_DELIMITER_C="§∞¶"
+  #
   # $1: user_short_name: The user to whom the attribute belongs
   # $2: attribute_name
   #
