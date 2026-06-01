@@ -105,11 +105,11 @@ function _set_state_for_user_attribute(){
   local scope="${3:?missing/empty scope}"
   local state_string
   
-  state_string="$(construct_state_string_for_user_attribute "$user_short_name" "$attribute_name")"
+  state_string="$(construct_system_state_string_for_user_attribute "$user_short_name" "$attribute_name")"
   _set_state "${state_string}" "$scope"
 }
 
-function construct_state_string_for_user_attribute(){
+function construct_system_state_string_for_user_attribute(){
   # Constructs the state string for a user attribute of the form: "USER_ATTRIBUTE_shortname_attributename"
   # Hint: GENOMAC_STATE_USER_ATTRIBUTE_PREFIX="USER_ATTRIBUTE_"
   # $1: user_short_name: The user to whom the attribute belongs
@@ -137,7 +137,7 @@ function _test_state_for_user_attribute(){
   local scope="${3:?missing/empty scope}"
   local state_string
   
-  state_string="$(construct_state_string_for_user_attribute "$user_short_name" "$attribute_name")"
+  state_string="$(construct_system_state_string_for_user_attribute "$user_short_name" "$attribute_name")"
   
   # The following call to _test_state must be the last command of this function, because its return value is crucial to the caller
   _test_state "${state_string}" "$scope"
