@@ -118,12 +118,12 @@ function construct_system_state_string_for_user_attribute(){
   #       GENOMAC_STATE_STRING_DELIMITER_B="¶§∞"
   #       GENOMAC_STATE_STRING_DELIMITER_C="§∞¶"
   #
-  # $1: user_short_name: The user to whom the attribute belongs
+  # $1: short_name: The user to whom the attribute belongs
   # $2: attribute_name
   #
   # The result is printed to stdout
 
-  local user_short_name="$1"
+  local short_name="$1"
   local attribute_name="$2"
   local state_string
 
