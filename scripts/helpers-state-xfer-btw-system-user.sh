@@ -110,7 +110,12 @@ function _set_state_for_user_attribute(){
 }
 
 function construct_state_string_for_user_attribute() {
-  # Constructs a system-scoped user-attribute state string.
+  # Constructs a user-attribute state string.
+  #
+  # This state string applies to BOTH (a) system-scoped and (b) user-scoped state string
+  # for user attributes. (It’s redundant to encode the user’s short name into the
+  # user-scoped state, but that redundancy earns its keep by avoiding additional code and
+  # by simplyfying code and improving maintainability.)
   #
   # Full form:
   #   USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶
@@ -122,6 +127,7 @@ function construct_state_string_for_user_attribute() {
   #   construct_state_string_for_user_attribute short_name attribute_name
   #   construct_state_string_for_user_attribute --user-only short_name
   #   construct_state_string_for_user_attribute short_name --user-only
+  #   construct_state_string_for_user_attribute short_name attribute_name --user-only
   
   # Hints: 
   #       GENOMAC_STATE_USER_ATTRIBUTE_PREFIX="USER_ATTRIBUTE"
