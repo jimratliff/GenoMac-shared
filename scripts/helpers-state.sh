@@ -305,6 +305,59 @@ function _set_state_based_on_yes_no() {
   fi
 }
 
+function _delete_states_matching_prefix() {
+  # Internal helper that deletes state files for a given scope, optionally filtered by prefix.
+  #
+  # Arguments:
+  #   $1: the "scope," either 'system' or 'user', which determines the directory in which the state files reside.
+  #   $2: (optional) prefix filter. If omitted, deletes all state files.
+  #
+  #	Assumes that 'system' scope requires 'sudo'.
+  #
+  # Usage:
+  #   _delete_states_matching_prefix scope:"user"           # deletes all user state files
+  #   _delete_states_matching_prefix scope: "user" "SESH_"   # deletes all user state files with SESH_ prefix
+  
+  local scope="$1"
+  local prefix="${2:-}"			# optional - defaults to empty string
+  local state_dir
+  _validate_scope "$scope" || return 1
+  state_dir="$(_state_directory_for_scope "$scope")"
+
+  [[ -d "${state_dir}" ]] || {
+    report "State directory does not exist: ${state_dir}"
+    return 0
+  }
+
+  local pattern
+  if [[ -n "$prefix" ]]; then
+    pattern="${prefix}*"
+  else
+    pattern="*"
+  fi
+
+  local state_files=("${state_dir}"/${~pattern}."${GENOMAC_STATE_FILE_EXTENSION}"(N))
+
+  if (( ${#state_files[@]} > 0 )); then
+    local description
+    if [[ -n "$prefix" ]]; then
+      description="${#state_files[@]} ${prefix} state file(s)"
+    else
+      description="all ${#state_files[@]} state file(s)"
+    fi
+    report_action_taken "Delete ${description} in ${state_dir}"
+	  $(_sudo_or_not_sudo_prefix "$scope") rm -f "${state_files[@]}" ; success_or_not
+  else
+    local description
+    if [[ -n "$prefix" ]]; then
+      description="${prefix} state files"
+    else
+      description="state files"
+    fi
+    report "No ${description} to delete in ${state_dir}"
+  fi
+}
+
 function _delete_all_SESH_states() {
   # Deletes all SESH (session) state files for a given scope.
   # Usage: _delete_all_SESH_states "user"
