@@ -440,16 +440,23 @@ function set_user_state_based_on_yes_no() {
 
 function delete_all_user_states() {
   # Deletes all state files for user scope.
-  # Usage: _delete_all_user_states
+  # Usage: delete_all_user_states
   _delete_states_matching_prefix "user"
 }
 
 function delete_all_user_SESH_states() {
   # Deletes all SESH (session) state files for user scope.
-  # Usage: _delete_all_GMU_SESH_states
 
   report_action_taken "Deleting all user SESH states"
   _delete_states_matching_prefix "user" "SESH_"
+}
+
+function delete_all_user_states_matching_prefix() {
+  # Deletes all user state files beginning with given prefix.
+  local prefix="${1:-}"
+
+  report_action_taken "Deleting all user states matching prefix “$1”"
+  _delete_states_matching_prefix "user" "$1"
 }
 
 ############### System-scope state functions
@@ -480,6 +487,14 @@ function delete_all_system_states() {
   # Deletes all state files for system scope.
   # Usage: _delete_all_system_states
   _delete_states_matching_prefix "system"
+}
+
+function delete_all_system_states_matching_prefix() {
+  # Deletes all system state files beginning with given prefix.
+  local prefix="${1:-}"
+
+  report_action_taken "Deleting all system states matching prefix “$1”"
+  _delete_states_matching_prefix "system" "$1"
 }
 
 function delete_all_system_SESH_states() {
