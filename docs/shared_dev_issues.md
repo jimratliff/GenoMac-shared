@@ -2,6 +2,8 @@
 
 (This is part of the documentation within [GenoMac-shared](https://github.com/jimratliff/GenoMac-shared) that relates to both the [GenoMac-system](https://github.com/jimratliff/GenoMac-system) and [GenoMac-user](https://github.com/jimratliff/GenoMac-user) repositories.)
 
+## Repository stuff
+
 ### Configure the GitHub remote to use SSH for pushing from local to GitHub
 This repo is public so that it can be easily cloned at the beginning of setting up a user (way before 1Password and its SSH agent get set up). But, ultimately, the configuring user will want to make changes to the repo, and this requires being able to authenticate with GitHub.
 
@@ -52,3 +54,12 @@ git diff --cached --quiet external/genomac-shared || git commit -m "Update genom
 git push origin main
 ```
 which can also be performed by `make dev-update-repo-and-submodule`.
+
+## Idioms
+### Reporting
+#### The `report_…` functions write to `stderr` not `stdout`
+All reporting to the user should use the `report_…` family of functions at `GenoMac-shared/scripts/helpers-reporting.sh`. These output to `stderr`, not `stdout`. This allows functions to use printing to `stdout` as their method to return values to the caller without being clobbered by other reporting.
+#### `report_warning` and `report_fail` output is also regurgitated at the end of Hypervisor run
+Because the terminal output from each Hypervisor is lengthy, it’d be easy for the user to miss important warnings issued in the midst of that output. For this reason, `report_warning` and `report_fail` output also is sent, in plain-text form, to an alert log.[^ALERT_LOG_ENV] This log is regurgitated at the end of Hypervisor run, to make it obviously visible to the user.
+
+[^ALERT_LOG_ENV]: The location of the alert log is specified by the environment variable `GENOMAC_ALERT_LOG="$(mktemp "${tmpdir}/genomac_alerts.XXXXXX")"`.
