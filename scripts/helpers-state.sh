@@ -305,65 +305,12 @@ function _set_state_based_on_yes_no() {
   fi
 }
 
-function _delete_states_matching_persistence() {
-  # Internal helper that deletes state files for a given scope, optionally filtered by persistence type.
-  #
-  # Arguments:
-  #   $1: the "scope," either 'system' or 'user', which determines the directory in which the state files reside.
-  #   $2: (optional) persistence filter, either 'SESH' or 'PERM'. If omitted, deletes all state files.
-  #
-  #	Assumes that 'system' scope requires 'sudo'.
-  #
-  # Usage:
-  #   _delete_states_matching_persistence scope:"user"           # deletes all user state files
-  #   _delete_states_matching_persistence scope: "user" "SESH"   # deletes all user state files with SESH prefix
-  
-  local scope="$1"
-  local persistence="${2:-}"			# optional - defaults to empty string
-  local state_dir
-  _validate_scope "$scope" || return 1
-  state_dir="$(_state_directory_for_scope "$scope")"
-
-  [[ -d "${state_dir}" ]] || {
-    report "State directory does not exist: ${state_dir}"
-    return 0
-  }
-
-  local pattern
-  if [[ -n "$persistence" ]]; then
-    pattern="${persistence}_*"
-  else
-    pattern="*"
-  fi
-
-  local state_files=("${state_dir}"/${~pattern}."${GENOMAC_STATE_FILE_EXTENSION}"(N))
-
-  if (( ${#state_files[@]} > 0 )); then
-    local description
-    if [[ -n "$persistence" ]]; then
-      description="${#state_files[@]} ${persistence} state file(s)"
-    else
-      description="all ${#state_files[@]} state file(s)"
-    fi
-    report_action_taken "Delete ${description} in ${state_dir}"
-	  $(_sudo_or_not_sudo_prefix "$scope") rm -f "${state_files[@]}" ; success_or_not
-  else
-    local description
-    if [[ -n "$persistence" ]]; then
-      description="${persistence} state files"
-    else
-      description="state files"
-    fi
-    report "No ${description} to delete in ${state_dir}"
-  fi
-}
-
 function _delete_all_SESH_states() {
   # Deletes all SESH (session) state files for a given scope.
   # Usage: _delete_all_SESH_states "user"
   local scope="$1"
   _validate_scope "$scope" || return 1
-  _delete_states_matching_persistence "$scope" "SESH"
+  _delete_states_matching_prefix "$scope" "SESH_"
 }
 
 function _state_strings_with_prefix() {
@@ -441,7 +388,7 @@ function set_user_state_based_on_yes_no() {
 function delete_all_user_states() {
   # Deletes all state files for user scope.
   # Usage: _delete_all_user_states
-  _delete_states_matching_persistence "user"
+  _delete_states_matching_prefix "user"
 }
 
 function delete_all_user_SESH_states() {
@@ -449,7 +396,7 @@ function delete_all_user_SESH_states() {
   # Usage: _delete_all_GMU_SESH_states
 
   report_action_taken "Deleting all user SESH states"
-  _delete_states_matching_persistence "user" "SESH"
+  _delete_states_matching_prefix "user" "SESH_"
 }
 
 ############### System-scope state functions
@@ -479,7 +426,7 @@ function set_system_state_based_on_yes_no() {
 function delete_all_system_states() {
   # Deletes all state files for system scope.
   # Usage: _delete_all_system_states
-  _delete_states_matching_persistence "system"
+  _delete_states_matching_prefix "system"
 }
 
 function delete_all_system_SESH_states() {
@@ -487,5 +434,61 @@ function delete_all_system_SESH_states() {
   # Usage: _delete_all_GMS_SESH_states
 
   report_action_taken "Deleting all system SESH states"
-  _delete_states_matching_persistence "system" "SESH"
+  _delete_states_matching_prefix "system" "SESH_"
 }
+
+############################################################
+#					BELOW THIS POINT IS DEPRECATED
+
+# function _delete_states_matching_persistence() {
+#   # Internal helper that deletes state files for a given scope, optionally filtered by persistence type.
+#   #
+#   # Arguments:
+#   #   $1: the "scope," either 'system' or 'user', which determines the directory in which the state files reside.
+#   #   $2: (optional) persistence filter, either 'SESH' or 'PERM'. If omitted, deletes all state files.
+#   #
+#   #	Assumes that 'system' scope requires 'sudo'.
+#   #
+#   # Usage:
+#   #   _delete_states_matching_persistence scope:"user"           # deletes all user state files
+#   #   _delete_states_matching_persistence scope: "user" "SESH"   # deletes all user state files with SESH prefix
+#   
+#   local scope="$1"
+#   local persistence="${2:-}"			# optional - defaults to empty string
+#   local state_dir
+#   _validate_scope "$scope" || return 1
+#   state_dir="$(_state_directory_for_scope "$scope")"
+# 
+#   [[ -d "${state_dir}" ]] || {
+#     report "State directory does not exist: ${state_dir}"
+#     return 0
+#   }
+# 
+#   local pattern
+#   if [[ -n "$persistence" ]]; then
+#     pattern="${persistence}_*"
+#   else
+#     pattern="*"
+#   fi
+# 
+#   local state_files=("${state_dir}"/${~pattern}."${GENOMAC_STATE_FILE_EXTENSION}"(N))
+# 
+#   if (( ${#state_files[@]} > 0 )); then
+#     local description
+#     if [[ -n "$persistence" ]]; then
+#       description="${#state_files[@]} ${persistence} state file(s)"
+#     else
+#       description="all ${#state_files[@]} state file(s)"
+#     fi
+#     report_action_taken "Delete ${description} in ${state_dir}"
+# 	  $(_sudo_or_not_sudo_prefix "$scope") rm -f "${state_files[@]}" ; success_or_not
+#   else
+#     local description
+#     if [[ -n "$persistence" ]]; then
+#       description="${persistence} state files"
+#     else
+#       description="state files"
+#     fi
+#     report "No ${description} to delete in ${state_dir}"
+#   fi
+# }
