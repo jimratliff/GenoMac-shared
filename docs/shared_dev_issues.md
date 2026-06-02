@@ -60,6 +60,8 @@ which can also be performed by `make dev-update-repo-and-submodule`.
 #### The `report_…` functions write to `stderr` not `stdout`
 All reporting to the user should use the `report_…` family of functions at `GenoMac-shared/scripts/helpers-reporting.sh`. These output to `stderr`, not `stdout`. This allows functions to use printing to `stdout` as their method to return values to the caller without being clobbered by other reporting.
 #### `report_warning` and `report_fail` output is also regurgitated at the end of Hypervisor run
-Because the terminal output from each Hypervisor is lengthy, it’d be easy for the user to miss important warnings issued in the midst of that output. For this reason, `report_warning` and `report_fail` output also is sent, in plain-text form, to an alert log.[^ALERT_LOG_ENV] This log is regurgitated at the end of Hypervisor run, to make it obviously visible to the user.
+Because the terminal output from each Hypervisor is lengthy, it’d be easy for the user to miss important warnings issued in the midst of that output. For this reason, `report_warning` and `report_fail` output also is sent, in plain-text form, to an alert log.[^ALERT_LOG_ENV] This log is regurgitated at the end of Hypervisor run,[^ALERT_LOG_DUMPED_AT_END] to make it obviously visible to the user.
 
 [^ALERT_LOG_ENV]: The location of the alert log is specified by the environment variable `GENOMAC_ALERT_LOG="$(mktemp "${tmpdir}/genomac_alerts.XXXXXX")"`.
+
+[^ALERT_LOG_DUMPED_AT_END]: This dump is commanded by `hypervisor_force_logout()`, which runs at the end of both the GenoMac-system and GenoMac-user Hypervisor processes.
