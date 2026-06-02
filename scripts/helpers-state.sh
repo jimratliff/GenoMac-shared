@@ -13,8 +13,11 @@
 # Assumptions about state-file filenames: Each:
 # - ends in `.state` (GENOMAC_STATE_FILE_EXTENSION)
 # - begins with a prefix followed by an underscore, where the prefix is either:
-#   - `PERM`	(GENOMAC_STATE_PERSISTENCE_PERMANENT)
-#   - `SESH`	(GENOMAC_STATE_PERSISTENCE_SESSION)
+# - begins with a prefix, which can be:
+#   - a “persistence”, followed by an underscore
+#   	- `PERM`	(GENOMAC_STATE_PERSISTENCE_PERMANENT)
+#   	- `SESH`	(GENOMAC_STATE_PERSISTENCE_SESSION)
+#   - something else
 
 function _validate_scope() {
   # Validates that the given scope is either 'user' or 'system'.
