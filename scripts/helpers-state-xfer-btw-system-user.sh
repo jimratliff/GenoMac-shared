@@ -112,10 +112,10 @@ function _set_state_for_user_attribute(){
 function construct_state_string_for_user_attribute() {
   # Constructs a user-attribute state string.
   #
-  # This state string applies to BOTH (a) system-scoped and (b) user-scoped state string
+  # This state string applies to BOTH (a) system-scoped and (b) user-scoped state strings
   # for user attributes. (It’s redundant to encode the user’s short name into the
-  # user-scoped state, but that redundancy earns its keep by avoiding additional code and
-  # by simplyfying code and improving maintainability.)
+  # user-scoped state string, but that redundancy earns its keep by avoiding additional code
+  # and by simplyfying code and improving maintainability.)
   #
   # Full form:
   #   USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶
