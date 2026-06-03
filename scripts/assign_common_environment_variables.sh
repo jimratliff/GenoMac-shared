@@ -148,6 +148,10 @@ NEWLINE=$'\n'
 ############### Reporting
 GENOMAC_VERBOSE="true"
 
+# The following are defined in each of GenoMac-system and GenoMac-user
+# GM_LOGS_DIRECTORY: either "$HOME/.genomac-user-logs" or "$HOME/.genomac-system-logs"
+# GM_LOG_FILE: a time-stamped file in GM_LOGS_DIRECTORY
+
 ############### Bundle IDs
 
 # Bundle IDs for apps
