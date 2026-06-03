@@ -60,6 +60,14 @@ function is_VERBOSE() {
   fi
 }
 
+function add_message_to_alert_log() {
+  # Adds message to alert log
+  local message="${1:?MISSING message}"
+  if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
+    printf '%s\n' "$message" >>"$GENOMAC_ALERT_LOG"
+  fi
+}
+
 function print_banner_text() {
   # Print banner text using figlet if available, otherwise fall back to echo
   
@@ -114,9 +122,10 @@ function report_fail() {
   _print_formatted_to_stderr "$COLOR_ERROR" "${SYMBOL_FAILURE} ${message}" "$COLOR_RESET"
   
   # Also append a plain-text version to the alert log, if it's set.
-  if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
-    printf 'FAIL: %s\n' "$message" >>"$GENOMAC_ALERT_LOG"
-  fi
+  add_message_to_alert_log "FAIL: $message"
+  # if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
+  #   printf 'FAIL: %s\n' "$message" >>"$GENOMAC_ALERT_LOG"
+  # fi
 }
 
 function report_success() {
@@ -132,6 +141,8 @@ function report_warning() {
   _print_formatted_to_stderr "$COLOR_WARNING" "${SYMBOL_WARNING} ${message}" "$COLOR_RESET"
 
   # Also append a plain-text version to the alert log, if it's set.
+  add_message_to_alert_log "WARN: $message"
+  
   if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
     printf 'WARN: %s\n' "$message" >>"$GENOMAC_ALERT_LOG"
   fi
