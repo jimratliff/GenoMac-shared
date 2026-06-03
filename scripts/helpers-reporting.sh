@@ -147,9 +147,9 @@ function report_warning() {
   # Also append a plain-text version to the alert log, if it's set.
   _append_message_to_alert_log "WARN: $message"
   
-  if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
-    printf 'WARN: %s\n' "$message" >>"$GENOMAC_ALERT_LOG"
-  fi
+  # if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
+  #   printf 'WARN: %s\n' "$message" >>"$GENOMAC_ALERT_LOG"
+  # fi
 }
 
 function report_adjust_setting() {
@@ -336,10 +336,11 @@ function report_end_phase_standard() {
 #                                                                                                         #
 
 function _report() {
-  # Helper to be called only from the report_* family of helpers.
+  # Helper to be called by only the report_* family of helpers.
   #
-  # Always printed to full-log file.
-  # Printed to terminal unless --verbose-only was supplied and not in VERBOSE mode.
+  # Always prints to full-log file.
+  # Also prints to terminal unless --verbose-only was supplied and not in VERBOSE mode.
+  # Also prints to GENOMAC_ALERT_LOG if --alert.
   #
   # Parameters:
   #
