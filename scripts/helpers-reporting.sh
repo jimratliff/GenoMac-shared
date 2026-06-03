@@ -62,6 +62,10 @@ function is_VERBOSE() {
 
 function _append_message_to_alert_log() {
   # Append message to alert log
+  #
+  # The alert-log file is created by GenoMac-shared/scripts/assign_common_environment_variables.sh
+  # See `############### GENOMAC_ALERT_LOG`
+  
   local message="${1:?MISSING message}"
   if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
     printf '%s\n' "$message" >>"$GENOMAC_ALERT_LOG"
