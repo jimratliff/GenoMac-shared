@@ -318,6 +318,8 @@ function report_end_phase_standard() {
 }
 
 ############################################# GENERAL HELPERS #############################################
+#                                                                                                         #
+
 function _report() {
   # Helper to be called only from the report_* family of helpers.
   #
