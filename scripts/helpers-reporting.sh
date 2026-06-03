@@ -85,13 +85,37 @@ function success_or_not_NOT() {
 
 function report() {
   # Output supplied line of text in a distinctive color.
-  printf "%b%s%b\n" "$COLOR_REPORT" "$1" "$COLOR_RESET" >&2
+  # printf "%b%s%b\n" "$COLOR_REPORT" "$1" "$COLOR_RESET" >&2
+  print_formatted_to_stderr "$COLOR_REPORT" "${message}" "$COLOR_RESET"
+}
+
+function print_formatted_to_stderr() {
+  # Prints a message to stderr with an escape-character-interpreted prefix and suffix.
+  #
+  # Usage:
+  #
+  #   print_formatted_to_stderr "$COLOR_REPORT" "${message}" "$COLOR_RESET"
+  #   print_formatted_to_stderr "$COLOR_ERROR" "${SYMBOL_FAILURE} ${message}" "$COLOR_RESET"
+  #   print_formatted_to_stderr "$COLOR_WARNING" "${SYMBOL_WARNING} ${message}" "$COLOR_RESET"
+  #   print_formatted_to_stderr "$COLOR_SUCCESS" "${SYMBOL_SUCCESS} ${message}" "$COLOR_RESET"
+  #   print_formatted_to_stderr "$COLOR_ADJUST_SETTING" "${SYMBOL_ADJUST_SETTING} ${message}" "$COLOR_RESET"
+  #   print_formatted_to_stderr "$COLOR_ACTION_TAKEN" "${SYMBOL_ACTION_TAKEN} ${message}" "$COLOR_RESET"
+  #   print_formatted_to_stderr "$COLOR_KILLED" "${SYMBOL_KILLED} ${message} is being killed (if necessary)" "$COLOR_RESET"
+
+  local leading_format
+  local message
+  local trailing_format
+  leading_format="${1:?MISSING leading_format}"
+  message="${2?MISSING message}"
+  trailing_format="${3:?MISSING trailing_format}"
+  printf "%b%s%b\n" "$leading_format" "$message" "$trailing_format" >&2
 }
 
 function report_fail() {
   # Output supplied line of text in a distinctive color prefaced by SYMBOL_FAILURE.
   local message="$1"
-  printf "%b%s%s%b\n" "$COLOR_ERROR" "$SYMBOL_FAILURE" "$message" "$COLOR_RESET" >&2
+  # printf "%b%s%s%b\n" "$COLOR_ERROR" "$SYMBOL_FAILURE" "$message" "$COLOR_RESET" >&2
+  print_formatted_to_stderr "$COLOR_ERROR" "${SYMBOL_FAILURE} ${message}" "$COLOR_RESET"
   
   # Also append a plain-text version to the alert log, if it's set.
   if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
@@ -101,13 +125,15 @@ function report_fail() {
 
 function report_success() {
   # Output supplied line of text in a distinctive color prefaced by SYMBOL_SUCCESS.
-  printf "%b%s%s%b\n" "$COLOR_SUCCESS" "$SYMBOL_SUCCESS" "$1" "$COLOR_RESET" >&2
+  # printf "%b%s%s%b\n" "$COLOR_SUCCESS" "$SYMBOL_SUCCESS" "$1" "$COLOR_RESET" >&2
+  print_formatted_to_stderr "$COLOR_SUCCESS" "${SYMBOL_SUCCESS} ${message}" "$COLOR_RESET"
 }
 
 function report_warning() {
   # Output supplied line of text in a distinctive color prefaced by SYMBOL_WARNING.
   local message="$1"
   printf "%b%s%s%b\n" "$COLOR_WARNING" "$SYMBOL_WARNING" "$message" "$COLOR_RESET" >&2
+  print_formatted_to_stderr "$COLOR_WARNING" "${SYMBOL_WARNING} ${message}" "$COLOR_RESET"
 
   # Also append a plain-text version to the alert log, if it's set.
   if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
@@ -118,18 +144,21 @@ function report_warning() {
 function report_adjust_setting() {
   # Output supplied line of text in a distinctive color, prefaced by "$SYMBOL_ADJUST_SETTING.
   # It is intentional to NOT have a newline. This will be supplied by success().
-  printf "%b%s%s%b" "$COLOR_ADJUST_SETTING" "$SYMBOL_ADJUST_SETTING" "$1" "$COLOR_RESET" >&2
+  # printf "%b%s%s%b" "$COLOR_ADJUST_SETTING" "$SYMBOL_ADJUST_SETTING" "$1" "$COLOR_RESET" >&2
+  print_formatted_to_stderr "$COLOR_ADJUST_SETTING" "${SYMBOL_ADJUST_SETTING} ${message}" "$COLOR_RESET"
 }
 
 function report_action_taken() {
   # Output supplied line of text in a distinctive color, prefaced by "$SYMBOL_ADJUST_SETTING.
-  printf "%b%s%s%b\n" "$COLOR_ACTION_TAKEN" "$SYMBOL_ACTION_TAKEN" "$1" "$COLOR_RESET" >&2
+  # printf "%b%s%s%b\n" "$COLOR_ACTION_TAKEN" "$SYMBOL_ACTION_TAKEN" "$1" "$COLOR_RESET" >&2
+  print_formatted_to_stderr "$COLOR_ACTION_TAKEN" "${SYMBOL_ACTION_TAKEN} ${message}" "$COLOR_RESET"
 }
 
 function report_about_to_kill_app() {
   # Takes `app` as argument
   # Outputs message that the app was killed.
-  printf "%b%s %s is being killed (if necessary) %b" "$COLOR_KILLED" "$SYMBOL_KILLED" "$1" "$COLOR_RESET" >&2
+  # printf "%b%s %s is being killed (if necessary) %b" "$COLOR_KILLED" "$SYMBOL_KILLED" "$1" "$COLOR_RESET" >&2
+  print_formatted_to_stderr "$COLOR_KILLED" "${SYMBOL_KILLED} ${message} is being killed (if necessary)" "$COLOR_RESET"
 }
 
 function report_argument_vector() {
