@@ -42,6 +42,24 @@ function define_colors_and_symbols() {
   SYMBOL_WARNING="🚨 "
 }
 
+function is_VERBOSE() {
+  # Returns exit code 0 if in VERBOSE mode; returns exit code 1 otherwise.
+  #
+  # Usage:
+  #   if is_VERBOSE; then
+  #     echo "VERBOSE"
+  #   else
+  #     echo "quiet"
+  #   fi
+  #
+  
+  if [[ "$GENOMAC_VERBOSE" == "true" ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 function print_banner_text() {
   # Print banner text using figlet if available, otherwise fall back to echo
   
