@@ -89,28 +89,6 @@ function report() {
   print_formatted_to_stderr "$COLOR_REPORT" "${message}" "$COLOR_RESET"
 }
 
-function print_formatted_to_stderr() {
-  # Prints a message to stderr with an escape-character-interpreted prefix and suffix.
-  #
-  # Usage:
-  #
-  #   print_formatted_to_stderr "$COLOR_REPORT" "${message}" "$COLOR_RESET"
-  #   print_formatted_to_stderr "$COLOR_ERROR" "${SYMBOL_FAILURE} ${message}" "$COLOR_RESET"
-  #   print_formatted_to_stderr "$COLOR_WARNING" "${SYMBOL_WARNING} ${message}" "$COLOR_RESET"
-  #   print_formatted_to_stderr "$COLOR_SUCCESS" "${SYMBOL_SUCCESS} ${message}" "$COLOR_RESET"
-  #   print_formatted_to_stderr "$COLOR_ADJUST_SETTING" "${SYMBOL_ADJUST_SETTING} ${message}" "$COLOR_RESET"
-  #   print_formatted_to_stderr "$COLOR_ACTION_TAKEN" "${SYMBOL_ACTION_TAKEN} ${message}" "$COLOR_RESET"
-  #   print_formatted_to_stderr "$COLOR_KILLED" "${SYMBOL_KILLED} ${message} is being killed (if necessary)" "$COLOR_RESET"
-
-  local leading_format
-  local message
-  local trailing_format
-  leading_format="${1:?MISSING leading_format}"
-  message="${2?MISSING message}"
-  trailing_format="${3:?MISSING trailing_format}"
-  printf "%b%s%b\n" "$leading_format" "$message" "$trailing_format" >&2
-}
-
 function report_fail() {
   # Output supplied line of text in a distinctive color prefaced by SYMBOL_FAILURE.
   local message="$1"
@@ -216,6 +194,28 @@ function dump_accumulated_warnings_failures() {
   fi
 
   rm -f -- "$GENOMAC_ALERT_LOG"
+}
+
+function print_formatted_to_stderr() {
+  # Prints a message to stderr with an escape-character-interpreted prefix and suffix.
+  #
+  # Usage:
+  #
+  #   print_formatted_to_stderr "$COLOR_REPORT" "${message}" "$COLOR_RESET"
+  #   print_formatted_to_stderr "$COLOR_ERROR" "${SYMBOL_FAILURE} ${message}" "$COLOR_RESET"
+  #   print_formatted_to_stderr "$COLOR_WARNING" "${SYMBOL_WARNING} ${message}" "$COLOR_RESET"
+  #   print_formatted_to_stderr "$COLOR_SUCCESS" "${SYMBOL_SUCCESS} ${message}" "$COLOR_RESET"
+  #   print_formatted_to_stderr "$COLOR_ADJUST_SETTING" "${SYMBOL_ADJUST_SETTING} ${message}" "$COLOR_RESET"
+  #   print_formatted_to_stderr "$COLOR_ACTION_TAKEN" "${SYMBOL_ACTION_TAKEN} ${message}" "$COLOR_RESET"
+  #   print_formatted_to_stderr "$COLOR_KILLED" "${SYMBOL_KILLED} ${message} is being killed (if necessary)" "$COLOR_RESET"
+
+  local leading_format
+  local message
+  local trailing_format
+  leading_format="${1:?MISSING leading_format}"
+  message="${2?MISSING message}"
+  trailing_format="${3:?MISSING trailing_format}"
+  printf "%b%s%b\n" "$leading_format" "$message" "$trailing_format" >&2
 }
 
 ################################################################################
