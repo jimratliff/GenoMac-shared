@@ -136,7 +136,6 @@ GENOMAC_STATE_USER_CONFIGURER_DEFAULT_ATTRIBUTES=(
   "$USER_ATTRIBUTE_AUTHENTICATE_GITHUB_VIA_1PASSWORD"\
   )
 
-
 # Migration related
 MIGRATION_STATE_PREFIX="MIGRATION_ID_"
 
@@ -145,6 +144,9 @@ MIGRATION_STATE_PREFIX="MIGRATION_ID_"
 # I can use $NEWLINE inside arguments to my `report()` series functions without changing how 
 # I quote strings.
 NEWLINE=$'\n'
+
+############### Reporting
+GENOMAC_VERBOSE="true"
 
 ############### Bundle IDs
 
@@ -247,6 +249,7 @@ export_and_report GENOMAC_USER_LOCAL_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_USER_REPO_NAME
 export_and_report GENOMAC_USER_SHARED_PREFERENCES_DIRECTORY
+export_and_report GENOMAC_VERBOSE
 export_and_report HOMEBREW_PREFIX
 export_and_report HYPERVISOR_HOW_TO_RESTART_STRING
 export_and_report HYPERVISOR_MAKE_COMMAND_STRING
