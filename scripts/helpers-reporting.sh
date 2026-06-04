@@ -393,13 +393,13 @@ function _report() {
   #   --message         "App installed"  required
   #   --alert                            flag; also collected and regurgitated at end of Hypervisor run
   #   --no-terminal                      flag; do not print to terminal
-  #   --no-full-log                      flag; skip printing to full-log file)
+  #   --no-full-log                      flag; skip printing to full-log file
   #   --verbose-only                     flag; displayed to terminal only in VERBOSE mode
 
   local leading_format="${COLOR_REPORT}"
   local is_alert=false
   local is_no_terminal=false
-  local is_skip_full_log=false
+  local do_skip_full_log=false
   local is_verbose_only=false
   local message
   local trailing_format="${COLOR_RESET}"
@@ -426,7 +426,7 @@ function _report() {
         ;;
 
       --no-full-log)
-        is_skip_full_log=true
+        do_skip_full_log=true
         ;;
       
       --no-terminal)
@@ -443,12 +443,12 @@ function _report() {
         ;;
 
       -*)
-        print -u2 -- "Unknown option to _report: $1"
+        print "Unknown option to _report: $1" >&2
         return 1
         ;;
 
       *)
-        print -u2 -- "Unexpected positional argument to _report: $1"
+        print "Unexpected positional argument to _report: $1" >&2
         return 1
         ;;
     esac
@@ -457,17 +457,22 @@ function _report() {
   done
 
   if (( $# )); then
-    print -u2 -- "Unexpected trailing arguments to _report: $*"
+    print "Unexpected trailing arguments to _report: $*" >&2
     return 1
   fi
 
   if [[ ! -v message ]]; then
-    print -u2 -- "MISSING required argument: --message"
+    print "MISSING required argument: --message" >&2
+    return 1
+  fi
+
+  if [[ "$do_skip_full_log" == true && "$is_no_terminal" == true && "$is_alert" != true ]]; then
+    print "Invalid options to _report: message would not be written anywhere" >&2
     return 1
   fi
 
   # Write to full log unless --no-full-log
-  if [[ "$is_skip_full_log" != true ]]; then
+  if [[ "$do_skip_full_log" != true ]]; then
     _append_message_to_full_log "$message"
   fi
 
