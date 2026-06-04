@@ -42,24 +42,6 @@ function define_colors_and_symbols() {
   SYMBOL_WARNING="🚨 "
 }
 
-function is_VERBOSE() {
-  # Returns exit code 0 if in VERBOSE mode; returns exit code 1 otherwise.
-  #
-  # Usage:
-  #   if is_VERBOSE; then
-  #     echo "VERBOSE"
-  #   else
-  #     echo "quiet"
-  #   fi
-  #
-  
-  if [[ "$GENOMAC_VERBOSE" == "true" ]]; then
-    return 0
-  else
-    return 1
-  fi
-}
-
 function print_banner_text() {
   # Print banner text using figlet if available, otherwise fall back to echo
   
@@ -403,22 +385,15 @@ function _report() {
   # --------------------------------------------------------------------------
 
   # Always write to full log.
-  #
-  # Example placeholder:
-  # append_formatted_to_full_log "$leading_format" "$message" "$trailing_format"
+  _append_message_to_full_log "$message"
 
   # Print to terminal unless this is verbose-only output and VERBOSE mode is off.
-  #
-  # Assumes VERBOSE is the string "true" or "false".
-  if [[ "$is_verbose_only" != true || "${VERBOSE:-false}" == true ]]; then
+  if [[ "$is_verbose_only" != true ]] || is_VERBOSE; then
     _print_formatted_to_stderr "$leading_format" "$message" "$trailing_format"
   fi
 
-  # Collect alerts for end-of-run reporting.
   if [[ "$is_alert" == true ]]; then
-    # Example placeholder:
-    # GENOMAC_ALERTS+=("$message")
-    :
+    _append_message_to_alert_log "$message"
   fi
 }
 
@@ -450,7 +425,7 @@ function _append_message_to_alert_log() {
   # The alert-log file is created by GenoMac-shared/scripts/assign_common_environment_variables.sh
   # See `############### GENOMAC_ALERT_LOG`
   
-  local message="${1:?MISSING message}"
+  local message="${1:MISSING message}"
   if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
     printf '%s\n' "$message" >>"$GENOMAC_ALERT_LOG"
   fi
@@ -463,8 +438,29 @@ function _append_message_to_full_log() {
   # See `############### GENOMAC_ALERT_LOG`
   
   local message="${1:?MISSING message}"
-  if [[ -n "${GM_LOG_FILE-}" ]]; then
-    printf '%s\n' "$message" >>"$GM_LOG_FILE"
+  
+  if [[ -z "${GM_LOG_FILE-}" ]]; then
+    printf 'FAIL: GM_LOG_FILE is unset or empty; cannot append to full log.\n' >&2
+    return 1
+  fi
+
+  if ! printf '%s\n' "$message" >>"$GM_LOG_FILE"; then
+    printf 'FAIL: Could not append to full log: %s\n' "$GM_LOG_FILE" >&2
+    return 1
   fi
 }
+
+function is_VERBOSE() {
+  # Returns exit code 0 if in VERBOSE mode; returns exit code 1 otherwise.
+  #
+  # Usage:
+  #   if is_VERBOSE; then
+  #     echo "VERBOSE"
+  #   else
+  #     echo "quiet"
+  #   fi
+  
+  [[ "$GENOMAC_VERBOSE" == "true" ]]
+}
+
 
