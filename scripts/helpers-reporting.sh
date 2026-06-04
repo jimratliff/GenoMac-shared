@@ -60,18 +60,6 @@ function is_VERBOSE() {
   fi
 }
 
-function _append_message_to_alert_log() {
-  # Append message to alert log
-  #
-  # The alert-log file is created by GenoMac-shared/scripts/assign_common_environment_variables.sh
-  # See `############### GENOMAC_ALERT_LOG`
-  
-  local message="${1:?MISSING message}"
-  if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
-    printf '%s\n' "$message" >>"$GENOMAC_ALERT_LOG"
-  fi
-}
-
 function print_banner_text() {
   # Print banner text using figlet if available, otherwise fall back to echo
   
@@ -455,3 +443,28 @@ function _print_formatted_to_stderr() {
   trailing_format="${3:?MISSING trailing_format}"
   printf "%b%s%b\n" "$leading_format" "$message" "$trailing_format" >&2
 }
+
+function _append_message_to_alert_log() {
+  # Append message to alert log
+  #
+  # The alert-log file is created by GenoMac-shared/scripts/assign_common_environment_variables.sh
+  # See `############### GENOMAC_ALERT_LOG`
+  
+  local message="${1:?MISSING message}"
+  if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
+    printf '%s\n' "$message" >>"$GENOMAC_ALERT_LOG"
+  fi
+}
+
+function _append_message_to_full_log() {
+  # Append message to full log
+  #
+  # The full-log file is created by either (a) GenoMac-user/scripts/0_initialize_me_first.sh
+  # See `############### GENOMAC_ALERT_LOG`
+  
+  local message="${1:?MISSING message}"
+  if [[ -n "${GM_LOG_FILE-}" ]]; then
+    printf '%s\n' "$message" >>"$GM_LOG_FILE"
+  fi
+}
+
