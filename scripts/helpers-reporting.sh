@@ -162,6 +162,16 @@ function report_about_to_kill_app() {
     --message "${SYMBOL_KILLED} ${message}"
 }
 
+function report_only_to_full_log() {
+  # Output ONLY to full-log file.
+  # Intended for echoing a value interactively supplied by the user to the log for
+  # completeness.
+  local message
+  message="${1?MISSING message}"
+
+  _report --message "${message}" --no-terminal
+}
+
 function report_argument_vector() {
   # Report argv in a readable form to stderr.
   #
@@ -206,7 +216,6 @@ function dump_accumulated_warnings_failures() {
   [[ -z "${GENOMAC_ALERT_LOG-}" ]] && return 0
   [[ ! -e "$GENOMAC_ALERT_LOG" ]] && return 0
 
-  
   local leading_string
   local message
   local no_alerts_found_string
@@ -226,46 +235,6 @@ function dump_accumulated_warnings_failures() {
     _report \
       --leading-format "$COLOR_WARNING" \
       --message "$message"
-  fi
-
-  rm -f -- "$GENOMAC_ALERT_LOG"
-}
-
-# function dump_accumulated_warnings_failures() {
-#   # Prints all accumulated warnings and/or failures from GENOMAC_ALERT_LOG
-#   
-#   # If we somehow never initialized, bail quietly.
-#   [[ -z "${GENOMAC_ALERT_LOG-}" ]] && return 0
-#   [[ ! -e "$GENOMAC_ALERT_LOG" ]] && return 0
-# 
-#   if [[ ! -s "$GENOMAC_ALERT_LOG" ]]; then
-#     echo "✅ No GenoMac warnings or failures detected in this run." >&2
-#   else
-#     echo >&2
-#     echo "═════════ GenoMac warnings / failures (summary) ═════════" >&2
-#     cat "$GENOMAC_ALERT_LOG" >&2
-#     echo "════════════════════════ end summary ════════════════════" >&2
-#     echo "↑ Scroll back in the log to see these in context." >&2
-#   fi
-# 
-#   rm -f -- "$GENOMAC_ALERT_LOG"
-# }
-
-function dump_accumulated_warnings_failures() {
-  # Prints all accumulated warnings and/or failures from GENOMAC_ALERT_LOG
-  
-  # If we somehow never initialized, bail quietly.
-  [[ -z "${GENOMAC_ALERT_LOG-}" ]] && return 0
-  [[ ! -e "$GENOMAC_ALERT_LOG" ]] && return 0
-
-  if [[ ! -s "$GENOMAC_ALERT_LOG" ]]; then
-    echo "✅ No GenoMac warnings or failures detected in this run." >&2
-  else
-    echo >&2
-    echo "═════════ GenoMac warnings / failures (summary) ═════════" >&2
-    cat "$GENOMAC_ALERT_LOG" >&2
-    echo "════════════════════════ end summary ════════════════════" >&2
-    echo "↑ Scroll back in the log to see these in context." >&2
   fi
 
   rm -f -- "$GENOMAC_ALERT_LOG"
@@ -318,40 +287,69 @@ function dump_accumulated_warnings_failures() {
 #
 ################################################################################
 
+function _report_start_phase() {
+  # Front end for the "entering" type of phase-reporting functions.
+  local message="${1?MISSING message}"
+  local entering_color="$COLOR_MAGENTA"
+  _report --message "$message" --leading-format "$entering_color" --verbose-only
+}
+
+function _report_end_phase() {
+  # Front end for the "leaving" type of phase-reporting functions.
+  local message="${1?MISSING message}"
+  local leaving_color="$COLOR_YELLOW"
+  _report --message "$message" --leading-format "$leaving_color" --verbose-only
+}
+
+STAR_STUDDED_LINE="********************************************************************************"
+DASH_STUDDED_LINE="--------------------------------------------------------------------------------"
+
 function report_start_phase() {
-  printf "\n%b%s%b\n" "$COLOR_MAGENTA" "********************************************************************************" "$COLOR_RESET" >&2
+  # printf "\n%b%s%b\n" "$COLOR_MAGENTA" "********************************************************************************" "$COLOR_RESET" >&2
+  _report_start_phase "${STAR_STUDDED_LINE}"
 
   if (( $# == 2 )); then
     if [[ "$2" == "-" ]]; then
-      printf "%bEntering: %s%b\n" "$COLOR_MAGENTA" "$1" "$COLOR_RESET" >&2
+      # printf "%bEntering: %s%b\n" "$COLOR_MAGENTA" "$1" "$COLOR_RESET" >&2
+      _report_start_phase "Entering: ${1}"
     else
-      printf "%bEntering: %s (file: %s)%b\n" "$COLOR_MAGENTA" "$1" "$2" "$COLOR_RESET" >&2
+      # printf "%bEntering: %s (file: %s)%b\n" "$COLOR_MAGENTA" "$1" "$2" "$COLOR_RESET" >&2
+      _report_start_phase "Entering: ${1} (file: ${2})"
     fi
   elif (( $# == 1 )); then
-    printf "%b%s%b\n" "$COLOR_MAGENTA" "$1" "$COLOR_RESET" >&2
+    # printf "%b%s%b\n" "$COLOR_MAGENTA" "$1" "$COLOR_RESET" >&2
+    _report_start_phase "${1}"
   else
-    printf "%bEntering phase%b\n" "$COLOR_MAGENTA" "$COLOR_RESET" >&2
+    # printf "%bEntering phase%b\n" "$COLOR_MAGENTA" "$COLOR_RESET" >&2
+    _report_start_phase "Entering phase"
   fi
 
-  printf "%b%s%b\n" "$COLOR_MAGENTA" "********************************************************************************" "$COLOR_RESET" >&2
+  # printf "%b%s%b\n" "$COLOR_MAGENTA" "********************************************************************************" "$COLOR_RESET" >&2
+  _report_start_phase "${STAR_STUDDED_LINE}"
 }
 
 function report_end_phase() {
-  printf "\n%b%s%b\n" "$COLOR_YELLOW" "--------------------------------------------------------------------------------" "$COLOR_RESET" >&2
+  # printf "\n%b%s%b\n" "$COLOR_YELLOW" "--------------------------------------------------------------------------------" "$COLOR_RESET" >&2
+  _report_end_phase "${DASH_STUDDED_LINE}"
 
   if (( $# == 2 )); then
     if [[ "$2" == "-" ]]; then
-      printf "%bLeaving: %s%b\n" "$COLOR_YELLOW" "$1" "$COLOR_RESET" >&2
+      # printf "%bLeaving: %s%b\n" "$COLOR_YELLOW" "$1" "$COLOR_RESET" >&2
+      _report_end_phase "Leaving: ${1}"
     else
-      printf "%bLeaving: %s (file: %s)%b\n" "$COLOR_YELLOW" "$1" "$2" "$COLOR_RESET" >&2
+      # printf "%bLeaving: %s (file: %s)%b\n" "$COLOR_YELLOW" "$1" "$2" "$COLOR_RESET" >&2
+      _report_end_phase "Leaving: ${1} (file: ${2})"
     fi
   elif (( $# == 1 )); then
-    printf "%b%s%b\n" "$COLOR_YELLOW" "$1" "$COLOR_RESET" >&2
+    # printf "%b%s%b\n" "$COLOR_YELLOW" "$1" "$COLOR_RESET" >&2
+    _report_end_phase "${1}"
   else
-    printf "%bLeaving phase%b\n" "$COLOR_YELLOW" "$COLOR_RESET" >&2
+    # printf "%bLeaving phase%b\n" "$COLOR_YELLOW" "$COLOR_RESET" >&2
+    _report_end_phase "Leaving phase"
   fi
 
-  printf "%b%s%b\n" "$COLOR_YELLOW" "--------------------------------------------------------------------------------" "$COLOR_RESET" >&2
+  #printf "%b%s%b\n" "$COLOR_YELLOW" "--------------------------------------------------------------------------------" "$COLOR_RESET" >&2
+  _report_end_phase "${DASH_STUDDED_LINE}"
 }
 
 function report_start_phase_standard() {
