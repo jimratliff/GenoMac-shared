@@ -69,9 +69,9 @@ function print_banner_text() {
     colorfull_banner "$(figlet -k -w "$width" -f "$font" "$text" | lolcat)"
 
     # Print with lolcat to terminal
-    _report --message "$colorfull_banner" --no-full-log
+    _report --message "$colorfull_banner" --no-report-log
 
-    # Print without lolcal to full-log file
+    # Print without lolcal to report-log file
     _report --message "$colorless_banner" --no-terminal
   else
     report_warning "Either/both figlet and lolcat not found in PATH ⇒ Printing vanilla banner."
@@ -162,10 +162,10 @@ function report_about_to_kill_app() {
     --message "${SYMBOL_KILLED} ${message}"
 }
 
-function report_only_to_full_log() {
-  # Output ONLY to full-log file.
-  # Intended for echoing a value interactively supplied by the user to the log for
-  # completeness.
+function report_only_to_report_log() {
+  # Output ONLY to report-log file.
+  # Intended for echoing a value interactively supplied by the user to the report log
+  # for completeness.
   local message
   message="${1?MISSING message}"
 
@@ -378,7 +378,7 @@ function report_end_phase_standard() {
 function _report() {
   # Helper to be called by only the report_* family of helpers.
   #
-  # Always prints to full-log file (unless --no-full-log).
+  # Always prints to report-log file (unless --no-report-log).
   # Also prints to terminal unless (--verbose-only was supplied and not in VERBOSE mode) or --no-terminal.
   # Also prints to GENOMAC_ALERT_LOG if --alert.
   #
@@ -389,13 +389,13 @@ function _report() {
   #   --message         "App installed"  required
   #   --alert                            flag; also collected and regurgitated at end of Hypervisor run
   #   --no-terminal                      flag; do not print to terminal
-  #   --no-full-log                      flag; skip printing to full-log file
+  #   --no-report-log                      flag; skip printing to report-log file
   #   --verbose-only                     flag; displayed to terminal only in VERBOSE mode
 
   local leading_format="${COLOR_REPORT}"
   local is_alert=false
   local is_no_terminal=false
-  local do_skip_full_log=false
+  local do_skip_report_log=false
   local is_verbose_only=false
   local message
   local trailing_format="${COLOR_RESET}"
@@ -421,8 +421,8 @@ function _report() {
         is_alert=true
         ;;
 
-      --no-full-log)
-        do_skip_full_log=true
+      --no-report-log)
+        do_skip_report_log=true
         ;;
       
       --no-terminal)
@@ -462,14 +462,14 @@ function _report() {
     return 1
   fi
 
-  if [[ "$do_skip_full_log" == true && "$is_no_terminal" == true && "$is_alert" != true ]]; then
+  if [[ "$do_skip_report_log" == true && "$is_no_terminal" == true && "$is_alert" != true ]]; then
     print "Invalid options to _report: message would not be written anywhere" >&2
     return 1
   fi
 
-  # Write to full log unless --no-full-log
-  if [[ "$do_skip_full_log" != true ]]; then
-    _append_message_to_full_log "$message"
+  # Write to report log unless --no-report-log
+  if [[ "$do_skip_report_log" != true ]]; then
+    _append_message_to_report_log "$message"
   fi
 
   # Print to terminal unless (a) --no-terminal or (b) (--verbose-only and not VERBOSE)
@@ -518,22 +518,22 @@ function _append_message_to_alert_log() {
   fi
 }
 
-function _append_message_to_full_log() {
-  # Append message to full log
+function _append_message_to_report_log() {
+  # Append message to report log
   #
-  # The full-log file is created by either (a) GenoMac-system/scripts/0_initialize_me_first.sh
+  # The report-log file is created by either (a) GenoMac-system/scripts/0_initialize_me_first.sh
   # or (b) GenoMac-user/scripts/0_initialize_me_first.sh
   # See `############### GM_LOG_FILE`
   
   local message="${1:?MISSING message}"
   
   if [[ -z "${GM_LOG_FILE-}" ]]; then
-    printf 'FAIL: GM_LOG_FILE is unset or empty; cannot append to full log.\n' >&2
+    printf 'FAIL: GM_LOG_FILE is unset or empty; cannot append to report log.\n' >&2
     return 1
   fi
 
   if ! printf '%s\n' "$message" >>"$GM_LOG_FILE"; then
-    printf 'FAIL: Could not append to full log: %s\n' "$GM_LOG_FILE" >&2
+    printf 'FAIL: Could not append to report log: %s\n' "$GM_LOG_FILE" >&2
     return 1
   fi
 }
