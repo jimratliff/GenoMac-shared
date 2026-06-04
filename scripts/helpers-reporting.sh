@@ -152,12 +152,6 @@ function report_about_to_kill_app() {
     --message "${SYMBOL_KILLED} ${message}"
 }
 
-
-
-
-
-
-
 function report_argument_vector() {
   # Report argv in a readable form to stderr.
   #
@@ -196,7 +190,59 @@ function report_argument_vector() {
 }
 
 function dump_accumulated_warnings_failures() {
-  # Prints all assumulated warnings and/or failures from GENOMAC_ALERT_LOG
+  # Prints all accumulated warnings and/or failures from GENOMAC_ALERT_LOG
+  
+  # If we somehow never initialized, bail quietly.
+  [[ -z "${GENOMAC_ALERT_LOG-}" ]] && return 0
+  [[ ! -e "$GENOMAC_ALERT_LOG" ]] && return 0
+
+  
+  local leading_string
+  local message
+  local no_alerts_found_string
+  local review_alerts_string
+  local trailing_string
+
+  leading_string="${NEWLINE}═════════ GenoMac warnings / failures (summary) ═════════${NEWLINE}"
+  trailing_string="${NEWLINE}════════════════════════ end summary ════════════════════"
+  no_alerts_found_string="✅ No GenoMac warnings or failures detected in this run."
+  review_alerts_string="${NEWLINE}⬆️ Scroll back in the log to see these in context ⬆️"
+
+  if [[ ! -s "$GENOMAC_ALERT_LOG" ]]; then
+    message="${leading_string}${no_alerts_found_string}${trailing_string}"
+    report_success "$message"
+  else
+    message="${leading_string}$(<"$GENOMAC_ALERT_LOG")${trailing_string}${review_alerts_string}"
+    _report \
+      --leading-format "$COLOR_WARNING" \
+      --message "$message"
+  fi
+
+  rm -f -- "$GENOMAC_ALERT_LOG"
+}
+
+# function dump_accumulated_warnings_failures() {
+#   # Prints all accumulated warnings and/or failures from GENOMAC_ALERT_LOG
+#   
+#   # If we somehow never initialized, bail quietly.
+#   [[ -z "${GENOMAC_ALERT_LOG-}" ]] && return 0
+#   [[ ! -e "$GENOMAC_ALERT_LOG" ]] && return 0
+# 
+#   if [[ ! -s "$GENOMAC_ALERT_LOG" ]]; then
+#     echo "✅ No GenoMac warnings or failures detected in this run." >&2
+#   else
+#     echo >&2
+#     echo "═════════ GenoMac warnings / failures (summary) ═════════" >&2
+#     cat "$GENOMAC_ALERT_LOG" >&2
+#     echo "════════════════════════ end summary ════════════════════" >&2
+#     echo "↑ Scroll back in the log to see these in context." >&2
+#   fi
+# 
+#   rm -f -- "$GENOMAC_ALERT_LOG"
+# }
+
+function dump_accumulated_warnings_failures() {
+  # Prints all accumulated warnings and/or failures from GENOMAC_ALERT_LOG
   
   # If we somehow never initialized, bail quietly.
   [[ -z "${GENOMAC_ALERT_LOG-}" ]] && return 0
