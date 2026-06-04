@@ -521,8 +521,9 @@ function _append_message_to_alert_log() {
 function _append_message_to_full_log() {
   # Append message to full log
   #
-  # The full-log file is created by either (a) GenoMac-user/scripts/0_initialize_me_first.sh
-  # See `############### GENOMAC_ALERT_LOG`
+  # The full-log file is created by either (a) GenoMac-system/scripts/0_initialize_me_first.sh
+  # or (b) GenoMac-user/scripts/0_initialize_me_first.sh
+  # See `############### GM_LOG_FILE`
   
   local message="${1:?MISSING message}"
   
