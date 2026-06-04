@@ -54,6 +54,9 @@ function print_banner_text() {
   local FONT_BIG="big"
   local FONT_MINI="mini"
 
+  local colorfull_banner
+  local colorless_banner
+
   # Un-comment exactly one of the following font assignments
   font="$FONT_DEFAULT"
   # font="$FONT_BIG"
@@ -62,7 +65,16 @@ function print_banner_text() {
 
   # Test whether figlet and lolcat is in PATH
   if command -v figlet &>/dev/null && command -v lolcat &>/dev/null; then
-    figlet -k -w "${width}" -f "${font}" "$text" | lolcat
+    colorless_banner "$(figlet -k -w "$width" -f "$font" "$text")"
+    colorfull_banner "$(figlet -k -w "$width" -f "$font" "$text" | lolcat)"
+
+    # Print with lolcat to terminal
+    _report \
+      --message "$colorfull_banner" --no-full-log
+
+    # Print without lolcal to full-log file
+    _report \
+      --message "$colorless_banner" --no-terminal
   else
     report_warning "Either/both figlet and lolcat not found in PATH ⇒ Printing vanilla banner."
     echo "=== $text ==="
@@ -370,8 +382,8 @@ function report_end_phase_standard() {
 function _report() {
   # Helper to be called by only the report_* family of helpers.
   #
-  # Always prints to full-log file (unless --terminal-only).
-  # Also prints to terminal unless --verbose-only was supplied and not in VERBOSE mode.
+  # Always prints to full-log file (unless --no-full-log).
+  # Also prints to terminal unless (--verbose-only was supplied and not in VERBOSE mode) or --no-terminal.
   # Also prints to GENOMAC_ALERT_LOG if --alert.
   #
   # Parameters:
@@ -381,14 +393,13 @@ function _report() {
   #   --message         "App installed"  required
   #   --alert                            flag; also collected and regurgitated at end of Hypervisor run
   #   --no-terminal                      flag; do not print to terminal
-  #   --terminal-only                    flag; print only to terminal (i.e., not to full-log file).
-  #                                      (Doesn’t inhibit printing to alert log if --alert)
+  #   --no-full-log                      flag; skip printing to full-log file)
   #   --verbose-only                     flag; displayed to terminal only in VERBOSE mode
 
   local leading_format="${COLOR_REPORT}"
   local is_alert=false
-  locak is_no_terminal=false
-  local is_terminal_only=false
+  local is_no_terminal=false
+  local is_skip_full_log=false
   local is_verbose_only=false
   local message
   local trailing_format="${COLOR_RESET}"
@@ -414,8 +425,8 @@ function _report() {
         is_alert=true
         ;;
 
-      --terminal-only)
-        is_terminal_only=true
+      --no-full-log)
+        is_skip_full_log=true
         ;;
       
       --no-terminal)
@@ -455,17 +466,13 @@ function _report() {
     return 1
   fi
 
-  # --------------------------------------------------------------------------
-  # Routing logic goes here.
-  # --------------------------------------------------------------------------
-
-  # Write to full log unless --terminal-only
-  if [[ "$is_terminal_only" != true ]]; then
+  # Write to full log unless --no-full-log
+  if [[ "$is_skip_full_log" != true ]]; then
     _append_message_to_full_log "$message"
   fi
 
   # Print to terminal unless (a) --no-terminal or (b) (--verbose-only and not VERBOSE)
-  if [[ "$is_no_terminal != true ]]; then
+  if [[ "$is_no_terminal" != true ]]; then
     if [[ "$is_verbose_only" != true ]] || is_VERBOSE; then
       _print_formatted_to_stderr "$leading_format" "$message" "$trailing_format"
     fi
