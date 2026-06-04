@@ -370,7 +370,7 @@ function report_end_phase_standard() {
 function _report() {
   # Helper to be called by only the report_* family of helpers.
   #
-  # Always prints to full-log file.
+  # Always prints to full-log file (unless --terminal-only).
   # Also prints to terminal unless --verbose-only was supplied and not in VERBOSE mode.
   # Also prints to GENOMAC_ALERT_LOG if --alert.
   #
@@ -380,13 +380,18 @@ function _report() {
   #   --trailing-format "$COLOR_RESET"   optional; defaults to "$COLOR_RESET"
   #   --message         "App installed"  required
   #   --alert                            flag; also collected and regurgitated at end of Hypervisor run
+  #   --no-terminal                      flag; do not print to terminal
+  #   --terminal-only                    flag; print only to terminal (i.e., not to full-log file).
+  #                                      (Doesn’t inhibit printing to alert log if --alert)
   #   --verbose-only                     flag; displayed to terminal only in VERBOSE mode
 
   local leading_format="${COLOR_REPORT}"
-  local trailing_format="${COLOR_RESET}"
-  local message
   local is_alert=false
+  locak is_no_terminal=false
+  local is_terminal_only=false
   local is_verbose_only=false
+  local message
+  local trailing_format="${COLOR_RESET}"
 
   while (( $# )); do
     case "$1" in
@@ -407,6 +412,14 @@ function _report() {
 
       --alert)
         is_alert=true
+        ;;
+
+      --terminal-only)
+        is_terminal_only=true
+        ;;
+      
+      --no-terminal)
+        is_no_terminal=true
         ;;
 
       --verbose-only)
@@ -446,12 +459,16 @@ function _report() {
   # Routing logic goes here.
   # --------------------------------------------------------------------------
 
-  # Always write to full log.
-  _append_message_to_full_log "$message"
+  # Write to full log unless --terminal-only
+  if [[ "$is_terminal_only" != true ]]; then
+    _append_message_to_full_log "$message"
+  fi
 
-  # Print to terminal unless this is verbose-only output and VERBOSE mode is off.
-  if [[ "$is_verbose_only" != true ]] || is_VERBOSE; then
-    _print_formatted_to_stderr "$leading_format" "$message" "$trailing_format"
+  # Print to terminal unless (a) --no-terminal or (b) (--verbose-only and not VERBOSE)
+  if [[ "$is_no_terminal != true ]]; then
+    if [[ "$is_verbose_only" != true ]] || is_VERBOSE; then
+      _print_formatted_to_stderr "$leading_format" "$message" "$trailing_format"
+    fi
   fi
 
   if [[ "$is_alert" == true ]]; then
