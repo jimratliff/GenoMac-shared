@@ -7,7 +7,7 @@
 
 function export_and_report() {
   local var_name="$1"
-  report_action_taken "Export $var_name: '${(P)var_name}'"
+  report_only_to_report_log "Export $var_name: '${(P)var_name}'"
   export "$var_name"
 }
 
