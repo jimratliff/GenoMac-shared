@@ -84,63 +84,79 @@ function success_or_not_NOT() {
 }
 
 function report() {
-  # Output supplied line of text in a distinctive color.
-  # printf "%b%s%b\n" "$COLOR_REPORT" "$1" "$COLOR_RESET" >&2
-  _print_formatted_to_stderr "$COLOR_REPORT" "${message}" "$COLOR_RESET"
-}
-
-function report_fail() {
-  # Output supplied line of text in a distinctive color prefaced by SYMBOL_FAILURE.
-  local message="$1"
-  # printf "%b%s%s%b\n" "$COLOR_ERROR" "$SYMBOL_FAILURE" "$message" "$COLOR_RESET" >&2
-  _print_formatted_to_stderr "$COLOR_ERROR" "${SYMBOL_FAILURE} ${message}" "$COLOR_RESET"
-  
-  # Also append a plain-text version to the alert log, if it's set.
-  _append_message_to_alert_log "FAIL: $message"
-  # if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
-  #   printf 'FAIL: %s\n' "$message" >>"$GENOMAC_ALERT_LOG"
-  # fi
-}
-
-function report_success() {
-  # Output supplied line of text in a distinctive color prefaced by SYMBOL_SUCCESS.
-  # printf "%b%s%s%b\n" "$COLOR_SUCCESS" "$SYMBOL_SUCCESS" "$1" "$COLOR_RESET" >&2
-  _print_formatted_to_stderr "$COLOR_SUCCESS" "${SYMBOL_SUCCESS} ${message}" "$COLOR_RESET"
+  # Output supplied line of text in a distinctive color ($COLOR_REPORT by default).
+  local message
+  message="${1?MISSING message}"
+  _report --message "$message"
 }
 
 function report_warning() {
   # Output supplied line of text in a distinctive color prefaced by SYMBOL_WARNING.
-  local message="$1"
-  printf "%b%s%s%b\n" "$COLOR_WARNING" "$SYMBOL_WARNING" "$message" "$COLOR_RESET" >&2
-  _print_formatted_to_stderr "$COLOR_WARNING" "${SYMBOL_WARNING} ${message}" "$COLOR_RESET"
+  local message
+  message="${1?MISSING message}"
 
-  # Also append a plain-text version to the alert log, if it's set.
-  _append_message_to_alert_log "WARN: $message"
-  
-  # if [[ -n "${GENOMAC_ALERT_LOG-}" ]]; then
-  #   printf 'WARN: %s\n' "$message" >>"$GENOMAC_ALERT_LOG"
-  # fi
+  _report \
+    --leading-format "$COLOR_WARNING" \
+    --message "${SYMBOL_WARNING} ${message}" \
+    --alert
+}
+
+function report_fail() {
+  # Output supplied line of text in a distinctive color prefaced by SYMBOL_FAILURE.
+  local message
+  message="${1?MISSING message}"
+
+  _report \
+    --leading-format "$COLOR_ERROR" \
+    --message "${SYMBOL_FAILURE} ${message}" \
+    --alert
+}
+
+function report_success() {
+  # Output supplied line of text in a distinctive color prefaced by SYMBOL_SUCCESS.
+  local message
+  message="${1?MISSING message}"
+
+  _report \
+    --leading-format "$COLOR_SUCCESS" \
+    --message "${SYMBOL_SUCCESS} ${message}"
 }
 
 function report_adjust_setting() {
-  # Output supplied line of text in a distinctive color, prefaced by "$SYMBOL_ADJUST_SETTING.
-  # It is intentional to NOT have a newline. This will be supplied by success().
-  # printf "%b%s%s%b" "$COLOR_ADJUST_SETTING" "$SYMBOL_ADJUST_SETTING" "$1" "$COLOR_RESET" >&2
-  _print_formatted_to_stderr "$COLOR_ADJUST_SETTING" "${SYMBOL_ADJUST_SETTING} ${message}" "$COLOR_RESET"
+  # Output supplied line of text in a distinctive color prefaced by SYMBOL_ADJUST_SETTING.
+  local message
+  message="${1?MISSING message}"
+
+  _report \
+    --leading-format "$COLOR_ADJUST_SETTING" \
+    --message "${SYMBOL_ADJUST_SETTING} ${message}"
 }
 
 function report_action_taken() {
-  # Output supplied line of text in a distinctive color, prefaced by "$SYMBOL_ADJUST_SETTING.
-  # printf "%b%s%s%b\n" "$COLOR_ACTION_TAKEN" "$SYMBOL_ACTION_TAKEN" "$1" "$COLOR_RESET" >&2
-  _print_formatted_to_stderr "$COLOR_ACTION_TAKEN" "${SYMBOL_ACTION_TAKEN} ${message}" "$COLOR_RESET"
+  # Output supplied line of text in a distinctive color prefaced by SYMBOL_ACTION_TAKEN.
+  local message
+  message="${1?MISSING message}"
+
+  _report \
+    --leading-format "$COLOR_ACTION_TAKEN" \
+    --message "${SYMBOL_ACTION_TAKEN} ${message}"
 }
 
 function report_about_to_kill_app() {
-  # Takes `app` as argument
-  # Outputs message that the app was killed.
-  # printf "%b%s %s is being killed (if necessary) %b" "$COLOR_KILLED" "$SYMBOL_KILLED" "$1" "$COLOR_RESET" >&2
-  _print_formatted_to_stderr "$COLOR_KILLED" "${SYMBOL_KILLED} ${message} is being killed (if necessary)" "$COLOR_RESET"
+  # Output supplied line of text in a distinctive color prefaced by SYMBOL_KILLED.
+  local message
+  message="${1?MISSING message}"
+
+  _report \
+    --leading-format "$COLOR_KILLED" \
+    --message "${SYMBOL_KILLED} ${message}"
 }
+
+
+
+
+
+
 
 function report_argument_vector() {
   # Report argv in a readable form to stderr.
