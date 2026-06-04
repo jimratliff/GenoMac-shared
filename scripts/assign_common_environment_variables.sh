@@ -10,9 +10,8 @@
 PLISTBUDDY_PATH='/usr/libexec/PlistBuddy'
 
 ############### GENOMAC_ALERT_LOG
-# Creates and names a temporary file to accumulate warning/failure messages for
+# Creates, if necessary, and names a temporary file to accumulate warning/failure messages for
 #   later regurgitation at the end of a main script.
-# Only create if not already defined (e.g. nested/nested sourcing)
 if [[ -z "${GENOMAC_ALERT_LOG-}" ]]; then
   local tmpdir="${TMPDIR:-/tmp}"
   GENOMAC_ALERT_LOG="$(mktemp "${tmpdir}/genomac_alerts.XXXXXX")"
