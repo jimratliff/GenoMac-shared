@@ -39,7 +39,7 @@ safe_source() {
     report_fail "ERROR: Failed to source ${file}"
     exit 1
   fi
-  report_success "Sourced ${file}"
+  report_only_to_report_log "${SYMBOL_SUCCESS} Sourced ${file}"
 }
 
 function short_name_of_user_from_HOME() {
