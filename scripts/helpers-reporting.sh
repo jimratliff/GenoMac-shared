@@ -69,15 +69,13 @@ function print_banner_text() {
     colorfull_banner "$(figlet -k -w "$width" -f "$font" "$text" | lolcat)"
 
     # Print with lolcat to terminal
-    _report \
-      --message "$colorfull_banner" --no-full-log
+    _report --message "$colorfull_banner" --no-full-log
 
     # Print without lolcal to full-log file
-    _report \
-      --message "$colorless_banner" --no-terminal
+    _report --message "$colorless_banner" --no-terminal
   else
     report_warning "Either/both figlet and lolcat not found in PATH ⇒ Printing vanilla banner."
-    echo "=== $text ==="
+    report "=== $text ==="
   fi
 }
 
