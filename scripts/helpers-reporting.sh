@@ -389,12 +389,13 @@ function _report() {
   #   --message         "App installed"  required
   #   --alert                            flag; also collected and regurgitated at end of Hypervisor run
   #   --no-terminal                      flag; do not print to terminal
-  #   --no-report-log                      flag; skip printing to report-log file
+  #   --no-report-log                    flag; skip printing to report-log file
   #   --verbose-only                     flag; displayed to terminal only in VERBOSE mode
 
   local leading_format="${COLOR_REPORT}"
   local is_alert=false
   local is_no_terminal=false
+  local do_print_to_terminal=false
   local do_skip_report_log=false
   local is_verbose_only=false
   local message
@@ -467,15 +468,20 @@ function _report() {
     return 1
   fi
 
-  # Write to report log unless --no-report-log
-  if [[ "$do_skip_report_log" != true ]]; then
-    _append_message_to_report_log "$message"
-  fi
-
-  # Print to terminal unless (a) --no-terminal or (b) (--verbose-only and not VERBOSE)
   if [[ "$is_no_terminal" != true ]]; then
     if [[ "$is_verbose_only" != true ]] || is_VERBOSE; then
-      _print_formatted_to_stderr "$leading_format" "$message" "$trailing_format"
+      do_print_to_terminal=true
+    fi
+  fi
+
+  if [[ "$do_print_to_terminal" == true ]]; then
+    _print_formatted_to_stderr "$leading_format" "$message" "$trailing_format"
+  fi
+
+  if [[ "$do_skip_report_log" != true ]]; then
+    if [[ "${GM_STDOUT_STDERR_NOW_BEING_SENT_TO_GM_LOG_FILE:-false}" != true \
+        || "$do_print_to_terminal" != true ]]; then
+      _append_message_to_report_log "$message"
     fi
   fi
 
