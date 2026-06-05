@@ -24,12 +24,18 @@ function get_nonblank_answer_to_question() {
     [[ -n "${answer// }" ]] && break
   done
 
+  # Print to report log so that user’s response will be part of the record
+  report_only_to_report_log "User response: $answer"
+
+  # Print to stdout to pass the value to caller.
   echo "$answer"
 }
 
 function get_yes_no_answer_to_question() {
   # Output supplied line of text in distinctive color (COLOR_QUESTION), prefixed by SYMBOL_QUESTION,
   # prompt user for response, iterating until user provides either a yes or no equivalent.
+  #
+  # Returns exit code 0 for "yes" and exit code 1 for "no".
   #
   # Usage example: 
   #     if get_yes_no_answer_to_question "Do you want to continue?"; then
@@ -44,6 +50,9 @@ function get_yes_no_answer_to_question() {
   while true; do
     ask_question "$prompt (y/n)"
     read "response?→ "
+    
+    report_only_to_report_log "User response: $response"
+    
     case "${response:l}" in  # `:l` lowercases in Zsh
       y|yes) return 0 ;;
       n|no) return 1 ;;
@@ -63,6 +72,8 @@ function get_confirmed_answer_to_question() {
   while true; do
     ask_question "$prompt"
     read "answer_raw?→ "
+
+    report_only_to_report_log "User response: $answer_raw"
     
     # Strip leading/trailing whitespace
     answer=$(echo "$answer_raw" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
@@ -71,6 +82,9 @@ function get_confirmed_answer_to_question() {
 
     ask_question "You entered: '$answer'. Is this correct? (y/n)"
     read "confirm?→ "
+
+    report_only_to_report_log "User response: $confirm"
+
     case "$confirm" in
       [Yy]*) break ;;
     esac
@@ -116,6 +130,8 @@ function get_value_from_numbered_choices() {
     done
 
     read -r "response?→ "
+
+    report_only_to_report_log "User response: $response"
 
     if [[ "$response" == <-> ]] && (( response >= 1 && response <= ${#labels} )); then
       print -r -- "$values[$response]"
@@ -165,6 +181,8 @@ function get_answer_from_numbered_choices() {
     done
 
     read -r "response?→ "
+
+    report_only_to_report_log "User response: $response"
 
     # Require a positive integer before using arithmetic comparison.
     if [[ "$response" =~ '^[0-9]+$' ]] && (( response >= 1 && response <= ${#choices} )); then
@@ -316,6 +334,7 @@ function launch_app_and_prompt_user_to_act() {
   local user_response=""
   while [[ "${user_response:l}" != "$confirmation_word" ]]; do
     read -r "user_response?Type '$confirmation_word' to confirm task completion: "
+    report_only_to_report_log "User response: $user_response"
   done
   
   if [[ -n "$bundle_id" ]]; then
