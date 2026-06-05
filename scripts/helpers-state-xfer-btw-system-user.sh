@@ -105,11 +105,11 @@ function _set_state_for_user_attribute(){
   local scope="${3:?missing/empty scope}"
   local state_string
   
-  state_string="$(construct_state_string_for_user_attribute "$user_short_name" "$attribute_name")"
+  state_string="$(construct_state_string_for_user_and_attribute "$user_short_name" "$attribute_name")"
   _set_state "${state_string}" "$scope"
 }
 
-function construct_state_string_for_user_attribute() {
+function construct_state_string_for_user_and_attribute() {
   # Constructs a user-attribute state string.
   #
   # This state string applies to BOTH (a) system-scoped and (b) user-scoped state strings
@@ -124,10 +124,10 @@ function construct_state_string_for_user_attribute() {
   #   USER_ATTRIBUTE∞§¶shortname¶§∞
   #
   # Usage:
-  #   construct_state_string_for_user_attribute short_name attribute_name
-  #   construct_state_string_for_user_attribute --user-only short_name
-  #   construct_state_string_for_user_attribute short_name --user-only
-  #   construct_state_string_for_user_attribute short_name attribute_name --user-only
+  #   construct_state_string_for_user_and_attribute short_name attribute_name
+  #   construct_state_string_for_user_and_attribute --user-only short_name
+  #   construct_state_string_for_user_and_attribute short_name --user-only
+  #   construct_state_string_for_user_and_attribute short_name attribute_name --user-only
   
   # Hints: 
   #       GENOMAC_STATE_USER_ATTRIBUTE_PREFIX="USER_ATTRIBUTE"
@@ -198,7 +198,7 @@ function _test_state_for_user_attribute(){
   local scope="${3:?missing/empty scope}"
   local state_string
   
-  state_string="$(construct_state_string_for_user_attribute "$user_short_name" "$attribute_name")"
+  state_string="$(construct_state_string_for_user_and_attribute "$user_short_name" "$attribute_name")"
   
   # The following call to _test_state must be the last command of this function, because its return value is crucial to the caller
   _test_state "${state_string}" "$scope"
