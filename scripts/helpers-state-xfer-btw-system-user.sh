@@ -63,15 +63,45 @@ function unmark_current_user_as_in_need_of_initial_config(){
   report_end_phase_standard
 }
 
-function construct_system_state_string_for_user_in_need_of_initial_config(){
-  # Constructs state string for the system-scoped state indicating a user is in
+function construct_system_state_string_for_user_in_need_of_initial_config() {
+  # Constructs the system-scoped state string indicating that a user is in
   # need of initial configuration.
+  #
+  # Usage:
+  #   construct_system_state_string_for_user_in_need_of_initial_config SHORT_NAME
+  #   construct_system_state_string_for_user_in_need_of_initial_config --prefix-only
+  #
+  # Prints either:
+  #   "${PREFIX}${DELIMITER_A}${short_name}${DELIMITER_B}"
+  # or, with --prefix-only:
+  #   "${PREFIX}${DELIMITER_A}"
 
   report_start_phase_standard
-  local short_name="$1"
-  local state_string
 
-  state_string="${GENOMAC_STATE_USER_IS_PENDING_INITIAL_CONFIGURATION_PREFIX}${GENOMAC_STATE_STRING_DELIMITER_A}${short_name}${GENOMAC_STATE_STRING_DELIMITER_B}"
+  local short_name
+  local prefix
+  local state_string
+  local prefix_only=false
+
+  if (( $# != 1 )); then
+    report_fail "Expected exactly one argument: either short_name or --prefix-only."
+    report_end_phase_standard
+    return 64
+  fi
+
+  if [[ "$1" == "--prefix-only" ]]; then
+    prefix_only=true
+  else
+    short_name="$1"
+  fi
+
+  prefix="${GENOMAC_STATE_USER_IS_PENDING_INITIAL_CONFIGURATION_PREFIX}${GENOMAC_STATE_STRING_DELIMITER_A}"
+
+  state_string="$prefix"
+
+  if [[ "$prefix_only" != true ]]; then
+    state_string+="${short_name}${GENOMAC_STATE_STRING_DELIMITER_B}"
+  fi
 
   print -- "$state_string"
 
