@@ -71,6 +71,8 @@ function construct_system_state_string_for_user_in_need_of_initial_config() {
   #   construct_system_state_string_for_user_in_need_of_initial_config SHORT_NAME
   #   construct_system_state_string_for_user_in_need_of_initial_config --prefix-only
   #
+  #   state_string_prefix="$(construct_system_state_string_for_user_in_need_of_initial_config --prefix-only)"
+  #
   # Prints either:
   #   "${PREFIX}${DELIMITER_A}${short_name}${DELIMITER_B}"
   # or, with --prefix-only:
