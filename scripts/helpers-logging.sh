@@ -37,7 +37,7 @@ function open_logs_directory() {
   report_start_phase_standard
 
   if [[ ! -d "$GM_LOGS_DIRECTORY" ]]; then
-    report_fail "Logs directory does not exist: “$GM_LOGS_DIRECTORY”."
+    report_warning "Logs directory does not exist: “$GM_LOGS_DIRECTORY”."
     report_end_phase_standard
     return 1
   fi
