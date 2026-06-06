@@ -40,6 +40,7 @@ function define_colors_and_symbols() {
   SYMBOL_KILLED="☠️ "
   SYMBOL_ACTION_TAKEN="🪚 "
   SYMBOL_WARNING="🚨 "
+  SYMBOL_HIGHLIGHT="‼️ "
 }
 
 function print_banner_text() {
@@ -102,11 +103,24 @@ function report() {
 
 function report_warning() {
   # Output supplied line of text in a distinctive color prefaced by SYMBOL_WARNING.
+  # Mark it to be also regurgitated in an end-of-Hypervisor-run summary.
   local message
   message="${1?MISSING message}"
 
   _report \
     --leading-format "$COLOR_WARNING" \
+    --message "${SYMBOL_WARNING} ${message}" \
+    --alert
+}
+
+function report_highlight() {
+  # Output supplied line of text in a distinctive color prefaced by SYMBOL_WARNING.
+  # Mark it to be also regurgitated in an end-of-Hypervisor-run summary.
+  local message
+  message="${1?MISSING message}"
+
+  _report \
+    --leading-format "$COLOR_REPORT" \
     --message "${SYMBOL_WARNING} ${message}" \
     --alert
 }
