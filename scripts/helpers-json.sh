@@ -70,3 +70,31 @@ function populate_associative_array_from_json_object_of_scalars() {
 
 	report_end_phase_standard
 }
+
+function populate_associative_array_from_json_object_of_string_arrays() {
+  # Populates a global Zsh associative array from a JSON object whose values are arrays of strings.
+  #
+  # Example JSON shape:
+  #   {
+  #     "work": ["dropbox", "sync_com"],
+  #     "personal": ["dropbox"]
+  #   }
+  #
+  # Stores each array value as compact JSON:
+  #   target_array[work]='["dropbox","sync_com"]'
+
+  local json_input="${1:?missing json_input}"
+  local jq_path="${2:?missing jq_path}"
+  local target_array_name="${3:?missing target_array_name}"
+
+  local key
+  local value_json
+
+  while IFS=$'\t' read -r key value_json; do
+    typeset -gA "$target_array_name"
+    eval "${target_array_name}[\${key}]=\${value_json}"
+  done < <(
+    jq -r "${jq_path} | to_entries[] | [.key, (.value | tojson)] | @tsv" \
+      <<<"$json_input"
+  )
+}
