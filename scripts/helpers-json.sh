@@ -2,7 +2,7 @@
 
 # Assumes that jq has been installed.
 
-function populate_associative_array_of_scalars_from_json_object() {
+function populate_associative_array_from_json_object_of_scalars() {
 	# Populate a shell associative array from a JSON object selected by jq.
 	#
 	# Purpose:
