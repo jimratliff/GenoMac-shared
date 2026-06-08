@@ -281,7 +281,7 @@ function set_system_state_for_user_class(){
 
 function construct_state_string_for_user_class(){
   # Constructs the state string for a user class of the form: "USER_ATTRIBUTE_shortname_attributename"
-  # Hint: GENOMAC_STATE_USER_ATTRIBUTE_PREFIX="USER_ATTRIBUTE_"
+  # Hint: GENOMAC_STATE_USER_CLASS_PREFIX="USER_CLASS"
   # $1: user_short_name: The user to whom the attribute belongs
   # $2: user_class
   #
