@@ -176,7 +176,7 @@ function report_about_to_kill_app() {
     --message "${SYMBOL_KILLED} ${message}"
 }
 
-function report_only_to_report_log() {
+function report_to_log() {
   # Output ONLY to report-log file (unless VERBOSE mode)..
   # Intended for echoing a value interactively supplied by the user to the report log
   # for completeness. Also goes to terminal only if VERBOSE mode.
