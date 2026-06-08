@@ -267,35 +267,35 @@ function _test_state_for_user_attribute(){
   _test_state "${state_string}" "$scope"
 }
 
-function construct_state_string_for_user_has_attribute() {
-  # Constructs state string that asserts that the user has at least one attribute.
-  #
-  # This state string applies to BOTH (a) system-scoped and (b) user-scoped state strings
-  # for user attributes. (It’s redundant to encode the user’s short name into the
-  # user-scoped state string, but that redundancy earns its keep by avoiding additional code
-  # and by simplyfying code and improving maintainability.)
-  #
-  # Full form:
-  #   USER_HAS_ATTRIBUTE∞§¶shortname¶§∞
-  #
-  # Usage:
-  #   construct_state_string_for_user_has_attribute short_name
-  #
-  # Hints: 
-  #       GENOMAC_STATE_USER_HAS_AN_ATTRIBUTE_PREFIX="USER_HAS_ATTRIBUTE"
-  #       GENOMAC_STATE_STRING_DELIMITER_A="∞§¶"
-  #       GENOMAC_STATE_STRING_DELIMITER_B="¶§∞"
-  #
-  # Prints result to stdout.
-  
-  local short_name
-  short_name="${1:?missing short_name}"
-
-  local state_string
-  state_string="${GENOMAC_STATE_USER_HAS_AN_ATTRIBUTE_PREFIX}${GENOMAC_STATE_STRING_DELIMITER_A}${short_name}${GENOMAC_STATE_STRING_DELIMITER_B}"
-
-  print -- "$state_string"
-}
+# function construct_state_string_for_user_has_attribute() {
+#   # Constructs state string that asserts that the user has at least one attribute.
+#   #
+#   # This state string applies to BOTH (a) system-scoped and (b) user-scoped state strings
+#   # for user attributes. (It’s redundant to encode the user’s short name into the
+#   # user-scoped state string, but that redundancy earns its keep by avoiding additional code
+#   # and by simplyfying code and improving maintainability.)
+#   #
+#   # Full form:
+#   #   USER_HAS_ATTRIBUTE∞§¶shortname¶§∞
+#   #
+#   # Usage:
+#   #   construct_state_string_for_user_has_attribute short_name
+#   #
+#   # Hints: 
+#   #       # GENOMAC_STATE_USER_HAS_AN_ATTRIBUTE_PREFIX="USER_HAS_ATTRIBUTE"
+#   #       GENOMAC_STATE_STRING_DELIMITER_A="∞§¶"
+#   #       GENOMAC_STATE_STRING_DELIMITER_B="¶§∞"
+#   #
+#   # Prints result to stdout.
+#   
+#   local short_name
+#   short_name="${1:?missing short_name}"
+# 
+#   local state_string
+#   state_string="${GENOMAC_STATE_USER_HAS_AN_ATTRIBUTE_PREFIX}${GENOMAC_STATE_STRING_DELIMITER_A}${short_name}${GENOMAC_STATE_STRING_DELIMITER_B}"
+# 
+#   print -- "$state_string"
+# }
 
 function _set_state_for_user_class(){
   # $1: user_short_name: The user to whom the attribute belongs
