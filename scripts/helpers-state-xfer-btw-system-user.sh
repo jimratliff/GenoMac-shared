@@ -272,6 +272,9 @@ function _set_state_for_user_class(){
   # $2: user_class
   # $3: the "scope," either 'system' or 'user' depending on whether this state characterizes 
   # 	  (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
+  #
+  # First deletes any existing system-scoped states asserting a user-class for this user,
+  # in order that the subsequent assignment will be on a blank slate.
 
   local user_short_name="${1:?missing/empty user_short_name}"
   local user_class="${2:?missing/empty user_class}"
