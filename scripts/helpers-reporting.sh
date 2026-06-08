@@ -177,13 +177,13 @@ function report_about_to_kill_app() {
 }
 
 function report_only_to_report_log() {
-  # Output ONLY to report-log file.
+  # Output ONLY to report-log file (unless VERBOSE mode)..
   # Intended for echoing a value interactively supplied by the user to the report log
-  # for completeness.
+  # for completeness. Also goes to terminal only if VERBOSE mode.
   local message
   message="${1?MISSING message}"
 
-  _report --message "${message}" --no-terminal
+  _report --message "${message}" --verbose-only
 }
 
 function report_argument_vector() {
