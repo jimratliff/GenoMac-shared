@@ -7,7 +7,7 @@
 
 function export_and_report() {
   local var_name="$1"
-  report_only_to_report_log "Export $var_name: '${(P)var_name}'"
+  report_to_log "Export $var_name: '${(P)var_name}'"
   export "$var_name"
 }
 
@@ -39,7 +39,7 @@ safe_source() {
     report_fail "ERROR: Failed to source ${file}"
     exit 1
   fi
-  report_only_to_report_log "${SYMBOL_SUCCESS} Sourced ${file}"
+  report_to_log "${SYMBOL_SUCCESS} Sourced ${file}"
 }
 
 function short_name_of_user_from_HOME() {
