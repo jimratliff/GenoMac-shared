@@ -267,6 +267,21 @@ function _test_state_for_user_attribute(){
   _test_state "${state_string}" "$scope"
 }
 
+function _set_state_for_user_class(){
+  # $1: user_short_name: The user to whom the attribute belongs
+  # $2: user_class
+  # $3: the "scope," either 'system' or 'user' depending on whether this state characterizes 
+  # 	  (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
+
+  local user_short_name="${1:?missing/empty user_short_name}"
+  local user_class="${2:?missing/empty user_class}"
+  local scope="${3:?missing/empty scope}"
+  local state_string
+  
+  state_string="$(construct_state_string_for_user_class "$user_short_name" "$user_class")"
+  _set_state "${state_string}" "$scope"
+}
+
 function set_system_state_for_user_class(){
   # Set system-scoped state asserting given user has given user class.
 
@@ -274,25 +289,79 @@ function set_system_state_for_user_class(){
   local short_name="${1:?missing short name}"
   local user_class="${2:?missing user class}"
 
-  _set_state_for_user_attribute "$short_name" "$user_class" "system"
+  _set_state_for_user_class "$short_name" "$user_class" "system"
 
   report_end_phase_standard
 }
 
-function construct_state_string_for_user_class(){
-  # Constructs the state string for a user class of the form: "USER_ATTRIBUTE_shortname_attributename"
-  # Hint: GENOMAC_STATE_USER_CLASS_PREFIX="USER_CLASS"
-  # $1: user_short_name: The user to whom the attribute belongs
-  # $2: user_class
+function construct_state_string_for_user_class() {
+  # Constructs a user-class state string.
   #
-  # The result is printed to stdout
+  # Full form:
+  #   USER_CLASS∞§¶shortname¶§∞user_class§∞¶
+  #
+  # With --user-only:
+  #   USER_CLASS∞§¶shortname¶§∞
+  #
+  # Usage:
+  #   construct_state_string_for_user_class short_name user_class
+  #   construct_state_string_for_user_class --user-only short_name
+  #   construct_state_string_for_user_class short_name --user-only
+  #
+  # Prints result to stdout.
 
-  local user_short_name="$1"
-  local user_class="$2"
-  
+  local user_only=false
+  local short_name=""
+  local user_class=""
+  local arg
+
+  for arg in "$@"; do
+    case "$arg" in
+      --user-only)
+        user_only=true
+        ;;
+
+      --*)
+        report_fail "Unknown option: $arg"
+        return 1
+        ;;
+
+      *)
+        if [[ -z "$short_name" ]]; then
+          short_name="$arg"
+        elif [[ -z "$user_class" ]]; then
+          user_class="$arg"
+        else
+          report_fail "Too many positional arguments: $arg"
+          return 1
+        fi
+        ;;
+    esac
+  done
+
+  if [[ -z "$short_name" ]]; then
+    report_fail "Missing short_name"
+    return 1
+  fi
+
+  if [[ "$user_only" == true && -n "$user_class" ]]; then
+    report_fail "user_class must not be supplied with --user-only"
+    return 1
+  fi
+
+  if [[ "$user_only" != true && -z "$user_class" ]]; then
+    report_fail "Missing user_class"
+    return 1
+  fi
+
   local state_string
-  state_string="${GENOMAC_STATE_USER_CLASS_PREFIX}${GENOMAC_STATE_STRING_DELIMITER_A}${short_name}${GENOMAC_STATE_STRING_DELIMITER_B}${user_class}${GENOMAC_STATE_STRING_DELIMITER_C}"
+
+  state_string="${GENOMAC_STATE_USER_CLASS_PREFIX}${GENOMAC_STATE_STRING_DELIMITER_A}${short_name}${GENOMAC_STATE_STRING_DELIMITER_B}"
+
+  if [[ "$user_only" != true ]]; then
+    state_string+="${user_class}${GENOMAC_STATE_STRING_DELIMITER_C}"
+  fi
+
   print -- "$state_string"
-  
 }
 
