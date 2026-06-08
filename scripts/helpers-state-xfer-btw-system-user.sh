@@ -276,8 +276,16 @@ function _set_state_for_user_class(){
   local user_short_name="${1:?missing/empty user_short_name}"
   local user_class="${2:?missing/empty user_class}"
   local scope="${3:?missing/empty scope}"
-  local state_string
   
+  local state_string
+  local user_only_prefix
+
+  # Delete all $scope-scoped states asserting a user-class for this user, in order that
+  # the subsequent assignment will be on a blank slate.
+  user_only_prefix="$(construct_state_string_for_user_class "$user_short_name" --user-only )"
+  delete_all_system_states_matching_prefix "$delete_all_system_states_matching_prefix"
+
+  # Set $scope-scoped state asserting this user has the supplied user-class
   state_string="$(construct_state_string_for_user_class "$user_short_name" "$user_class")"
   _set_state "${state_string}" "$scope"
 }
