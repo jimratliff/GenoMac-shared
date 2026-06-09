@@ -408,6 +408,7 @@ function _state_strings_with_prefix() {
   local state_directory
   state_directory="$(_state_directory_for_scope "$scope")"
 
+  reply=()
   reply=(
     "${state_directory}/${prefix}"*"${GENOMAC_STATE_FILE_EXTENSION}"(N:t:r)
   )
