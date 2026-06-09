@@ -146,7 +146,8 @@ MIGRATION_STATE_PREFIX="MIGRATION_ID_"
 NEWLINE=$'\n'
 
 ############### Reporting
-GENOMAC_VERBOSE="true"
+SESH_VERBOSITY_USER_WANTS_IT="SESH_verbosity_user_wants_it"
+# GENOMAC_VERBOSE="true"
 
 # The following are defined in each of GenoMac-system and GenoMac-user
 # GM_LOGS_DIRECTORY: either "$HOME/.genomac-user-logs" or "$HOME/.genomac-system-logs"
@@ -235,6 +236,7 @@ export_and_report GENOMAC_SHARED_RESOURCE_DIRECTORY
 export_and_report GENOMAC_SHARED_ROOT
 export_and_report GENOMAC_SCOPE_SYSTEM
 export_and_report GENOMAC_SCOPE_USER
+export_and_report SESH_VERBOSITY_USER_WANTS_IT
 export_and_report GENOMAC_STATE_FILE_EXTENSION
 export_and_report GENOMAC_STATE_PERSISTENCE_PERMANENT
 export_and_report GENOMAC_STATE_PERSISTENCE_SESSION
@@ -254,7 +256,7 @@ export_and_report GENOMAC_USER_LOCAL_DIRECTORY
 export_and_report GENOMAC_USER_LOCAL_STATE_DIRECTORY
 export_and_report GENOMAC_USER_REPO_NAME
 export_and_report GENOMAC_USER_SHARED_PREFERENCES_DIRECTORY
-export_and_report GENOMAC_VERBOSE
+# export_and_report GENOMAC_VERBOSE
 export_and_report HOMEBREW_PREFIX
 export_and_report HYPERVISOR_HOW_TO_RESTART_STRING
 export_and_report HYPERVISOR_MAKE_COMMAND_STRING
