@@ -166,6 +166,18 @@ function report_action_taken() {
     --message "${SYMBOL_ACTION_TAKEN} ${message}"
 }
 
+function report_action_taken_to_log() {
+  # Output report of action taken to the log and, if VERBOSE mode, to the terminal.
+  # THe supplied text is prefaced by SYMBOL_ACTION_TAKEN.
+  local message
+  message="${1?MISSING message}"
+
+  _report \
+    --leading-format "$COLOR_ACTION_TAKEN" \
+    --message "${SYMBOL_ACTION_TAKEN} ${message}" \
+    --verbose-only
+}
+
 function report_about_to_kill_app() {
   # Output supplied line of text in a distinctive color prefaced by SYMBOL_KILLED.
   local message
