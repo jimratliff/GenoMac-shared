@@ -6,15 +6,18 @@ An attribute can be atomic or it can imply a set of other attributes.
 | Attribute name | Environment variable | Comment |
 |---|---|---|
 | chessplayer       | USER_ATTRIBUTE_CHESSPLAYER |       Comment |
-| commit_on_github  | USER_ATTRIBUTE_COMMIT_ON_GITHUB |  Comment |
-| genomac-developer | USER_ATTRIBUTE_GENOMAC_DEVELOPER | USER_MAC and/or USER_CONFIGURER |
-| developer         | USER_ATTRIBUTE_DEVELOPER |         Comment |
-| dropbox           | USER_ATTRIBUTE_DROPBOX |           Comment |
-| emailer           | USER_ATTRIBUTE_EMAILER |           Comment |
-| mac-admin         | USER_ATTRIBUTE_MAC_ADMIN |         USER_MAC & USER_CONFIGURER |
-| microsoft-word    | USER_ATTRIBUTE_MICROSOFT_WORD |    Comment |
-| sync-com          | USER_ATTRIBUTE_SYNC_COM |          Comment |
-| youtube-watcher   | USER_ATTRIBUTE_YOUTUBE_WATCHER |   Comment |
+| genomac-developer | USER_ATTRIBUTE_GENOMAC_DEVELOPER | USER_MAC and/or USER_CONFIGURER ⇒ 'developer'[^GENOMAC-DEVELOPER]|
+| developer         | USER_ATTRIBUTE_DEVELOPER |         USER_DEV, USER_SAASER |
+| dropbox           | USER_ATTRIBUTE_DROPBOX |           All users.[^DROPBOX] |
+| emailer           | USER_ATTRIBUTE_EMAILER |           USER_JIM, USER_EMPLOYMENT, possibly USER_SASSER |
+| mac-admin         | USER_ATTRIBUTE_MAC_ADMIN |         USER_MAC & USER_CONFIGURER[^MAC-ADMIN] |
+| microsoft-word    | USER_ATTRIBUTE_MICROSOFT_WORD |    USER_EMPLOYMENT |
+| sync-com          | USER_ATTRIBUTE_SYNC_COM |          Users that also sync with Sync.com |
+| youtube-watcher   | USER_ATTRIBUTE_YOUTUBE_WATCHER |   Primarily to specify use of “Enhancer for YouTube™” extension |
+
+[^GENOMAC-DEVELOPER]: A user with this attribute may be (a) USER_CONFIGURER (who *executes* GenoMac-system exclusively) or (b) USER_MAC, or both. Such a user will have *two* local copies of each of GenoMac-system and GenoMac-user: (a) one set at `~/.genomac-system` and `~/.genomac-user` and (b) a development set at `~/repositories/genomac-system` and `~/repositories/genomac-user`. This second set of copies are where active development of these repos takes place. This attribute should always imply as well the 'developer' attribute.
+[^DROPBOX]: Dropbox is central to many aspects of GenoMac-user configurations, thus essentially every user needs to install and use Dropbox.
+[^MAC-ADMIN]: This attribute belongs to a user that is devoted to maintaining, enhancing, etc., the Macs and their environment, in a broader way that USER_CONFIGURER does.
 
 
 #
