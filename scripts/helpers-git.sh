@@ -11,6 +11,59 @@
 #     GENOMAC_USER_LOCAL_DIRECTORY
 #     GENOMAC_USER_REPO_NAME
 
+function clone_public_genomac_repo_using_HTTPS_if_necessary() {
+  # Clones a public GenoMac GitHub repo using HTTPS, if necessary.
+  #
+  # $1: GitHub repo name, e.g. GenoMac-user
+  # $2: local directory into which the repo should be cloned
+  #
+  # If the directory already contains the expected git repo, warns and returns normally.
+  # If the directory exists but is not the expected git repo, fails.
+
+  report_start_phase_standard
+
+  local github_repo_name="${1:?MISSING/EMPTY github_repo_name}"
+  local local_cloning_dir="${2:?MISSING/EMPTY local_cloning_dir}"
+
+  local repo_url
+  local existing_remote
+  local existing_repo_name
+
+  repo_url="${GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT}/${github_repo_name}.git"
+
+  report_action_taken "Prepare development clone of ${github_repo_name} at: ${local_cloning_dir}"
+
+  if [[ -e "$local_cloning_dir" ]]; then
+    report_warning "Desired development clone location already exists: ${local_cloning_dir}"
+  fi
+
+  if [[ -d "$local_cloning_dir/.git" ]]; then
+    existing_remote="$(git -C "$local_cloning_dir" remote get-url origin 2>/dev/null)"
+    existing_repo_name="$(basename "$existing_remote" .git)"
+
+    if [[ "$existing_repo_name" == "$github_repo_name" ]]; then
+      report "Repository ${github_repo_name} already cloned at: ${local_cloning_dir}" ; success_or_not
+      report_end_phase_standard
+      return 0
+    fi
+
+    report_fail "Directory contains a different repository: ${existing_repo_name} (expected: ${github_repo_name})"
+    report_end_phase_standard
+    return 1
+  fi
+
+  if [[ -d "$local_cloning_dir" && -n "$(ls -A "$local_cloning_dir" 2>/dev/null)" ]]; then
+    report_fail "Directory exists but is not empty and is not a git repository: ${local_cloning_dir}"
+    report_end_phase_standard
+    return 1
+  fi
+
+  report_action_taken "Cloning repo: ${repo_url} into ${local_cloning_dir}"
+  git clone "$repo_url" "$local_cloning_dir" ; success_or_not
+
+  report_end_phase_standard
+}
+
 function refresh_repo_from_remote_and_reexecute_hypervisor_if_updated() {
   # Test whether a related repo has already been checked for remote changes
   # during this session. If not, check the remote. If the local clone is updated,
