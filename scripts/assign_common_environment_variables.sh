@@ -52,6 +52,14 @@ GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
 # Resolve once (don’t recompute if already set by the environment)
 HOMEBREW_PREFIX="$(get_homebrew_prefix)"
 
+# Local directory for development clones of Project GenoMac repos
+# NOTE: Although GenoMac-system and GenoMac-user are *executed* from clones at ~/.genomac-system and ~/.genomac-user,
+#       respectively, for flexibility in development (e.g., checking out new branches), the development clones
+#       should be separate.
+USER_LOCAL_REPOSITORY_DIRECTORY="$HOME/Repositories
+GENOMAC_DEVELOPMENT_DIRECTORY="${USER_LOCAL_REPOSITORY_DIRECTORY}/Project_GenoMac"
+
+
 # Local directory for custom alert sound
 # (These environment variables are located in GenoMac-shared because (a) GenoMac-system *installs*
 # the custom alert sound but (b) it is GenoMac-user that *consumes* the alert sound, so both the
@@ -236,6 +244,7 @@ export_and_report CUSTOM_ALERT_SOUND_FILENAME
 export_and_report GENOMAC_ALERT_LOG
 export_and_report GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT
 export_and_report GENOMAC_COMMON_GITHUB_SCP_URL_ROOT
+export_and_report GENOMAC_DEVELOPMENT_DIRECTORY
 export_and_report GENOMAC_NAMESPACE
 export_and_report GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY
 export_and_report GENOMAC_SHARED_REPO_NAME
@@ -274,6 +283,7 @@ export_and_report PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE
 export_and_report PERM_THIS_USER_IS_A_USER_CONFIGGER
 export_and_report PLISTBUDDY_PATH
 export_and_report SYSTEM_ALERT_SOUNDS_DIRECTORY
+export_and_report USER_LOCAL_REPOSITORY_DIRECTORY
 
 export_and_report BUNDLE_ID_1PASSWORD
 export_and_report BUNDLE_ID_ACTIVITY_MONITOR
