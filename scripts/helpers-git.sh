@@ -11,67 +11,6 @@
 #     GENOMAC_USER_LOCAL_DIRECTORY
 #     GENOMAC_USER_REPO_NAME
 
-function make_additional_dev_clones_of_genomac_repos() {
-  # Makes separate development clones of GenoMac-system, GenoMac-user, and GenoMac-shared
-  # in $GENOMAC_DEVELOPMENT_DIRECTORY.
-  #
-  # These development clones are separate from the execution clones at:
-  #   ~/.genomac-system
-  #   ~/.genomac-user
-  #
-  # Gives a WARNING whenever one of the desired repo directories already exists.
-  #
-  # Expected:
-  #   USER_LOCAL_REPOSITORY_DIRECTORY="$HOME/Repositories"
-  #   GENOMAC_DEVELOPMENT_DIRECTORY="$HOME/Repositories/Project_GenoMac"
-
-  report_start_phase_standard
-
-  local -a repo_specs
-  local repo_spec
-  local github_repo_name
-  local local_repo_dir_name
-  local local_repo_dir
-
-  report_action_taken "Create local repositories directory, if necessary: ${USER_LOCAL_REPOSITORY_DIRECTORY}"
-  mkdir -p "$USER_LOCAL_REPOSITORY_DIRECTORY" ; success_or_not
-  
-  report_adjust_setting "Set permissions on local repositories directory"
-  chmod 700 "$USER_LOCAL_REPOSITORY_DIRECTORY" ; success_or_not
-  
-  report_action_taken "Create GenoMac development directory, if necessary: ${GENOMAC_DEVELOPMENT_DIRECTORY}"
-  mkdir -p "$GENOMAC_DEVELOPMENT_DIRECTORY" ; success_or_not
-  
-  report_adjust_setting "Set permissions on GenoMac development directory"
-  chmod 700 "$GENOMAC_DEVELOPMENT_DIRECTORY" ; success_or_not
-
-  repo_specs=(
-    "${GENOMAC_SYSTEM_REPO_NAME}:genomac-system"
-    "${GENOMAC_USER_REPO_NAME}:genomac-user"
-    "${GENOMAC_SHARED_REPO_NAME}:genomac-shared"
-  )
-
-  for repo_spec in "${repo_specs[@]}"; do
-    github_repo_name="${repo_spec%%:*}"
-    local_repo_dir_name="${repo_spec#*:}"
-    local_repo_dir="${GENOMAC_DEVELOPMENT_DIRECTORY}/${local_repo_dir_name}"
-
-    clone_public_genomac_repo_using_HTTPS_if_necessary \
-      "$github_repo_name" \
-      "$local_repo_dir"
-
-    configure_split_remote_URLs_for_public_GitHub_repo_if_cloned \
-      "$local_repo_dir" \
-      "$github_repo_name"
-
-    if [[ "$github_repo_name" != "$GENOMAC_SHARED_REPO_NAME" ]]; then
-      initialize_genomac_shared_submodule_if_present "$local_repo_dir"
-    fi
-  done
-
-  report_end_phase_standard
-}
-
 function clone_public_genomac_repo_using_HTTPS_if_necessary() {
   # Clones a public GenoMac GitHub repo using HTTPS, if necessary.
   #
