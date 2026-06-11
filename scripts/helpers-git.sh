@@ -11,6 +11,67 @@
 #     GENOMAC_USER_LOCAL_DIRECTORY
 #     GENOMAC_USER_REPO_NAME
 
+function make_additional_dev_clones_of_genomac_repos() {
+  # Makes separate development clones of GenoMac-system, GenoMac-user, and GenoMac-shared
+  # in $GENOMAC_DEVELOPMENT_DIRECTORY.
+  #
+  # These development clones are separate from the execution clones at:
+  #   ~/.genomac-system
+  #   ~/.genomac-user
+  #
+  # Gives a WARNING whenever one of the desired repo directories already exists.
+  #
+  # Expected:
+  #   USER_LOCAL_REPOSITORY_DIRECTORY="$HOME/Repositories"
+  #   GENOMAC_DEVELOPMENT_DIRECTORY="$HOME/Repositories/Project_GenoMac"
+
+  report_start_phase_standard
+
+  local -a repo_specs
+  local repo_spec
+  local github_repo_name
+  local local_repo_dir_name
+  local local_repo_dir
+
+  report_action_taken "Create local repositories directory, if necessary: ${USER_LOCAL_REPOSITORY_DIRECTORY}"
+  mkdir -p "$USER_LOCAL_REPOSITORY_DIRECTORY" ; success_or_not
+  
+  report_adjust_setting "Set permissions on local repositories directory"
+  chmod 700 "$USER_LOCAL_REPOSITORY_DIRECTORY" ; success_or_not
+  
+  report_action_taken "Create GenoMac development directory, if necessary: ${GENOMAC_DEVELOPMENT_DIRECTORY}"
+  mkdir -p "$GENOMAC_DEVELOPMENT_DIRECTORY" ; success_or_not
+  
+  report_adjust_setting "Set permissions on GenoMac development directory"
+  chmod 700 "$GENOMAC_DEVELOPMENT_DIRECTORY" ; success_or_not
+
+  repo_specs=(
+    "${GENOMAC_SYSTEM_REPO_NAME}:genomac-system"
+    "${GENOMAC_USER_REPO_NAME}:genomac-user"
+    "${GENOMAC_SHARED_REPO_NAME}:genomac-shared"
+  )
+
+  for repo_spec in "${repo_specs[@]}"; do
+    github_repo_name="${repo_spec%%:*}"
+    local_repo_dir_name="${repo_spec#*:}"
+    local_repo_dir="${GENOMAC_DEVELOPMENT_DIRECTORY}/${local_repo_dir_name}"
+
+    clone_public_genomac_repo_using_HTTPS_if_necessary \
+      "$github_repo_name" \
+      "$local_repo_dir"
+
+    configure_split_remote_URLs_for_public_GitHub_repo_if_cloned \
+      "$local_repo_dir" \
+      "$github_repo_name"
+
+    if [[ "$github_repo_name" != "$GENOMAC_SHARED_REPO_NAME" ]]; then
+      initialize_genomac_shared_submodule_if_present "$local_repo_dir"
+    fi
+  done
+
+  report_end_phase_standard
+}
+
 function clone_public_genomac_repo_using_HTTPS_if_necessary() {
   # Clones a public GenoMac GitHub repo using HTTPS, if necessary.
   #
@@ -33,8 +94,12 @@ function clone_public_genomac_repo_using_HTTPS_if_necessary() {
 
   report_action_taken "Prepare development clone of ${github_repo_name} at: ${local_cloning_dir}"
 
-  if [[ -e "$local_cloning_dir" ]]; then
-    report_warning "Desired development clone location already exists: ${local_cloning_dir}"
+  if [[ -d "$local_cloning_dir" ]]; then
+    report_warning "Desired development clone directory already exists: ${local_cloning_dir}"
+  elif [[ -e "$local_cloning_dir" ]]; then
+    report_fail "Desired development clone path exists but is not a directory: ${local_cloning_dir}"
+    report_end_phase_standard
+    return 1
   fi
 
   if [[ -d "$local_cloning_dir/.git" ]]; then
@@ -60,6 +125,33 @@ function clone_public_genomac_repo_using_HTTPS_if_necessary() {
 
   report_action_taken "Cloning repo: ${repo_url} into ${local_cloning_dir}"
   git clone "$repo_url" "$local_cloning_dir" ; success_or_not
+
+  report_end_phase_standard
+}
+
+function initialize_genomac_shared_submodule_if_present() {
+  # Initializes GenoMac-shared submodule inside a GenoMac repo, if that repo has submodules.
+  #
+  # $1: local repo directory
+
+  report_start_phase_standard
+
+  local local_repo_dir="${1:?MISSING/EMPTY local_repo_dir}"
+
+  if [[ ! -d "$local_repo_dir/.git" ]]; then
+    report_fail "Skipping submodule initialization: not a git repo at ${local_repo_dir}"
+    report_end_phase_standard
+    return 0
+  fi
+
+  if [[ ! -f "$local_repo_dir/.gitmodules" ]]; then
+    report_action_taken "Skipping submodule initialization: no .gitmodules file in ${local_repo_dir}"
+    report_end_phase_standard
+    return 0
+  fi
+
+  report_action_taken "Initialize/update submodules in ${local_repo_dir}"
+  git -C "$local_repo_dir" submodule update --init --recursive ; success_or_not
 
   report_end_phase_standard
 }
@@ -192,7 +284,7 @@ function configure_split_remote_URLs_for_public_GitHub_repo_if_cloned() {
     report_adjust_setting "Configure ${github_repo_name} to push via SSH"
     git -C "$local_repo_dir" remote set-url --push origin "${GENOMAC_COMMON_GITHUB_SCP_URL_ROOT}/${github_repo_name}.git" ; success_or_not
     report_adjust_setting "Use merge rather than rebase. This is more compatible with having a submodule."
-    git config pull.rebase false
+    git -C "$local_repo_dir" config pull.rebase false ; success_or_not
   else
     report_action_taken "Skipping split-remote configuration of ${github_repo_name}: not cloned at ${local_repo_dir}"
   fi
