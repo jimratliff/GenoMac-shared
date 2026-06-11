@@ -6,6 +6,12 @@ This repository is intended to be used as a submodule by [GenoMac-system](https:
 In each of these container repositories, this submodule is intended to be mapped to the `external/genomac-shared` directory.
 
 ## One time only, and it’s already been performed: add GenoMac-shared as a submodule to GenoMac-system and GenoMac-user
+WARNING: The claim of this header might be incorrect. There’s also the following step:
+```
+report_action_taken "Initialize/update submodules in ${local_repo_dir}"
+git -C "$local_repo_dir" submodule update --init --recursive ; success_or_not
+```
+
 The following instructions explain how the submodule was originally added to each of the two container repos. This does *not* have to be performed again.
 
 In a local clone of each of the two container repositories, navigate to the root of that clone:
