@@ -181,6 +181,18 @@ function construct_system_state_string_for_user_in_need_of_initial_config() {
 # User-attribute states are system-scoped states because, at the time they are created, the
 # relevant user doesn’t yet have a home directory.
 
+function mark_current_user_as_user_configger() {
+  # To be called by GenoMac-system’s Hypervisor, which by definition is executed by USER_CONFIGURER.
+  report_start_phase_standard
+  
+  local short_name
+  short_name="$(short_name_of_user_from_HOME)"
+  
+  set_system_state_for_user_attribute "$short_name" "$USER_ATTRIBUTE_IS_USER_CONFIGURER"
+  
+  report_end_phase_standard
+}
+
 function set_system_state_for_user_attribute(){
   # Set system-scoped state asserting given user has given attribute.
 
