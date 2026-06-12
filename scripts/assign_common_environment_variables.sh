@@ -97,6 +97,11 @@ GENOMAC_STATE_FILE_EXTENSION="state"
 GENOMAC_STATE_PERSISTENCE_PERMANENT="PERM"
 GENOMAC_STATE_PERSISTENCE_SESSION="SESH"
 
+# The Hypervisor of each of GenoMac-system and GenoMac-user sets the state SESH_SESSION_HAS_STARTED
+# at the beginning of the session so that the Welcome banner can distinguish between its initial
+# run at the start of a session and a subsequent run after an encouraged logout.
+SESH_SESSION_HAS_STARTED="SESH_Session_has_started"
+
 GENOMAC_SCOPE_SYSTEM="system"
 GENOMAC_SCOPE_USER="user"
 
@@ -254,7 +259,6 @@ export_and_report GENOMAC_SHARED_RESOURCE_DIRECTORY
 export_and_report GENOMAC_SHARED_ROOT
 export_and_report GENOMAC_SCOPE_SYSTEM
 export_and_report GENOMAC_SCOPE_USER
-export_and_report SESH_VERBOSITY_USER_WANTS_IT
 export_and_report GENOMAC_STATE_FILE_EXTENSION
 export_and_report GENOMAC_STATE_PERSISTENCE_PERMANENT
 export_and_report GENOMAC_STATE_PERSISTENCE_SESSION
@@ -284,6 +288,8 @@ export_and_report NEWLINE
 export_and_report PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE
 # export_and_report PERM_THIS_USER_IS_A_USER_CONFIGGER
 export_and_report PLISTBUDDY_PATH
+export_and_report SESH_SESSION_HAS_STARTED
+export_and_report SESH_VERBOSITY_USER_WANTS_IT
 export_and_report SYSTEM_ALERT_SOUNDS_DIRECTORY
 export_and_report USER_LOCAL_REPOSITORY_DIRECTORY
 
