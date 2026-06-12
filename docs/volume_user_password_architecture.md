@@ -2,7 +2,7 @@
 ## High-level overview
 We focus on a particular Mac.[^multiple_macs] Each Mac has multiple volumes.[^container_structure] There is (a) the startup volume (protected by File Vault) and (b) other, independently encrypted (non-startup and non–File Vault) volumes. Each volume has a unique passphrase.
 
-[^multiple_macs]: The use case that motivates Project GenoMac does include multiple Macs in the following context: Each Mac is approximately a replica of the other Macs including the set of users. The idea is not that each Mac is used by a separate person than each other Mac but rather the same person operates all the Macs. Although each Mac has multiple “users” in the macOS sense, all of those users are typically the same human.
+[^multiple_macs]: The use case that motivates Project GenoMac does include multiple Macs in the following context: Each Mac is approximately a replica of the other Macs, including the set of users that have accounts on each Mac. The idea is not that each Mac is used by a separate person than each other Mac but rather the same person operates all the Macs. Although each Mac has multiple “users” in the macOS sense, all of those users are typically the same human.
 
 [^container_structure]: For the most part, if not entirely, Project GenoMac doesn’t concern itself with *containers* but only *volumes*. It matters what volumes are mounted. Once mounted, the volume’s name identifies that volume, without regard to the container on which it resides.
 
