@@ -32,23 +32,34 @@ git submodule add https://github.com/jimratliff/GenoMac-shared.git "external/gen
 git commit -m "Add genomac-shared submodule"
 git push origin main
 ```
+
 ### Per-local-clone step: initialize and populate the submodule
 
-This step must be performed for each fresh local clone of a container repository that already has GenoMac-shared recorded as a submodule.
+This step must be handled for each fresh local clone of a container repository that already has `GenoMac-shared` recorded as a submodule.
 
-The purpose of this step is to populate the local working tree’s external/genomac-shared directory with the submodule contents.
+The purpose of this step is to populate the local working tree’s `external/genomac-shared` directory with the submodule contents.
 
-This does not add the submodule to the container repository. It merely initializes and checks out the submodule that the container repository already records.
+This does **not** add the submodule to the container repository. It merely initializes and checks out the submodule that the container repository already records.
 
-For a given local clone of GenoMac-system or GenoMac-user, execute:
-
-zsh git -C "$local_repo_dir" submodule update --init --recursive 
+The preferred first-line method is to clone the container repository using `--recurse-submodules`. This causes Git to clone the container repository and also initialize and populate its recorded submodules as part of the initial clone.
 
 For example:
 
-zsh git -C "$HOME/.genomac-system" submodule update --init --recursive git -C "$HOME/.genomac-user" submodule update --init --recursive 
+    git clone --recurse-submodules https://github.com/jimratliff/GenoMac-system.git "$HOME/.genomac-system"
+    git clone --recurse-submodules https://github.com/jimratliff/GenoMac-user.git "$HOME/.genomac-user"
 
-The automated GenoMac development-clone setup performs this per-local-clone initialization after cloning each container repository.
+If the container repository has already been cloned without `--recurse-submodules`, use `submodule update --init --recursive` as a backstop to initialize and populate the submodule afterward.
+
+For a given local clone of `GenoMac-system` or `GenoMac-user`, execute:
+
+    git -C "$local_repo_dir" submodule update --init --recursive
+
+For example:
+
+    git -C "$HOME/.genomac-system" submodule update --init --recursive
+    git -C "$HOME/.genomac-user" submodule update --init --recursive
+
+The automated GenoMac development-clone setup uses the first-line method: it clones each container repository using `git clone --recurse-submodules`.
 
 ## Each time this GenoMac-shared repository is modified on GitHub, update both container repositories
 Whenever GenoMac-shared is modified on GitHub (whether (a) modified directly on GitHub or (b) a local repo is modified and pushed to GitHub), each container repository must be updated so that its reference to GenoMac-shared will be updated to the newly current commit:
