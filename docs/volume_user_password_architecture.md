@@ -19,7 +19,7 @@ More granular than the above two groups, Project GenoMac defines multiple user-c
 
 [^user-class-can’t-span-volumes]: The current structure doesn’t permit home directories of some users of a given user-class to be on a different volume than the home directories of other users of that user class.
 
-Each resident user needs to know *two* sets of credentials: (a) their own, of course, but also (b) the credentials for one of the superintendent-class users—in order to be able to boot the Mac into the superintendent-class user’s account, from which to mount the volume where the resident user’s home directory resides.
+Each resident user needs to know *two* sets of credentials: (a) their own, of course, but also (b) the credentials for one of the superintendent-class users (in practice, simply the password that is common to all superintendent-class users)—in order to be able to boot the Mac into the superintendent-class user’s account, from which to mount the volume where the resident user’s home directory resides.
 
 The process for a resident user to boot the Mac and log into its account:
 - Boot the Mac
