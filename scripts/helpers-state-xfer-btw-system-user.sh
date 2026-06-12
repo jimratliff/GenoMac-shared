@@ -28,6 +28,71 @@
 # These states are system-scoped states because, at the time they are created, the
 # relevant user doesn’t yet have a home directory.
 
+function display_users_to_be_initially_configured() {
+  # Prints list of users still awaiting initial configuration.
+  
+  report_start_phase_standard
+  
+  local number_of_awaiting_users
+  local report_string=""
+  local user_short_name
+
+  local -a user_short_names
+  
+  get_array_of_users_to_be_initially_configured
+  user_short_names=("${reply[@]}")
+
+  number_of_awaiting_users=${#user_short_names[@]}
+
+  if (( ! number_of_awaiting_users )); then
+    report "There are no users awaiting their initial configuration by GenoMac-user."
+  else
+    report_string="📋 The following $number_of_awaiting_users user(s) is/are awaiting their initial configuration by GenoMac-user:"
+    for user_short_name in "${user_short_names[@]}"; do
+      report_string+="${user_short_name}${NEWLINE}"
+    done
+    report_highlight "$report_string"
+  fi
+  
+  report_end_phase_standard
+}
+
+function get_array_of_users_to_be_initially_configured() {
+  # Return array of newly created users who haven’t yet been initially configured by GenoMac-user.
+  #
+  # See GenoMac-shared/scripts/helpers-state-xfer-btw-system-user.sh »
+  #    				construct_system_state_string_for_user_in_need_of_initial_config()
+  # for the format of the relevant state strings.
+  
+  report_start_phase_standard
+  local short_name
+  local state_string
+  local state_string_prefix
+
+  local -a state_strings
+  local -a user_short_names=()
+
+  # Collect state strings, one for each user awaiting initial configuration
+  state_string_prefix="$(construct_system_state_string_for_user_in_need_of_initial_config --prefix-only)"
+  _state_strings_with_prefix "${state_string_prefix}" "system"
+  state_strings=("${reply[@]}")
+
+  # Construct array of user short-names that are awaiting initial configuration
+
+  for state_string in "${state_strings[@]}"; do
+    short_name="$(
+	    nonempty_content_between_delimiters \
+	      "$state_string" \
+        "$GENOMAC_STATE_STRING_DELIMITER_A" \
+        "$GENOMAC_STATE_STRING_DELIMITER_B"
+    )"
+	  user_short_names+=("$short_name")
+  done
+  reply=("${user_short_names[@]}")
+  
+  report_end_phase_standard
+}
+
 function mark_user_as_in_need_of_initial_config(){
   # Set system-scoped state to mark user as in need of initial configuration
   report_start_phase_standard
