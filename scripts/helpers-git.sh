@@ -11,8 +11,8 @@
 #     GENOMAC_USER_LOCAL_DIRECTORY
 #     GENOMAC_USER_REPO_NAME
 
-function clone_public_genomac_repo_using_HTTPS_if_necessary() {
-  # Clones a public GenoMac GitHub repo using HTTPS, if necessary.
+function clone_public_genomac_repo_using_HTTPS() {
+  # Clones a public GenoMac GitHub repo using HTTPS, including any submodules.
   #
   # $1: GitHub repo name, e.g. GenoMac-user
   # $2: local directory into which the repo should be cloned
@@ -62,8 +62,8 @@ function clone_public_genomac_repo_using_HTTPS_if_necessary() {
     return 1
   fi
 
-  report_action_taken "Cloning repo: ${repo_url} into ${local_cloning_dir}"
-  git clone "$repo_url" "$local_cloning_dir" ; success_or_not
+  report_action_taken "Cloning repo, including any submodules: ${repo_url} into ${local_cloning_dir}"
+  git clone --recurse-submodules "$repo_url" "$local_cloning_dir" ; success_or_not
 
   report_end_phase_standard
 }
