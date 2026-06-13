@@ -1,4 +1,4 @@
-# User classes and attributes
+# User attributes
 
 > [!TIP]
 > **Related**
