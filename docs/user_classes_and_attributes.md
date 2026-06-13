@@ -5,7 +5,6 @@
 > - [The volume, user, and password architecture of Project GenoMac](https://github.com/jimratliff/GenoMac-shared/edit/main/docs/volume_user_password_architecture.md), GenoMac-shared/docs
 > - [About spawning new users for this Mac](https://github.com/jimratliff/GenoMac-system/edit/main/scripts/spawn/0_README.md), GenoMac-system/scripts/spawn
 
-## User attributes
 A user attribute can be referenced by GenoMac-user’s Hypervisor to customize the configuration of that user.
 
 A user can (a) inherit from its user class any default attributes associated with that user class[^inherit_attribute_from_user_class] or (b) be assigned attributes directly.[^assign_user_attributes_directly]
@@ -15,7 +14,7 @@ A user can (a) inherit from its user class any default attributes associated wit
 
 An attribute can be atomic or it can imply a set of other attributes.
 
-### Currently defined user attributes
+## Currently defined user attributes
 The below table lists currently defined user attributes, both by name and by the environment variable that defines its name.
 
 Attribute names aren’t limited to these. No error is raised (although a warning is issued) if a user is assigned an unrecognized attribute. The unrecognized attribute is ignored.
@@ -42,16 +41,16 @@ Attribute names aren’t limited to these. No error is raised (although a warnin
 [^IS-USER-CONFIGURER]: The Hypervisor of GenoMac-system assigns this attribute to the user currently executing that Hypervisor, because—by definition—that is USER_CONFIGURER.
 [^MAC-ADMIN]: This attribute belongs to a user that is devoted to maintaining, enhancing, etc., the Macs and their environment, in a broader way that USER_CONFIGURER does.
 
-### Default user attributes based on user class
+## Default user attributes based on user class
 Each user inherits any default user attributes held by the user’s user class.
 
 | User class | Default user attributes | Environment variable |
 |---|---|---|
 | superintendent | mac-admin         | USER_ATTRIBUTE_MAC_ADMIN |
-| "              | dropbox           | USER_ATTRIBUTE_DROPBOX |
 | personal       | dropbox           | USER_ATTRIBUTE_DROPBOX |
 | work           | dropbox           | USER_ATTRIBUTE_DROPBOX |
 | "              | sync-com          | USER_ATTRIBUTE_SYNC_COM |
+| "              | emailer           | USER_ATTRIBUTE_EMAILER |
 | "              | microsoft-word    | USER_ATTRIBUTE_MICROSOFT_WORD |
 | auxiliary      | dropbox           | USER_ATTRIBUTE_DROPBOX |
 | "              | sync-com          | USER_ATTRIBUTE_SYNC_COM |
