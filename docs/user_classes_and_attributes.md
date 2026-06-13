@@ -1,5 +1,9 @@
 # User classes and attributes
 
+> [!TIP]
+> **Related**
+> - [The volume, user, and password architecture of Project GenoMac](https://github.com/jimratliff/GenoMac-shared/edit/main/docs/volume_user_password_architecture.md), GenoMac-shared/docs
+
 ## User attributes
 An attribute can be atomic or it can imply a set of other attributes.
 
