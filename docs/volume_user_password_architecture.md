@@ -28,6 +28,8 @@ More granular than the above two groups, Project GenoMac defines multiple user-c
 - The superintendent class is a user class. All superintendent-class users have their home directories on the startup volume.
 - The group of resident users can span multiple other (non–superintendent) user classes.
 
+A user can have *attributes*, which can either (a) be inherited by the user from its user class or (b) be assigned specifically to the user. See [User classes and attributes](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md).
+
 [^user-class-can’t-span-volumes]: The current structure doesn’t permit home directories of some users of a given user-class to be on a different volume than the home directories of other users of that user class.
 
 Each resident user needs to know *two* sets of credentials: (a) their own, of course, but also (b) the credentials for one of the superintendent-class users (in practice, simply the password that is common to all superintendent-class users)—in order to be able to boot the Mac into the superintendent-class user’s account, from which to mount the volume where the resident user’s home directory resides.
