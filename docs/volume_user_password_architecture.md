@@ -4,6 +4,12 @@
 > **Related**
 > - [User classes and attributes](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md), GenoMac-shared/docs
 
+> [!NOTE]
+> ** Table of contents**
+> - High-level overview
+> - The process for a resident user to boot the Mac and log into its account
+> - Formal details
+
 ## High-level overview
 We focus on a particular Mac.[^multiple_macs] Each Mac has multiple volumes.[^container_structure] There is (a) the startup volume (protected by File Vault) and (b) other, independently encrypted (non-startup and non–File Vault) volumes. Each volume has a unique passphrase.
 
@@ -26,7 +32,7 @@ More granular than the above two groups, Project GenoMac defines multiple user-c
 
 Each resident user needs to know *two* sets of credentials: (a) their own, of course, but also (b) the credentials for one of the superintendent-class users (in practice, simply the password that is common to all superintendent-class users)—in order to be able to boot the Mac into the superintendent-class user’s account, from which to mount the volume where the resident user’s home directory resides.
 
-## The process for a resident user to boot the Mac and log into its account:
+## The process for a resident user to boot the Mac and log into its account
 - Boot the Mac
 - Log in as any of the superintendent-class users. This mounts the startup volume.
 - A dialog box will be presented for each other not previously mounted volume, offering to take the passphrase for that volume and mount it.
@@ -34,14 +40,14 @@ Each resident user needs to know *two* sets of credentials: (a) their own, of co
 - Log out of the superintendent-class user’s account, returning to the login window.
 - Log into the resident user’s account (using the same passphrase as was used to mount this non-startup volume).
 
-
-## Volumes
+## Formal details
+### Volumes
 - Let V be the set of volumes.
 - V = {v<sup>†</sup>, v<sub>1</sub>, v<sub>2</sub>, …}, where v<sup>†</sup> is the startup volume,[^why_startup_is_different] and each v<sub>i</sub> is a distinct non–startup volume.
 - Each volume v∈V has a unique passphrase v.p.[^unique_password_for_volume]
 - For each *non-startup* volume v∈V\\{v<sup>†</sup>}, v is encrypted (*not* using File Vault) using passphrase v.p.
 - The *startup* volume v<sup>†</sup> is encrypted using File Vault.[^file_vault_mounted_by]
-## Users
+### Users
   - Let U be the set of users[^PREEXISTING_USERS]
   - User classes
     - Let U<sub>S</sub> be the superintendent class.
