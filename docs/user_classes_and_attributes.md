@@ -14,6 +14,10 @@ A user can (a) inherit from its user class any default attributes associated wit
 [^inherit_attribute_from_user_class]: The mapping from user class → default user attributes is specified in the `user_attributes_from_user_class` JSON property. See [Specifying users to spawn](https://github.com/jimratliff/GenoMac-system/blob/main/scripts/spawn/0_README.md#about-spawning-new-users-for-this-mac).
 [^assign_user_attributes_directly]: Attributes assigned directly to a user are supplied via the `users_to_create` JSON property, which is an array of user objects. Specifically, the user attributes assigned to a user are specified in the `attributes` property of that user’s object. See [Specifying users to spawn](https://github.com/jimratliff/GenoMac-system/blob/main/scripts/spawn/0_README.md#about-spawning-new-users-for-this-mac).
 
+A user’s attributes are assigned when that user’s account is created. The USER_CONFIGURER account is a special case.[^USER_CONFIGURER_ATTRIBUTES_A_SPECIAL_CASE]
+
+[^USER_CONFIGURER_ATTRIBUTES_A_SPECIAL_CASE]: USER_CONFIGURER is the account that first executes the Hypervisor of GenoMac-system and, thus, it must exist before GenoMac-system is even cloned locally. Thus, USER_CONFIGURER is not created by GenoMac-system and thus cannot have its attributes assigned during the user-creation process. Instead, GenoMac-system’s Hypervisor assigns default attributes to USER_CONFIGURER prior to USER_CONFIGURER running GenoMac-*user*’s Hypervisor to configure USER_CONFIGURER’s own user account. GenoMac-system’s Hypervisor implements these default attribute assignments via `conditionally_set_default_attributes_for_USER_CONFIGURER`, which assigns the attributes stored in the array environment variable `GENOMAC_STATE_USER_CONFIGURER_DEFAULT_ATTRIBUTES`, which is defined in `GenoMac-shared/scripts/assign_common_environment_variables.sh`.
+
 An attribute can be atomic or it can imply a set of other attributes.
 
 ## Currently defined user attributes
