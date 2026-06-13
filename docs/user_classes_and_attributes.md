@@ -30,6 +30,20 @@ An attribute can be atomic or it can imply a set of other attributes.
 [^IS-USER-CONFIGURER]: The Hypervisor of GenoMac-system assigns this attribute to the user currently executing that Hypervisor, because—by definition—that is USER_CONFIGURER.
 [^MAC-ADMIN]: This attribute belongs to a user that is devoted to maintaining, enhancing, etc., the Macs and their environment, in a broader way that USER_CONFIGURER does.
 
+## Default user attributes based on user class
+Each user inherits any default user attributes held by the user’s user class.
+
+| User class | Default user attributes | Environment variable |
+|---|---|---|
+| superintendent | mac-admin         | USER_ATTRIBUTE_MAC_ADMIN |
+| "              | dropbox           | USER_ATTRIBUTE_DROPBOX |
+| personal       | dropbox           | USER_ATTRIBUTE_DROPBOX |
+| work           | dropbox           | USER_ATTRIBUTE_DROPBOX |
+| "              | sync-com          | USER_ATTRIBUTE_SYNC_COM |
+| "              | microsoft-word    | USER_ATTRIBUTE_MICROSOFT_WORD |
+| auxiliary      | dropbox           | USER_ATTRIBUTE_DROPBOX |
+| "              | sync-com          | USER_ATTRIBUTE_SYNC_COM |
+
 
 #
 The following are deprecated and implied by `developer`
