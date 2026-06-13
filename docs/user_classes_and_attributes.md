@@ -44,25 +44,3 @@ Each user inherits any default user attributes held by the user’s user class.
 | auxiliary      | dropbox           | USER_ATTRIBUTE_DROPBOX |
 | "              | sync-com          | USER_ATTRIBUTE_SYNC_COM |
 
-
-#
-The following are deprecated and implied by `developer`
-- commit_on_github
-- authenticate_github_via_1password
-#
-DEFAULT USER ATTRIBUTES BASED ON USER CLASS
-- superintendent
-  - macadmin
-  - developer ⇒
-    - github_committer
-    - authenticate_github_via_1password
-  - dropbox
-- personal
-  - dropbox
-- work
-  - dropbox
-  - sync_com
-  - microsoft_word
-- auxiliary
-  - dropbox
-  - sync_com
