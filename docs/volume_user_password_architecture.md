@@ -3,7 +3,7 @@
 > [!TIP]
 > **Related**
 > - [User attributes](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md), GenoMac-shared/docs
-> - [Specifying users to spawn](https://github.com/jimratliff/GenoMac-system/edit/main/scripts/spawn/0_README.md), GenoMac-system/scripts/spawn
+> - [Specifying users to spawn](https://github.com/jimratliff/GenoMac-system/edit/main/scripts/spawn/0_README.md), GenoMac-system/scripts/spawn/0_README.md
 
 > [!NOTE]
 > **Table of contents**
