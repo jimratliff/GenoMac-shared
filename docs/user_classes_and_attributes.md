@@ -54,12 +54,12 @@ Each user inherits any default user attributes held by the user’s user class.
 
 | User class | Default user attributes | Environment variable |
 |---|---|---|
-| superintendent | mac-admin         | USER_ATTRIBUTE_MAC_ADMIN |
-| personal       | dropbox           | USER_ATTRIBUTE_DROPBOX |
-| work           | dropbox           | USER_ATTRIBUTE_DROPBOX |
-| "              | sync-com          | USER_ATTRIBUTE_SYNC_COM |
-| "              | emailer           | USER_ATTRIBUTE_EMAILER |
-| "              | microsoft-word    | USER_ATTRIBUTE_MICROSOFT_WORD |
-| auxiliary      | dropbox           | USER_ATTRIBUTE_DROPBOX |
-| "              | sync-com          | USER_ATTRIBUTE_SYNC_COM |
+| superintendent   | mac-admin         | USER_ATTRIBUTE_MAC_ADMIN |
+| personal         | dropbox           | USER_ATTRIBUTE_DROPBOX |
+| work             | dropbox           | USER_ATTRIBUTE_DROPBOX |
+| "                | sync-com          | USER_ATTRIBUTE_SYNC_COM |
+| "                | emailer           | USER_ATTRIBUTE_EMAILER |
+| "                | microsoft-word    | USER_ATTRIBUTE_MICROSOFT_WORD |
+| other-user-class | dropbox           | USER_ATTRIBUTE_DROPBOX |
+| "                | sync-com          | USER_ATTRIBUTE_SYNC_COM |
 
