@@ -5,7 +5,9 @@
 > - [The volume, user, and password architecture of Project GenoMac](https://github.com/jimratliff/GenoMac-shared/edit/main/docs/volume_user_password_architecture.md), GenoMac-shared/docs
 > - [About spawning new users for this Mac](https://github.com/jimratliff/GenoMac-system/edit/main/scripts/spawn/0_README.md), GenoMac-system/scripts/spawn
 
-A user attribute can be referenced by GenoMac-user’s Hypervisor to customize the configuration of that user.
+A user attribute can be referenced by GenoMac-user’s Hypervisor to customize the configuration of that user.[^customize_per_attributes]
+
+[^customize_per_attributes]: This customization occurs via `GenoMac-user/scripts/settings/user_attribute_scripts.sh`.
 
 A user can (a) inherit from its user class any default attributes associated with that user class[^inherit_attribute_from_user_class] or (b) be assigned attributes directly.[^assign_user_attributes_directly]
 
