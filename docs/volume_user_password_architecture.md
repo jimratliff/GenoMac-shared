@@ -26,13 +26,6 @@ More granular than the above two groups, Project GenoMac defines multiple user-c
 
 Each resident user needs to know *two* sets of credentials: (a) their own, of course, but also (b) the credentials for one of the superintendent-class users (in practice, simply the password that is common to all superintendent-class users)—in order to be able to boot the Mac into the superintendent-class user’s account, from which to mount the volume where the resident user’s home directory resides.
 
-Within the group of resident users:
-- Each user belongs to a user class (other than the superintendent class).
-- Each user class is assigned a volume (on which the home directories of the users of this user class reside).
-- The users of this user class are each assigned a common login password, that is the same as the passphrase assigned to the user class’s volume.
-- Thus, each user’s login password is the same as the passphrase required to mount the volume on which the user’s home directory resides.
-- Every user must know the credentials for a superintendent-class user, i.e., one whose home directory resides on the startup volume, in order that, at boot, the user can mount the volume holding the user’s home directory.
-
 ## The process for a resident user to boot the Mac and log into its account:
 - Boot the Mac
 - Log in as any of the superintendent-class users. This mounts the startup volume.
