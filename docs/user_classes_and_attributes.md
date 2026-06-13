@@ -3,6 +3,7 @@
 > [!TIP]
 > **Related**
 > - [The volume, user, and password architecture of Project GenoMac](https://github.com/jimratliff/GenoMac-shared/edit/main/docs/volume_user_password_architecture.md), GenoMac-shared/docs
+> - [About spawning new users for this Mac](https://github.com/jimratliff/GenoMac-system/edit/main/scripts/spawn/0_README.md), GenoMac-system/scripts/spawn
 
 ## User attributes
 An attribute can be atomic or it can imply a set of other attributes.
