@@ -2,7 +2,7 @@
 
 > [!TIP]
 > **Related**
-> - [User classes and attributes](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md), GenoMac-shared/docs
+> - [User attributes](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md), GenoMac-shared/docs
 > - [About spawning new users for this Mac](https://github.com/jimratliff/GenoMac-system/edit/main/scripts/spawn/0_README.md), GenoMac-system/scripts/spawn
 
 > [!NOTE]
@@ -29,7 +29,7 @@ More granular than the above two groups, Project GenoMac defines multiple user-c
 - The superintendent class is a user class. All superintendent-class users have their home directories on the startup volume.
 - The group of resident users can span multiple other (non–superintendent) user classes.
 
-A user can have *attributes*, which can either (a) be inherited by the user from its user class or (b) be assigned specifically to the user. See [User classes and attributes](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md).
+A user can have *attributes*, which can either (a) be inherited by the user from its user class or (b) be assigned specifically to the user. See [User attributes](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md).
 
 [^user-class-can’t-span-volumes]: The current structure doesn’t permit home directories of some users of a given user-class to be on a different volume than the home directories of other users of that user class.
 
