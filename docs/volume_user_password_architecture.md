@@ -5,10 +5,10 @@
 > - [User classes and attributes](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md), GenoMac-shared/docs
 
 > [!NOTE]
-> ** Table of contents**
-> - High-level overview
-> - The process for a resident user to boot the Mac and log into its account
-> - Formal details
+> **Table of contents**
+> - [High-level overview](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/volume_user_password_architecture.md#high-level-overview)
+> - [The process for a resident user to boot the Mac and log into its account](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/volume_user_password_architecture.md#the-process-for-a-resident-user-to-boot-the-mac-and-log-into-its-account)
+> - [Formal details](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/volume_user_password_architecture.md#formal-details)
 
 ## High-level overview
 We focus on a particular Mac.[^multiple_macs] Each Mac has multiple volumes.[^container_structure] There is (a) the startup volume (protected by File Vault) and (b) other, independently encrypted (non-startup and non–File Vault) volumes. Each volume has a unique passphrase.
