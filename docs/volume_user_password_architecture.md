@@ -2,7 +2,7 @@
 
 
 
-> [!TIP] Related
+> [!Related] 
 > - [User classes and attributes](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md), GenoMac-shared/docs
 
 
