@@ -1,4 +1,10 @@
 # The volume, user, and password architecture of Project GenoMac
+
+> [!TIP]
+> Related:
+> - [User classes and attributes](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md)
+
+
 ## High-level overview
 We focus on a particular Mac.[^multiple_macs] Each Mac has multiple volumes.[^container_structure] There is (a) the startup volume (protected by File Vault) and (b) other, independently encrypted (non-startup and non–File Vault) volumes. Each volume has a unique passphrase.
 
