@@ -23,7 +23,9 @@ An attribute can be atomic or it can imply a set of other attributes.
 ## Currently defined user attributes
 The below table lists currently defined user attributes, both by name and by the environment variable that defines its name.
 
-Attribute names aren’t limited to these. No error is raised (although a warning is issued) if a user is assigned an unrecognized attribute. The unrecognized attribute is ignored.
+Attribute names aren’t limited to these. No error is raised (although a warning is issued[^UNRECOGNIZED_ATTRIBUTE_WARNING]) if a user is assigned an unrecognized attribute. The unrecognized attribute is ignored.
+
+[^UNRECOGNIZED_ATTRIBUTE_WARNING]: The unrecognized-attribute warning is produced by GenoMac-user’s Hypervisor’s function `set_user_preferences_for_attribute`.
 
 | Attribute name | Environment variable | Comment |
 |---|---|---|
