@@ -201,6 +201,7 @@ BUNDLE_ID_KEYBOARDMAESTRO_EDITOR="com.stairways.keyboardmaestro.editor"
 BUNDLE_ID_KEYBOARDMAESTRO_ENGINE="com.stairways.keyboardmaestro.engine"
 BUNDLE_ID_MICROSOFT_WORD="com.microsoft.Word"
 BUNDLE_ID_NOTES="com.apple.Notes"
+BUNDLE_ID_OBSIDIAN="md.obsidian"
 BUNDLE_ID_ORION="com.kagi.kagimacOS"
 BUNDLE_ID_PLAIN_TEXT_EDITOR="com.sindresorhus.Plain-Text-Editor"
 BUNDLE_ID_PREVIEW="com.apple.Preview"
@@ -316,6 +317,7 @@ export_and_report BUNDLE_ID_KEYBOARDMAESTRO_EDITOR
 export_and_report BUNDLE_ID_KEYBOARDMAESTRO_ENGINE
 export_and_report BUNDLE_ID_MICROSOFT_WORD
 export_and_report BUNDLE_ID_NOTES
+export_and_report BUNDLE_ID_OBSIDIAN
 export_and_report BUNDLE_ID_ORION
 export_and_report BUNDLE_ID_PLAIN_TEXT_EDITOR
 export_and_report BUNDLE_ID_PREVIEW
