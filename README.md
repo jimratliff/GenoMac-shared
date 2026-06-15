@@ -1,7 +1,7 @@
 # GenoMac-shared
 A repository of helper commands and environment-variable assignments for [GenoMac-system](https://github.com/jimratliff/GenoMac-system) and [GenoMac-user](https://github.com/jimratliff/GenoMac-user).
 
-This repository is intended to be used as a submodule by [GenoMac-system](https://github.com/jimratliff/GenoMac-system) and [GenoMac-user](https://github.com/jimratliff/GenoMac-user), which act as container repositories.
+This repository is intended to be used as a submodule by [GenoMac-system](https://github.com/jimratliff/GenoMac-system) and [GenoMac-user](https://github.com/jimratliff/GenoMac-user), which act as container repositories. (There is an additional, private repo, too: [GenoMac-private](https://github.com/jimratliff/GenoMac-private). Its purpose is TBD.)
 
 In each of these container repositories, this submodule is intended to be mapped to the `external/genomac-shared` directory.
 
