@@ -210,6 +210,7 @@ BUNDLE_ID_QUICKTIMEPLAYER="com.apple.QuickTimePlayerX"
 BUNDLE_ID_REMINDERS="com.apple.reminders"
 BUNDLE_ID_SAFARI="com.apple.safari"
 BUNDLE_ID_STICKIES="com.apple.Stickies"
+BUNDLE_ID_SYNC_COM="com.sync.desktop"
 BUNDLE_ID_SYSTEM_SETTINGS="com.apple.systempreferences"
 BUNDLE_ID_TERMINAL="com.apple.Terminal"
 BUNDLE_ID_TEXTEDIT="com.apple.TextEdit"
@@ -327,6 +328,7 @@ export_and_report BUNDLE_ID_QUICKTIMEPLAYER
 export_and_report BUNDLE_ID_REMINDERS
 export_and_report BUNDLE_ID_SAFARI
 export_and_report BUNDLE_ID_STICKIES
+export_and_report BUNDLE_ID_SYNC_COM
 export_and_report BUNDLE_ID_SYSTEM_SETTINGS
 export_and_report BUNDLE_ID_TERMINAL
 export_and_report BUNDLE_ID_TEXTEDIT
