@@ -220,6 +220,20 @@ function _set_state_for_user_attribute(){
   _set_state "${state_string}" "$scope"
 }
 
+function get_attribute_name_from_user_attribute_state_string() {
+  # Prints the attribute name from a user-attribute state string to stdout.
+  #
+  # Currently, does NOT validate that the state string is a properly formed user-attribute state string.
+  report_start_phase_standard
+  local state_string="${1:?MISSING state_string}"
+  local attribute_name
+
+  attribute_name="$(nonempty_content_between_delimiters "$state_string" "$GENOMAC_STATE_STRING_DELIMITER_B" "$GENOMAC_STATE_STRING_DELIMITER_C")"
+  print -- "$attribute_name"
+  
+  report_end_phase_standard
+}
+
 function construct_state_string_for_user_and_attribute() {
   # Constructs a user-attribute state string.
   #
