@@ -234,6 +234,18 @@ function get_attribute_name_from_user_attribute_state_string() {
   report_end_phase_standard
 }
 
+function construct_state_string_for_user_and_touch_ID_choice() {
+  # Template for a Zsh function in Project GenoMac
+  report_start_phase_standard
+  local short_name="{1:?MISSING short_name}"
+  local touch_id_choice="{2:?MISSING touch_id_choice}"
+
+  local attribute_name="${USER_ATTRIBUTE_TOUCH_ID_PREFIX}${touch_id_choice}"
+  construct_state_string_for_user_and_attribute "$short_name" "$attribute_name"
+
+  report_end_phase_standard
+}
+
 function construct_state_string_for_user_and_attribute() {
   # Constructs a user-attribute state string.
   #
