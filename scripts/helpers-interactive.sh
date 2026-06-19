@@ -259,6 +259,7 @@ function launch_app_and_prompt_user_to_act() {
   local path_to_open=""
   local no_app=false
   local positional=()
+  local task_message=""
   
   # Parse arguments
   while (( $# > 0 )); do
@@ -302,13 +303,13 @@ function launch_app_and_prompt_user_to_act() {
     task_description="${positional[2]}"
     
     # Launch app in foreground so user can interact with it
-    report_action_taken "Launching app $bundle_id"
+    report_to_log "Launching app $bundle_id"
     open -b "$bundle_id" ; success_or_not
   fi
   
   # Open specified path if provided (e.g., .prefPane, URL, folder, file)
   if [[ -n "$path_to_open" ]]; then
-    report_action_taken "Opening $path_to_open"
+    report_to_log "Opening $path_to_open"
     open "$path_to_open" ; success_or_not
   fi
   
@@ -322,14 +323,18 @@ function launch_app_and_prompt_user_to_act() {
     show_file_using_quicklook "$doc_to_show"
   fi
   
-  # Prompt user to complete the task
-  echo ""
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "  ACTION REQUIRED: $task_description"
-  echo "  When complete, please type: $confirmation_word"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo ""
-  
+  task_message="$(cat <<EOF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ACTION REQUIRED: ${task_description}
+  When complete, please type: ${confirmation_word}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EOF
+)"
+
+  report "$task_message"
+
   # Wait for explicit user confirmation
   local user_response=""
   while [[ "${user_response:l}" != "$confirmation_word" ]]; do
@@ -338,11 +343,11 @@ function launch_app_and_prompt_user_to_act() {
   done
   
   if [[ -n "$bundle_id" ]]; then
-    report_action_taken "User confirmed task completion for $bundle_id"
+    report_to_log "User confirmed task completion for $bundle_id"
   elif [[ -n "$path_to_open" ]]; then
-    report_action_taken "User confirmed task completion for $path_to_open"
+    report_to_log "User confirmed task completion for $path_to_open"
   else
-    report_action_taken "User confirmed task completion"
+    report_to_log "User confirmed task completion"
   fi
   
   # quit_app_by_bundle_id_if_running "$bundle_id"
