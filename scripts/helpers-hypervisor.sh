@@ -136,16 +136,16 @@ function _run_func_and_args_based_on_state() {
   fi
 
   if $should_run; then
-    report_action_taken "Running $func_to_run"
+    report_to_log "Running $func_to_run"
     $func_to_run "${func_args[@]}"
     func_desc="$func_to_run${func_args:+ ${func_args[*]}}"
-    report_action_taken "Back from ${func_desc}.${NEWLINE}Setting $state_var"
+    report_to_log "Back from ${func_desc}.${NEWLINE}Setting $state_var"
     _set_state "$state_var" "$scope"
     if $force_logout; then
       hypervisor_force_logout
     fi
   else
-    report_action_taken "$skip_message"
+    report_to_log "$skip_message"
   fi
 }
 
@@ -173,11 +173,11 @@ function _run_if_not_already_done() {
   #     stow_dotfiles \
   #     "Skipping stowing dotfiles, because you've already stowed them during this session."
 
-  # report_start_phase_standard "Entering _run_if_not_already_done $*"
+  report_start_phase_standard "Entering _run_if_not_already_done $*"
 
   _run_based_on_state --negate-state "$@"
 
-  # report_end_phase "Leaving _run_if_not_already_done $*"
+  report_end_phase "Leaving _run_if_not_already_done $*"
 }
 
 function _run_func_and_args_if_not_already_done() {
@@ -267,11 +267,11 @@ function run_if_user_has_not_done() {
   #     stow_dotfiles \
   #     "Skipping stowing dotfiles, because you've already stowed them during this session."
 
-  # report_start_phase "Entering run_if_user_has_not_done $*"
+  report_start_phase "Entering run_if_user_has_not_done $*"
 
   _run_based_on_state 'user' --negate-state "$@"
 
-  # report_end_phase "Leaving run_if_user_has_not_done $*"
+  report_end_phase "Leaving run_if_user_has_not_done $*"
 }
 
 function run_if_user_state() {
@@ -288,11 +288,11 @@ function run_if_user_state() {
   #   func_to_run     Name of the function to execute if state is set.
   #   skip_message    Message to display if state is not set and action is skipped.
 
-  # report_start_phase "Entering run_if_user_state $*"
+  report_start_phase "Entering run_if_user_state $*"
 
   _run_based_on_state 'user' "$@"
 
-  # report_end_phase "Leaving run_if_user_state $*"
+  report_end_phase "Leaving run_if_user_state $*"
 }
 
 function run_func_and_args_if_user_has_not_done() {
@@ -364,11 +364,11 @@ function run_if_system_has_not_done() {
   #     stow_dotfiles \
   #     "Skipping stowing dotfiles, because you've already stowed them during this session."
 
-  # report_start_phase "Entering run_if_system_has_not_done $*"
+  report_start_phase "Entering run_if_system_has_not_done $*"
 
   _run_based_on_state 'system' --negate-state "$@"
 
-  # report_end_phase "Leaving run_if_system_has_not_done $*"
+  report_end_phase "Leaving run_if_system_has_not_done $*"
 }
 
 function run_if_system_state() {
@@ -385,11 +385,11 @@ function run_if_system_state() {
   #   func_to_run     Name of the function to execute if state is set.
   #   skip_message    Message to display if state is not set and action is skipped.
 
-  # report_start_phase "Entering run_if_system_state $*"
+  report_start_phase "Entering run_if_system_state $*"
 
   _run_based_on_state 'system' "$@"
 
-  # report_end_phase "Leaving run_if_system_state $*"
+  report_end_phase "Leaving run_if_system_state $*"
 }
 
 
