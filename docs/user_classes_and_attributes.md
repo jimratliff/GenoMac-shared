@@ -8,11 +8,13 @@
 A user attribute can be referenced by Hypervisor-User[^DISTINGUISHING_BETWEEN_HYPERVISORS] to customize the configuration of that user.[^customize_per_attributes]
 
 [^DISTINGUISHING_BETWEEN_HYPERVISORS]: There are two distinct entities referred to as “Hypervisor.” Each of the GenoMac-system and GenoMac-user repositories has its own. In a context limited to one of those repos, its Hypervisor is referred to simply as “Hypervisor.” But in contexts that span both of these repos, we distinguish between the Hypervisors by “Hypervisor-System” and “Hypervisor-User,” respectively.
+
 [^customize_per_attributes]: This customization occurs via `GenoMac-user/scripts/settings/user_attribute_scripts.sh`.
 
 A user can (a) inherit from its user class any default attributes associated with that user class[^inherit_attribute_from_user_class] or (b) be assigned attributes directly.[^assign_user_attributes_directly]
 
 [^inherit_attribute_from_user_class]: The mapping from user class → default user attributes is specified in the `user_attributes_from_user_class` JSON property. See [Specifying users to spawn](https://github.com/jimratliff/GenoMac-system/blob/main/scripts/spawn/0_README.md#about-spawning-new-users-for-this-mac).
+
 [^assign_user_attributes_directly]: Attributes assigned directly to a user are supplied via the `users_to_create` JSON property, which is an array of user objects. Specifically, the user attributes assigned to a user are specified in the `attributes` property of that user’s object. See [Specifying users to spawn](https://github.com/jimratliff/GenoMac-system/blob/main/scripts/spawn/0_README.md#about-spawning-new-users-for-this-mac).
 
 A user’s attributes are initially assigned when that user’s account is created. (The USER_CONFIGURER account is a special case, because that account exists before Hypervisor-System is ever run.[^USER_CONFIGURER_ATTRIBUTES_A_SPECIAL_CASE]) A user’s set of attributes can be changed, by addition or subtraction.[^CHANGING_USER_ATTRIBUTES_AFTER_CREATION]
@@ -21,7 +23,9 @@ A user’s attributes are initially assigned when that user’s account is creat
 
 [^CHANGING_USER_ATTRIBUTES_AFTER_CREATION]: The set of user attributes assigned to a user can be changed after the user’s user account is created by changing the `attributes` property of the user’s user object in the `users_to_create` JSON object. (See [Specifying users to spawn](https://github.com/jimratliff/GenoMac-system/blob/main/scripts/spawn/0_README.md), GenoMac-system/scripts/spawn/0_README.md.) Every time Hypervisor-System is run, `users_to_create` is rescanned and each user’s attributes are created from scratch as replacement system-scoped state files. Each time Hypervisor-User is run for a particular user, the system-scoped state files corresponding to user attributes of that user are read to reestablish, from scratch, the user-scoped state files corresponding to that user’s user attributes. **NOTE:** Although a particular attribute can be removed from that user’s set of user attributes, doing so will not necessarily reverse the action that was taken earlier as a result of that user attribute having been assigned to the user. Many of the settings associated with user attributes are not reversed when the attribute is removed.
 
-An attribute can be atomic or it can imply a set of other attributes.
+An attribute can be of either of two types:
+- merely binary: either present or absent or
+- have an attached value and therefore can be (a) absent or (b) present with an encoded value.
 
 ## Currently defined user attributes
 The below table lists currently defined user attributes, both by name and by the environment variable that defines its name.
