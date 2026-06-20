@@ -5,6 +5,10 @@
 > - [The volume, user, and password architecture of Project GenoMac](https://github.com/jimratliff/GenoMac-shared/edit/main/docs/volume_user_password_architecture.md), GenoMac-shared/docs
 > - [Specifying users to spawn](https://github.com/jimratliff/GenoMac-system/edit/main/scripts/spawn/0_README.md), GenoMac-system/scripts/spawn
 
+## Table of contents
+
+## The user attribute in general
+
 A user attribute can be referenced by Hypervisor-User[^DISTINGUISHING_BETWEEN_HYPERVISORS] to customize the configuration of that user.[^customize_per_attributes]
 
 [^DISTINGUISHING_BETWEEN_HYPERVISORS]: There are two distinct entities referred to as “Hypervisor.” Each of the GenoMac-system and GenoMac-user repositories has its own. In a context limited to one of those repos, its Hypervisor is referred to simply as “Hypervisor.” But in contexts that span both of these repos, we distinguish between the Hypervisors by “Hypervisor-System” and “Hypervisor-User,” respectively.
