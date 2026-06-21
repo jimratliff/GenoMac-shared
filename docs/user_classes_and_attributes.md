@@ -33,7 +33,9 @@ A user’s attributes are initially assigned when that user’s account is creat
 
 An attribute can be of either of two types:
 - merely binary: either present or absent or
-- have an attached value and therefore can be (a) absent or (b) present with an encoded value.
+- have an attached value and therefore can be (a) absent or (b) present with an encoded value.[^ENCODED_VALUE]
+
+[^ENCODED_VALUE]: When an attribute allows for an encoded value, the relevant substring, even of merely the attribute name, is the attribute name conjoined to the value with the delimiter `GENOMAC_STATE_STRING_DELIMITER_X="¶∞§"`. For example, the `touchid` user attribute requires an accompanying string specifying the finger to use for Touch ID, which can encode as `'touchid¶∞§R2'`, when signifying the second finger on the right hand.
 
 ## Currently defined user attributes
 The below table lists currently defined user attributes, both by name and by the environment variable that defines its name.[^BINARY_BY_DEFAULT]
@@ -57,7 +59,7 @@ Attribute names aren’t limited to these. No error is raised (although a warnin
 | obsidian-user     | USER_ATTRIBUTE_OBSIDIAN_USER       |   |
 | raindrop-io       | USER_ATTRIBUTE_RAINDROP_IO         | Raindrop.io browser extension and desktop app |
 | sync-com          | USER_ATTRIBUTE_SYNC_COM            | USER_ME, USER_EMPLOYMENT |
-| touchid           |                                    | Encoded with string, e.g., `'R2'`, specifying a particular finger for this usereto use |
+| touchid           | USER_ATTRIBUTE_TOUCH_ID_ROOT       | Encoded with string, e.g., `'R2'`, specifying a particular finger for this user to use for Touch ID. The attribute name by itself is replaced with `'touchid¶∞§R2'`. |
 | youtube-watcher   | USER_ATTRIBUTE_YOUTUBE_WATCHER     | Primarily to specify use of “Enhancer for YouTube™” extension |
 
 [^CHESSPLAYER]:Signals that HIARCS Chess Explorer Pro and Chessvision.ai should be configured.
