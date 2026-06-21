@@ -35,7 +35,7 @@ An attribute can be of either of two types:
 - merely binary: either present or absent or
 - have an attached value and therefore can be (a) absent or (b) present with an encoded value.[^ENCODED_VALUE]
 
-[^ENCODED_VALUE]: When an attribute allows for an encoded value, the relevant substring, even of merely the attribute name, is the attribute name conjoined to the value with the delimiter `GENOMAC_STATE_STRING_DELIMITER_X="¶∞§"`. For example, the `touchid` user attribute requires an accompanying string specifying the finger to use for Touch ID, which can encode as `'touchid¶∞§R2'`, when signifying the second finger on the right hand.
+[^ENCODED_VALUE]: When an attribute allows for an encoded value, the relevant substring, instead of merely the attribute name, is the attribute name conjoined to the value with the delimiter `GENOMAC_STATE_STRING_DELIMITER_X="¶∞§"`. For example, the `touchid` user attribute requires an accompanying string specifying the finger to use for Touch ID, which can encode as `'touchid¶∞§R2'`, when signifying the second finger on the right hand.
 
 ## Currently defined user attributes
 The below table lists currently defined user attributes, both by name and by the environment variable that defines its name.[^BINARY_BY_DEFAULT]
