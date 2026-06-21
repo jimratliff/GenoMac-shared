@@ -36,7 +36,9 @@ An attribute can be of either of two types:
 - have an attached value and therefore can be (a) absent or (b) present with an encoded value.
 
 ## Currently defined user attributes
-The below table lists currently defined user attributes, both by name and by the environment variable that defines its name.
+The below table lists currently defined user attributes, both by name and by the environment variable that defines its name.[^BINARY_BY_DEFAULT]
+
+[^BINARY_BY_DEFAULT]: Unless specifically noted, these are binary-valued attributes, i.e., each is either present or absent but has no other associated value.
 
 Attribute names aren’t limited to these. No error is raised (although a warning is issued[^UNRECOGNIZED_ATTRIBUTE_WARNING]) if a user is assigned an unrecognized attribute. The unrecognized attribute is ignored.
 
@@ -55,6 +57,7 @@ Attribute names aren’t limited to these. No error is raised (although a warnin
 | obsidian-user     | USER_ATTRIBUTE_OBSIDIAN_USER       |   |
 | raindrop-io       | USER_ATTRIBUTE_RAINDROP_IO         | Raindrop.io browser extension and desktop app |
 | sync-com          | USER_ATTRIBUTE_SYNC_COM            | USER_ME, USER_EMPLOYMENT |
+| touchid           |                                    | Encoded with string, e.g., `'R2'`, specifying a particular finger for this usereto use |
 | youtube-watcher   | USER_ATTRIBUTE_YOUTUBE_WATCHER     | Primarily to specify use of “Enhancer for YouTube™” extension |
 
 [^CHESSPLAYER]:Signals that HIARCS Chess Explorer Pro and Chessvision.ai should be configured.
@@ -82,17 +85,15 @@ Each user inherits any default user attributes held by the user’s user class.
 ## The encoding and path of user-attribute data
 The assignment of one or more attributes to a particular user is:
 - Defined originally (a) in a user’s object within `users_to_create` JSON object[^IN_USERS_TO_CREATE_OBJECT] or (b) inherited from the user’s user class[^INHERIT_FROM_USER_CLASS]
-- Encoded by Hypervisor-System in a `USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶` system-scoped state[^ENCODE_BY_HYPERVISOR_SYSTEM]<sup>,</sup>[^STATE_STRING_IN_ENUMS]
+- Encoded by Hypervisor-System in a `USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶` system-scoped state[^ENCODE_BY_HYPERVISOR_SYSTEM]
 set_system_states_for_user_attributes "$user_spec_json" # scripts/spawn/spawn-state-helpers.sh
-- Transferred verbatim by Hypervisor-User to a `USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶` user-scoped state[^VERBATIM_TRANSFER]
-- Recorded by Hypervisor-USER for the session as a
+- For each user, Hypervisor-User transfers verbatim the system-scoped state to a `USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶` user-scoped state[^VERBATIM_TRANSFER]
+- For each user, Hypervisor-User reviews the user attributes assigned to that user to guide configuration of that user’s account. This typically involves, for each attribute, setting one or more `SESH…` states that are implied by the attribute. Hypervisor-User then later refers to these `SESH…` states to decide which actions to take or not take.
 
 [^IN_USERS_TO_CREATE_OBJECT]: Attributes assigned directly to a user are supplied via the `users_to_create` JSON property, which is an array of user objects. Specifically, the user attributes assigned to a user are specified in the `attributes` property of that user’s object. See [Specifying users to spawn](https://github.com/jimratliff/GenoMac-system/blob/main/scripts/spawn/0_README.md#about-spawning-new-users-for-this-mac).
 
 [^INHERIT_FROM_USER_CLASS]: The mapping from user class → default user attributes is specified in the `user_attributes_from_user_class` JSON property. See [Specifying users to spawn](https://github.com/jimratliff/GenoMac-system/blob/main/scripts/spawn/0_README.md#about-spawning-new-users-for-this-mac).
 
-[^ENCODE_BY_HYPERVISOR_SYSTEM]: Everytime Hypervisor-System runs, it reviews the list of users in the `users_to_create` JSON property. For each such user, Hypervisor-System determines the set of attributes that apply to that user (both assigned directly and inherited from that user’s user class). Hypervisor-System than writes a system-scoped state file of the form `USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶` that encodes both the user’s name and the attribute name.
-
-[^STATE_STRING_IN_ENUMS]: More formally, the state string is expressed in terms of enums defined by environment variables: `"${GENOMAC_STATE_USER_ATTRIBUTE_PREFIX}${GENOMAC_STATE_STRING_DELIMITER_A}${short_name}${GENOMAC_STATE_STRING_DELIMITER_B}"`.
+[^ENCODE_BY_HYPERVISOR_SYSTEM]: Everytime Hypervisor-System runs, it reviews the list of users in the `users_to_create` JSON property. For each such user, Hypervisor-System determines the set of attributes that apply to that user (both assigned directly and inherited from that user’s user class). Hypervisor-System then writes a system-scoped state file of the form `USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶` that encodes both the user’s name and the attribute name. More formally, the state string is expressed in terms of enums defined by environment variables: `"${GENOMAC_STATE_USER_ATTRIBUTE_PREFIX}${GENOMAC_STATE_STRING_DELIMITER_A}${short_name}${GENOMAC_STATE_STRING_DELIMITER_B}"`.
 
 [^VERBATIM_TRANSFER]: See Hypervisor-User’s call to `transfer_system_scoped_user_attribute_states_to_user_scoped`, which is defined in `GenoMac-user/scripts/settings/user_attribute_scripts.sh`.
