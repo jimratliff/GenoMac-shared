@@ -9,7 +9,7 @@
 - [The user attribute in general](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md#the-user-attribute-in-general)
 - [Currently defined user attributes](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md#currently-defined-user-attributes)
 - [Default user attributes based on user class](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md#default-user-attributes-based-on-user-class)
-- The encoding and path of user-attribute data
+- [The encoding and path of user-attribute data](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md#the-encoding-and-path-of-user-attribute-data)
 
 ## The user attribute in general
 
