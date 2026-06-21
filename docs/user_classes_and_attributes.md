@@ -6,6 +6,10 @@
 > - [Specifying users to spawn](https://github.com/jimratliff/GenoMac-system/edit/main/scripts/spawn/0_README.md), GenoMac-system/scripts/spawn
 
 ## Table of contents
+- [The user attribute in general](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md#the-user-attribute-in-general)
+- [Currently defined user attributes](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md#currently-defined-user-attributes)
+- [Default user attributes based on user class](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md#default-user-attributes-based-on-user-class)
+- The encoding and path of user-attribute data
 
 ## The user attribute in general
 
@@ -74,4 +78,12 @@ Each user inherits any default user attributes held by the user’s user class.
 | "                | microsoft-word    | USER_ATTRIBUTE_MICROSOFT_WORD |
 | other-user-class | dropbox           | USER_ATTRIBUTE_DROPBOX |
 | "                | sync-com          | USER_ATTRIBUTE_SYNC_COM |
+
+## The encoding and path of user-attribute data
+- Defined in a user’s object within `users_to_create` JSON object or inherited from the user’s user class
+- Encoded by Hypervisor-System in a `USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶` system-scoped state
+set_system_states_for_user_attributes "$user_spec_json" # scripts/spawn/spawn-state-helpers.sh
+- Transferred verbatim by Hypervisor-User to a `USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶` user-scoped state
+- Recorded by Hypervisor-USER for the session as a 
+
 
