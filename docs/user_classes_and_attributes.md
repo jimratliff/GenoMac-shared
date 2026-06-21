@@ -82,8 +82,7 @@ Each user inherits any default user attributes held by the user’s user class.
 ## The encoding and path of user-attribute data
 The assignment of one or more attributes to a particular user is:
 - Defined originally (a) in a user’s object within `users_to_create` JSON object[^IN_USERS_TO_CREATE_OBJECT] or (b) inherited from the user’s user class[^INHERIT_FROM_USER_CLASS]
-- Encoded by Hypervisor-System in a `USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶` system-scoped state[^ENCODE_BY_HYPERVISOR_SYSTEM]
-  - More formally, the state string is expressed in terms of enums defined by environment variables: `"${GENOMAC_STATE_USER_ATTRIBUTE_PREFIX}${GENOMAC_STATE_STRING_DELIMITER_A}${short_name}${GENOMAC_STATE_STRING_DELIMITER_B}"`
+- Encoded by Hypervisor-System in a `USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶` system-scoped state[^ENCODE_BY_HYPERVISOR_SYSTEM]<sup>,</sup>[^STATE_STRING_IN_ENUMS]
 set_system_states_for_user_attributes "$user_spec_json" # scripts/spawn/spawn-state-helpers.sh
 - Transferred verbatim by Hypervisor-User to a `USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶` user-scoped state[^VERBATIM_TRANSFER]
 - Recorded by Hypervisor-USER for the session as a
@@ -93,5 +92,7 @@ set_system_states_for_user_attributes "$user_spec_json" # scripts/spawn/spawn-st
 [^INHERIT_FROM_USER_CLASS]: The mapping from user class → default user attributes is specified in the `user_attributes_from_user_class` JSON property. See [Specifying users to spawn](https://github.com/jimratliff/GenoMac-system/blob/main/scripts/spawn/0_README.md#about-spawning-new-users-for-this-mac).
 
 [^ENCODE_BY_HYPERVISOR_SYSTEM]: Everytime Hypervisor-System runs, it reviews the list of users in the `users_to_create` JSON property. For each such user, Hypervisor-System determines the set of attributes that apply to that user (both assigned directly and inherited from that user’s user class). Hypervisor-System than writes a system-scoped state file of the form `USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶` that encodes both the user’s name and the attribute name.
+
+[^STATE_STRING_IN_ENUMS]: More formally, the state string is expressed in terms of enums defined by environment variables: `"${GENOMAC_STATE_USER_ATTRIBUTE_PREFIX}${GENOMAC_STATE_STRING_DELIMITER_A}${short_name}${GENOMAC_STATE_STRING_DELIMITER_B}"`.
 
 [^VERBATIM_TRANSFER]: See Hypervisor-User’s call to `transfer_system_scoped_user_attribute_states_to_user_scoped`, which is defined in `GenoMac-user/scripts/settings/user_attribute_scripts.sh`.
