@@ -92,6 +92,8 @@ set_system_states_for_user_attributes "$user_spec_json" # scripts/spawn/spawn-st
 - For each user, Hypervisor-User transfers verbatim the system-scoped state to a `USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶` user-scoped state[^VERBATIM_TRANSFER]
 - For each user, Hypervisor-User reviews the user attributes assigned to that user to guide configuration of that user’s account. This typically involves, for each attribute, setting one or more `SESH…` states that are implied by the attribute. Hypervisor-User then later refers to these `SESH…` states to decide which actions to take or not take.
 
+When an attribute allows for an encoded value, the relevant substring, even of merely the attribute name, is the attribute name conjoined to the value with the delimiter `GENOMAC_STATE_STRING_DELIMITER_X="¶∞§"`. For example, the `touchid` user attribute requires an accompanying string specifying the finger to use for Touch ID, which can encode as `'touchid¶∞§R2'`, when signifying the second finger on the right hand.
+
 [^IN_USERS_TO_CREATE_OBJECT]: Attributes assigned directly to a user are supplied via the `users_to_create` JSON property, which is an array of user objects. Specifically, the user attributes assigned to a user are specified in the `attributes` property of that user’s object. See [Specifying users to spawn](https://github.com/jimratliff/GenoMac-system/blob/main/scripts/spawn/0_README.md#about-spawning-new-users-for-this-mac).
 
 [^INHERIT_FROM_USER_CLASS]: The mapping from user class → default user attributes is specified in the `user_attributes_from_user_class` JSON property. See [Specifying users to spawn](https://github.com/jimratliff/GenoMac-system/blob/main/scripts/spawn/0_README.md#about-spawning-new-users-for-this-mac).
