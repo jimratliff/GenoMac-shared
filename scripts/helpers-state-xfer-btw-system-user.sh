@@ -115,18 +115,38 @@ function mark_current_user_as_in_need_of_initial_config(){
   report_end_phase_standard
 }
 
+function test_whether_current_user_is_in_need_of_initial_config() {
+  # Tests existence of system-scoped state indicating that the current user is in need of initial configuration.
+  # Returns 0 if state exists; 1 otherwise.
+  report_start_phase_standard
+
+  local result
+  local short_name
+  
+  short_name="$(short_name_of_user_from_HOME)"
+  test_whether_user_is_in_need_of_initial_config "$short_name"
+  result=$?
+  
+  report_end_phase_standard
+  return "$result"
+}
+
 function test_whether_user_is_in_need_of_initial_config() {
   # Tests existence of system-scoped state indicating that supplied user is in need of initial configuration.
-
-  ############### TODO WIP
+  # Return 0 if state exists; 1 otherwise.
   
   report_start_phase_standard
   local short_name="${1:?MISSING short_name}"
+
+  local result
   local state_string
 
   state_string="$(construct_system_state_string_for_user_in_need_of_initial_config "$short_name")"
   test_genomac_system_state "$state_string"
+  result=$?
+  
   report_end_phase_standard
+  return "$result"
 }
 
 function unmark_user_as_in_need_of_initial_config(){
