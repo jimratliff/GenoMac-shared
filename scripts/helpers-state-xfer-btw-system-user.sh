@@ -33,21 +33,22 @@ function display_users_to_be_initially_configured() {
   
   report_start_phase_standard
   
-  local number_of_awaiting_users
   local report_string=""
   local user_short_name
 
+  local -i number_of_awaiting_users
+
   local -a user_short_names
-  
+
   get_array_of_users_to_be_initially_configured
   user_short_names=("${reply[@]}")
 
   number_of_awaiting_users=${#user_short_names[@]}
 
-  if (( ! number_of_awaiting_users )); then
+  if (( number_of_awaiting_users == 0 )); then
     report_highlight "There are no users awaiting their initial configuration by GenoMac-user."
   else
-    report_string="📋 The following $number_of_awaiting_users user(s) is/are awaiting their initial configuration by GenoMac-user:"
+    report_string="📋 The following $number_of_awaiting_users user(s) is/are awaiting their initial configuration by GenoMac-user:${NEWLINE}"
     for user_short_name in "${user_short_names[@]}"; do
       report_string+="${user_short_name}${NEWLINE}"
     done
@@ -60,9 +61,8 @@ function display_users_to_be_initially_configured() {
 function get_array_of_users_to_be_initially_configured() {
   # Return array of newly created users who haven’t yet been initially configured by GenoMac-user.
   #
-  # See GenoMac-shared/scripts/helpers-state-xfer-btw-system-user.sh »
-  #    				construct_system_state_string_for_user_in_need_of_initial_config()
-  # for the format of the relevant state strings.
+  # See construct_system_state_string_for_user_in_need_of_initial_config() for the format of the
+  # relevant state strings.
   
   report_start_phase_standard
   local short_name
@@ -101,6 +101,16 @@ function mark_user_as_in_need_of_initial_config(){
 
   state_string="$(construct_system_state_string_for_user_in_need_of_initial_config "$short_name")"
   set_genomac_system_state "$state_string"
+  
+  report_end_phase_standard
+}
+
+function mark_current_user_as_in_need_of_initial_config(){
+  # Set system-scoped state to mark the current user as in need of initial configuration
+  report_start_phase_standard
+  local short_name
+  short_name="$(short_name_of_user_from_HOME)"
+  mark_user_as_in_need_of_initial_config "$short_name"
   
   report_end_phase_standard
 }
