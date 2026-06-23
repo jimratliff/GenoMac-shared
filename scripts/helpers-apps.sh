@@ -105,7 +105,7 @@ function force_user_logout(){
   report_end_phase_standard
 
   # Ensure the calling script doesn’t continue to run
-  exit
+  abort_genomac_hypervisor
 }
 
 get_homebrew_prefix() {
