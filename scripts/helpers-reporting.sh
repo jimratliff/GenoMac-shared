@@ -24,23 +24,25 @@ function define_colors_and_symbols() {
   COLOR_CYAN="${ESC_SEQ}36;01m"
   COLOR_WHITE="${ESC_SEQ}37;01m"
   
+  COLOR_ACTION_TAKEN="$COLOR_GREEN"
+  COLOR_ADJUST_SETTING="$COLOR_CYAN"
+  COLOR_ERROR="$COLOR_RED"
+  COLOR_HIGHLIGHT="$COLOR_YELLOW"
+  COLOR_KILLED="$COLOR_RED"
   COLOR_QUESTION="$COLOR_MAGENTA"
   COLOR_REPORT="$COLOR_BLUE"
-  COLOR_ADJUST_SETTING="$COLOR_CYAN"
-  COLOR_ACTION_TAKEN="$COLOR_GREEN"
-  COLOR_WARNING="$COLOR_YELLOW"
-  COLOR_ERROR="$COLOR_RED"
   COLOR_SUCCESS="$COLOR_GREEN"
-  COLOR_KILLED="$COLOR_RED"
+  COLOR_WARNING="$COLOR_YELLOW"
   
-  SYMBOL_SUCCESS="✅ "
-  SYMBOL_FAILURE="❌ "
-  SYMBOL_QUESTION="❓ "
-  SYMBOL_ADJUST_SETTING="⚙️  "
-  SYMBOL_KILLED="☠️ "
   SYMBOL_ACTION_TAKEN="🪚 "
-  SYMBOL_WARNING="🚨 "
+  SYMBOL_ADJUST_SETTING="⚙️  "
+  SYMBOL_FAILURE="❌ "
   SYMBOL_HIGHLIGHT="‼️ "
+  SYMBOL_KILLED="☠️ "
+  SYMBOL_QUESTION="❓ "
+  SYMBOL_SUCCESS="✅ "
+  SYMBOL_WARNING="🚨 "
+
 }
 
 function print_banner_text() {
@@ -114,14 +116,14 @@ function report_warning() {
 }
 
 function report_highlight() {
-  # Output supplied line of text in a distinctive color prefaced by SYMBOL_WARNING.
+  # Output supplied line of text in a distinctive color prefaced by SYMBOL_HIGHLIGHT.
   # Mark it to be also regurgitated in an end-of-Hypervisor-run summary.
   local message
   message="${1?MISSING message}"
 
   _report \
-    --leading-format "$COLOR_REPORT" \
-    --message "${SYMBOL_WARNING} ${message}" \
+    --leading-format "$COLOR_HIGHLIGHT" \
+    --message "${SYMBOL_HIGHLIGHT} ${message}" \
     --alert
 }
 
