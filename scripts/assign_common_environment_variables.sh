@@ -19,8 +19,9 @@ if [[ -z "${GENOMAC_ALERT_LOG-}" ]]; then
 fi
 
 ############### Repository specifiers
-GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT="https://github.com/jimratliff"
-GENOMAC_COMMON_GITHUB_SCP_URL_ROOT="git@github.com:jimratliff"
+GENOMAC_COMMON_OWNER="jimratliff"
+GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT="https://github.com/${GENOMAC_COMMON_OWNER}"
+GENOMAC_COMMON_GITHUB_SCP_URL_ROOT="git@github.com:${GENOMAC_COMMON_OWNER}"
 GENOMAC_SHARED_REPO_NAME="GenoMac-shared"
 GENOMAC_SYSTEM_REPO_NAME="GenoMac-system"
 GENOMAC_USER_REPO_NAME="GenoMac-user"
