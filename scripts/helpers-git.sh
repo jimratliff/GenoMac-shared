@@ -13,79 +13,7 @@
 #     GENOMAC_USER_REPO_NAME                    # "GenoMac-user"
 #     GENOMAC_PRIVATE_REPO_NAME                 # "GenoMac-private"
 
-function genomac_private_github_access_is_active() {
-  # Returns 0 if GitHub CLI auth/access is currently usable for GenoMac-private.
-  # Returns 1 if GitHub CLI auth/access is not currently usable and `gh auth login`
-  # should be attempted.
-  #
-  # Precondition:
-  #   gh is installed and on PATH.
-  #
-  # Note:
-  #   If gh is authenticated to github.com but cannot access GenoMac-private,
-  #   this function logs out of github.com and returns 1 so that the caller can
-  #   attempt a fresh `gh auth login`.
 
-  report_start_phase_standard
-  local api_path
-
-  if ! gh auth status --hostname github.com >/dev/null 2>&1; then
-    report_to_log "GitHub CLI does not currently have usable authentication for github.com.${NEWLINE}A fresh 'gh auth login' should be attempted."
-    report_end_phase_standard
-    return 1
-  fi
-
-  api_path="/repos/${GENOMAC_COMMON_OWNER}/${GENOMAC_PRIVATE_REPO_NAME}"
-
-  if gh api "$api_path" >/dev/null 2>&1; then
-    report_to_log "GitHub CLI authentication is active and ${GENOMAC_COMMON_OWNER}/${GENOMAC_PRIVATE_REPO_NAME} is accessible."
-    report_end_phase_standard
-    return 0
-  fi
-    
-  report_warning "GitHub CLI is authenticated for github.com, but the active GitHub identity cannot access ${GENOMAC_COMMON_OWNER}/${GENOMAC_PRIVATE_REPO_NAME}."
-  report_warning "Logging out of GitHub CLI for github.com so that a fresh 'gh auth login' can be attempted."
-
-  gh auth logout --hostname github.com
-
-  report_end_phase_standard
-  return 1
-}
-
-function ensure_genomac_private_github_access_is_active() {
-  # Ensures GitHub CLI auth/access is currently usable for GenoMac-private.
-  # Aborts the Hypervisor if this cannot be made true.
-
-  report_start_phase_standard
-
-  if ! command -v gh >/dev/null 2>&1; then
-    report_end_phase_standard
-    abort_genomac_hypervisor "GitHub CLI 'gh' is not installed or not on PATH."
-  fi
-
-  if genomac_private_github_access_is_active; then
-    report_to_log "GenoMac-private GitHub access is already active. Moving on…"
-    report_end_phase_standard
-    return 0
-  fi
-
-  report_highlight "GitHub CLI authentication is required to read GenoMac-private."
-  report_highlight "Starting GitHub CLI login."
-
-  if ! gh auth login --hostname github.com --git-protocol ssh; then
-    report_end_phase_standard
-    abort_genomac_hypervisor "GitHub CLI authentication failed."
-  fi
-
-  if genomac_private_github_access_is_active; then
-    report_to_log "GenoMac-private GitHub access is now active."
-    report_end_phase_standard
-    return 0
-  fi
-
-  report_end_phase_standard
-  abort_genomac_hypervisor "GitHub CLI authentication was attempted, but access to GenoMac-private is still not active.${NEWLINE}Manual intervention is required."
-}
 
 function clone_public_genomac_repo_using_HTTPS() {
   # Clones a public GenoMac GitHub repo using HTTPS, including any submodules.
@@ -305,4 +233,82 @@ function configure_split_remote_URLs_for_public_GitHub_repo_if_cloned() {
   fi
   
   report_end_phase_standard
+}
+
+############################## DEPRECATION DUNGEON ##############################
+#
+#
+
+function genomac_private_github_access_is_active() {
+  # Returns 0 if GitHub CLI auth/access is currently usable for GenoMac-private.
+  # Returns 1 if GitHub CLI auth/access is not currently usable and `gh auth login`
+  # should be attempted.
+  #
+  # Precondition:
+  #   gh is installed and on PATH.
+  #
+  # Note:
+  #   If gh is authenticated to github.com but cannot access GenoMac-private,
+  #   this function logs out of github.com and returns 1 so that the caller can
+  #   attempt a fresh `gh auth login`.
+
+  report_start_phase_standard
+  local api_path
+
+  if ! gh auth status --hostname github.com >/dev/null 2>&1; then
+    report_to_log "GitHub CLI does not currently have usable authentication for github.com.${NEWLINE}A fresh 'gh auth login' should be attempted."
+    report_end_phase_standard
+    return 1
+  fi
+
+  api_path="/repos/${GENOMAC_COMMON_OWNER}/${GENOMAC_PRIVATE_REPO_NAME}"
+
+  if gh api "$api_path" >/dev/null 2>&1; then
+    report_to_log "GitHub CLI authentication is active and ${GENOMAC_COMMON_OWNER}/${GENOMAC_PRIVATE_REPO_NAME} is accessible."
+    report_end_phase_standard
+    return 0
+  fi
+    
+  report_warning "GitHub CLI is authenticated for github.com, but the active GitHub identity cannot access ${GENOMAC_COMMON_OWNER}/${GENOMAC_PRIVATE_REPO_NAME}."
+  report_warning "Logging out of GitHub CLI for github.com so that a fresh 'gh auth login' can be attempted."
+
+  gh auth logout --hostname github.com
+
+  report_end_phase_standard
+  return 1
+}
+
+function ensure_genomac_private_github_access_is_active() {
+  # Ensures GitHub CLI auth/access is currently usable for GenoMac-private.
+  # Aborts the Hypervisor if this cannot be made true.
+
+  report_start_phase_standard
+
+  if ! command -v gh >/dev/null 2>&1; then
+    report_end_phase_standard
+    abort_genomac_hypervisor "GitHub CLI 'gh' is not installed or not on PATH."
+  fi
+
+  if genomac_private_github_access_is_active; then
+    report_to_log "GenoMac-private GitHub access is already active. Moving on…"
+    report_end_phase_standard
+    return 0
+  fi
+
+  report_highlight "GitHub CLI authentication is required to read GenoMac-private."
+  report_highlight "Starting GitHub CLI login."
+
+  if ! gh auth login --hostname github.com --git-protocol ssh; then
+    report_end_phase_standard
+    abort_genomac_hypervisor "GitHub CLI authentication failed."
+  fi
+
+  if genomac_private_github_access_is_active; then
+    report_to_log "GenoMac-private GitHub access is now active."
+    report_end_phase_standard
+    return 0
+  fi
+
+  report_end_phase_standard
+  abort_genomac_hypervisor "GitHub CLI authentication was attempted, but access to GenoMac-private is still not active.${NEWLINE}Manual intervention is required."
 }
