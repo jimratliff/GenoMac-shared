@@ -571,7 +571,7 @@ function _append_message_to_report_log() {
 }
 
 function is_VERBOSE() {
-  # Returns exit code 0 if in VERBOSE mode; returns exit code 1 otherwise.
+  # Returns 0 if in VERBOSE mode; returns 1 otherwise.
   #
   # Usage:
   #   if is_VERBOSE; then
