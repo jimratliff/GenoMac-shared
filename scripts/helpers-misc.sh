@@ -47,7 +47,7 @@ safe_source() {
   local file="$1"
   if ! source "$file"; then
     report_fail "ERROR: Failed to source ${file}"
-    exit 1
+    return 1
   fi
   report_to_log "${SYMBOL_SUCCESS} Sourced ${file}"
 }
@@ -168,7 +168,7 @@ function required_value_for_option() {
 }
 
 function this_mac_is_a_laptop() {
-  # Exits with zero if Mac is a laptop (has a battery installed); otherwise exits with 1
+  # Returns 0 if Mac is a laptop (has a battery installed); otherwise returns 1
   #
   # Usage:
   #   if this_mac_is_a_laptop; then
@@ -178,10 +178,25 @@ function this_mac_is_a_laptop() {
   #   fi
   #
   report_start_phase_standard
-  
-  /usr/sbin/ioreg -c AppleSmartBattery -r | awk '/BatteryInstalled/ {exit ($3 == "Yes" ? 0 : 1)}'
+
+  if /usr/sbin/ioreg -c AppleSmartBattery -r | awk '
+    /BatteryInstalled/ {
+      found = 1
+      exit ($3 == "Yes" ? 0 : 1)
+    }
+    END {
+      if (!found) {
+        exit 1
+      }
+    }
+  '; then
+    status=0
+  else
+    status=1
+  fi
 
   report_end_phase_standard
+  return "$status"
 }
 
 function interactive_ensure_terminal_has_fda() {
