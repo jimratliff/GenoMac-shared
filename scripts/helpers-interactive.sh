@@ -35,7 +35,7 @@ function get_yes_no_answer_to_question() {
   # Output supplied line of text in distinctive color (COLOR_QUESTION), prefixed by SYMBOL_QUESTION,
   # prompt user for response, iterating until user provides either a yes or no equivalent.
   #
-  # Returns exit code 0 for "yes" and exit code 1 for "no".
+  # Returns 0 for "yes" and returns 1 for "no".
   #
   # Usage example: 
   #     if get_yes_no_answer_to_question "Do you want to continue?"; then
@@ -212,15 +212,24 @@ function show_file_using_quicklook() {
   
   report_start_phase_standard
 
-  # Test whether argument specifies a valid file
-  [[ -f $1 ]] || { report_warning "Error: file not found: $1" >&2; exit 1; }
+  local file_path="${1:?MISSING file_path}"
+
+  # Test whether argument specifies a valid file.
+  if [[ ! -f "$file_path" ]]; then
+    report_fail "File not found: ${file_path}"
+    return 1
+  fi
 
   # Displays the file to user using QuickLook
-  report_action_taken "I am showing you a file: «$(basename "$1")»${NEWLINE}Don’t see it? Look behind other windows."
-  /usr/bin/qlmanage -p "$1" >/dev/null 2>&1 &
+  report_action_taken "I am showing you a file: «$(basename "$file_path")»${NEWLINE}Don’t see it? Look behind other windows."
+
+  if ! /usr/bin/qlmanage -p "$file_path" >/dev/null 2>&1 &; then
+    report_fail "Could not open file with Quick Look: ${file_path}"
+    return 1
+  fi
 
   sleep 0.1
-  osascript -e 'tell application "System Events" to set frontmost of process "qlmanage" to true' 2>/dev/null
+  osascript -e 'tell application "System Events" to set frontmost of process "qlmanage" to true' 2>/dev/null || true
 
   report_end_phase_standard
 }
