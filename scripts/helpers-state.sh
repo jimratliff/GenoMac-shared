@@ -34,7 +34,7 @@ function _validate_scope() {
   local scope="$1"
   if [[ "$scope" != "user" && "$scope" != "system" ]]; then
     report_fail "Error: scope must be 'user' or 'system', got '$scope'"
-    exit 1
+    return 1
   fi
 }
 
@@ -57,7 +57,7 @@ function _state_directory_for_scope() {
       ;;
     *)
       report_fail "Unexpected value '$scope' (slipped through _validate_scope!). Expected either 'system' or 'user'."
-      exit 1
+      return 1
       ;;
   esac
 }
