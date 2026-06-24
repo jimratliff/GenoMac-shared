@@ -27,7 +27,7 @@ function read_github_repo_file_raw() {
   # Prints the raw contents of a file from a GitHub repo.
   #
   # Usage:
-  #   read_github_repo_file_raw [--private] [--pat PAT] owner repo ref path
+  #   read_github_repo_file_raw [--private] [--pat PAT] owner repo commit_id path
   #
   # Defaults to public/unauthenticated access.
   #
@@ -101,7 +101,7 @@ function read_github_repo_file_raw() {
 
   owner="${1:?missing owner}"
   repo="${2:?missing repo}"
-  commit_id="${3:?missing ref}"
+  commit_id="${3:?missing commit_id}"
   path="${4:?missing path}"
 
   abort_if_gh_not_installed_or_not_on_path
