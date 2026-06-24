@@ -13,7 +13,127 @@
 #     GENOMAC_USER_REPO_NAME                    # "GenoMac-user"
 #     GENOMAC_PRIVATE_REPO_NAME                 # "GenoMac-private"
 
+function abort_if_gh_not_installed_or_not_on_path() {
+  # Template for a Zsh function in Project GenoMac
+  report_start_phase_standard
+  if ! command -v gh >/dev/null 2>&1; then
+    abort_genomac_hypervisor "GitHub CLI 'gh' is not installed or not on PATH."
+  fi
+  report_to_log "GitHub CLI 'gh' is installed and available."
+  report_end_phase_standard
+}
 
+function read_github_repo_file_raw() {
+  # Prints the raw contents of a file from a GitHub repo.
+  #
+  # Usage:
+  #   read_github_repo_file_raw [--private] [--pat PAT] owner repo ref path
+  #
+  # Defaults to public/unauthenticated access.
+  #
+  # Options:
+  #   --private
+  #     Require authenticated GitHub API access. Uses existing GH_TOKEN.
+  #
+  #   --pat PAT
+  #     Require authenticated GitHub API access using supplied PAT.
+  #     Implies --private.
+  #
+  # commit_id:
+  #   Git reference from which to read the file.
+  #   Usually a branch name such as "main", but may also be a tag name
+  #   or commit SHA.
+  #
+  # path:
+  #   Repository-relative path to the file to read.
+  #   This path starts at the root of the repository.
+  #   It does not include github.com, the owner name, or the repository name.
+  #   It should not begin with a leading slash.
+  #
+  #   Example:
+  #     For:
+  #       https://github.com/OWNER/REPO/blob/main/config/user-spawn-config.json
+  #
+  #     use:
+  #       commit_id="main"
+  #       path="config/user-spawn-config.json"
+
+  report_start_phase_standard
+
+  local is_private=false
+  local github_pat=""
+  local owner
+  local repo
+  local commit_id
+  local path
+  local api_path
+  local status
+
+  local -a gh_command
+
+  while (( $# > 0 )); do
+    case "$1" in
+      --private)
+        is_private=true
+        shift
+        ;;
+
+      --pat)
+        is_private=true
+        github_pat="${2:?missing PAT after --pat}"
+        shift 2
+        ;;
+
+      --)
+        shift
+        break
+        ;;
+
+      -*)
+        abort_genomac_hypervisor "PROGRAMMER_ERROR: Unknown option to read_github_repo_file_raw: $1"
+        ;;
+
+      *)
+        break
+        ;;
+    esac
+  done
+
+  owner="${1:?missing owner}"
+  repo="${2:?missing repo}"
+  commit_id="${3:?missing ref}"
+  path="${4:?missing path}"
+
+  abort_if_gh_not_installed_or_not_on_path
+
+  api_path="/repos/${owner}/${repo}/contents/${path}?ref=${commit_id}"
+
+  gh_command=(
+    gh api
+    --header "Accept: application/vnd.github.raw+json"
+    "$api_path"
+  )
+
+  if [[ "$is_private" == true ]]; then
+    if [[ -n "$github_pat" ]]; then
+      GH_TOKEN="$github_pat" "${gh_command[@]}"
+      status=$?
+
+    elif [[ -n "${GH_TOKEN:-}" ]]; then
+      "${gh_command[@]}"
+      status=$?
+
+    else
+      abort_genomac_hypervisor "Private GitHub repo requested, but no PAT was supplied with --pat and GH_TOKEN is not set."
+    fi
+  else
+    "${gh_command[@]}"
+    status=$?
+  fi
+
+  report_end_phase_standard
+  return "$status"
+}
 
 function clone_public_genomac_repo_using_HTTPS() {
   # Clones a public GenoMac GitHub repo using HTTPS, including any submodules.
