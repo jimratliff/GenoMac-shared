@@ -45,7 +45,7 @@ function read_github_repo_file_raw() {
   #   or commit SHA.
   #
   # path:
-  #   Repository-relative path to the file to read.
+  #   Repository-relative path of the file to read.
   #   This path starts at the root of the repository.
   #   It does not include github.com, the owner name, or the repository name.
   #   It should not begin with a leading slash.
