@@ -58,7 +58,7 @@ HOMEBREW_PREFIX="$(get_homebrew_prefix)"
 # NOTE: Although GenoMac-system and GenoMac-user are *executed* from clones at ~/.genomac-system and ~/.genomac-user,
 #       respectively, for flexibility in development (e.g., checking out new branches), the development clones
 #       should be separate.
-USER_LOCAL_REPOSITORY_DIRECTORY="$HOME/Repositories
+USER_LOCAL_REPOSITORY_DIRECTORY="$HOME/Repositories"
 GENOMAC_DEVELOPMENT_DIRECTORY="${USER_LOCAL_REPOSITORY_DIRECTORY}/Project_GenoMac"
 
 
@@ -381,4 +381,4 @@ SYSTEM_SETTINGS_WALLPAPER_PANEL_URL="x-apple.systempreferences:com.apple.Wallpap
 # export_and_report USER_ATTRIBUTE_TOUCH_ID_PREFIX
 # export_and_report USER_ATTRIBUTE_TOUCH_ID_ROOT
 # export_and_report USER_ATTRIBUTE_YOUTUBE_WATCHER
-export_and_report USER_ATTRIBUTE_YOUTUBE_WATCHER
+# export_and_report USER_ATTRIBUTE_YOUTUBE_WATCHER
