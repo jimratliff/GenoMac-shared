@@ -135,6 +135,95 @@ function read_github_repo_file_raw() {
   return "$status"
 }
 
+function clone_genomac_repo() {
+  # Clones a GenoMac GitHub repo, including any submodules.
+  #
+  # Usage:
+  #   clone_genomac_repo --public  GenoMac-user    "$local_dir"
+  #   clone_genomac_repo --private GenoMac-private "$local_dir"
+  #
+  # --public:
+  #   Clone via HTTPS. Appropriate for public repositories.
+  #
+  # --private:
+  #   Clone via SSH. Appropriate for private repositories requiring GitHub authentication.
+  #
+  # If the directory already contains the expected git repo, warns and returns normally.
+  # If the directory exists but is not the expected git repo, fails.
+
+  report_start_phase_standard
+
+  local repo_visibility="${1:?MISSING/EMPTY repo_visibility}"
+  local github_repo_name="${2:?MISSING/EMPTY github_repo_name}"
+  local local_cloning_dir="${3:?MISSING/EMPTY local_cloning_dir}"
+
+  local repo_url
+  local existing_remote
+  local existing_repo_name
+  local -i status=0
+
+  case "$repo_visibility" in
+    --public)
+      repo_url="${GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT}/${github_repo_name}.git"
+      ;;
+    --private)
+      repo_url="${GENOMAC_COMMON_GITHUB_SCP_URL_ROOT}/${github_repo_name}.git"
+      ;;
+    *)
+      report_fail "Unknown repo visibility flag: ${repo_visibility}. Expected --public or --private."
+      report_end_phase_standard
+      return 1
+      ;;
+  esac
+
+  report_action_taken_to_log "Prepare development clone of ${github_repo_name} at: ${local_cloning_dir}"
+
+  if [[ -d "$local_cloning_dir" ]]; then
+    report_warning "Desired development clone directory already exists: ${local_cloning_dir}"
+  elif [[ -e "$local_cloning_dir" ]]; then
+    report_fail "Desired development clone path exists but is not a directory: ${local_cloning_dir}"
+    report_end_phase_standard
+    return 1
+  fi
+
+  if [[ -d "$local_cloning_dir/.git" ]]; then
+    existing_remote="$(git -C "$local_cloning_dir" remote get-url origin 2>/dev/null)"
+    existing_repo_name="$(basename "$existing_remote" .git)"
+
+    if [[ "$existing_repo_name" == "$github_repo_name" ]]; then
+      report_to_log "Repository ${github_repo_name} already cloned at: ${local_cloning_dir}" ; success_or_not
+      report_end_phase_standard
+      return 0
+    fi
+
+    report_fail "Directory contains a different repository: ${existing_repo_name} (expected: ${github_repo_name})"
+    report_end_phase_standard
+    return 1
+  fi
+
+  if [[ -d "$local_cloning_dir" && -n "$(ls -A "$local_cloning_dir" 2>/dev/null)" ]]; then
+    report_fail "Directory exists but is not empty and is not a git repository: ${local_cloning_dir}"
+    report_end_phase_standard
+    return 1
+  fi
+
+  if [[ "$repo_visibility" == "--private" ]]; then
+    report_action_taken_to_log "Private repo requested; cloning via SSH: ${repo_url}"
+  fi
+
+  report_action_taken_to_log "Cloning repo, including any submodules: ${repo_url} into ${local_cloning_dir}"
+
+  if ! git clone --recurse-submodules "$repo_url" "$local_cloning_dir"; then
+    report_fail "Failed to clone ${github_repo_name} from ${repo_url}"
+    status=1
+  else
+    success_or_not
+  fi
+
+  report_end_phase_standard
+  return $status
+}
+
 function clone_public_genomac_repo_using_HTTPS() {
   # Clones a public GenoMac GitHub repo using HTTPS, including any submodules.
   #
