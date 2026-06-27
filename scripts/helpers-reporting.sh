@@ -68,8 +68,8 @@ function print_banner_text() {
 
   # Test whether figlet and lolcat is in PATH
   if command -v figlet &>/dev/null && command -v lolcat &>/dev/null; then
-    colorless_banner "$(figlet -k -w "$width" -f "$font" "$text")"
-    colorfull_banner "$(figlet -k -w "$width" -f "$font" "$text" | lolcat)"
+    colorless_banner="$(figlet -k -w "$width" -f "$font" "$text")"
+    colorfull_banner="$(figlet -k -w "$width" -f "$font" "$text" | lolcat)"
 
     # Print with lolcat to terminal
     _report --message "$colorfull_banner" --no-report-log
