@@ -21,6 +21,16 @@ function abort_genomac_hypervisor() {
   exit 1
 }
 
+function leave_genomac_hypervisor() {
+  local message="${1:-}"
+
+  if [[ -n "$message" ]]; then
+    report "$message"
+  fi
+  report "Leaving Hypervisor"
+  exit 1
+}
+
 function output_hypervisor_welcome_banner() {
   # Takes 1 argument: scope, either 'system' or 'user', corresponding to GenoMac-system
   # or GenoMac-user, respectively
