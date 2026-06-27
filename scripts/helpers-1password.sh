@@ -5,6 +5,19 @@
 # Relies upon:
 #   helpers-reporting.sh
 
+function read_1password_item_token() {
+  # Read the standard password field from a 1Password item.
+  #
+  # Arguments:
+  #   $1 = 1Password vault name
+  #   $2 = 1Password item name
+
+  local op_vault="$1"
+  local op_item="$2"
+
+  read_1password_item_field "$op_vault" "$op_item" "token"
+}
+
 function read_1password_item_password() {
   # Read the standard password field from a 1Password item.
   #
