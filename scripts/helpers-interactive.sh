@@ -220,13 +220,16 @@ function show_file_using_quicklook() {
     return 1
   fi
 
-  # Displays the file to user using QuickLook
-  report_action_taken "I am showing you a file: «$(basename "$file_path")»${NEWLINE}Don’t see it? Look behind other windows."
-
-  if ! /usr/bin/qlmanage -p "$file_path" >/dev/null 2>&1 &; then
-    report_fail "Could not open file with Quick Look: ${file_path}"
+  # Test whether Quick Look command exists and is executable.
+  if [[ ! -x /usr/bin/qlmanage ]]; then
+    report_fail "Quick Look command not found or not executable: /usr/bin/qlmanage"
     return 1
   fi
+
+  # Display the file to user using Quick Look.
+  report_action_taken "I am showing you a file: «$(basename "$file_path")»${NEWLINE}Don’t see it? Look behind other windows."
+
+  /usr/bin/qlmanage -p "$file_path" >/dev/null 2>&1 &
 
   sleep 0.1
   osascript -e 'tell application "System Events" to set frontmost of process "qlmanage" to true' 2>/dev/null || true
