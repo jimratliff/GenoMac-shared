@@ -96,8 +96,8 @@ function quit_app_by_bundle_id_if_running() {
 function force_user_logout(){
   report_start_phase_standard
   
-  report_action_taken $'\n\nYou are about to be logged out…'
-  sleep 3  # Give user time to read the message
+  report $'\n\nYou are about to be logged out…'
+  sleep 5  # Give user time to read the message
 
   # Graceful logout using familiar system behavior
   osascript -e 'tell application "System Events" to log out'
