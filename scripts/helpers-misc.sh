@@ -5,16 +5,6 @@
 # Relies upon:
 #   helpers-reporting.sh
 
-function abort_genomac_hypervisor() {
-  local message="${1:-}"
-
-  if [[ -n "$message" ]]; then
-    report_fail "$message"
-  fi
-  report_fail "Aborting Hypervisor"
-  exit 1
-}
-
 function export_and_report() {
   local var_name="$1"
   report_to_log "Export $var_name: '${(P)var_name}'"
