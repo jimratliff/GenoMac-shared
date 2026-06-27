@@ -28,7 +28,7 @@ function leave_genomac_hypervisor() {
     report "$message"
   fi
   report "Leaving Hypervisor"
-  exit 1
+  exit 0
 }
 
 function output_hypervisor_welcome_banner() {
