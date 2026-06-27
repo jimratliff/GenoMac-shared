@@ -338,7 +338,8 @@ function launch_app_and_prompt_user_to_act() {
   task_message="$(cat <<EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ACTION REQUIRED: ${task_description}
+  ACTION REQUIRED:
+  ${task_description}
   When complete, please type: ${confirmation_word}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
