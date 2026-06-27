@@ -105,9 +105,7 @@ function force_user_logout(){
   report_end_phase_standard
 
   # Ensure the calling script doesn’t continue to run
-  # TODO: abort_genomac_hypervisor is the wrong function, because it `exit 1` rather than `exit 0`
-  # abort_genomac_hypervisor
-  exit 0
+  leave_genomac_hypervisor
 }
 
 get_homebrew_prefix() {
