@@ -160,7 +160,6 @@ function clone_genomac_repo() {
   local repo_url
   local existing_remote
   local existing_repo_name
-  local -i status=0
 
   case "$repo_visibility" in
     --public)
@@ -171,7 +170,6 @@ function clone_genomac_repo() {
       ;;
     *)
       report_fail "Unknown repo visibility flag: ${repo_visibility}. Expected --public or --private."
-      report_end_phase_standard
       return 1
       ;;
   esac
@@ -182,7 +180,6 @@ function clone_genomac_repo() {
     report_warning "Desired development clone directory already exists: ${local_cloning_dir}"
   elif [[ -e "$local_cloning_dir" ]]; then
     report_fail "Desired development clone path exists but is not a directory: ${local_cloning_dir}"
-    report_end_phase_standard
     return 1
   fi
 
@@ -191,19 +188,17 @@ function clone_genomac_repo() {
     existing_repo_name="$(basename "$existing_remote" .git)"
 
     if [[ "$existing_repo_name" == "$github_repo_name" ]]; then
-      report_to_log "Repository ${github_repo_name} already cloned at: ${local_cloning_dir}" ; success_or_not
+      report_to_log "Repository ${github_repo_name} already cloned at: ${local_cloning_dir}"
       report_end_phase_standard
       return 0
     fi
 
     report_fail "Directory contains a different repository: ${existing_repo_name} (expected: ${github_repo_name})"
-    report_end_phase_standard
     return 1
   fi
 
   if [[ -d "$local_cloning_dir" && -n "$(ls -A "$local_cloning_dir" 2>/dev/null)" ]]; then
     report_fail "Directory exists but is not empty and is not a git repository: ${local_cloning_dir}"
-    report_end_phase_standard
     return 1
   fi
 
@@ -215,13 +210,10 @@ function clone_genomac_repo() {
 
   if ! git clone --recurse-submodules "$repo_url" "$local_cloning_dir"; then
     report_fail "Failed to clone ${github_repo_name} from ${repo_url}"
-    status=1
-  else
-    success_or_not
+    return 1
   fi
 
   report_end_phase_standard
-  return $status
 }
 
 function initialize_genomac_shared_submodule_if_present() {
