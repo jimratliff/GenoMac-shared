@@ -41,15 +41,15 @@ function keep_sudo_alive() {
 }
 
 safe_source() {
-  # Ensures that an error is raised if a `source` of the file in the supplied argument fails.
+  # Sources supplied file.
   # Usage:
   #  safe_source "${GMU_PREFS_SCRIPTS}/set_safari_settings.sh"
+  report_start_phase_standard
   local file="$1"
-  if ! source "$file"; then
-    report_fail "ERROR: Failed to source ${file}"
-    return 1
-  fi
+  report_to_log "Sourcing ${file}"
+  source "$file"
   report_to_log "${SYMBOL_SUCCESS} Sourced ${file}"
+  report_end_phase_standard
 }
 
 function short_name_of_user_from_HOME() {
