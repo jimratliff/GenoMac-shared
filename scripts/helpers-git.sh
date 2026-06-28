@@ -14,15 +14,7 @@
 #     GENOMAC_PRIVATE_REPO_NAME                 # "GenoMac-private"
 
 function abort_if_gh_not_installed_or_not_on_path() {
-  # Template for a Zsh function in Project GenoMac
   report_start_phase_standard
-
-  report_to_log "DEBUG: EUID=$EUID"
-  report_to_log "DEBUG: USER=$USER"
-  report_to_log "DEBUG: PATH=$PATH"
-  report_to_log "DEBUG: command -v gh => $(command -v gh 2>/dev/null || print -r -- '<not found>')"
-
-  
   if ! command -v gh >/dev/null 2>&1; then
     abort_genomac_hypervisor "GitHub CLI 'gh' is not installed or not on PATH."
   fi
