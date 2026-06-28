@@ -74,7 +74,7 @@ function read_github_repo_file_raw() {
   local commit_id
   local path_of_file_to_read
   local api_path
-  local status
+  local return_status
 
   local -a gh_command
 
@@ -124,22 +124,22 @@ function read_github_repo_file_raw() {
   if [[ "$is_private" == true ]]; then
     if [[ -n "$github_pat" ]]; then
       GH_TOKEN="$github_pat" "${gh_command[@]}"
-      status=$?
+      return_status=$?
 
     elif [[ -n "${GH_TOKEN:-}" ]]; then
       "${gh_command[@]}"
-      status=$?
+      return_status=$?
 
     else
       abort_genomac_hypervisor "Private GitHub repo requested, but no PAT was supplied with --pat and GH_TOKEN is not set."
     fi
   else
     "${gh_command[@]}"
-    status=$?
+    return_status=$?
   fi
 
   report_end_phase_standard
-  return "$status"
+  return "$return_status"
 }
 
 function clone_genomac_repo() {
