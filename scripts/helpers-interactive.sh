@@ -20,7 +20,7 @@ function get_nonblank_answer_to_question() {
 
   while true; do
     ask_question "$prompt"
-    read "answer?→ "
+    read "answer?→ "  < /dev/tty
     [[ -n "${answer// }" ]] && break
   done
 
@@ -49,7 +49,7 @@ function get_yes_no_answer_to_question() {
 
   while true; do
     ask_question "$prompt (y/n)"
-    read "response?→ "
+    read "response?→ " < /dev/tty
     
     report_to_log "User response: $response"
     
@@ -71,7 +71,7 @@ function get_confirmed_answer_to_question() {
 
   while true; do
     ask_question "$prompt"
-    read "answer_raw?→ "
+    read "answer_raw?→ " < /dev/tty
 
     report_to_log "User response: $answer_raw"
     
@@ -81,7 +81,7 @@ function get_confirmed_answer_to_question() {
     [[ -z "$answer" ]] && continue
 
     ask_question "You entered: '$answer'. Is this correct? (y/n)"
-    read "confirm?→ "
+    read "confirm?→ " < /dev/tty
 
     report_to_log "User response: $confirm"
 
@@ -129,7 +129,7 @@ function get_value_from_numbered_choices() {
       printf "  %2d) %s\n" "$i" "$labels[$i]" >&2
     done
 
-    read -r "response?→ "
+    read -r "response?→ " < /dev/tty
 
     report_to_log "User response: $response"
 
@@ -180,7 +180,7 @@ function get_answer_from_numbered_choices() {
       printf "  %2d) %s\n" "$i" "$choices[$i]" >&2
     done
 
-    read -r "response?→ "
+    read -r "response?→ " < /dev/tty
 
     report_to_log "User response: $response"
 
