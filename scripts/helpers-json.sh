@@ -87,7 +87,7 @@ function populate_associative_array_from_json_object_of_scalars() {
 }
 
 function populate_associative_array_from_json_object_of_string_arrays() {
-  # Populates a caller-local Zsh associative array from a JSON object whose values are arrays of strings.
+  # Populates an existing Zsh associative array from a JSON object whose values are arrays of strings.
   #
   # Example JSON shape:
   #   {
@@ -103,7 +103,9 @@ function populate_associative_array_from_json_object_of_string_arrays() {
   #   $2  jq_path
   #   $3  target_array_name
   #
-  # The target array must already be declared by the caller:
+  # The target array must already be declared as an associative array:
+  #   typeset -gA user_attributes_from_user_class
+  # or:
   #   local -A user_attributes_from_user_class
 
   report_start_phase_standard
@@ -122,7 +124,7 @@ function populate_associative_array_from_json_object_of_string_arrays() {
     return 1
   fi
 
-  # Require that the caller already declared the target as an associative array.
+  # Require that the target already be declared as an associative array.
   if [[ "${(tP)target_array_name}" != *association* ]]; then
     report_fail "Target '$target_array_name' is not an associative array."
     return 1
