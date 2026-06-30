@@ -128,10 +128,10 @@ function _test_state() {
   local state_file
   state_file="$(_state_file_path "$state_string" "$scope")"
   if [[ -f "$state_file" ]]; then
-  	report "State detected: “${state_string}”"
+  	report_to_log "State detected: “${state_string}”"
   	return 0
   else
-  	report "State not present: “${state_string}”"
+  	report_to_log "State not present: “${state_string}”"
   	return 1
   fi
 }
@@ -216,7 +216,7 @@ function _set_state() {
   _validate_scope "$scope" || return 1
   state_file="$(_state_file_path "$state_string" "$scope")"
   $(_sudo_or_not_sudo_prefix "$scope") mkdir -p "${state_file:h}"  # zsh: :h gives the "head" (directory portion)
-  report_action_taken "Setting ${scope} state: “${state_string}”"
+  report_action_taken_to_log "Setting ${scope} state: “${state_string}”"
   $(_sudo_or_not_sudo_prefix "$scope") touch "$state_file" ; success_or_not
 }
 
@@ -246,9 +246,9 @@ function _delete_state() {
   state_file="$(_state_file_path "$state_string" "$scope")"
   if [[ -f "$state_file" ]]; then
   	$(_sudo_or_not_sudo_prefix "$scope") rm -f "$state_file"
-  	report_action_taken "Deleted state: “${state_string}”"
+  	report_action_taken_to_log "Deleted state: “${state_string}”"
   else
-  	report "State not present (nothing to delete): “${state_string}”"
+  	report_action_taken_to_log "State not present (nothing to delete): “${state_string}”"
   fi
 }
 
@@ -348,7 +348,7 @@ function _delete_states_matching_prefix() {
     else
       description="all ${#state_files[@]} state file(s)"
     fi
-    report_action_taken "Delete ${description} in ${state_dir}"
+    report_action_taken_to_log "Delete ${description} in ${state_dir}"
 	  $(_sudo_or_not_sudo_prefix "$scope") rm -f "${state_files[@]}" ; success_or_not
   else
     local description
@@ -357,7 +357,7 @@ function _delete_states_matching_prefix() {
     else
       description="state files"
     fi
-    report "No ${description} to delete in ${state_dir}"
+    report_to_log "No ${description} to delete in ${state_dir}"
   fi
 }
 
@@ -459,7 +459,7 @@ function delete_all_user_states_matching_prefix() {
   # Deletes all user state files beginning with given prefix.
   local prefix="${1:-}"
 
-  report_action_taken "Deleting all user states matching prefix “$1”"
+  report_action_taken_to_log "Deleting all user states matching prefix “$1”"
   _delete_states_matching_prefix "user" "$1"
 }
 
@@ -497,7 +497,7 @@ function delete_all_system_states_matching_prefix() {
   # Deletes all system state files beginning with given prefix.
   local prefix="${1:-}"
 
-  report_action_taken "Deleting all system states matching prefix “$1”"
+  report_action_taken_to_log "Deleting all system states matching prefix “$1”"
   _delete_states_matching_prefix "system" "$1"
 }
 
@@ -505,7 +505,7 @@ function delete_all_system_SESH_states() {
   # Deletes all SESH (session) state files for system scope.
   # Usage: _delete_all_GMS_SESH_states
 
-  report_action_taken "Deleting all system SESH states"
+  report_action_taken_to_log "Deleting all system SESH states"
   _delete_states_matching_prefix "system" "SESH_"
 }
 
