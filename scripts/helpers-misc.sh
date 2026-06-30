@@ -63,6 +63,18 @@ function short_name_of_user_from_HOME() {
   print -- "${home_dir:t}"
 }
 
+function user_home_directory_is_on_startup_volume() {
+  # Return 0 if user’s home directory is on startup volume; otherwise, return 1
+  report_start_phase_standard
+  if [[ "$HOME" != "/Users/$USER" ]]; then
+    report_fail "default-browser is incompatible with relocated home directories: HOME=$HOME, expected /Users/$USER"
+    report_end_phase_standard
+    return 1
+  fi
+  report_end_phase_standard
+  return 0
+}
+
 function require_mandatory_parameters() {
   # Validate that each named variable has a nonblank value.
   #
