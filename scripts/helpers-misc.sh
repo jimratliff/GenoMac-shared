@@ -67,10 +67,11 @@ function user_home_directory_is_on_startup_volume() {
   # Return 0 if user’s home directory is on startup volume; otherwise, return 1
   report_start_phase_standard
   if [[ "$HOME" != "/Users/$USER" ]]; then
-    report_fail "default-browser is incompatible with relocated home directories: HOME=$HOME, expected /Users/$USER"
+    report_to_log "Current user does NOT reside on startup volume."
     report_end_phase_standard
     return 1
   fi
+  report_to_log "Current user does reside on startup volume."
   report_end_phase_standard
   return 0
 }
