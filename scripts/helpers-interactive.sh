@@ -266,7 +266,8 @@ function launch_app_and_prompt_user_to_act() {
   #   launch_app_and_prompt_user_to_act --no-app "Please do the thing"
   #   launch_app_and_prompt_user_to_act --no-app --open ~/Library/PreferencePanes/Witch.prefPane "Configure Witch settings"
   #   launch_app_and_prompt_user_to_act --no-app --open /path/to/folder "Review the files in this folder"
-  
+
+  report_start_phase_standard
   local doc_to_show=""
   local path_to_open=""
   local no_app=false
@@ -364,4 +365,6 @@ EOF
   fi
   
   # quit_app_by_bundle_id_if_running "$bundle_id"
+
+  report_end_phase_standard
 }
