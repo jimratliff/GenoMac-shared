@@ -169,6 +169,21 @@ GENOMAC_STATE_USER_CONFIGURER_DEFAULT_ATTRIBUTES=(
 # Migration related
 MIGRATION_STATE_PREFIX="MIGRATION_ID_"
 
+############### 1Password SSH Agent related
+
+# macOS Unix-domain socket pathnames are stored in the sun_path field of
+# struct sockaddr_un. On macOS, sockaddr_un.sun_path is 104 bytes, including
+# the terminating NUL byte. Therefore, the fully expanded pathname of a
+# Unix-domain socket must fit within that 104-byte field.
+# 1Password creates its SSH-agent socket at:
+#   $HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock
+# Therefore the fully expanded socket pathname must be at most 103 bytes.
+# For ordinary ASCII paths, bytes and characters are the same.
+readonly -i MAX_LENGTH_1PASSWORD_SSH_AGENT_SOCKET_PATH=103
+POST_HOME_SUFFIX_1PASSWORD_SSH_AGENT_SOCKET_PATH="/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+MAX_LENGTH_HOME_PER_1PASSWORD_SSH_AGENT_SOCKET_PATH_LIMITATION=$(( MAX_LENGTH_1PASSWORD_SSH_AGENT_SOCKET_PATH - ${#POST_HOME_SUFFIX_1PASSWORD_SSH_AGENT_SOCKET_PATH} ))
+
+
 ############### Miscellaneous
 # Specify a variable that, when expanded, is a newline character
 # I can use $NEWLINE inside arguments to my `report()` series functions without changing how 
