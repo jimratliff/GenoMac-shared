@@ -1,5 +1,10 @@
 # Limitations on the lengths of a user’s shortname (and volume name if not the startup volume) arising from 1Password SSH Agent
 
+> [!TIP]
+> **Related**
+> - [The volume, user, and password architecture of Project GenoMac](https://github.com/jimratliff/GenoMac-shared/edit/main/docs/volume_user_password_architecture.md), GenoMac-shared/docs
+> - [Specifying users to spawn](https://github.com/jimratliff/GenoMac-system/edit/main/scripts/spawn/0_README.md), GenoMac-system/scripts/spawn/0_README.md
+
 There is a limitation (a) on the length of a user’s shortname and (b) on the length of the name of the volume on which the user’s home directory resides (if the user’s home directory is not on the startup volume). 
 
 This limitation arises from a very particular limitation that arises in order to configure the 1Password SSH Agent to authenticate with GitHub.[^DETAILS_OF_LIMITATION]
@@ -12,8 +17,8 @@ This limitation arises from a very particular limitation that arises in order to
 
 [^USER_ON_OTHER_VOLUME]: When the user’s home directory is on a different volume, the path to the user’s home directory is of the form `/Volumes/volume-name/Users/short-name`. Without taking into account the user’s volume name or shortname, there are 16 characters of overhead in `/Volumes//Users/`, leaving 24 characters to be allocated among the shortname and volume name and still comply with the 40-character limit for `$HOME`.
 
-Thus the user’s shortname is limited to 34 characters, which allows for the `/Users` and the 34-character shortname to come within the 40-character limit on `$HOME`.
+For example, when one or more users reside on a volume other than the startup volume, and the user with longest shortname has a shortname that is 9 characters long, the volume name must be no longer than 13 characters.
 
-Because (a) most users in Project GenoMac will want at least the option to configure this 1Password SSH Agent and (b) the associated restriction is not very onerous, the policy decision has been made that *all* Project GenoMac users must have shortnames and volume names that satisfy this constraint.[^WHY_ALL_USERS_AS_A_POLICY]
+Because (a) most users in Project GenoMac will want at least the option to configure the 1Password SSH Agent and (b) the associated restrictions on the lengths of these names is not very onerous, the policy decision has been made that *all* Project GenoMac users must have shortnames and volume names that satisfy this constraint.[^WHY_ALL_USERS_AS_A_POLICY]
 
-[^WHY_ALL_USERS_AS_A_POLICY]: It simplifies the coding and logic to have a uniform policy across *all* users. Since the restriction on lengths of these names isn’t very onerous, the cost of the policy on those few users who don’t want the option to configure the 1Password SSH Agent (imposed as a limitation about the lengths of their shortnames and volume name) is too small to warrant the development costs to permit these users to have longer names than the majority of other users.
+[^WHY_ALL_USERS_AS_A_POLICY]: It simplifies the coding and logic to have a uniform policy across *all* users. Since the restriction on lengths of these names isn’t very onerous, the cost of the policy on those few users who don’t want the option to configure the 1Password SSH Agent (experienced as a restriction in freedom on the lengths of their shortnames and volume name) is too small to warrant the development costs to permit these users to have longer names than the majority of other users.
