@@ -179,9 +179,16 @@ MIGRATION_STATE_PREFIX="MIGRATION_ID_"
 #   $HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock
 # Therefore the pathname of the Unix-domain socket itself must be at most 103 bytes.
 # For ordinary ASCII paths, bytes and characters are the same.
-readonly -i MAX_LENGTH_1P_SSH_AGENT_SOCKET_PATH=103
+# readonly -i MAX_LENGTH_1P_SSH_AGENT_SOCKET_PATH=103
+# POST_HOME_SUFFIX_1P_SSH_AGENT_SOCKET_PATH="/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+# readonly -i MAX_LENGTH_HOME_PER_1P_SSH_AGENT_SOCKET_PATH_LIMITATION=$(( MAX_LENGTH_1P_SSH_AGENT_SOCKET_PATH - ${#POST_HOME_SUFFIX_1P_SSH_AGENT_SOCKET_PATH} ))
+
+MAX_LENGTH_1P_SSH_AGENT_SOCKET_PATH=103
 POST_HOME_SUFFIX_1P_SSH_AGENT_SOCKET_PATH="/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-readonly -i MAX_LENGTH_HOME_PER_1P_SSH_AGENT_SOCKET_PATH_LIMITATION=$(( MAX_LENGTH_1P_SSH_AGENT_SOCKET_PATH - ${#POST_HOME_SUFFIX_1P_SSH_AGENT_SOCKET_PATH} ))
+local length_suffix
+length_suffix=${#POST_HOME_SUFFIX_1P_SSH_AGENT_SOCKET_PATH}
+MAX_LENGTH_HOME_PER_1P_SSH_AGENT_SOCKET_PATH_LIMITATION=$(( MAX_LENGTH_1P_SSH_AGENT_SOCKET_PATH - length_suffix ))
+report_warning "MAX_LENGTH_HOME_PER_1P_SSH_AGENT_SOCKET_PATH_LIMITATION: $MAX_LENGTH_HOME_PER_1P_SSH_AGENT_SOCKET_PATH_LIMITATION"
 
 ############### Miscellaneous
 # Specify a variable that, when expanded, is a newline character
