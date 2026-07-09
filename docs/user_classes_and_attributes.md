@@ -4,6 +4,7 @@
 > **Related**
 > - [The volume, user, and password architecture of Project GenoMac](https://github.com/jimratliff/GenoMac-shared/edit/main/docs/volume_user_password_architecture.md), GenoMac-shared/docs
 > - [Specifying users to spawn](https://github.com/jimratliff/GenoMac-system/edit/main/scripts/spawn/0_README.md), GenoMac-system/scripts/spawn
+> - [Limitations on the lengths of a user’s shortname (and volume name if not the startup volume) arising from 1Password SSH Agent](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/limitations_lengths_of_user_and_volume_names.md)
 
 ## Table of contents
 - [The user attribute in general](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/user_classes_and_attributes.md#the-user-attribute-in-general)
