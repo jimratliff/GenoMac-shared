@@ -1,6 +1,6 @@
 # Limitations on the lengths of a user’s shortname (and volume name if not the startup volume) arising from 1Password SSH Agent
 
-There is a limitation (a) on the length of a user’s shortname and (b) if the user’s home directory is not on the startup volume, on the length of the name of the volume on which the user’s home directory resides. 
+There is a limitation (a) on the length of a user’s shortname and (b) on the length of the name of the volume on which the user’s home directory resides (if the user’s home directory is not on the startup volume). 
 
 This limitation arises from a very particular limitations that arises in order to configure the 1Password SSH Agent to authenticate with GitHub.
 
