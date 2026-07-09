@@ -179,9 +179,15 @@ MIGRATION_STATE_PREFIX="MIGRATION_ID_"
 #   $HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock
 # Therefore the pathname of the Unix-domain socket itself must be at most 103 bytes.
 # For ordinary ASCII paths, bytes and characters are the same.
-# readonly -i MAX_LENGTH_1P_SSH_AGENT_SOCKET_PATH=103
-# POST_HOME_SUFFIX_1P_SSH_AGENT_SOCKET_PATH="/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-# readonly -i MAX_LENGTH_HOME_PER_1P_SSH_AGENT_SOCKET_PATH_LIMITATION=$(( MAX_LENGTH_1P_SSH_AGENT_SOCKET_PATH - ${#POST_HOME_SUFFIX_1P_SSH_AGENT_SOCKET_PATH} ))
+#
+# The suffix is 63 characters long, leaving 40 characters for $HOME
+# For a user whose home directory is:
+# - on the startup volume, the home directory path is '/Users/username',
+#   leaving 34 characters for the username
+# - on a different volume, the home directory path is '/Volumes/volumename/Users/username',
+#   leaving 24 characters for the sum of the volume name and the user name
+# For example, when the user with the longest short name has a 9-character short name,
+# the volume name must be no longer than 13 characters.
 
 MAX_LENGTH_1P_SSH_AGENT_SOCKET_PATH=103
 POST_HOME_SUFFIX_1P_SSH_AGENT_SOCKET_PATH="/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
