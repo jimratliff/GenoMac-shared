@@ -181,7 +181,7 @@ MIGRATION_STATE_PREFIX="MIGRATION_ID_"
 # For ordinary ASCII paths, bytes and characters are the same.
 readonly -i MAX_LENGTH_1P_SSH_AGENT_SOCKET_PATH=103
 POST_HOME_SUFFIX_1P_SSH_AGENT_SOCKET_PATH="/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-MAX_LENGTH_HOME_PER_1P_SSH_AGENT_SOCKET_PATH_LIMITATION=$(( MAX_LENGTH_1P_SSH_AGENT_SOCKET_PATH - ${#POST_HOME_SUFFIX_1P_SSH_AGENT_SOCKET_PATH} ))
+readonly -i MAX_LENGTH_HOME_PER_1P_SSH_AGENT_SOCKET_PATH_LIMITATION=$(( MAX_LENGTH_1P_SSH_AGENT_SOCKET_PATH - ${#POST_HOME_SUFFIX_1P_SSH_AGENT_SOCKET_PATH} ))
 
 ############### Miscellaneous
 # Specify a variable that, when expanded, is a newline character
