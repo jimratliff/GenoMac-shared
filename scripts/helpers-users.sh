@@ -35,3 +35,22 @@ function user_home_directory_is_on_startup_volume() {
   report_end_phase_standard
   return 0
 }
+
+function is_HOME_too_long_for_1P_SSH_Agent_socket() {
+  # Returns 0 if $HOME is so long that the resulting path to 1Password’s SSH Agent
+  # socket will exceed MAX_LENGTH_1P_SSH_AGENT_SOCKET_PATH.
+  # Returns 1 otherwise.
+  report_start_phase_standard
+  if (( ${#HOME} <= MAX_LENGTH_HOME_PER_1P_SSH_AGENT_SOCKET_PATH_LIMITATION )); then
+    report_end_phase_standard
+    return 1
+  fi
+
+  local warning_message
+  warning_message="Choice of volume and user results in \$HOME being longer than $MAX_LENGTH_HOME_PER_1P_SSH_AGENT_SOCKET_PATH_LIMITATION characters."
+  warning_message+="${NEWLINE}\$HOME: $HOME"
+  warning_message+="Length of \$HOME: ${#HOME}"
+  report_warning "$warning_message"
+  report_end_phase_standard
+  return 0
+}
