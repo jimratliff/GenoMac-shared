@@ -230,7 +230,7 @@ function hypervisor_force_logout() {
   #
   # --final is intended to be used when this function is called at the end of a Hypervisor
   # session, in which case you don’t want to instruct the user to re-run the Hypervisor.
-  
+  report_start_phase_standard
   local final=false
 
   while (( $# )); do
@@ -257,7 +257,38 @@ function hypervisor_force_logout() {
   echo ""
 
   dump_accumulated_warnings_failures
+  report_end_phase_standard
   force_user_logout
+}
+
+function _hypervisor_force_logout_if_dirty() {
+  # If the session is “dirty,” tell Hypervisor to force a logout.
+  report_start_phase_standard
+  
+  local scope="${1:?MISSING scope}"
+  
+  if ! _test_start "$SESH_DIRTY_NEEDS_LOGOUT" "$scope"; then
+    report_to_log "Skipping forced logout because session isn’t dirty."
+    return 0
+  fi
+
+  # Anticipatorily mark the session as clearn
+  _delete_state "$SESH_DIRTY_NEEDS_LOGOUT" "$scope
+  report_to_log "Session is dirty. Forcing logout to clean things up 🧹."
+  hypervisor_force_logout
+  
+  report_end_phase_standard
+}
+
+function _mark_session_dirty() {
+  # Mark session as “dirty” in system or user state scope as specified.
+  report_start_phase_standard
+  
+  local scope="${1:?MISSING scope}"
+  
+  _set_state "$SESH_DIRTY_NEEDS_LOGOUT" "$scope
+  
+  report_end_phase_standard
 }
 
 ############################## Scope-specific wrappers
@@ -358,6 +389,25 @@ function run_func_and_args_if_user_state() {
   _run_based_on_state 'user' "$@"
 }
 
+function hypervisor_user_force_logout_if_dirty() {
+  # If the session is “dirty,” tell Hypervisor-User to force a logout.
+  report_start_phase_standard
+  
+  _hypervisor_force_logout_if_dirty "user"
+  
+  report_end_phase_standard
+}
+
+function mark_user_session_dirty() {
+  # Mark user sesion “dirty”
+  report_start_phase_standard
+  
+  _mark_session_dirty "user"
+  
+  report_end_phase_standard
+}
+
+
 ############### Scope: system
 
 function run_if_system_has_not_done() {
@@ -411,6 +461,25 @@ function run_if_system_state() {
 
   report_end_phase "Leaving run_if_system_state $*"
 }
+
+function hypervisor_system_force_logout_if_dirty() {
+  # If the session is “dirty,” tell Hypervisor-System to force a logout.
+  report_start_phase_standard
+  
+  _hypervisor_force_logout_if_dirty "system"
+  
+  report_end_phase_standard
+}
+
+function mark_system_session_dirty() {
+  # Mark system sesion “dirty”
+  report_start_phase_standard
+  
+  _mark_session_dirty "system"
+  
+  report_end_phase_standard
+}
+
 
 
 
