@@ -104,6 +104,9 @@ GENOMAC_STATE_PERSISTENCE_SESSION="SESH"
 # run at the start of a session and a subsequent run after an encouraged logout.
 SESH_SESSION_HAS_STARTED="SESH_Session_has_started"
 
+# State to record that an action has been taken that requires a forced logout soon
+SESH_DIRTY_NEEDS_LOGOUT="SESH_dirty_needs_logout"
+
 GENOMAC_SCOPE_SYSTEM="system"
 GENOMAC_SCOPE_USER="user"
 
