@@ -61,7 +61,6 @@ HOMEBREW_PREFIX="$(get_homebrew_prefix)"
 USER_LOCAL_REPOSITORY_DIRECTORY="$HOME/Repositories"
 GENOMAC_DEVELOPMENT_DIRECTORY="${USER_LOCAL_REPOSITORY_DIRECTORY}/Project_GenoMac"
 
-
 # Local directory for custom alert sound
 # (These environment variables are located in GenoMac-shared because (a) GenoMac-system *installs*
 # the custom alert sound but (b) it is GenoMac-user that *consumes* the alert sound, so both the
@@ -87,6 +86,9 @@ GENOMAC_USER_SHARED_PREFERENCES_DIRECTORY="${LOCAL_DROPBOX_DIRECTORY}/Preference
 # GENOMAC_NAMESPACE is used whenever a script needs to create a file or folder
 # in an area available to others
 GENOMAC_NAMESPACE="com.virtualperfection.genomac"
+
+# User name of USER_VANILLA
+SHORT_NAME_OF_USER_VANILLA="vanilla"
 
 ############### Hypervisor related
 HYPERVISOR_MAKE_COMMAND_STRING="just run-hypervisor"
