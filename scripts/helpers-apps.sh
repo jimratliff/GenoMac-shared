@@ -10,8 +10,20 @@
 #   helpers-misc.sh (for show_file_using_quicklook().)
 #   helpers-reporting.sh
 
+function launch_app_by_bundle_id_in_background_hidden() {
+  # Launches app in background (hidden, if possible).
+  
+  report_start_phase_standard
+  local bundle_id="${1:?MISSING bundle id}"
+  
+  report_action_taken_to_log "Launching app $bundle_id (in the background, if possible)"
+  open -gj -b "$bundle_id" 2>/dev/null || open -g -b "$bundle_id" ; success_or_not
+  
+  report_end_phase_standard
+}
+
 function launch_and_quit_app() {
-  # Launches (in background if possible) and then quits an app identified by its bundle ID
+  # Launches in background (hidden if possible) and then quits an app identified by its bundle ID
   # Required in some cases, e.g., iTerm2, where a sufficiently populated plist isn’t available to modify
   #   until the app has been launched once. (I.e., it is not enough simply to have created an empty
   #   plist file, as can be done with the function ensure_plist_exists().
@@ -22,8 +34,9 @@ function launch_and_quit_app() {
   
   local bundle_id="$1"
   report_action_taken "Launch and quit app $bundle_id"
-  report_action_taken "Launching app $bundle_id (in the background, if possible)"
-  open -gj -b "$bundle_id" 2>/dev/null || open -g -b "$bundle_id" ; success_or_not
+  report_action_taken_to_log "Launching app $bundle_id (in the background, if possible)"
+  launch_app_by_bundle_id_in_background_hidden "$bundle_id"
+  # open -gj -b "$bundle_id" 2>/dev/null || open -g -b "$bundle_id" ; success_or_not
   sleep 2
   
   # report_action_taken "Quitting app $bundle_id"
