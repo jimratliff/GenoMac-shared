@@ -257,6 +257,7 @@ BUNDLE_ID_SYSTEM_SETTINGS="com.apple.systempreferences"
 BUNDLE_ID_TERMINAL="com.apple.Terminal"
 BUNDLE_ID_TEXTEDIT="com.apple.TextEdit"
 BUNDLE_ID_TEXTEXPANDER="com.smileonmymac.textexpander"
+BUNDLE_ID_TOWER="com.fournova.Tower3"
 BUNDLE_ID_TV="com.apple.TV"
 BUNDLE_ID_WATERFOX="net.waterfox.waterfox"
 
