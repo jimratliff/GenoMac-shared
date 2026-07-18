@@ -3,7 +3,26 @@
 ############### Helpers: 1Password
 
 # Relies upon:
+#   helpers-apps.sh
 #   helpers-reporting.sh
+
+function sign_into_1password() {
+  # Sign into 1Password. If fails, launch 1Password then retry.
+  report_start_phase_standard
+
+  report_action_taken_to_log "Signing in to 1Password"
+  if op signin; then
+    report_end_phase_standard
+    return 0
+  fi
+
+  report_action_taken_to_log "Initial sign-in failed; launching 1Password and retrying"
+  launch_app_by_bundle_id_in_background_hidden "$BUNDLE_ID_1PASSWORD"
+  sleep 1
+  op signin
+  
+  report_end_phase_standard
+}
 
 function read_1password_item_token() {
   # Read the standard password field from a 1Password item.
