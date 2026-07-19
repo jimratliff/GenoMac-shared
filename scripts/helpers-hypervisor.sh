@@ -286,7 +286,7 @@ function _mark_session_dirty() {
   
   local scope="${1:?MISSING scope}"
   
-  _set_state "$SESH_DIRTY_NEEDS_LOGOUT" "$scope
+  _set_state "$SESH_DIRTY_NEEDS_LOGOUT" "$scope"
   
   report_end_phase_standard
 }
