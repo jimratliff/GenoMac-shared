@@ -267,13 +267,13 @@ function _hypervisor_force_logout_if_dirty() {
   
   local scope="${1:?MISSING scope}"
   
-  if ! _test_start "$SESH_DIRTY_NEEDS_LOGOUT" "$scope"; then
+  if ! _test_state "$SESH_DIRTY_NEEDS_LOGOUT" "$scope"; then
     report_to_log "Skipping forced logout because session isn’t dirty."
     return 0
   fi
 
-  # Anticipatorily mark the session as clearn
-  _delete_state "$SESH_DIRTY_NEEDS_LOGOUT" "$scope
+  # Anticipatorily mark the session as clean
+  _delete_state "$SESH_DIRTY_NEEDS_LOGOUT" "$scope"
   report_to_log "Session is dirty. Forcing logout to clean things up 🧹."
   hypervisor_force_logout
   
