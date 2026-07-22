@@ -3,10 +3,9 @@
 ############### Helpers: Logging
 
 function open_latest_log_file() {
-  # Opens the most-recent GenoMac log file using the macOS default app.
-  # Assumes the log files are in the directory $GM_LOGS_DIRECTORY and
-  # that they are time stamped such that log filenames sort alphabetically
-  # in chronological order.
+  # Opens the most-recent GenoMac log file that predates this invocation.
+  # Assumes the log files are in $GM_LOGS_DIRECTORY and are timestamped
+  # such that their filenames sort chronologically.
 
   report_start_phase_standard
 
@@ -20,13 +19,15 @@ function open_latest_log_file() {
 
   log_files=("$GM_LOGS_DIRECTORY"/*(.N))
 
-  if (( ! ${#log_files[@]} )); then
-    report_fail "No log files found in “$GM_LOGS_DIRECTORY”."
+  # One file is the log created by this utility invocation. Therefore,
+  # at least two files are required for a previous log to exist.
+  if (( ${#log_files[@]} < 2 )); then
+    report_fail "No previous log file found in “$GM_LOGS_DIRECTORY”."
     report_end_phase_standard
-    return 0
+    return 1
   fi
 
-  open "${log_files[-1]}"
+  open "${log_files[-2]}"
 
   report_end_phase_standard
 }
