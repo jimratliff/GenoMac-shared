@@ -229,6 +229,52 @@ function interactive_ensure_terminal_has_fda() {
   report_end_phase_standard
 }
 
+function interactive_ensure_terminal_has_accessibility() {
+  # Ensure the terminal application responsible for this shell can use
+  # System Events to emit keyboard events.
+
+  report_start_phase_standard
+
+  if terminal_can_emit_keystrokes; then
+    report_to_log \
+      "This terminal application already has Accessibility permission. No additional action required."
+    report_end_phase_standard
+    return 0
+  fi
+
+  report_to_log \
+    "The currently running terminal application needs, but doesn’t have, Accessibility permission."
+
+  if [[ ! -t 0 ]]; then
+    report_fail \
+      "Terminal lacks Accessibility permission and there is no interactive session in which to fix it."
+    report_end_phase_standard
+    return 1
+  fi
+
+  report_action_taken \
+    "I will open (a) the Accessibility panel in System Settings and (b) a Quick Look window with instructions."
+
+  launch_app_and_prompt_user_to_act \
+    --no-app \
+    --open "$SYSTEM_SETTINGS_PRIVACY_SECURITY_PANEL_URL_ACCESSIBILITY" \
+    --show-doc "${GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY}/accessibility_how_to_configure.md" \
+    "Follow the instructions in the Quick Look window to grant the current terminal app Accessibility permission"
+
+  # Do not depend solely on the user's confirmation. Verify the permission again.
+  if terminal_can_emit_keystrokes; then
+    report_success \
+      "Confirmed that the terminal application can now emit keystrokes."
+    report_end_phase_standard
+    return 0
+  fi
+
+  report_warning \
+    "The terminal application still cannot emit keystrokes. Accessibility permission may not have been enabled yet."
+  report_end_phase_standard
+  return 1
+}
+
 function set_env_var_if_not_set() {
   # TODO: This is likely DEPRECATED because it is no longer used.
   #
@@ -250,4 +296,13 @@ function set_env_var_if_not_set() {
   if [[ -z "${!var_name:-}" ]]; then
     export "$var_name"="$default_value"
   fi
+}
+
+function terminal_can_emit_keystrokes() {
+  # Tests whether the current terminal app can emit keystrokes as a test for whether additional macOS Accessibility permissions are necessary.
+  /usr/bin/osascript >/dev/null 2>&1 <<'APPLESCRIPT'
+tell application "System Events"
+  key code 56 -- Shift
+end tell
+APPLESCRIPT
 }
