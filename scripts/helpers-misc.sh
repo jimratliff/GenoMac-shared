@@ -269,7 +269,7 @@ function interactive_ensure_terminal_has_accessibility() {
     return 0
   fi
 
-  report_warning \
+  report_fail \
     "The terminal application still cannot emit keystrokes. Accessibility permission may not have been enabled yet."
   report_end_phase_standard
   return 1
