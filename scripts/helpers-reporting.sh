@@ -425,7 +425,7 @@ function _report() {
   local is_no_terminal=false
   local do_print_to_terminal=false
   local do_skip_report_log=false
-  local is_verbose_only=false
+  local does_want_verbose_genomac_output_only=false
   local message
   local trailing_format="${COLOR_RESET}"
 
@@ -459,7 +459,7 @@ function _report() {
         ;;
 
       --verbose-only)
-        is_verbose_only=true
+        does_want_verbose_genomac_output_only=true
         ;;
 
       --)
@@ -497,7 +497,7 @@ function _report() {
   fi
 
   if [[ "$is_no_terminal" != true ]]; then
-    if [[ "$is_verbose_only" != true ]] || is_VERBOSE; then
+    if [[ "$does_want_verbose_genomac_output_only" != true ]] || does_want_verbose_genomac_output; then
       do_print_to_terminal=true
     fi
   fi
@@ -572,17 +572,31 @@ function _append_message_to_report_log() {
   fi
 }
 
-function is_VERBOSE() {
+function does_want_verbose_genomac_output() {
   # Returns 0 if in VERBOSE mode; returns 1 otherwise.
   #
   # Usage:
-  #   if is_VERBOSE; then
+  #   if does_want_verbose_genomac_output; then
   #     echo "VERBOSE"
   #   else
   #     echo "quiet"
   #   fi
   
   [[ "$GENOMAC_VERBOSE" == "true" ]]
+}
+
+function turn_on_verbose_genomac_output() {
+  # Sets verbose output to ON
+  report_start_phase_standard
+  GENOMAC_VERBOSE=1
+  report_end_phase_standard
+}
+
+function turn_off_verbose_genomac_output() {
+  # Sets verbose output to ON
+  report_start_phase_standard
+  unset GENOMAC_VERBOSE
+  report_end_phase_standard
 }
 
 
