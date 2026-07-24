@@ -193,7 +193,7 @@ function _run_if_not_already_done() {
   #     stow_dotfiles \
   #     "Skipping stowing dotfiles, because you've already stowed them during this session."
 
-  report_start_phase_standard "Entering _run_if_not_already_done $*"
+  report_start_phase "Entering _run_if_not_already_done $*"
 
   _run_based_on_state --negate-state "$@"
 
