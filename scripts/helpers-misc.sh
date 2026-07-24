@@ -168,6 +168,17 @@ function this_mac_is_a_laptop() {
   return "$status"
 }
 
+function ask_and_set_verbosity_preference() {
+  # Asks user whether verbose output is desired and sets the environment variable accordingly.
+  report_start_phase_standard
+  if get_yes_no_answer_to_question "Do you want verbose output from the Hypervisor?"; then
+    turn_on_verbose_genomac_output
+  else
+    turn_off_verbose_genomac_output
+  fi
+  report_end_phase_standard
+}
+
 function interactive_ensure_terminal_has_fda() {
   # Run at the beginning of a terminal session to try to ensure that the currently running terminal
   # app has Full Disk Access (FDA) permission.
