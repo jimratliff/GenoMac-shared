@@ -258,7 +258,7 @@ function interactive_ensure_terminal_has_accessibility() {
   launch_app_and_prompt_user_to_act \
     --no-app \
     --open "$SYSTEM_SETTINGS_PRIVACY_SECURITY_PANEL_URL_ACCESSIBILITY" \
-    --show-doc "${GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY}/accessibility_how_to_configure.md" \
+    --show-doc "${GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY}/accessibility_permissions_how_to_configure.md" \
     "Follow the instructions in the Quick Look window to grant the current terminal app Accessibility permission"
 
   # Do not depend solely on the user's confirmation. Verify the permission again.
