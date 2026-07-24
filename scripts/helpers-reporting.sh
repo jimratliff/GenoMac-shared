@@ -582,20 +582,20 @@ function does_want_verbose_genomac_output() {
   #     echo "quiet"
   #   fi
   
-  [[ "$GENOMAC_VERBOSE" == "true" ]]
+  [[ -n ${_GENOMAC_VERBOSE:-} ]]
 }
 
 function turn_on_verbose_genomac_output() {
   # Sets verbose output to ON
   report_start_phase_standard
-  GENOMAC_VERBOSE=1
+  _GENOMAC_VERBOSE=1
   report_end_phase_standard
 }
 
 function turn_off_verbose_genomac_output() {
-  # Sets verbose output to ON
+  # Sets verbose output to OFF
   report_start_phase_standard
-  unset GENOMAC_VERBOSE
+  unset _GENOMAC_VERBOSE
   report_end_phase_standard
 }
 
