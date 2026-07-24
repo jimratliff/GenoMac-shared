@@ -5,7 +5,7 @@ A script has tested whether the currently running terminal app has the Accessibi
 The terminal app failed that test, meaning that the terminal app does *not* have Accessibility permissions.
 
 It is important that the terminal app have Accessibility permissions. This is your opportunity to make that happen. (Apple doesn’t 
-allow GenoMac-system to do this automatically. You need to take a step *manually*.)
+allow Project GenoMac to do this automatically. You need to take a step *manually*.)
 
 ## Look for an opened Settings panel: Privacy & Security » Accessibility
 - ❑ Find the already opened Settings panel: Privacy & Security » Accessibility. 
