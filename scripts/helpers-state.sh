@@ -217,7 +217,7 @@ function _set_state() {
   state_file="$(_state_file_path "$state_string" "$scope")"
   $(_sudo_or_not_sudo_prefix "$scope") mkdir -p "${state_file:h}"  # zsh: :h gives the "head" (directory portion)
   report_action_taken_to_log "Setting ${scope} state: “${state_string}”"
-  $(_sudo_or_not_sudo_prefix "$scope") touch "$state_file" ; success_or_not
+  $(_sudo_or_not_sudo_prefix "$scope") touch "$state_file"
 }
 
 function _delete_state() {
