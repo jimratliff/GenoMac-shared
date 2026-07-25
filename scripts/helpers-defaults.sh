@@ -39,14 +39,14 @@ function ensure_plist_path_exists() {
   #   ensure_plist_path_exists "${plist_path}"
   
   local plist_path="$1"
-  report_action_taken "Ensure that plist exists at: ${plist_path}"
+  report_action_taken_to_log "Ensure that plist exists at: ${plist_path}"
   if [[ ! -f "$plist_path" ]]; then
-    report_action_taken "plist doesn’t exist; creating…"
+    report_action_taken_to_log "plist doesn’t exist; creating…"
 
     # Ensure the directory structure exists
     local plist_dir=$(dirname "$plist_path")
     if [[ ! -d "$plist_dir" ]]; then
-      report_action_taken "Creating directory structure: ${plist_dir}"
+      report_action_taken_to_log "Creating directory structure: ${plist_dir}"
       mkdir -p "$plist_dir"
     fi
     
@@ -58,10 +58,10 @@ function ensure_plist_path_exists() {
       report_fail "${plist_path} still doesn’t exist; FAIL"
       return 1
     else
-      report_success "${plist_path} now exists."
+      report_action_taken_to_log "${plist_path} now exists."
     fi
   else
-    report_success "${plist_path} already exists."
+    report_action_taken_to_log "${plist_path} already exists."
   fi
 }
 
