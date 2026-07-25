@@ -84,8 +84,11 @@ function print_banner_text() {
 
 function success_or_not() {
   # Print SYMBOL_SUCCESS if success (based on error code); otherwise SYMBOL_FAILURE
+  #
+  # 7/25/2026: Experimenting with essentially deprecating this, because it’s
+  # not informative (crashes reveal themselves) and cluttering.
   if [[ $? -eq 0 ]]; then
-    printf " ${SYMBOL_SUCCESS}\n" >&2
+    # printf " ${SYMBOL_SUCCESS}\n" >&2
   else
     # printf "\n${SYMBOL_FAILURE}\n" >&2
     success_or_not_NOT
