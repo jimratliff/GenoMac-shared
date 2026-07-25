@@ -30,16 +30,18 @@ function keep_sudo_alive() {
   SUDO_KEEPALIVE_PID=$!
 }
 
-safe_source() {
+function safe_source() {
   # Sources supplied file.
   # Usage:
   #  safe_source "${GMU_PREFS_SCRIPTS}/set_safari_settings.sh"
-  report_start_phase_standard
+  
+  # report_start_phase_standard
   local file="$1"
   report_to_log "Sourcing ${file}"
   source "$file"
   report_to_log "${SYMBOL_SUCCESS} Sourced ${file}"
-  report_end_phase_standard
+  
+  # report_end_phase_standard
 }
 
 function require_mandatory_parameters() {
