@@ -39,7 +39,7 @@ function launch_and_quit_app() {
   # open -gj -b "$bundle_id" 2>/dev/null || open -g -b "$bundle_id" ; success_or_not
   sleep 2
   
-  # report_action_taken "Quitting app $bundle_id"
+  # report_action_taken_to_log "Quitting app $bundle_id"
   # osascript -e "tell application id \"$bundle_id\" to quit" ; success_or_not
 
   quit_app_by_bundle_id_if_running "$bundle_id"
@@ -67,7 +67,7 @@ function quit_app_by_bundle_id_if_running() {
   # If osascript errors (e.g., unknown bundle ID), grep sees nothing and this
   # condition is just false -> we treat that as "not running".
   if ! osascript -e "application id \"$bundle_id\" is running" 2>/dev/null | grep -qi true; then
-    report_success "Application ${bundle_id} is not running. Nothing to do."
+    report_to_log "Application ${bundle_id} is not running. Nothing to do."
     report_end_phase_standard
     return 0
   fi
