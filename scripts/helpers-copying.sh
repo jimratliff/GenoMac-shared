@@ -100,7 +100,7 @@ function copy_resource_between_local_directories() {
     tmp_dir=$(mktemp -d)
     trap 'rm -rf "$tmp_dir"' EXIT
 
-    report_action_taken "Unzip ${source_path} to temp directory"
+    report_action_taken_to_log "Unzip ${source_path} to temp directory"
     unzip -q "$source_path" -d "$tmp_dir" -x '__MACOSX/*' ; success_or_not
 
     # Locate the single top-level directory inside the zip
@@ -136,7 +136,7 @@ function copy_resource_between_local_directories() {
     mode="644"         # Files: owner read/write, others read-only
     cp_flags="-f"      # Force copy for files
     chown_flags=""
-    report "Source is a regular file, not a directory/package."
+    report_to_log "Source is a regular file, not a directory/package."
   fi
   
   # Set sudo prefix and owner based on deployment type
@@ -151,54 +151,54 @@ function copy_resource_between_local_directories() {
   fi
   
   # Create parent directory
-  report_action_taken "Ensure destination folder exists: $parent_dir"
+  report_action_taken_to_log "Ensure destination folder exists: $parent_dir"
   $sudo_prefix mkdir -p "$parent_dir" ; success_or_not
   
   # Determine whether we need to copy
   local dest_resource_name
   dest_resource_name=$(basename "$destination_path")
-  report_action_taken "Copy ${dest_resource_name} to ${parent_dir} (idempotent)"
+  report_action_taken_to_log "Copy ${dest_resource_name} to ${parent_dir} (idempotent)"
   
   local needs_copy=false
   if [[ "$is_directory" == true ]]; then
     # For directories, use rsync dry-run to check if content differs
     if [[ -n $(rsync -n --no-perms --no-times --out-format="%n" "$source_path/" "$destination_path/") ]]; then
       needs_copy=true
-      report "Directory contents differ, will update"
+      report_to_log "Directory contents differ, will update"
     else
-      report "Directory contents are the same, will not update"
+      report_to_log "Directory contents are the same, will not update"
     fi
   else
     # For files, use cmp
     if [[ ! -e "$destination_path" ]]; then
       needs_copy=true
-      report "Resource doesn't exist at destination, will copy"
+      report_to_log "Resource doesn't exist at destination, will copy"
     elif ! cmp -s "$source_path" "$destination_path" 2>/dev/null; then
       needs_copy=true
-      report "File contents differ, will update"
+      report_to_log "File contents differ, will update"
     fi
   fi
   
   if [[ "$needs_copy" == true ]]; then
     # Remove existing destination if it exists and we're updating
     if [[ -e "$destination_path" ]]; then
-      report_action_taken "Remove existing resource before copying"
+      report_action_taken_to_log "Remove existing resource before copying"
       $sudo_prefix rm -rf "$destination_path" ; success_or_not
     fi
     
     # Copy the resource
     $sudo_prefix cp $cp_flags "$source_path" "$destination_path"
-    report_success "Installed or updated ${dest_resource_name}"
+    report_to_log "Installed or updated ${dest_resource_name}"
   else
-    report_success "${dest_resource_name} already up to date"
+    report_to_log "${dest_resource_name} already up to date"
   fi
   
   # Set ownership
-  report_action_taken "Set ownership to ${owner} on ${destination_path}"
+  report_action_taken_to_log "Set ownership to ${owner} on ${destination_path}"
   $sudo_prefix chown $chown_flags "${owner}" "$destination_path" ; success_or_not
   
   # Set permissions (644 for files, 755 for directories)
-  report_action_taken "Set permissions to ${mode} on ${destination_path}"
+  report_action_taken_to_log "Set permissions to ${mode} on ${destination_path}"
   $sudo_prefix chmod "$mode" "$destination_path" ; success_or_not
   
   # For directories, ensure all subdirectories have proper execute permissions
