@@ -114,7 +114,7 @@ function copy_resource_between_local_directories() {
       report_end_phase_standard
       return 1
     fi
-    report "Extracted source directory: $(basename "$source_path")"
+    report_to_log "Extracted source directory: $(basename "$source_path")"
   fi
   
   # Determine if source is a file or directory and set appropriate flags/permissions
