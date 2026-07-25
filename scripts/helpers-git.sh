@@ -271,23 +271,23 @@ function refresh_repo_from_remote_and_reexecute_hypervisor_if_updated() {
   local local_repo_directory="${5:?missing local_repo_directory}"
 
   if ! "$test_state_function_name" "$state_string"; then
-    report_action_taken "Testing remote copy of ${repo_name} for changes"
+    report_action_taken_to_log "Testing remote copy of ${repo_name} for changes"
 
     if local_clone_was_updated_from_remote "$local_repo_directory"; then
       # The local clone was found to be behind the remote; local clone was updated,
       # so re-execute the current script using the updated repo code.
       "$set_state_function_name" "$state_string"
 
-      report_action_taken "Re-execute Hypervisor using updated repo code"
+      report_action_taken_to_log "Re-execute Hypervisor using updated repo code"
       report_end_phase_standard
 
       exec "$0"
     else
       "$set_state_function_name" "$state_string"
-      report "Local clone of ${repo_name} was up to date"
+      report_to_log "Local clone of ${repo_name} was up to date"
     fi
   else
-    report_action_taken "Skipping test for changes to repo, because this has already been tested this session."
+    report_action_taken_to_log "Skipping test for changes to repo, because this has already been tested this session."
   fi
 
   report_end_phase_standard
@@ -315,14 +315,14 @@ function local_clone_was_updated_from_remote() {
   report "Remote hash: ${remote_commit_hash}"
   echo "Branch: $(git -C "${local_dir}" rev-parse --abbrev-ref HEAD)"
 
-  report_action_taken "Testing remote of clone at ${local_dir} for changes"
+  report_action_taken_to_log "Testing remote of clone at ${local_dir} for changes"
   if [[ "$local_commit_hash" != "$remote_commit_hash" ]]; then
-    report_action_taken "Update available. Pulling update."
+    report_action_taken_to_log "Update available. Pulling update."
     git -C "${local_dir}" pull origin main --recurse-submodules
     report_end_phase_standard
     return 0
   else
-    report "The local clone was up to date"
+    report_to_log "The local clone was up to date"
     report_end_phase_standard
     return 1
   fi
@@ -362,17 +362,17 @@ function configure_split_remote_URLs_for_public_GitHub_repo_if_cloned() {
   local local_repo_dir="$1"
   local github_repo_name="$2"
 
-  report_action_taken "Configure split remote for local clone of ${github_repo_name} to fetch with HTTPS but push with SSH, if local clone exists at ${local_repo_dir}."
+  report_action_taken_to_log "Configure split remote for local clone of ${github_repo_name} to fetch with HTTPS but push with SSH, if local clone exists at ${local_repo_dir}."
 
   if [[ -d "${local_repo_dir}/.git" ]]; then
-    report_adjust_setting "Configure ${github_repo_name} to fetch via HTTPS"
+    report_to_log "Configure ${github_repo_name} to fetch via HTTPS"
     git -C "$local_repo_dir" remote set-url origin "${GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT}/${github_repo_name}.git" ; success_or_not
-    report_adjust_setting "Configure ${github_repo_name} to push via SSH"
+    report_to_log "Configure ${github_repo_name} to push via SSH"
     git -C "$local_repo_dir" remote set-url --push origin "${GENOMAC_COMMON_GITHUB_SCP_URL_ROOT}/${github_repo_name}.git" ; success_or_not
-    report_adjust_setting "Use merge rather than rebase. This is more compatible with having a submodule."
+    report_to_log "Use merge rather than rebase. This is more compatible with having a submodule."
     git -C "$local_repo_dir" config pull.rebase false ; success_or_not
   else
-    report_action_taken "Skipping split-remote configuration of ${github_repo_name}: not cloned at ${local_repo_dir}"
+    report_action_taken_to_log "Skipping split-remote configuration of ${github_repo_name}: not cloned at ${local_repo_dir}"
   fi
   
   report_end_phase_standard
