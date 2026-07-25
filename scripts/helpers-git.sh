@@ -231,12 +231,12 @@ function initialize_genomac_shared_submodule_if_present() {
   fi
 
   if [[ ! -f "$local_repo_dir/.gitmodules" ]]; then
-    report_action_taken "Skipping submodule initialization: no .gitmodules file in ${local_repo_dir}"
+    report_action_taken_to_log "Skipping submodule initialization: no .gitmodules file in ${local_repo_dir}"
     report_end_phase_standard
     return 0
   fi
 
-  report_action_taken "Initialize/update submodules in ${local_repo_dir}"
+  report_action_taken_to_log "Initialize/update submodules in ${local_repo_dir}"
   git -C "$local_repo_dir" submodule update --init --recursive ; success_or_not
 
   report_end_phase_standard
