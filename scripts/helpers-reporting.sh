@@ -190,7 +190,7 @@ function report_about_to_kill_app() {
 
   _report \
     --leading-format "$COLOR_KILLED" \
-    --message "${SYMBOL_KILLED} ${message}"
+    --message "${SYMBOL_KILLED} About to kill app: ${message}"
 }
 
 function report_to_log() {
