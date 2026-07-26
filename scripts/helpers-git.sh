@@ -262,6 +262,11 @@ function refresh_repo_from_remote_and_reexecute_hypervisor_if_updated() {
   #     "$GENOMAC_USER_REPO_NAME" \
   #     "$GENOMAC_USER_LOCAL_DIRECTORY"
 
+  ############### DEBUG: REMOVE
+  print -ru2 -- "argc: $#"
+  print -ru2 -- "${(qq)argv}"
+  echo "Argument count: $# "
+
   report_start_phase_standard
 
   local test_state_function_name="${1:?missing test_state_function_name}"
