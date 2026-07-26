@@ -279,7 +279,8 @@ function get_attribute_name_from_user_attribute_state_string() {
 }
 
 function construct_state_string_for_user_and_touch_ID_choice() {
-  # Template for a Zsh function in Project GenoMac
+  # NOTE: This function is never called. There may be no use case for this,
+  #       because the supplied user attribute already encodes the choice.
   report_start_phase_standard
   local short_name="{1:?MISSING short_name}"
   local touch_id_choice="{2:?MISSING touch_id_choice}"
