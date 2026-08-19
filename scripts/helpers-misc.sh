@@ -12,21 +12,31 @@ function export_and_report() {
 }
 
 function keep_sudo_alive() {
+  # Keeps the current sudo authorization active in the background for the lifetime of this shell.
+  
   # Don't spawn another loop if one is already running
   if [[ -n "${SUDO_KEEPALIVE_PID:-}" ]] && kill -0 "$SUDO_KEEPALIVE_PID" 2>/dev/null; then
-    sudo -v  # just refresh, no new background process
-    return
+    if ! sudo -v; then
+      report_warning "Unable to refresh sudo authorization"
+    fi
+    return 0
   fi
 
-  report_action_taken "I very likely am about to ask you for your administrator password. I hope you trust me! 😉"
+  if ! sudo -v; then
+    report_warning "Unable to initialize sudo keepalive"
+    return 0
+  fi
 
-  sudo -v
+  local parent_pid=$$
 
-  while true; do
-    sudo -n true
+  while kill -0 "$parent_pid" 2>/dev/null; do
+    if ! sudo -n -v; then
+      report_warning "Warning: sudo keepalive lost its authorization"
+      exit 1  # exits only the background job
+    fi
     sleep 60
-    kill -0 "$$" || exit
   done 2>/dev/null &
+
   SUDO_KEEPALIVE_PID=$!
 }
 
