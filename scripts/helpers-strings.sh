@@ -17,7 +17,7 @@ function nonempty_content_between_delimiters(){
   #
   # Returns:
   #   0 if both delimiters are found in the expected order and the
-  #     inbetween content is nonempty.
+  #     in-between content is nonempty.
   #   1 otherwise
 
   local string_to_parse="${1:?missing/empty string_to_parse}"
