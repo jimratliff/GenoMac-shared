@@ -28,7 +28,7 @@ function source_with_report() {
   # but will do for the initial sourcing of helpers.
   local file="$1"
   if source "$file"; then
-    echo "Sourced: $file"
+    echo "Sourced: $file" >> "$GM_LOG_FILE"
   else
     echo "Failed to source: $file"
     return 1
