@@ -241,7 +241,10 @@ function launch_app_and_prompt_user_to_act() {
   # Prompts user to take action, waits for acknowledgment, optionally launching an app,
   # open-ing something, and/or showing a document via QuickLook.
   #
-  # The acknowledgment must be a case-insensitive match to `done`
+  # The acknowledgment must be a case-insensitive match to either
+  # (a) `done`($INTERACTIVE_TASK_COMPLETION_WORD) or (b) `punt` ($INTERACTIVE_TASK_DEFER_WORD)
+  # If `punt`, sends a signal to caller instructing it *not* to set a state indicating the
+  # task is complete.
   #
   # By default, assumes you want to launch an app by its bundle ID. If that’s not correct,
   # use --no-app
@@ -281,11 +284,21 @@ function launch_app_and_prompt_user_to_act() {
         no_app=true
         shift
         ;;
+        
       --open)
+        if (( $# < 2 )); then
+          report_fail "Error: --open requires a path"
+          return 1
+        fi
         path_to_open="$2"
         shift 2
         ;;
+      
       --show-doc)
+        if (( $# < 2 )); then
+          report_fail "Error: --show-doc requires a filepath"
+          return 1
+        fi
         doc_to_show="$2"
         shift 2
         ;;
@@ -326,8 +339,6 @@ function launch_app_and_prompt_user_to_act() {
     open "$path_to_open" ; success_or_not
   fi
   
-  local confirmation_word="done"
-  
   # Show documentation using Quick Look if specified
   if [[ -n "$doc_to_show" ]]; then
     if [[ -n "$bundle_id" ]] || [[ -n "$path_to_open" ]]; then
@@ -341,7 +352,8 @@ function launch_app_and_prompt_user_to_act() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ACTION REQUIRED:
   ${task_description}
-  When complete, please type: ${confirmation_word}
+  When complete, type: ${INTERACTIVE_TASK_COMPLETION_WORD}
+  To defer this task until later, type: ${INTERACTIVE_TASK_DEFER_WORD}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
@@ -351,20 +363,47 @@ EOF
 
   # Wait for explicit user confirmation
   local user_response=""
-  while [[ "${user_response:l}" != "$confirmation_word" ]]; do
-    read -r "user_response?Type '$confirmation_word' to confirm task completion: "
-    report_to_log "User response: $user_response"
-  done
+  local normalized_response=""
+
+  local action_target_phrase=""
+  local result_verbal_phrase=""
   
   if [[ -n "$bundle_id" ]]; then
-    report_to_log "User confirmed task completion for $bundle_id"
+    action_target_phrase=" for ${bundle_id}"
   elif [[ -n "$path_to_open" ]]; then
-    report_to_log "User confirmed task completion for $path_to_open"
-  else
-    report_to_log "User confirmed task completion"
+    action_target_phrase=" for ${path_to_open}"
   fi
   
-  # quit_app_by_bundle_id_if_running "$bundle_id"
+  while true; do
+    read -r "user_response?Type '${INTERACTIVE_TASK_COMPLETION_WORD}' to confirm completion or '${INTERACTIVE_TASK_DEFER_WORD}' to defer: "
+  
+    normalized_response="${user_response:l}"
+    report_to_log "User response: $user_response"
+  
+    case "$normalized_response" in
+      "${INTERACTIVE_TASK_COMPLETION_WORD:l}")
+        result_verbal_phrase="confirmed task completion"
+        break
+        ;;
+  
+      "${INTERACTIVE_TASK_DEFER_WORD:l}")
+        result_verbal_phrase="deferred task"
+        
+        # If called beneath run_if_user_has_not_done, update its
+        # dynamically scoped outcome variable.
+        if (( ${+parameters[interactive_task_outcome]} )); then
+          interactive_task_outcome="$INTERACTIVE_TASK_DEFER_WORD"
+        fi
+        break
+        ;;
+  
+      *)
+        report "Huh??? 🤪 Please type '${INTERACTIVE_TASK_COMPLETION_WORD}' or '${INTERACTIVE_TASK_DEFER_WORD}'."
+        ;;
+    esac
+  done
+
+  report_to_log "User ${result_verbal_phrase}${action_target_phrase}"
 
   report_end_phase_standard
 }
