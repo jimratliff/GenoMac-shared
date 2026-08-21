@@ -56,6 +56,7 @@ Attribute names aren’t limited to these. No error is raised (although a warnin
 | IS_USER_CONFIGURER | USER_ATTRIBUTE_IS_USER_CONFIGURER | Automatically set by GenoMac-system[^IS-USER-CONFIGURER]|
 | mac-admin         | USER_ATTRIBUTE_MAC_ADMIN           | USER_MAC & USER_CONFIGURER[^MAC-ADMIN] |
 | microsoft-word    | USER_ATTRIBUTE_MICROSOFT_WORD      | USER_EMPLOYMENT |
+| notion-user       | USER_ATTRIBUTE_NOTION_USER         | USER_SAASER |
 | obsidian-user     | USER_ATTRIBUTE_OBSIDIAN_USER       |   |
 | raindrop-io       | USER_ATTRIBUTE_RAINDROP_IO         | Raindrop.io browser extension and desktop app |
 | sync-com          | USER_ATTRIBUTE_SYNC_COM            | USER_ME, USER_EMPLOYMENT |
