@@ -248,6 +248,7 @@ BUNDLE_ID_KEYBOARDMAESTRO_ENGINE="com.stairways.keyboardmaestro.engine"
 BUNDLE_ID_MAIL_APP="com.apple.mail"
 BUNDLE_ID_MICROSOFT_WORD="com.microsoft.Word"
 BUNDLE_ID_NOTES="com.apple.Notes"
+BUNDLE_ID_NOTION="notion.id"   # NOTE HOW WEIRD THIS IS!
 BUNDLE_ID_OBSIDIAN="md.obsidian"
 BUNDLE_ID_ORION="com.kagi.kagimacOS"
 BUNDLE_ID_PLAIN_TEXT_EDITOR="com.sindresorhus.Plain-Text-Editor"
