@@ -93,6 +93,9 @@ SHORT_NAME_OF_USER_VANILLA="vanilla"
 ############### Hypervisor related
 HYPERVISOR_MAKE_COMMAND_STRING="just run-hypervisor"
 HYPERVISOR_HOW_TO_RESTART_STRING="To restart, re-execute ${HYPERVISOR_MAKE_COMMAND_STRING} and we’ll pick up where we left off."
+
+INTERACTIVE_TASK_COMPLETION_WORD="done"
+INTERACTIVE_TASK_DEFER_WORD="punt"
 ###
 
 ############### State-related
