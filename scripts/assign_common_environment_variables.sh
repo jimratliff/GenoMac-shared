@@ -30,6 +30,9 @@ GENOMAC_PRIVATE_REPO_NAME="GenoMac-private"
 # GENOMAC_USER_HTTP_REPO_URL is used by GenoMac-system when it clones GenoMac-user for USER_CONFIGURER
 GENOMAC_USER_HTTP_REPO_URL="${GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT}/${GENOMAC_USER_REPO_NAME}.git"
 
+# GENOMAC_PRIVATE_HTTP_REPO_URL is used by GenoMac-user when it accesses content from GenoMac-private
+GENOMAC_PRIVATE_HTTP_REPO_URL="${GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT}/${GENOMAC_PRIVATE_REPO_NAME}.git"
+
 ############### Compute location of GenoMac-shared submodule within each GenoMac-system and GenoMac-user repo
 # Get path of THIS script, even when sourced
 # Explanation:
