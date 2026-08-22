@@ -117,11 +117,21 @@ function _run_func_and_args_based_on_state() {
   #   func_to_run     Name of the function to execute if condition is met.
   #   [args, …]       Optional arguments to func_to_run
   #
-  # If func_to_run is executed, then state_var is SET. (This has effect only when --negate-state
-  # because when --negate-state is absent, func_to_run is executed only when state_var is already set.)
+  # If func_to_run completes successfully, state_var is set unless an interactive
+  # function beneath it records $INTERACTIVE_TASK_DEFER_WORD. When deferred,
+  # neither the state nor a requested forced logout is performed.
+  #
+  # Setting the state has a practical effect only with --negate-state, because
+  # without --negate-state the function runs only when state_var is already set.
   #
   # This is a refactor of _run_based_on_state, which didn’t accept arguments to func_to_run, that required a breaking
   # reordering of parameters: skip_message moves before func_to_run to allow variable-length args.
+  #
+  # If a function called anywhere beneath func_to_run receives
+  # $INTERACTIVE_TASK_DEFER_WORD (for example, through
+  # launch_app_and_prompt_user_to_act), state_var is not set and a requested
+  # forced logout is not performed. With --negate-state, this causes the task
+  # to be offered again the next time Hypervisor runs.
 
   local negate_state=false
   local force_logout=false
@@ -155,18 +165,33 @@ function _run_func_and_args_based_on_state() {
     _test_state "$state_var" "$scope" && should_run=true
   fi
 
-  if $should_run; then
-    report_to_log "Running $func_to_run"
-    $func_to_run "${func_args[@]}"
-    func_desc="$func_to_run${func_args:+ ${func_args[*]}}"
-    report_to_log "Back from ${func_desc}.${NEWLINE}Setting $state_var"
-    _set_state "$state_var" "$scope"
-    if $force_logout; then
-      hypervisor_force_logout
-    fi
-  else
+  if ! $should_run; then
     report_to_log "$skip_message"
+    return 0
   fi
+
+  # Establish the default outcome and make it dynamically visible to
+  # functions called anywhere beneath this function.
+  local interactive_task_outcome="$INTERACTIVE_TASK_COMPLETION_WORD"
+  
+	report_to_log "Running $func_to_run"
+	"$func_to_run" "${func_args[@]}"
+  
+	func_desc="$func_to_run${func_args:+ ${func_args[*]}}"
+	report_to_log "Back from ${func_desc}"
+	
+	if [[ "$interactive_task_outcome" == "$INTERACTIVE_TASK_DEFER_WORD" ]]; then
+		report_to_log "Task deferred; completion state $state_var will not be set."
+		return 0
+	fi
+	
+	report_to_log "Task complete; completion state $state_var will be set."
+	
+	_set_state "$state_var" "$scope"
+	
+	if $force_logout; then
+		hypervisor_force_logout
+	fi
 }
 
 function _run_if_not_already_done() {
