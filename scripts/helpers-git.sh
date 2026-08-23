@@ -378,6 +378,37 @@ function configure_split_remote_URLs_for_public_GitHub_repo_if_cloned() {
   report_end_phase_standard
 }
 
+function get_GitHub_PAT_for_GenoMac_private_from_1Password_vault() {
+  # Prints to stdout the GitHub PAT for the GenoMac-private repo, retrieved from 1Password.
+  #
+  # vault: OP_VAULT_FOR_GENOMAC_PRIVATE_GITHUB_PAT
+  # item:  OP_ITEM_NAME_GENOMAC_PRIVATE_GITHUB_PAT
+  # field: token
+
+  report_start_phase_standard
+
+  local github_pat
+
+  if ! whence -w read_1password_item_token >/dev/null 2>&1; then
+    report_fail "PROGRAMMER_ERROR: Missing required function or command: read_1password_item_token"
+    return 1
+  fi
+
+  if ! github_pat="$(read_1password_item_token "$OP_VAULT_FOR_GENOMAC_PRIVATE_GITHUB_PAT" "$OP_ITEM_NAME_GENOMAC_PRIVATE_GITHUB_PAT")"; then
+    report_fail "Failed to retrieve GitHub PAT for GenoMac-private from 1Password."
+    return 1
+  fi
+
+  if [[ -z "$github_pat" ]]; then
+    report_fail "Retrieved empty GitHub PAT for GenoMac-private from 1Password."
+    return 1
+  fi
+
+  print -r -- "$github_pat"
+  report_end_phase_standard
+}
+
+
 ############################## DEPRECATION DUNGEON ##############################
 #
 #
