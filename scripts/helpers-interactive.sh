@@ -330,7 +330,7 @@ function launch_app_and_prompt_user_to_act() {
     
     # Launch app in foreground so user can interact with it
     report_to_log "Launching app $bundle_id"
-    open -b "$bundle_id" ; success_or_not
+    launch_app_by_bundle_id_in_foreground "$bundle_id" ; success_or_not
   fi
   
   # Open specified path if provided (e.g., .prefPane, URL, folder, file)
