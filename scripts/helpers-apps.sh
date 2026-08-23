@@ -22,6 +22,16 @@ function launch_app_by_bundle_id_in_background_hidden() {
   report_end_phase_standard
 }
 
+function launch_app_by_bundle_id_in_foreground() {
+  report_start_phase_standard
+  local bundle_id="${1:?MISSING bundle id}"
+
+  report_action_taken_to_log "Launching app $bundle_id in the foreground"
+  open -b "$bundle_id" ; success_or_not
+
+  report_end_phase_standard
+}
+
 function launch_and_quit_app() {
   # Launches in background (hidden if possible) and then quits an app identified by its bundle ID
   # Required in some cases, e.g., iTerm2, where a sufficiently populated plist isn’t available to modify
