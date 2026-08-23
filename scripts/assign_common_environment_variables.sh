@@ -20,6 +20,7 @@ fi
 
 ############### Repository specifiers
 GENOMAC_COMMON_OWNER="jimratliff"
+GENOMAC_COMMON_GITHUB_API_REPOS_URL_ROOT="https://api.github.com/repos/${GENOMAC_COMMON_OWNER}"
 GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT="https://github.com/${GENOMAC_COMMON_OWNER}"
 GENOMAC_COMMON_GITHUB_SCP_URL_ROOT="git@github.com:${GENOMAC_COMMON_OWNER}"
 GENOMAC_SHARED_REPO_NAME="GenoMac-shared"
