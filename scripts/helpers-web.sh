@@ -52,6 +52,7 @@ function write_rendered_markdown_html_document() {
     return 1
   fi
   report_end_phase_standard
+  return 0
 }
 
 function print_rendered_markdown_html_document_opening() {
