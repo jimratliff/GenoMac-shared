@@ -290,6 +290,8 @@ DEFAULTS_DOMAINS_WATERFOX="net.waterfox.waterfox"
 ############### Privacy & Security panel URLs
 # Not all of these are currently used, but this is a convenient place to memorialize ones
 # that might be useful in the future
+#
+# See “macOS 10.15 System Preference Panes,” GitHub Gist, rmcdongit, https://gist.github.com/rmcdongit/f66ff91e0dad78d4d6346a75ded4b751
 SYSTEM_SETTINGS_PRIVACY_SECURITY_PANEL_URL_STUB="x-apple.systempreferences:com.apple.preference.security"
 SYSTEM_SETTINGS_PRIVACY_SECURITY_PANEL_URL_MAIN="${SYSTEM_SETTINGS_PRIVACY_SECURITY_PANEL_URL_STUB}?Privacy"
 SYSTEM_SETTINGS_PRIVACY_SECURITY_PANEL_URL_FULL_DISK="${SYSTEM_SETTINGS_PRIVACY_SECURITY_PANEL_URL_STUB}?Privacy_AllFiles"
