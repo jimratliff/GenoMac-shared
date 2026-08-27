@@ -75,9 +75,7 @@ PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE="${SYSTEM_ALERT_SOUNDS_DIRECTORY}/${CU
 
 # User’s Dropbox directory
 # Specify the location of the user’s `Dropbox` directory
-# Although currently (1/2/2026) used only by GenoMac-user, it may well be soon used by
-#   GenoMac-system as a place from which to obtain resources for user creation (such as
-#   profile avatars). For this reason, I’m including this environment variable in GenoMac-shared.
+# Used by both GenoMac-system and GenoMac-user.
 LOCAL_DROPBOX_DIRECTORY="$HOME/Library/CloudStorage/Dropbox"
 
 # Specify the local directory in which preferences and other files shared across users are stored
