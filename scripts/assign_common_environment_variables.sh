@@ -298,3 +298,5 @@ SYSTEM_SETTINGS_PRIVACY_SECURITY_PANEL_URL_SCREEN_RECORDING="${SYSTEM_SETTINGS_P
 SYSTEM_SETTINGS_TOUCH_ID_AND_PASSWORD_URL="x-apple.systempreferences:com.apple.Touch-ID-Settings"
 SYSTEM_SETTINGS_WALLPAPER_PANEL_URL="x-apple.systempreferences:com.apple.Wallpaper-Settings.extension"
 
+SYSTEM_SETTINGS_INTERNET_ACCOUNTS_URL="file:///System/Library/PreferencePanes/InternetAccounts.prefPane"
+
