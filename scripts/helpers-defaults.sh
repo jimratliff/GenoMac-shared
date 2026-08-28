@@ -85,6 +85,8 @@ function set_or_add_plist_value() {
 	# Usage:
   #   set_or_add_plist_value 'Show Search Field' bool false "$witch_plist_path"
   #   set_or_add_plist_value 'Spring-Load' bool true "$witch_plist_path"
+  #
+  # NOTE: TODO: As of 8/28/2026, this doesn’t seem to be called by either GenoMac-user or GenoMac-system
 
 
   report_start_phase_standard
