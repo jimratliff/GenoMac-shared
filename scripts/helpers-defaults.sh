@@ -65,6 +65,13 @@ function ensure_plist_path_exists() {
   fi
 }
 
+function invalidate_preferences_cache() {
+  # Terminates cfprefsd to prevent cached preferences from replacing recent changes in preferences.
+  report_start_phase_standard
+  killall cfprefsd 2>/dev/null || true
+  report_end_phase_standard
+}
+
 function set_or_add_plist_value() {
 	# Sets a boolean key in a plist file, or adds it if it doesn’t yet exist.
 	# This makes the operation idempotent: safe to call on both first runs (when
