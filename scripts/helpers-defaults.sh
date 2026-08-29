@@ -31,7 +31,7 @@ function ensure_plist_path_exists() {
   #       modifications. In that case, the function launch_and_quit_app() is used to initialize the plist.
   # Usage:
   #   domain="com.apple.DiskUtility"
-  #   plist_path=$(legacy_plist_path_from_domain $domain")
+  #   plist_path="$(legacy_plist_path_from_domain $domain)"
   #   ensure_plist_path_exists "${plist_path}"
   #
   #   domain="com.apple.Preview""
