@@ -59,6 +59,14 @@ GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
 print -u2 -- "DEBUG before prefix: ERR_EXIT=${options[errexit]}"
 ############### END DEBUG
 
+############### BEGIN DEBUG
+print -u2 -- "DEBUG testing ERR_EXIT context"
+false
+print -u2 -- "DEBUG survived false"
+############### END DEBUG
+
+
+
 # Resolve once (don’t recompute if already set by the environment)
 HOMEBREW_PREFIX="$(get_homebrew_prefix)"
 
