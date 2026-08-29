@@ -55,9 +55,6 @@ GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY="${GENOMAC_SHARED_RESOURCE_DIRECTORY}/d
 GENOMAC_SYSTEM_LOCAL_DIRECTORY="$HOME/.genomac-system"
 GENOMAC_USER_LOCAL_DIRECTORY="$HOME/.genomac-user"
 
-# Resolve once (don’t recompute if already set by the environment)
-HOMEBREW_PREFIX="$(get_homebrew_prefix)"
-
 # Local directory for development clones of Project GenoMac repos
 # NOTE: Although GenoMac-system and GenoMac-user are *executed* from clones at ~/.genomac-system and ~/.genomac-user,
 #       respectively, for flexibility in development (e.g., checking out new branches), the development clones
