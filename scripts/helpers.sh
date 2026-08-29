@@ -27,12 +27,8 @@ function source_with_report() {
   # safe_source(), but it hasn’t been sourced yet. The current function is not quite as full functional 
   # but will do for the initial sourcing of helpers.
   local file="$1"
-  if source "$file"; then
-    echo "Sourced: $file" >> "$GM_LOG_FILE"
-  else
-    echo "Failed to source: $file"
-    return 1
-  fi
+  source "$file"
+  echo "Sourced: $file" >> "$GM_LOG_FILE"
 }
 
 # Source each subsidiary helper file, all assumed to reside in same directory as this file
