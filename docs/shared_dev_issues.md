@@ -56,6 +56,8 @@ git push origin main
 which can also be performed by `make dev-update-repo-and-submodule`.
 
 ## Idioms
+### State management
+**TODO**
 ### Reporting
 #### The `report_…` functions write to `stderr` not `stdout`
 All reporting to the user should use the `report_…` family of functions at `GenoMac-shared/scripts/helpers-reporting.sh`. These output to `stderr`, not `stdout`. This allows functions to use printing to `stdout` as their method to return values to the caller without being clobbered by other reporting.
