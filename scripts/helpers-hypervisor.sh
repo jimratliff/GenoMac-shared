@@ -55,6 +55,17 @@ function output_hypervisor_departure_banner() {
   print_banner_text "${departure_message}"
 }
 
+function ask_and_set_verbosity_preference() {
+  # Asks user whether verbose output is desired and sets the environment variable accordingly.
+  report_start_phase_standard
+  if get_yes_no_answer_to_question "Do you want verbose output from the Hypervisor?"; then
+    turn_on_verbose_genomac_output
+  else
+    turn_off_verbose_genomac_output
+  fi
+  report_end_phase_standard
+}
+
 function _run_based_on_state() {
   # Executes a function (with no arguments) based on whether a state variable is set.
   # Core helper that powers both _run_if_not_already_done and _run_if_state and run_if_user_state.
