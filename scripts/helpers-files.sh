@@ -97,7 +97,15 @@ function get_array_of_2_tuples_from_json_file() {
 
   reply=()
 
-  output="$(jq -c '.[]' "$file_to_read")"
+  output="$(
+    jq -c '
+      if type == "array" then
+        .[]
+      else
+        error("the top-level JSON value must be an array")
+      end
+    ' "$file_to_read"
+  )"
 
   if [[ -n "$output" ]]; then
     reply=("${(@f)output}")
