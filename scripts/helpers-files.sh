@@ -70,7 +70,7 @@ function convert_filesystem_path_to_file_url() {
   esac
 
   if [[ ! -e "$expanded_path" ]]; then
-    report_warning "Path does not currently exist: $expanded_path"
+    report_warning "Converting a filesystem path that does not currently exist: $expanded_path"
   fi
 
   # Print result to standard out
