@@ -83,15 +83,15 @@ function convert_filesystem_path_to_file_url() {
   report_end_phase_standard
 }
 
-function get_array_of_2_tuples_from_json_file() {
-  # Reads a top-level JSON array and returns each element as one compact
-  # JSON value in the conventional zsh $reply array.
+function get_array_from_json_lines_file() {
+  # Read successive JSON values from a JSON Lines file, returning each as a compact JSON
+  # value in the zsh array reply.
   #
-  # This function validates only that the file contains valid JSON whose
-  # top-level value can be enumerated. It assigns no meaning to the items.
+  # Conventionally, each value occupies one line in the input file. Blank lines are accepted.
+  # The parser also accepts values separated by other JSON whitespace
   #
   # Usage:
-  #   get_array_of_2_tuples_from_json_file "$input_file"
+  #   get_array_from_json_lines_file "$input_file"
   #   local -a tuples=("${reply[@]}")
   
   report_start_phase_standard
@@ -101,15 +101,7 @@ function get_array_of_2_tuples_from_json_file() {
 
   reply=()
 
-  output="$(
-    jq -c '
-      if type == "array" then
-        .[]
-      else
-        error("the top-level JSON value must be an array")
-      end
-    ' "$file_to_read"
-  )"
+  output="$(jq -c '.' "$file_to_read")"
 
   if [[ -n "$output" ]]; then
     reply=("${(@f)output}")
