@@ -11,4 +11,4 @@ Thus, repetition of maintenance steps is not guaranteed to restoring a system to
 run, because the user may have changed a default setting with which Project Genomac did not disagree and thus does not enforce.
 
 [^EMPHASIZING_DEFAULTS]: In some cases, Project Genomac chooses to enforce a setting even when the enforced setting is
-identical to the default setting. This is sometimes accompanied by “emphasizes the default.”
+identical to the default setting. This is sometimes accompanied by an internal comment that this action “emphasizes the default.”
