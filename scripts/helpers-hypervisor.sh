@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-############### Helpers related to the Hypervisor
+############### Helpers related to the Hypervisor 
 
 # Relies upon:
 #   - helpers-reporting.sh
