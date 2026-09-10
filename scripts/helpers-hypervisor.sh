@@ -185,16 +185,16 @@ function _run_func_and_args_based_on_state() {
   # functions called anywhere beneath this function.
   local interactive_task_outcome="$INTERACTIVE_TASK_COMPLETION_WORD"
   
-	report_to_log "Running $func_to_run"
-	"$func_to_run" "${func_args[@]}"
+  report_to_log "Running $func_to_run"
+  "$func_to_run" "${func_args[@]}"
   
-	func_desc="$func_to_run${func_args:+ ${func_args[*]}}"
-	report_to_log "Back from ${func_desc}"
+  func_desc="$func_to_run${func_args:+ ${func_args[*]}}"
+  report_to_log "Back from ${func_desc}"
 	
-	if [[ "$interactive_task_outcome" == "$INTERACTIVE_TASK_DEFER_WORD" ]]; then
-		report_to_log "Task deferred; completion state $state_var will not be set."
-		return 0
-	fi
+  if [[ "$interactive_task_outcome" == "$INTERACTIVE_TASK_DEFER_WORD" ]]; then
+    report_to_log "Task deferred; completion state $state_var will not be set."
+    return 0
+  fi
 	
 	report_to_log "Task complete; completion state $state_var will be set."
 	
