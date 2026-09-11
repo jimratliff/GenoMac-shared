@@ -115,6 +115,7 @@ function create_Finder_alias_file() {
   # Two mandatory options, accepted in either order:
   #   --path_of_original     <path of original file or folder>
   #   --path_of_alias_file   <desired path of Finder alias file>
+  # Fails if path_of_alias_file already exists.
 
   report_start_phase_standard
 
@@ -181,10 +182,8 @@ function create_Finder_alias_file() {
   fi
   
   if [[ -e $destination || -L $destination ]]; then
-    report_to_log "Destination ($destination) already exists. Removing and replacing it."
-    /bin/rm -f -- "$destination" || {
-      report_fail "Could not remove existing destination: “$destination”"
-      return 1
+    report_fail "Destination ($destination) already exists."
+    return 1
     }
   fi
 
