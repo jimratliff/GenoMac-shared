@@ -2,6 +2,41 @@
 
 # Assumes that jq has been installed.
 
+function parse_and_validate_json_2_tuple_of_nonempty_strings() {
+  # Validate a JSON-encoded two-tuple of nonempty strings and return its
+  # elements in the zsh array reply.
+  #
+  # Usage:
+  #   parse_and_validate_json_2_tuple_of_nonempty_strings "$tuple"
+  #   local first="${reply[1]}"
+  #   local second="${reply[2]}"
+
+  report_start_phase_standard
+
+  local tuple="$1"
+
+  reply=()
+
+  if ! jq -e '
+    type == "array"
+    and length == 2
+    and all(.[];
+      type == "string" and length > 0
+    )
+  ' <<<"$tuple" >/dev/null
+  then
+    report_fail "Invalid JSON two-tuple of nonempty strings: $tuple"
+    return 1
+  fi
+
+  reply=(
+    "$(jq -r '.[0]' <<<"$tuple")"
+    "$(jq -r '.[1]' <<<"$tuple")"
+  )
+
+  report_end_phase_standard
+}
+
 function get_array_from_json_lines_file() {
   # Read successive JSON values from a JSON Lines file, returning each as a compact JSON
   # value in the zsh array reply.
