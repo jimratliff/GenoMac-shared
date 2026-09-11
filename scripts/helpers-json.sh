@@ -20,8 +20,10 @@ function get_array_from_json_lines_file() {
 
   reply=()
 
+  # Reads JSON from file, compacts it (removes pretty-printing whitespace)
   output="$(jq -c '.' "$file_to_read")"
 
+  # Assign output to reply array, which is available to the calling function
   if [[ -n "$output" ]]; then
     reply=("${(@f)output}")
   fi
