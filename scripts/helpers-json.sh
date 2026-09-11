@@ -2,6 +2,33 @@
 
 # Assumes that jq has been installed.
 
+function get_array_from_json_lines_file() {
+  # Read successive JSON values from a JSON Lines file, returning each as a compact JSON
+  # value in the zsh array reply.
+  #
+  # Conventionally, each value occupies one line in the input file. Blank lines are accepted.
+  # The parser also accepts values separated by other JSON whitespace
+  #
+  # Usage:
+  #   get_array_from_json_lines_file "$input_file"
+  #   local -a tuples=("${reply[@]}")
+  
+  report_start_phase_standard
+
+  local file_to_read="$1"
+  local output
+
+  reply=()
+
+  output="$(jq -c '.' "$file_to_read")"
+
+  if [[ -n "$output" ]]; then
+    reply=("${(@f)output}")
+  fi
+  
+  report_end_phase_standard
+}
+
 function populate_associative_array_from_json_object_of_scalars() {
 	# Populate a shell associative array from a JSON object selected by jq.
 	#
