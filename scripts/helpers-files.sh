@@ -204,3 +204,45 @@ APPLESCRIPT
 
   report_end_phase_standard
 }
+
+function remove_Finder_alias_files_from_directory() {
+  # Remove only Finder alias files directly within the supplied directory.
+  # Preserve original files, symbolic links, and subdirectories.
+  #
+  # Test each directory entry’s kMDItemContentType and remove it only when the type is
+  # exactly com.apple.alias-file, Apple’s identifier for a Finder alias file.
+
+  report_start_phase_standard
+
+  local directory="${1:?MISSING directory}"
+  
+  local content_type
+  local item
+
+  for item in "$directory"/*(DN); do
+    if [[ ! -f "$item" || -L "$item" ]]; then
+      report_to_log "Preserving item because it is not a regular Finder alias file: $item"
+      continue
+    fi
+  
+    if ! content_type="$(
+      mdls -raw \
+        -name kMDItemContentType \
+        "$item" 2>/dev/null
+    )"; then
+      report_warning "Unable to determine whether item is a Finder alias file; preserving it: $item"
+      continue
+    fi
+  
+    if [[ "$content_type" != "com.apple.alias-file" ]]; then
+      report_to_log "Preserving non-alias item: $item (content type: $content_type)"
+      continue
+    fi
+  
+    report_action_taken_to_log "Removing Finder alias file: $item"
+    rm -f -- "$item"
+    
+  done
+
+  report_end_phase_standard
+}
