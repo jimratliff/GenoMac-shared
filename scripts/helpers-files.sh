@@ -21,6 +21,40 @@ function validate_string_as_a_filename() {
   return 0
 }
 
+function expand_user_home_in_filesystem_path() {
+  # Expand "~" or "~/" at the beginning of a filesystem path and print
+  # the resulting absolute path.
+  report_start_phase_standard
+
+  local filesystem_path="${1:?MISSING path}"
+
+  case "$filesystem_path" in
+    "~")
+      print -r -- "$HOME"
+      ;;
+
+    "~/"*)
+      print -r -- "$HOME/${filesystem_path#\~/}"
+      ;;
+
+    "~"*)
+      report_fail "Unsupported filesystem path '$filesystem_path': ~user syntax is not supported."
+      return 1
+      ;;
+
+    /*)
+      print -r -- "$filesystem_path"
+      ;;
+
+    *)
+      report_fail "Unsupported filesystem path “$filesystem_path”: expected ~, ~/, or an absolute path."
+      return 1
+      ;;
+  esac
+  
+  report_end_phase_standard
+}
+
 function file_exists_and_is_readable() {
   # Tests supplied file for (a) existence and, if so, (b) whether it is a readable regular file.
   # Returns 0 if both exists and readable/regular.
