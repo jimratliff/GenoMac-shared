@@ -5,18 +5,23 @@
 #   helpers-reporting.sh
 
 function validate_string_as_a_filename() {
-  # Return success if the supplied string can be used as one filename
-  # component. Return failure without reporting when it cannot.
+  # Validate that the supplied string can be used as one filename component.
   report_start_phase_standard
+
   local string="${1-}"
 
-  [[ -n "$string" ]] || return 1
-  [[ "$string" != "." ]] || return 1
-  [[ "$string" != ".." ]] || return 1
-  [[ "$string" != *"/"* ]] || return 1
-  [[ "$string" != *$'\n'* ]] || return 1
-  [[ "$string" != *$'\r'* ]] || return 1
-  
+  if [[
+    -z "$string" ||
+    "$string" == "." ||
+    "$string" == ".." ||
+    "$string" == *"/"* ||
+    "$string" == *$'\n'* ||
+    "$string" == *$'\r'*
+  ]]; then
+    report_fail "String cannot be used as a filename: $string"
+    return 1
+  fi
+
   report_end_phase_standard
   return 0
 }
