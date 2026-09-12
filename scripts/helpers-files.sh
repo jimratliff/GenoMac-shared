@@ -187,7 +187,6 @@ function create_Finder_alias_file() {
   if [[ -e $destination || -L $destination ]]; then
     report_fail "Destination ($destination) already exists."
     return 1
-    }
   fi
 
   report_to_log "Create Finder alias file in “${parent}”, pointing to “${original}”, nicknamed “${alias_name}”."
