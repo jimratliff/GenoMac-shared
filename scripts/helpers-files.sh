@@ -4,6 +4,23 @@
 # Relies upon:
 #   helpers-reporting.sh
 
+function validate_string_as_a_filename() {
+  # Return success if the supplied string can be used as one filename
+  # component. Return failure without reporting when it cannot.
+  report_start_phase_standard
+  local string="${1-}"
+
+  [[ -n "$string" ]] || return 1
+  [[ "$string" != "." ]] || return 1
+  [[ "$string" != ".." ]] || return 1
+  [[ "$string" != *"/"* ]] || return 1
+  [[ "$string" != *$'\n'* ]] || return 1
+  [[ "$string" != *$'\r'* ]] || return 1
+  
+  report_end_phase_standard
+  return 0
+}
+
 function file_exists_and_is_readable() {
   # Tests supplied file for (a) existence and, if so, (b) whether it is a readable regular file.
   # Returns 0 if both exists and readable/regular.
