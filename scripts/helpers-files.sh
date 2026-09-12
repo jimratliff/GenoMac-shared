@@ -190,6 +190,7 @@ function create_Finder_alias_file() {
     }
   fi
 
+  report_to_log "Create Finder alias file in “${parent}”, pointing to “${original}”, nicknamed “${alias_name}”."
   # Pass paths as arguments, never as interpolated AppleScript source.
   /usr/bin/osascript - "$original" "$parent" "$alias_name" <<'APPLESCRIPT' >/dev/null
 on run argv
