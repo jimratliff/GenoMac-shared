@@ -96,33 +96,7 @@ function convert_filesystem_path_to_file_url() {
   local filesystem_path="$1"
   local expanded_path
 
-  case "$filesystem_path" in
-    "~")
-      expanded_path="$HOME"
-      ;;
-
-    "~/"*)
-      expanded_path="$HOME/${filesystem_path#\~/}"
-      ;;
-
-    "~"*)
-      report_fail "Unsupported filesystem path '$filesystem_path': ~user syntax is not supported."
-      return 1
-      ;;
-
-    /*)
-      expanded_path="$filesystem_path"
-      ;;
-
-    *)
-      report_fail "Unsupported filesystem path '$filesystem_path': expected ~, ~/, or an absolute path."
-      return 1
-      ;;
-  esac
-
-  if [[ ! -e "$expanded_path" ]]; then
-    report_warning "Converting a filesystem path that does not currently exist: $expanded_path"
-  fi
+  expanded_path="$(expand_user_home_in_filesystem_path "$filesystem_path")"
 
   # Print result to standard out
   jq -nr --arg path "$expanded_path" '
