@@ -55,6 +55,32 @@ function expand_user_home_in_filesystem_path() {
   report_end_phase_standard
 }
 
+function convert_filesystem_path_to_file_url() {
+  # Converts "~", "~/...", or an absolute filesystem path into an
+  # encoded file URL. The path does not need to exist.
+  #
+  # Usage:
+  #   file_url="$(convert_filesystem_path_to_file_url "~/Team Files")"
+  #
+  #   The output will be: 'file:///Users/tom/Team%20Files'
+  
+  report_start_phase_standard
+
+  local filesystem_path="$1"
+  local expanded_path
+
+  expanded_path="$(expand_user_home_in_filesystem_path "$filesystem_path")"
+
+  # Print result to standard out
+  jq -nr --arg path "$expanded_path" '
+    $path
+    | @uri
+    | gsub("%2F"; "/")
+    | "file://" + .
+  '
+  report_end_phase_standard
+}
+
 function file_exists_and_is_readable() {
   # Tests supplied file for (a) existence and, if so, (b) whether it is a readable regular file.
   # Returns 0 if both exists and readable/regular.
@@ -80,32 +106,6 @@ function file_exists_and_is_readable() {
     report_end_phase_standard
     return 0
   fi
-}
-
-function convert_filesystem_path_to_file_url() {
-  # Converts "~", "~/...", or an absolute filesystem path into an
-  # encoded file URL. The path does not need to exist.
-  #
-  # Usage:
-  #   file_url="$(convert_filesystem_path_to_file_url "~/Team Files")"
-  #
-  #   The output will be: 'file:///Users/tom/Team%20Files'
-  
-  report_start_phase_standard
-
-  local filesystem_path="$1"
-  local expanded_path
-
-  expanded_path="$(expand_user_home_in_filesystem_path "$filesystem_path")"
-
-  # Print result to standard out
-  jq -nr --arg path "$expanded_path" '
-    $path
-    | @uri
-    | gsub("%2F"; "/")
-    | "file://" + .
-  '
-  report_end_phase_standard
 }
 
 function create_Finder_alias_file() {
