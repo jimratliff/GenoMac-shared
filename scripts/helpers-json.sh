@@ -55,8 +55,14 @@ function get_array_from_json_lines_file() {
 
   reply=()
 
-  # Reads JSON from file, compacts it (removes pretty-printing whitespace)
-  output="$(jq -c '.' "$file_to_read")"
+  # Reads JSON from file, compacts it (removes pretty-printing whitespace).
+  # Skips leading comments and blank lines, then passes the rest unchanged to jq.
+  output="$(
+    awk '
+      !started && /^[[:space:]]*(#|$)/ { next }
+      { started = 1; print }
+    ' "$file_to_read" | jq -c '.'
+  )"
 
   # Assign output to reply array, which is available to the calling function
   if [[ -n "$output" ]]; then
