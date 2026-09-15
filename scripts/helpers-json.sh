@@ -41,6 +41,8 @@ function get_array_from_json_lines_file() {
   # Read successive JSON values from a JSON Lines file, returning each as a compact JSON
   # value in the zsh array reply.
   #
+  # Skips leading comments and blank lines, then passes the rest unchanged to jq.
+  #
   # Conventionally, each value occupies one line in the input file. Blank lines are accepted.
   # The parser also accepts values separated by other JSON whitespace
   #
