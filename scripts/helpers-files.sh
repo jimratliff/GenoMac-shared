@@ -86,7 +86,7 @@ function convert_filesystem_path_to_file_url() {
   report_end_phase_standard
 }
 
-function file_exists_and_is_readable() {
+function file_exists_and_if_so_is_readable() {
   # Tests supplied file for (a) existence and, if so, (b) whether it is a readable regular file.
   # Returns 0 if both exists and readable/regular.
   # Returns 1 if the file doesn’t exist (a non-error, normal outcome).
