@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh 
+#!/usr/bin/env zsh
 
 ############### Helpers related to the Hypervisor 
 
@@ -196,13 +196,13 @@ function _run_func_and_args_based_on_state() {
     return 0
   fi
 	
-	report_to_log "Task complete; completion state $state_var will be set."
+  report_to_log "Task complete; completion state $state_var will be set."
 	
-	_set_state "$state_var" "$scope"
+  _set_state "$state_var" "$scope"
 	
-	if $force_logout; then
-		hypervisor_force_logout
-	fi
+  if $force_logout; then
+    hypervisor_force_logout
+  fi
 }
 
 function _run_if_not_already_done() {
