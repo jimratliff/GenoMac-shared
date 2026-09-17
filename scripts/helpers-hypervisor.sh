@@ -192,7 +192,11 @@ function _run_func_and_args_based_on_state() {
   report_to_log "Back from ${func_desc}"
 	
   if [[ "$interactive_task_outcome" == "$INTERACTIVE_TASK_DEFER_WORD" ]]; then
-    report_to_log "Task deferred; completion state $state_var will not be set."
+    report_warning "Task deferred; completion state $state_var will not be set.${NEWLINE}FYI: related skip message: ${skip_message}"
+
+	# Set a state to indicate that a task this session has been deferred
+	_set_state "$SESH_A_TASK_HAS_BEEN_DEFERRED" "$scope"
+	
     return 0
   fi
 	
