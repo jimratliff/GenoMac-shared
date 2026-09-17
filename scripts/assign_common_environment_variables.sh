@@ -111,6 +111,8 @@ SESH_SESSION_HAS_STARTED="SESH_Session_has_started"
 # State to record that an action has been taken that requires a forced logout soon
 SESH_DIRTY_NEEDS_LOGOUT="SESH_dirty_needs_logout"
 
+SESH_A_TASK_HAS_BEEN_DEFERRED="SESH_a_task_has_been_deferred"
+
 GENOMAC_SCOPE_SYSTEM="system"
 GENOMAC_SCOPE_USER="user"
 
