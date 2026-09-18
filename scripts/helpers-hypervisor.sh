@@ -193,7 +193,7 @@ function _run_func_and_args_based_on_state() {
 	
   if [[ "$interactive_task_outcome" == "$INTERACTIVE_TASK_DEFER_WORD" ]]; then
     report_warning "Task deferred; completion state $state_var will not be set.${NEWLINE}FYI: related skip message: ${skip_message}"
-	  set_state_to_record_that_a_task_has_been_deferred
+	  set_state_to_record_that_a_task_has_been_deferred "$scope"
     return 0
   fi
 	
@@ -519,7 +519,13 @@ function mark_system_session_dirty() {
 
 function set_state_to_record_that_a_task_has_been_deferred() {
   # Set a state to indicate that a task this session has been deferred
+  
   report_start_phase_standard
+  
+  local scope
+  scope="${1:?MISSING scope}"
+  
   _set_state "$SESH_A_TASK_HAS_BEEN_DEFERRED" "$scope"
+  
   report_end_phase_standard
 }
