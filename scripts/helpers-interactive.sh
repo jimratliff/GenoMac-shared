@@ -145,6 +145,9 @@ function get_value_from_numbered_choices() {
 function get_answer_from_numbered_choices() {
   # Ask a question and require the user to choose one item from a numbered list.
   #
+  # NOTE: This function appears (9/17/2026) to be unused, apparently superseded by the
+  #       ergonomically superior get_value_from_numbered_choices.
+  #
   # Echoes the selected choice to stdout.
   #
   # Usage:
