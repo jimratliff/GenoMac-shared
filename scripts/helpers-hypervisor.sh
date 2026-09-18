@@ -530,8 +530,6 @@ function set_state_to_record_that_a_task_has_been_deferred() {
   report_end_phase_standard
 }
 
-
-
 function set_user_state_to_record_that_a_task_has_been_deferred() {
   # Set a user state to indicate that a task this session has been deferred
   report_start_phase_standard
