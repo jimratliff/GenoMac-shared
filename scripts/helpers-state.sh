@@ -107,7 +107,7 @@ function _test_state() {
   # 	  (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
   #
   # Returns 0 if the state exists, 1 otherwise.
-  # Usage: test_state "launch-and-sign-in-to-microsoft-word" "user"
+  # Usage: _test_state "launch-and-sign-in-to-microsoft-word" "user"
   #
   # NOTE: Currently, a state's existence is equivalent to the existence of a corresponding .state 
   #		  file (more generally a file with .GENOMAC_STATE_FILE_EXTENSION).
@@ -115,12 +115,12 @@ function _test_state() {
   # 	  implementation detail.
   #
   #	Example:
-  #    if ! _test_state "launch-and-sign-in-to-microsoft-word" "user"; then
+  #    if ! _test_state "microsoft-word-sign-in-completed" "user"; then
   #        # Perform the one-time operation
   #        open -a "Microsoft Word"
   #        echo "Please sign in to Microsoft Word, then press Enter..."
   #        read
-  #        set_state "launch-and-sign-in-to-microsoft-word" "user"
+  #        set_state "microsoft-word-sign-in-completed" "user"
   #    fi
   
   local state_string="$1"
