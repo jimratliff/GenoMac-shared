@@ -278,6 +278,7 @@ BUNDLE_ID_WATERFOX="net.waterfox.waterfox"
 
 ############### Domain for defaults write commands
 DEFAULTS_DOMAINS_ALFRED="com.runningwithcrayons.Alfred-Preferences"
+DEFAULTS_DOMAINS_DOWNIE_4="com.charliemonroe.Downie-4"
 DEFAULTS_DOMAINS_FINDER="com.apple.finder"
 DEFAULTS_DOMAINS_KEYBOARD_MAESTRO="com.stairways.keyboardmaestro"
 DEFAULTS_DOMAINS_KEYBOARD_MAESTRO_EDITOR="com.stairways.keyboardmaestro.editor"
