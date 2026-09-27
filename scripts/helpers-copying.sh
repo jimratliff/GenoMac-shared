@@ -80,7 +80,7 @@ function copy_resource_between_local_directories() {
   report_to_log "Source:${source_path}${NEWLINE}Destination:${destination_path}${NEWLINE}Systemwide?:${systemwide} Unzip?:${unzip}"
   
   # Verify source exists
-  report_action_taken "Verify that source resource exists"
+  report_action_taken_to_log "Verify that source resource exists"
   if [[ ! -e "$source_path" ]]; then
     report_fail "Source resource not found at: $source_path"
     report_end_phase_standard
