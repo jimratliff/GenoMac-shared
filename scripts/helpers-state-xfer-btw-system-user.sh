@@ -50,7 +50,7 @@ function display_users_to_be_initially_configured() {
   else
     report_string="📋 The following $number_of_awaiting_users user(s) is/are awaiting their initial configuration by GenoMac-user:${NEWLINE}"
     for user_short_name in "${user_short_names[@]}"; do
-      report_string+="${user_short_name}${NEWLINE}"
+      report_string+="“${user_short_name}”${NEWLINE}"
     done
     report_highlight "$report_string"
   fi
