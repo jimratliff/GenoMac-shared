@@ -35,7 +35,7 @@ function ensure_plist_path_exists() {
   #   ensure_plist_path_exists "${plist_path}"
   #
   #   domain="com.apple.Preview""
-  #   plist_path=$(sandboxed_plist_path_from_domain $domain")
+  #   plist_path="$(sandboxed_plist_path_from_domain $domain")"
   #   ensure_plist_path_exists "${plist_path}"
   
   local plist_path="$1"
