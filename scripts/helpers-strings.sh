@@ -53,12 +53,14 @@ function ensure_string_belongs_to_list() {
   # Crashes if supplied string does not belong to supplied list of strings (assuming set -e).
   # $1: String to validate (may be empty)
   # $2 … $n: Allowed strings (either an array or a sequence of separate arguments, each of which is a string
+  # 
+  # An empty string is allowed if the list of strings contains "".
   #
   # Usage:
   #   ensure_string_belongs_to_list "$mode" with without
   
   report_start_phase_standard
-  local string="${1?MISSING string}"
+  local string="${1?MISSING string}" # Permits empty string but rejects missing argument
   shift
 
   local candidate
