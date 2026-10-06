@@ -175,3 +175,103 @@ function files_without_given_extensions() {
 
   report_end_phase_standard
 }
+
+function files_with_given_extensions() {
+  # Returns `reply` array of files within given directory that *do* have an
+  # extension that matches any of the specified file extensions.
+  #
+  # $1: Path of directory to check
+  # $2 … $n: either (A) an array of file extensions or (B) a sequence of individual
+  #     arguments, each of which is a file extension.
+  # Usage:
+  #
+  #   typeset -a reply files
+  #   extensions=(jpg png gif)
+  #   files_with_given_extensions "/path/to/folder" "${extensions[@]}"
+  #   files=("${reply[@]}")
+  #   
+  #   Or:
+  #
+  #   typeset -a reply files
+  #   files_with_given_extensions "/path/to/folder" jpg .png gif
+  #   files=("${reply[@]}")
+  
+  report_start_phase_standard
+  _files_by_given_extensions with "$@"
+  report_end_phase_standard
+}
+
+function files_without_given_extensions() {
+  # Returns `reply` array of files within given directory that do *not* have an
+  # extension that matches any of the specified file extensions.
+  #
+  # $1: Path of directory to check
+  # $2 … $n: either (A) an array of file extensions or (B) a sequence of individual
+  #     arguments, each of which is a file extension.
+  # Usage:
+  #
+  #   typeset -a reply files
+  #   extensions=(jpg png gif)
+  #   files_without_given_extensions "/path/to/folder" "${extensions[@]}"
+  #   files=("${reply[@]}")
+  #   
+  #   Or:
+  #
+  #   typeset -a reply files
+  #   files_without_given_extensions "/path/to/folder" jpg .png gif
+  #   files=("${reply[@]}")
+  
+  report_start_phase_standard
+  _files_by_given_extensions without "$@"
+  report_end_phase_standard
+}
+
+function _files_by_given_extensions() {
+  # Helper to support files_with_given_extensions and files_without_given_extensions
+  # $1: mode (either "with" or "without")
+  # $2: directory to search
+  # $3 … $n: either (A) an array of file extensions or (B) a sequence of individual
+  #     arguments, each of which is a file extension.
+  
+  report_start_phase_standard
+  
+  local mode="${1:?MISSING mode}"
+  ensure_string_belongs_to_list "$mode" with without
+  
+  shift
+
+  local directory="${1:?MISSING directory}"
+  shift
+
+  local ext
+  local file
+  local -i matched
+
+  reply=()
+
+  [[ -d $directory ]] || {
+    report_fail "Not a directory: $directory"
+    return 1
+  }
+
+  for file in "$directory"/*(ND.); do
+    matched=0
+
+    for ext in "$@"; do
+      if [[ ${file:e} == "${ext#.}" ]]; then
+        matched=1
+        break
+      fi
+    done
+
+    if [[ $mode == with ]] && (( matched )); then
+      reply+=("$file")
+    elif [[ $mode == without ]] && (( ! matched )); then
+      reply+=("$file")
+    fi
+  done
+
+  report_end_phase_standard
+}
+
+
