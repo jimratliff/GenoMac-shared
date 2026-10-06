@@ -75,3 +75,29 @@ function ensure_string_belongs_to_list() {
   report_fail "Invalid value: '$string'; expected one of: ${(j:, :)@}"
   return 1
 }
+
+function alphabetically_last_string() {
+  # Returns alphabetically_last_string_from_nonempty_array
+  #
+  # Usage:
+  #   local last_string
+  #   local -a strings_from_which_to_pick
+  #   strings_from_which_to_pick=( yaba daba doo )
+  #   last_string="$(alphabetically_last_string "${strings_from_which_to_pick[@]}")"
+  report_start_phase_standard
+  
+  local string_to_return
+  
+  local -a sorted_strings
+
+  (( $# > 0 )) || {
+    report_fail "Expected at least one string"
+    return 1
+  }
+  
+  sorted_strings=("${(@o)@}")
+  string_to_return="${sorted_strings[-1]}"
+  print -r -- "$string_to_return"
+  
+  report_end_phase_standard
+}
