@@ -123,59 +123,6 @@ function check_file_exists_and_is_readable() {
   return 0
 }
 
-function files_without_given_extensions() {
-  # Returns `reply` array of files within given directory that do *not* have an
-  # extension that matches any of the specified file extensions.
-  #
-  # $1: Path of directory to check
-  # $2 … $n: either (A) an array of file extensions or (B) a sequence of individual
-  #     arguments, each of which is a file extension.
-  # Usage:
-  #
-  #   typeset -a reply files
-  #   extensions=(jpg png gif)
-  #   files_without_extensions "/path/to/folder" "${extensions[@]}"
-  #   files=("${reply[@]}")
-  #   
-  #   Or:
-  #
-  #   typeset -a reply files
-  #   files_without_extensions "/path/to/folder" jpg .png gif
-  #   files=("${reply[@]}")
-  
-  report_start_phase_standard
-
-  local directory="${1:?MISSING directory}"
-  shift
-
-  local ext
-  local file
-  
-  local -i excluded
-  
-  reply=()
-
-  [[ -d $directory ]] || {
-    report_fail "Not a directory: $directory"
-    return 1
-  }
-
-  for file in "$directory"/*(ND.); do
-    excluded=0
-
-    for ext in "$@"; do
-      if [[ ${file:e} == "${ext#.}" ]]; then
-        excluded=1
-        break
-      fi
-    done
-
-    (( excluded )) || reply+=("$file")
-  done
-
-  report_end_phase_standard
-}
-
 function files_with_given_extensions() {
   # Returns `reply` array of files within given directory that *do* have an
   # extension that matches any of the specified file extensions.
