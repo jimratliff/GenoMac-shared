@@ -125,7 +125,10 @@ function check_file_exists_and_is_readable() {
 
 function files_with_given_extensions() {
   # Returns `reply` array of files within given directory that *do* have an
-  # extension that matches any of the specified file extensions.
+  # extension that matches any of the specified file extensions..
+  #
+  # Hidden files are ignored (i.e., not returned).
+  # Extensions are matched case insensitively.
   #
   # $1: Path of directory to check
   # $2 … $n: either (A) an array of file extensions or (B) a sequence of individual
@@ -152,6 +155,9 @@ function files_without_given_extensions() {
   # Returns `reply` array of files within given directory that do *not* have an
   # extension that matches any of the specified file extensions.
   #
+  # Hidden files are ignored (i.e., not returned).
+  # Extensions are matched case insensitively.
+  #
   # $1: Path of directory to check
   # $2 … $n: either (A) an array of file extensions or (B) a sequence of individual
   #     arguments, each of which is a file extension.
@@ -175,6 +181,10 @@ function files_without_given_extensions() {
 
 function _files_by_given_extensions() {
   # Helper to support files_with_given_extensions and files_without_given_extensions
+  #
+  # Hidden files are ignored (i.e., not returned).
+  # Extensions are matched case insensitively.
+  #
   # $1: mode (either "with" or "without")
   # $2: directory to search
   # $3 … $n: either (A) an array of file extensions or (B) a sequence of individual
@@ -201,11 +211,11 @@ function _files_by_given_extensions() {
     return 1
   }
 
-  for file in "$directory"/*(ND.); do
+  for file in "$directory"/*(N.); do
     matched=0
 
     for ext in "$@"; do
-      if [[ ${file:e} == "${ext#.}" ]]; then
+      if [[ ${(L)${file:e}} == "${(L)${ext#.}}" ]]; then
         matched=1
         break
       fi
