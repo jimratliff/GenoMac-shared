@@ -105,15 +105,49 @@ function quit_app_by_bundle_id_if_running() {
       sleep $delay_in_seconds_for_normal_quitting
       success_or_not
     else
-      # We think it's running but can't find the bundle on disk; that's
-      # suspicious enough to mark as a failure in your alert summary.
+      # We think it's running but can't find the bundle on disk; that's suspicious enough to mark as a failure.
       report_fail "App ${bundle_id} appears to be running, but its .app could not be found via mdfind; unable to force quit"
       false
     fi
   fi
+
+  if app_is_running "$bundle_id"; then
+    report_fail "App ${bundle_id} is still running after attempts to quit"
+    return 1
+  fi
   
   report_end_phase_standard
   return 0
+}
+
+function app_is_running() {
+  # Returns 0 if running, 1 if not running.
+  # Exits the current shell with status 2 if the check fails.
+  #
+  # Usage:
+  #   if app_is_running "$BUNDLE_ID_HELIUM"; then
+  #     report_to_log "Helium is running"
+  #   else
+  #     report_to_log "Helium is not running"
+  #   fi
+
+  local bundle_id="${1:?MISSING bundle ID}"
+  local result
+
+  if ! result=$(osascript \
+    -e "application id \"$bundle_id\" is running" 2>/dev/null); then
+    report_fail "Unable to check whether app ${bundle_id} is running"
+    exit 2
+  fi
+
+  case "$result" in
+    true)  return 0 ;;
+    false) return 1 ;;
+    *)
+      report_fail "Unexpected running-state response for ${bundle_id}: '$result'"
+      exit 2
+      ;;
+  esac
 }
 
 function force_user_logout(){
