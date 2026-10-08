@@ -29,7 +29,7 @@ function validate_string_as_a_filename() {
 function expand_user_home_in_filesystem_path() {
   # Expand "~" or "~/" at the beginning of a filesystem path and print
   # the resulting absolute path.
-  report_start_phase_standard
+  report_start_phase "Expanding ~ in $*"
 
   local filesystem_path="${1:?MISSING path}"
 
@@ -57,7 +57,7 @@ function expand_user_home_in_filesystem_path() {
       ;;
   esac
   
-  report_end_phase_standard
+  report_end_phase "Expanding ~ in $*"
 }
 
 function convert_filesystem_path_to_file_url() {
