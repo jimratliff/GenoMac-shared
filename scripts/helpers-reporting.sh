@@ -293,6 +293,7 @@ function dump_accumulated_warnings_failures() {
 #
 #   • Zero arguments → print "Entering phase" or "Leaving phase", respectively
 #   • One argument   → print the argument exactly as a message line (e.g. emoji + text)
+#                      TIP: Use $* to echo the positional parameters.
 #   • Two arguments  → interpret as function name and file name; format as:
 #       Entering: func_name (file: /path/to/file)
 #     If the second argument is "-", the file-name clause is omitted:
