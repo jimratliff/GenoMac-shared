@@ -6,7 +6,7 @@
 
 function validate_string_as_a_filename() {
   # Validate that the supplied string can be used as one filename component.
-  report_start_phase_standard
+  report_start_phase "Validate string as filename: “${*}”"
 
   local string="${1-}"
 
@@ -22,14 +22,14 @@ function validate_string_as_a_filename() {
     return 1
   fi
 
-  report_end_phase_standard
+  report_end_phase_standard "Validate string as filename: “${*}”"
   return 0
 }
 
 function expand_user_home_in_filesystem_path() {
   # Expand "~" or "~/" at the beginning of a filesystem path and print
   # the resulting absolute path.
-  report_start_phase "Expanding ~ in $*"
+  report_start_phase "Expanding ~ in ${*}"
 
   local filesystem_path="${1:?MISSING path}"
 
@@ -57,7 +57,7 @@ function expand_user_home_in_filesystem_path() {
       ;;
   esac
   
-  report_end_phase "Expanding ~ in $*"
+  report_end_phase "Expanding ~ in ${*}"
 }
 
 function convert_filesystem_path_to_file_url() {
@@ -69,7 +69,7 @@ function convert_filesystem_path_to_file_url() {
   #
   #   The output will be: 'file:///Users/tom/Team%20Files'
   
-  report_start_phase_standard
+  report_start_phase "Convert filesystem path to file URL: “${*}”
 
   local filesystem_path="$1"
   local expanded_path
@@ -83,7 +83,7 @@ function convert_filesystem_path_to_file_url() {
     | gsub("%2F"; "/")
     | "file://" + .
   '
-  report_end_phase_standard
+  report_end_phase "Convert filesystem path to file URL: “${*}”
 }
 
 function check_file_exists_and_is_readable() {
