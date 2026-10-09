@@ -69,7 +69,7 @@ function convert_filesystem_path_to_file_url() {
   #
   #   The output will be: 'file:///Users/tom/Team%20Files'
   
-  report_start_phase "Convert filesystem path to file URL: “${*}”
+  report_start_phase "Convert filesystem path to file URL: “${*}”"
 
   local filesystem_path="$1"
   local expanded_path
@@ -83,7 +83,7 @@ function convert_filesystem_path_to_file_url() {
     | gsub("%2F"; "/")
     | "file://" + .
   '
-  report_end_phase "Convert filesystem path to file URL: “${*}”
+  report_end_phase "Convert filesystem path to file URL: “${*}”"
 }
 
 function check_file_exists_and_is_readable() {
