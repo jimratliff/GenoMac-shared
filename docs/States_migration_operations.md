@@ -26,7 +26,7 @@ Some operations are inherently desirably performed only once. For example:
   - installing macOS onto a particular volume
   - creating a particular user account on a particular macOS installation
   - cloning a particular repository into a particular local directory
-  - installing a particular into `/Applications` of a particular startup volume
+  - installing a particular app into `/Applications` of a particular startup volume
 - GenoMac-user
   - Configuring 1Password’s SSH Agent
   - Signing into Dropbox and configuring to sync a particular local `Dropbox` directory
