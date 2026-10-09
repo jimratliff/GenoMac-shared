@@ -184,6 +184,8 @@ function app_is_running() {
   #     report_to_log "Helium is not running"
   #   fi
 
+  report_start_phase "app_is_running $*"
+
   local bundle_id="${1:?MISSING bundle ID}"
   local result
 
@@ -201,6 +203,8 @@ function app_is_running() {
       exit 2
       ;;
   esac
+
+  report_end_phase "app_is_running $*"
 }
 
 function force_user_logout(){
