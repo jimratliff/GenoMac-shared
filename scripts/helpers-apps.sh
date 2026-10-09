@@ -190,11 +190,12 @@ function app_is_running() {
   local result
 
   if ! result=$(osascript \
-#    -e "application id \"$bundle_id\" is running" 2>/dev/null); then
     -e "application id \"$bundle_id\" is running" ); then
     report_fail "Unable to check whether app ${bundle_id} is running"
     exit 2
   fi
+
+#    -e "application id \"$bundle_id\" is running" 2>/dev/null); then
 
   case "$result" in
     true)  return 0 ;;
