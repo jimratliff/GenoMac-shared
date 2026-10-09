@@ -174,39 +174,47 @@ function force_quit_app_by_bundle_id() {
 }
 
 function app_is_running() {
-  # Returns 0 if running, 1 if not running.
+  # Returns 0 if running, 1 if not running (including not installed).
   # Exits the current shell with status 2 if the check fails.
   #
   # Usage:
-  #   if app_is_running "$BUNDLE_ID_HELIUM"; then
-  #     report_to_log "Helium is running"
-  #   else
-  #     report_to_log "Helium is not running"
+  #   if app_is_running "$BUNDLE_ID_ALAN_APP"; then
+  #     report_to_log "Alan is running"
   #   fi
 
-  report_start_phase "Entering app_is_running $*"
+  report_start_phase_standard
 
   local bundle_id="${1:?MISSING bundle ID}"
   local result
 
-  if ! result=$(osascript \
-    -e "application id \"$bundle_id\" is running" ); then
+  if ! result=$(osascript -l JavaScript - "$bundle_id" <<'JXA'
+ObjC.import('AppKit');
+
+function run(argv) {
+    const apps = $.NSRunningApplication
+        .runningApplicationsWithBundleIdentifier($(argv[0]));
+    return apps.count > 0 ? 'true' : 'false';
+}
+JXA
+  ); then
     report_fail "Unable to check whether app ${bundle_id} is running"
     exit 2
   fi
 
-#    -e "application id \"$bundle_id\" is running" 2>/dev/null); then
-
   case "$result" in
-    true)  return 0 ;;
-    false) return 1 ;;
+    true)
+      report_end_phase_standard
+      return 0
+      ;;
+    false)
+      report_end_phase_standard
+      return 1
+      ;;
     *)
       report_fail "Unexpected running-state response for ${bundle_id}: '$result'"
       exit 2
       ;;
   esac
-
-  report_end_phase "Leaving app_is_running $*"
 }
 
 function force_user_logout(){
