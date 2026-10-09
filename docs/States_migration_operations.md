@@ -19,7 +19,7 @@ Project GenoMac operations can be bifurcated as performed either (a) the first t
 
 [^environment]: An environment is a particular user home directory. Unaddressed nuances arise because a Mac can have multiple startup volumes. So GenoMac-system doesn’t merely “set up a Mac” but rather sets up a particular startup volume on a specific Mac.
 
-Consider three types of operations: (a) those inherently desirably performed only once, (b) those inherently desirably performed regularly/often, and (c)
+Consider three types of operations: (a) those inherently desirably performed only once, (b) those inherently desirably performed regularly/often, and (c) **[[SOMETHING MISSING HERE! 😆 ]]**
 
 Some operations are inherently desirably performed only once. For example:
 - GenoMac-system
