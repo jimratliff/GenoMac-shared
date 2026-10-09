@@ -184,13 +184,14 @@ function app_is_running() {
   #     report_to_log "Helium is not running"
   #   fi
 
-  report_start_phase "app_is_running $*"
+  report_start_phase "Entering app_is_running $*"
 
   local bundle_id="${1:?MISSING bundle ID}"
   local result
 
   if ! result=$(osascript \
-    -e "application id \"$bundle_id\" is running" 2>/dev/null); then
+#    -e "application id \"$bundle_id\" is running" 2>/dev/null); then
+    -e "application id \"$bundle_id\" is running" ); then
     report_fail "Unable to check whether app ${bundle_id} is running"
     exit 2
   fi
@@ -204,7 +205,7 @@ function app_is_running() {
       ;;
   esac
 
-  report_end_phase "app_is_running $*"
+  report_end_phase "Leaving app_is_running $*"
 }
 
 function force_user_logout(){
