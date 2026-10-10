@@ -37,8 +37,10 @@ An attribute can be of either of two types:
 
 [^ENCODED_VALUE]: When an attribute allows for an encoded value, the relevant substring, instead of merely the attribute name, is the attribute name conjoined to the value with the delimiter `GENOMAC_STATE_STRING_DELIMITER_X="¶∞§"`. For example, the `touchid` user attribute requires an accompanying string specifying the finger to use for Touch ID, which can encode as `'touchid¶∞§R2'`, when signifying the second finger on the right hand.
 
-## Currently defined user attributes
-The below table lists currently defined user attributes, both by name and by the environment variable that defines its name.[^BINARY_BY_DEFAULT]
+## A snapshot of defined user attributes
+The below table lists a snapshot defined user attributes,[^SNAPSHOT_ATTRIBUTES] both by name and by the environment variable that defines its name.[^BINARY_BY_DEFAULT]
+
+[^SNAPSHOT_ATTRIBUTES]: There is no intent to keep this table up to date. See `GenoMac-user/scripts/settings/process_user_attributes.sh` and, in particular, the function `set_user_preferences_for_attribute` to see how a particular attribute is interpreted operationally.
 
 [^BINARY_BY_DEFAULT]: Unless specifically noted, these are binary-valued attributes, i.e., each is either present or absent but has no other associated value.
 
