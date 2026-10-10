@@ -1,6 +1,6 @@
 # Hypervisor idioms
 
-- [“Run if not done”]
+- [“Run if not done”](#run-if-not-done)
 - [Interactive walk throughs]
 
 ## “Run if not done”
