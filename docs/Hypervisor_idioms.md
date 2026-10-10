@@ -44,6 +44,11 @@ The `launch_app_and_prompt_user_to_act` function is very flexible. It allows Hyp
 - open a path (e.g., .prefPane, URL, folder, file)
 - display a document using Quick Look
 
+After the configuring user performs the task, that user types `done` in the terminal.
+
+Alternatively, the configuring user types `punt` to indicate that they won’t complete the task at this time.
+
+#### Usage
 - Positional arguments
 	- Without `--no-app`
  		- bundle_id
@@ -56,7 +61,7 @@ The `launch_app_and_prompt_user_to_act` function is very flexible. It allows Hyp
   - `--open <path>`          Path to open (e.g., .prefPane, URL, folder, file)
   - `--show-doc <filepath>`  Display file via Quick Look
 
-**Examples:**
+#### Examples
 ```
 launch_app_and_prompt_user_to_act "com.example.some_app" "Please do the thing"
 launch_app_and_prompt_user_to_act --show-doc "/path/to/doc.md" "com.example.some_app" "Please do the thing"
