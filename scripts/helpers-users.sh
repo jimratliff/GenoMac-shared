@@ -40,6 +40,11 @@ function is_supplied_HOME_too_long_for_1P_SSH_Agent_socket() {
   # Returns 0 if supplied home-directory path is so long that the resulting path to
   # 1Password’s SSH Agent socket will exceed MAX_LENGTH_1P_SSH_AGENT_SOCKET_PATH.
   # Returns 1 otherwise.
+  # See “Limitations on the lengths of a user’s shortname (and volume name if not
+  # the startup volume) arising from 1Password SSH Agent”
+  # GenoMac-shared/docs/limitations_lengths_of_user_and_volume_names.md
+  # https://github.com/jimratliff/GenoMac-shared/blob/main/docs/limitations_lengths_of_user_and_volume_names.md
+  
   report_start_phase_standard
   local home_dir="${1:?MISSING home directory}"
   local len_home_dir=${#home_dir}
