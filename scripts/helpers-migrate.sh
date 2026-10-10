@@ -2,6 +2,10 @@
 
 ############### Helpers related to migrating state for GenoMac
 
+# See “Bootstrap and maintenance operations in Project GenoMac and their corresponding
+# families of states”: GenoMac-shared/docs/States_migration_operations.md
+# https://github.com/jimratliff/GenoMac-shared/blob/main/docs/States_migration_operations.md
+
 _migrate_states() {
   # Helper for migration of state(s) for either 'system' or 'user' scope.
   #
