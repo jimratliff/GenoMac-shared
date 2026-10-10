@@ -17,7 +17,7 @@ function conditionally_ask_and_set_verbosity_preference() {
   report_start_phase_standard
   run_if_user_has_not_done \
     "$SESH_Q_ASKED_VERBOSITY" \
-	  ask_and_set_verbosity_preference \
+    ask_and_set_verbosity_preference \
     "Skipping asking about verbosity, because this has already been answered this session."
   report_end_phase_standard
 }
