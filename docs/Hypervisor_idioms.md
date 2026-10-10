@@ -38,6 +38,33 @@ function conditionally_ask_and_set_verbosity_preference() {
 Another common Hypervisor idiom arises when the task to be completed requires some manual activity by the configuring user. The Hypervisor can lead the configuring user through this interactive process using the function `launch_app_and_prompt_user_to_act`.
 
 ### Capabilities and usage of `launch_app_and_prompt_user_to_act`
+The `launch_app_and_prompt_user_to_act` function is very flexible. It allows Hypervisor to perform just about any combination of multiple operations to facilitate the configuring user performing the interactive task. These operations are:
+- launching an app (by its bundle ID)
+	- or not launching any app (specify `--no-app`
+- open a path (e.g., .prefPane, URL, folder, file)
+- display a document using Quick Look
+
+- Positional arguments
+	- Without `--no-app`
+ 		- bundle_id
+    - prompt_text
+  - With `--no-app`
+    - prompt_text
+   
+- Options (all optional, any position)
+  - `no-app`                 Skip launching an app by bundle_id
+  - `--open <path>`          Path to open (e.g., .prefPane, URL, folder, file)
+  - `--show-doc <filepath>`  Display file via Quick Look
+
+**Examples:**
+```
+launch_app_and_prompt_user_to_act "com.example.some_app" "Please do the thing"
+launch_app_and_prompt_user_to_act --show-doc "/path/to/doc.md" "com.example.some_app" "Please do the thing"
+launch_app_and_prompt_user_to_act "com.example.some_app" "Please do the thing" --show-doc "/path/to/doc.md"
+launch_app_and_prompt_user_to_act --no-app "Please do the thing"
+launch_app_and_prompt_user_to_act --no-app --open ~/Library/PreferencePanes/Witch.prefPane "Configure Witch settings"
+launch_app_and_prompt_user_to_act --no-app --open /path/to/folder "Review the files in this folder"
+```
 
 ### Wrapping `launch_app_and_prompt_user_to_act` in a “run if not done” function
 The “run if not done” functions (`run_if_system_has_not_done` and `run_if_user_has_not_done`) take a function-to-run, which doesn’t however accept arguments.
