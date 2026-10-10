@@ -29,3 +29,42 @@ function conditionally_ask_and_set_verbosity_preference() {
 [^VARIANT_WITH_ARGUMENTS]: A variant `run_func_and_args_if_user_has_not_done` does allow the specified function to take an argument. See `GenoMac-shared/scripts/helpers-hypervisor.sh`. This function was created for a particular purpose that is now deprecated.
 
 ## Interactive walk throughs
+Another common Hypervisor idiom arises when the task to be completed requires some manual activity by the configuring user. The Hypervisor can lead the configuring user through this interactive process using the function `launch_app_and_prompt_user_to_act`.
+
+### Capabilities and usage of `launch_app_and_prompt_user_to_act`
+
+### Wrapping `launch_app_and_prompt_user_to_act` in a “run if not done” function
+The “run if not done” functions (`run_if_system_has_not_done` and `run_if_user_has_not_done`) take a function-to-run, which doesn’t however accept arguments.
+
+`launch_app_and_prompt_user_to_act` requires arguments.
+
+So, to pair `launch_app_and_prompt_user_to_act` with a run-if-not-done function, we first encapsulate `launch_app_and_prompt_user_to_act` within a parameter-less function.
+
+In the example below `launch_app_and_prompt_user_to_act` is encapsulated within the function `interactive_configure_Notion`, which is then passed to `run_if_user_has_not_done`:
+
+```
+function conditionally_interactive_configure_Notion() {
+  report_start_phase_standard
+  
+  if test_genomac_user_state "$SESH_NOTION_USER_WANTS_IT"; then
+    run_if_user_has_not_done "$PERM_NOTION_HAS_BEEN_CONFIGURED" \
+      interactive_configure_Notion \
+      "Skipping configuring Notion, because it’s already been configured."
+  fi
+  
+  report_end_phase_standard
+}
+
+function interactive_configure_Notion() {
+  report_start_phase_standard
+
+  report "Time to configure Notion! I’ll launch it, and open a window with instructions for next steps"
+	
+  launch_app_and_prompt_user_to_act \
+    --show-doc "${GMU_DOCS_TO_DISPLAY}/Notion_how_to_configure.md" \
+    "$BUNDLE_ID_NOTION" \
+    "Follow the instructions in the Quick Look window to log into and configure Notion"
+  
+  report_end_phase_standard
+}
+```
