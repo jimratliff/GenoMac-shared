@@ -55,7 +55,9 @@ We want *all installations* to migrate to the newly defined configuration. So we
 
 To achieve that, we pair with each migration a unique *migration ID* that is recorded as a permanent state (e.g., "MIGRATION_ID_2026_10_09_1728") in the environment after the migration is successfully performed.
 
-A migration is a call of either `migrate_system_states` (for Hypervisor-system) or `migrate_user_states` (for Hypervisor-user), where the arguments are (a) a migration-ID string and (b) the `--delete` option followed by a sequence of one or more `PERM_` states to be deleted.
+A migration is a call of either `migrate_system_states` (for Hypervisor-system) or `migrate_user_states` (for Hypervisor-user),[^MIGRATION_CODE] where the arguments are (a) a migration-ID string and (b) the `--delete` option followed by a sequence of one or more `PERM_` states to be deleted.
+
+[^MIGRATION_CODE]: See `GenoMac-shared/scripts/helpers-migrate.sh`.
 
 This call is placed “permanently”[^MIGRATION_COMMANDS_SEMI_PERMANENT] in the `hypervisor` function before it calls `subdermis`. This ensures that the migration’s deletion of particular `PERM_` states occurs before `subdermis` executes.
 
