@@ -6,10 +6,10 @@ A frequently used Hypervisor idiom is “run if not done,” implemented by eith
 Each takes three arguments (plus an optional switch):
 - a state
 	- assumed to be true/set if the intended action has already been performed
- 	- set to true if/when the function is fully and successfully executed, so that next time through the function won’t be repeated—*unless* an interactive function beneath it records $INTERACTIVE_TASK_DEFER_WORD. When deferred, neither the state nor a requested forced logout is performed.
+ 	- set to true if/when the function is fully and successfully executed, so that next time through the function won’t be repeated[^UNLESS]
 - a function name (which must not require an argument[^VARIANT_WITH_ARGUMENTS]), which will be run if the given state is false/unset
 - a string, representing the message that will be printed if the given state is true to tell the user that the task to perform will be skipped because it’s already been performed.
-- `--force-logout` (optional) If present, calls hypervisor_force_logout after setting state (unless an interactive function beneath it records $INTERACTIVE_TASK_DEFER_WORD)
+- `--force-logout` (optional) If present, calls hypervisor_force_logout after setting state
 
 For example:
 ```
@@ -23,6 +23,8 @@ function conditionally_ask_and_set_verbosity_preference() {
   report_end_phase_standard
 }
 ```
+
+[^UNLESS]: *Unless* an interactive function beneath it records $INTERACTIVE_TASK_DEFER_WORD. When deferred, neither the state nor a requested forced logout is performed.
 
 [^VARIANT_WITH_ARGUMENTS]: A variant `run_func_and_args_if_user_has_not_done` does allow the specified function to take an argument. See `GenoMac-shared/scripts/helpers-hypervisor.sh`. This function was created for a particular purpose that is now deprecated.
 
