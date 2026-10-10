@@ -17,7 +17,7 @@ A user attribute can be referenced by Hypervisor-user[^DISTINGUISHING_BETWEEN_HY
 
 [^DISTINGUISHING_BETWEEN_HYPERVISORS]: There are two distinct entities referred to as “Hypervisor.” Each of the GenoMac-system and GenoMac-user repositories has its own. In a context limited to one of those repos, its Hypervisor is referred to simply as “Hypervisor.” But in contexts that span both of these repos, we distinguish between the Hypervisors by “Hypervisor-system” and “Hypervisor-user,” respectively.
 
-[^customize_per_attributes]: This customization occurs via `GenoMac-user/scripts/settings/user_attribute_scripts.sh`.
+[^customize_per_attributes]: This customization occurs via `GenoMac-user/scripts/settings/process_user_attributes.sh`.
 
 A user can (a) inherit from its user class any default attributes associated with that user class[^inherit_attribute_from_user_class] or (b) be assigned attributes directly.[^assign_user_attributes_directly]
 
