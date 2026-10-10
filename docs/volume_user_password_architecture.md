@@ -13,11 +13,13 @@
 > - [Formal details](https://github.com/jimratliff/GenoMac-shared/blob/main/docs/volume_user_password_architecture.md#formal-details)
 
 ## High-level overview
-We focus on a particular Mac.[^multiple_macs] Each Mac has multiple volumes.[^container_structure] There is (a) the startup volume (protected by File Vault) and (b) other, independently encrypted (non-startup and non–File Vault) volumes. Each volume has a unique passphrase.
+We focus on a particular Mac.[^multiple_macs] Each Mac has multiple volumes.[^container_structure] There is (a) the startup volume (protected by File Vault) and (b) other, independently encrypted (non-startup and non–File Vault) volumes. Each volume has a unique passphrase.[^VOLUME_PASSPHRASE_IS_ALSO_USERS_PASSWORDS]
 
 [^multiple_macs]: The use case that motivates Project GenoMac does include multiple Macs in the following context: Each Mac is approximately a replica of the other Macs, including the set of users that have accounts on each Mac. The idea is not that each Mac is used by a separate person than each other Mac but rather the same person operates all the Macs. Although each Mac has multiple “users” in the macOS sense, all of those users are typically the same human.
 
 [^container_structure]: For the most part, Project GenoMac doesn’t concern itself with *containers* but only *volumes*. It matters what volumes are mounted. Once mounted, the volume’s name identifies that volume, without regard to the container on which it resides. When Hypervisor creates a volume for user home directories, it asks the configuring user whether to “Create and encrypt the volume on the startup container” or instead to “Create and encrypt the volume on a different container,” in which latter case the configuring user specifies the name of the container. It’s the configuring user’s responsibility to ensure that the container is created before the Hypervisor creates the volume. (See function `conditionally_interactive_create_a_volume` in `GenoMac-system/scripts/spawn/spawn-volume-creation.sh`.)
+
+[^VOLUME_PASSPHRASE_IS_ALSO_USERS_PASSWORDS]: As we’ll see, the passphrase for a volume is also the password for each user whose home directory resides on that volume.
 
 There are two major groups of users:
 - superintendant-class users: These users exists only to help manage the Mac itself and facilitate its use by “resident users.” The home directories of the superintendant-class users reside on the startup volume and don’t contain highly sensitive information.[^no_sensitive_info] These users all have Secure Tokens for the File Vault–protected startup volume and hence can mount the startup volume.
