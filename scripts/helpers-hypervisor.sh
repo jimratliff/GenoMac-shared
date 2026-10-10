@@ -193,7 +193,7 @@ function _run_func_and_args_based_on_state() {
 	
   if [[ "$interactive_task_outcome" == "$INTERACTIVE_TASK_DEFER_WORD" ]]; then
     report_warning "Task deferred; completion state $state_var will not be set.${NEWLINE}FYI: related skip message: ${skip_message}"
-	  set_state_to_record_that_a_task_has_been_deferred "$scope"
+    set_state_to_record_that_a_task_has_been_deferred "$scope"
     return 0
   fi
 	
