@@ -1,6 +1,7 @@
 # Hypervisor idioms
 
 - [“Run if not done”](#run-if-not-done)
+- [Conditionally run only if this user wants it]
 - [Interactive walk throughs](#interactive-walk-throughs)
 
 ## “Run if not done”
@@ -30,6 +31,8 @@ function conditionally_ask_and_set_verbosity_preference() {
 [^UNLESS]: *Unless* a function beneath it records `interactive_task_outcome` as `$INTERACTIVE_TASK_DEFER_WORD`, for example, through `launch_app_and_prompt_user_to_act`. When deferred, neither the state nor a requested forced logout is performed. This causes the task to be offered again the next time Hypervisor runs. See `_run_func_and_args_based_on_state` in `GenoMac-shared/scripts/helpers-hypervisor.sh`. Function `_run_func_and_args_based_on_state` defines a `local` variable `interactive_task_outcome` which is visible to functions called by (directly/indirectly) `_run_func_and_args_based_on_state`, including `func_to_run`. When `func_to_run` returns control to `_run_func_and_args_based_on_state`, `_run_func_and_args_based_on_state` checks whether `$interactive_task_outcome` is either `$INTERACTIVE_TASK_COMPLETION_WORD` or `"$INTERACTIVE_TASK_DEFER_WORD"`. If `$INTERACTIVE_TASK_COMPLETION_WORD`, sets the state to indicate completion; if `"$INTERACTIVE_TASK_DEFER_WORD"`, (a) does *not* set that state and instead (b) sets a state to record that a task has been deferred. (See `set_state_to_record_that_a_task_has_been_deferred` in `GenoMac-shared/scripts/helpers-hypervisor.sh`.)
 
 [^VARIANT_WITH_ARGUMENTS]: A variant `run_func_and_args_if_user_has_not_done` does allow the specified function to take an argument. See `GenoMac-shared/scripts/helpers-hypervisor.sh`. This function was created for a particular purpose that is now deprecated.
+
+## Conditionally run only if this user wants it
 
 ## Interactive walk throughs
 Another common Hypervisor idiom arises when the task to be completed requires some manual activity by the configuring user. The Hypervisor can lead the configuring user through this interactive process using the function `launch_app_and_prompt_user_to_act`.
