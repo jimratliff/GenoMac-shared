@@ -1,7 +1,7 @@
 # Hypervisor idioms
 
 - [“Run if not done”](#run-if-not-done)
-- [Conditionally run only if this user wants it]
+- [Conditionally run only if this user wants it](#conditionally-run-only-if-this-user-wants-it)
 - [Interactive walk throughs](#interactive-walk-throughs)
 
 ## “Run if not done”
