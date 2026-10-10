@@ -90,9 +90,8 @@ Each user inherits any default user attributes held by the user’s user class.
 ## The encoding and path of user-attribute data
 The assignment of one or more attributes to a particular user is:
 - Defined originally (a) in a user’s object within `users_to_create` JSON object[^IN_USERS_TO_CREATE_OBJECT] or (b) inherited from the user’s user class[^INHERIT_FROM_USER_CLASS]
-- Encoded by Hypervisor-system in a `USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶` system-scoped state[^ENCODE_BY_HYPERVISOR_SYSTEM]
-by `set_system_states_for_user_attributes "$user_spec_json"` (See `GenoMac-system/scripts/spawn/spawn-state-helpers.sh`)
-- For each user, Hypervisor-user transfers verbatim the system-scoped state to a `USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶` user-scoped state[^VERBATIM_TRANSFER]
+- Encoded by Hypervisor-system in a `USER_ATTRIBUTE∞§¶shortname¶§∞attributename§∞¶` system-scoped state[^ENCODE_BY_HYPERVISOR_SYSTEM] by `set_system_states_for_user_attributes "$user_spec_json"`. (See `GenoMac-system/scripts/spawn/spawn-state-helpers.sh`.) This occurs every time Hypervisor-system is run, not just when the user is first created.
+- Every time Hypervisor-user is executed, Hypervisor-user transfers verbatim the system-scoped state to an identically named user-scoped state[^VERBATIM_TRANSFER]
 - For each user, Hypervisor-user reviews the user attributes assigned to that user to guide configuration of that user’s account. This typically involves, for each attribute, setting one or more `SESH…` states that are implied by the attribute. Hypervisor-user then later refers to these `SESH…` states to decide which actions to take or not take.
 
 When an attribute allows for an encoded value, the relevant substring, even of merely the attribute name, is the attribute name conjoined to the value with the delimiter `GENOMAC_STATE_STRING_DELIMITER_X="¶∞§"`. For example, the `touchid` user attribute requires an accompanying string specifying the finger to use for Touch ID, which can encode as `'touchid¶∞§R2'`, when signifying the second finger on the right hand.
