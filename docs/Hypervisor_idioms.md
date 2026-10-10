@@ -4,8 +4,10 @@
 A frequently used Hypervisor idiom is “run if not done,” implemented by either `run_if_system_has_not_done` (for Hypervisor-system) or `run_if_user_has_not_done` (Hypervisor-user). The syntax for these two functions is identical. They differ only in that the assumed state space is system-scoped versus user-scoped, respectively.
 
 Each takes three arguments:
-- a state, assumed to be true/set if the intended action has already been performed
-- a function name (which must not require an argument), which will be run if the given state is false/unset
+- a state
+	- assumed to be true/set if the intended action has already been performed
+ 	- set to true if/when the function is successfully executed, so that next time through the function won’t be repeated
+- a function name (which must not require an argument[^VARIANT_WITH_ARGUMENTS]), which will be run if the given state is false/unset
 - a string, representing the message that will be printed if the given state is true to tell the user that the task to perform will be skipped because it’s already been performed.
 
 For example:
@@ -20,5 +22,7 @@ function conditionally_ask_and_set_verbosity_preference() {
   report_end_phase_standard
 }
 ```
+
+[^VARIANT_WITH_ARGUMENTS]: A variant `run_func_and_args_if_user_has_not_done` does allow the specified function to take an argument. See `GenoMac-shared/scripts/helpers-hypervisor.sh`. This function was created for a particular purpose that is now deprecated.
 
 ## Interactive walk throughs
