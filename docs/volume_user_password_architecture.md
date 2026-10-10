@@ -22,10 +22,12 @@ We focus on a particular Mac.[^multiple_macs] Each Mac has multiple volumes.[^co
 [^VOLUME_PASSPHRASE_IS_ALSO_USERS_PASSWORDS]: As we’ll see, the passphrase for a volume is also the password for each user whose home directory resides on that volume.
 
 There are two major groups of users:
-- superintendant-class users: These users exists only to help manage the Mac itself and facilitate its use by “resident users.” The home directories of the superintendant-class users reside on the startup volume and don’t contain highly sensitive information.[^no_sensitive_info] These users all have Secure Tokens for the File Vault–protected startup volume and hence can mount the startup volume.
-- resident users: These are the important users who do important things. Each resident user has a home directory that resides on an independently encrypted volume other than the startup volume.
+- superintendant-class users: These users exists only to help manage the Mac itself and facilitate its use by “resident users.” The home directories of the superintendant-class users reside on the startup volume and don’t contain highly sensitive information.[^NO_SENSITIVE_INFO] These users all have Secure Tokens for the File Vault–protected startup volume and hence can mount the startup volume.
+- resident users: These are the important users who do important things.[^EXISTENCE_CRITICAL] Each resident user has a home directory that resides on an independently encrypted volume other than the startup volume.
 
-[^no_sensitive_info]: Here, no “highly sensitive information” means, for example, no client-confidential or personal financial information. The sensitive information that *is* on the startup volume is limited to passwords or passphrases, but even those are stored in independently encrypted password-management vaults (themselves within the File Vault–protected startup volume).
+[^NO_SENSITIVE_INFO]: Here, no “highly sensitive information” means, for example, no client-confidential or personal financial information. The sensitive information that *is* on the startup volume is limited to passwords or passphrases, but even those are stored in independently encrypted password-management vaults (themselves within the File Vault–protected startup volume).
+
+[^EXISTENCE_CRITICAL]: For each user, the things the user does are critical to the functioning of a (possibly empty) subset of the universe.
 
 More granular than the above two groups, Project GenoMac defines multiple user-classes.
 - A user-class includes all users, and only those users, that share both (a) a common user password and (b) a common volume for the users home directories.[^user-class-can’t-span-volumes]
