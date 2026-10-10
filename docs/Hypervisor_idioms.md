@@ -5,7 +5,7 @@ A frequently used Hypervisor idiom is “run if not done,” implemented by eith
 
 Each takes three arguments:
 - a state, assumed to be true/set if the intended action has already been performed
-- a function name (which must not require an argument), which will be run if the given state if false/unset
+- a function name (which must not require an argument), which will be run if the given state is false/unset
 - a string, representing the message that will be printed if the given state is true to tell the user that the task to perform will be skipped because it’s already been performed.
 
 For example:
