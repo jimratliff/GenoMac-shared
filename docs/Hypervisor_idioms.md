@@ -34,6 +34,24 @@ function conditionally_ask_and_set_verbosity_preference() {
 
 ## Conditionally run only if this user wants it
 
+Another type of conditionality is to perform an action only if a given state is (or is not) set, but where the completion of the task is not a reason to toggle that state.
+
+For example, to add the OfficeTime app to the Dock only if the user is one who actually uses OfficeTime:
+```
+  if test_genomac_user_state "$SESH_OFFICETIME_USER_WANTS_IT"; then
+    apps_for_dock+=( "$actual_path_to_app_OfficeTime" )
+  fi
+```
+
+This logic can be, and often is, couple with run-if-not-done logic:
+```
+  if test_genomac_user_state "$SESH_NOTION_USER_WANTS_IT"; then
+    run_if_user_has_not_done "$PERM_NOTION_HAS_BEEN_CONFIGURED" \
+      interactive_configure_Notion \
+      "Skipping configuring Notion, because it’s already been configured."
+  fi
+```
+
 ## Interactive walk throughs
 Another common Hypervisor idiom arises when the task to be completed requires some manual activity by the configuring user. The Hypervisor can lead the configuring user through this interactive process using the function `launch_app_and_prompt_user_to_act`.
 
