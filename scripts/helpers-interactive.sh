@@ -391,12 +391,7 @@ EOF
   
       "${INTERACTIVE_TASK_DEFER_WORD:l}")
         result_verbal_phrase="deferred task"
-        
-        # If called beneath run_if_user_has_not_done, update its
-        # dynamically scoped outcome variable.
-        if (( ${+parameters[interactive_task_outcome]} )); then
-          interactive_task_outcome="$INTERACTIVE_TASK_DEFER_WORD"
-        fi
+        signal_upwards_that_task_was_deferred_below
         break
         ;;
   
