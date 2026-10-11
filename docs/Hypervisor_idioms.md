@@ -64,7 +64,9 @@ The `launch_app_and_prompt_user_to_act` function is very flexible. It allows Hyp
 
 After the configuring user performs the task, that user types `done` in the terminal.
 
-Alternatively, the configuring user types `punt` to indicate that they won’t complete the task at this time.
+Alternatively, the configuring user types `punt` to indicate that they won’t complete the task at this time. In that case, the supplied completion state will *not* be set true. Further, Hypervisor sets a state to record that a task has been deferred.[^MARK_DEFERMENT] This prevents Hypervisor from erroneously marking this user as having completed its configuration.
+
+[^MARK_DEFERMENT]: See (a) `set_state_to_record_that_a_task_has_been_deferred` in `GenoMac-shared/scripts/helpers-hypervisor.sh` and (b) `end_of_subdermis_cleanup` in `GenoMac-user/scripts/hypervisor/subdermis.sh`.
 
 #### Usage
 - Positional arguments
