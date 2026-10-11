@@ -328,6 +328,22 @@ function _mark_session_dirty() {
   report_end_phase_standard
 }
 
+function signal_upwards_that_task_was_deferred_below() {
+  # Sets external variable interactive_task_outcome to $INTERACTIVE_TASK_DEFER_WORD
+  # if that external variable has indeed been defined.
+  #
+  # This variable is checked by `_run_func_and_args_based_on_state` to determine whether
+  # the user entered 'punt' in `launch_app_and_prompt_user_to_act`.
+  #
+  # The present function is a helper to allow this same signal to be sent in other
+  # contexts.
+  report_start_phase_standard
+	if (( ${+parameters[interactive_task_outcome]} )); then
+	  interactive_task_outcome="$INTERACTIVE_TASK_DEFER_WORD"
+	fi
+  report_end_phase_standard
+}
+
 ############################## Scope-specific wrappers
 ############### Scope: user
 
