@@ -25,18 +25,18 @@ function sandboxed_plist_path_from_domain() {
   echo "$plist_path"
 }
 
-function ensure_plist_path_exists() {
+function create_empty_plist_if_missing() {
   # Used to ensures the plist file at the supplied path exists.
   # Note: In some cases, e.g., iTerm2, a merely nonempty plist is insufficient to support all desired
   #       modifications. In that case, the function launch_and_quit_app() is used to initialize the plist.
   # Usage:
   #   domain="com.apple.DiskUtility"
   #   plist_path="$(legacy_plist_path_from_domain $domain)"
-  #   ensure_plist_path_exists "${plist_path}"
+  #   create_empty_plist_if_missing "${plist_path}"
   #
   #   domain="com.apple.Preview""
   #   plist_path="$(sandboxed_plist_path_from_domain $domain")"
-  #   ensure_plist_path_exists "${plist_path}"
+  #   create_empty_plist_if_missing "${plist_path}"
   
   local plist_path="$1"
   report_action_taken_to_log "Ensure that plist exists at: ${plist_path}"
