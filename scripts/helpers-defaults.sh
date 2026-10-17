@@ -65,6 +65,44 @@ function create_empty_plist_if_missing() {
   fi
 }
 
+function initialize_plist_if_missing_by_launching_app() {
+  # Template for a Zsh function in Project GenoMac
+  report_start_phase_standard
+  
+  local plist_path="${1:?MISSING plist_path}"
+  local bundle_id="${2:?MISSING bundle id}"
+
+  local -i max_cumulative_seconds_to_wait_for_app_to_initialize_plist=5
+  local -i seconds_waited=0
+  
+  report_action_taken_to_log "Ensure that plist exists at: ${plist_path}, launching ${bundle_id} if necessary"
+  
+  if [[ -f "$plist_path" ]]; then
+    report_action_taken_to_log "plist already exists. Nothing more to do."
+	report_end_phase_standard
+	return 0
+  fi
+  
+  launch_and_quit_app "$bundle_id"
+
+  while [[ ! -f "$plist_path" ]] &&
+        (( seconds_waited < max_cumulative_seconds_to_wait_for_app_to_initialize_plist )); do
+    sleep 1
+    seconds_waited=$(( seconds_waited + 1 ))
+	report "💤 $seconds_waited seconds"
+  done
+  
+  if [[ -f "$plist_path" ]]; then
+    report_action_taken_to_log "plist now exists. Nothing more to do."
+	report_end_phase_standard
+	return 0
+  fi
+
+  local fail_message="I tried but failed to initialize the plist for $bundle_id by launching it.${NEWLINE}Please launch the app and run: “just run-hypervisor”${NEWLINE}Expected plist: ${plist_path}"
+  report_fail "$fail_message"
+  return 1
+}
+
 function invalidate_preferences_cache() {
   # Terminates cfprefsd to prevent cached preferences from replacing recent changes in preferences.
   report_start_phase_standard
