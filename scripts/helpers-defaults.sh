@@ -66,7 +66,7 @@ function create_empty_plist_if_missing() {
 }
 
 function initialize_plist_if_missing_by_launching_app() {
-  # Template for a Zsh function in Project GenoMac
+  # If plist not found, launch corresponding app to initialize the plist.
   report_start_phase_standard
   
   local plist_path="${1:?MISSING plist_path}"
