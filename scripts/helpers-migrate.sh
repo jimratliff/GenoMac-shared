@@ -18,7 +18,7 @@ _migrate_states() {
   #           state within the state space specified by scope ($1) that should be deleted by this migration.
   #
   # The migration ID is:
-  # - a string that begins with MIGRATION_STATE_PREFIX ("MIGRATION_ID_")
+  # - a contiguous string (i.e., no embedded white space) that begins with MIGRATION_STATE_PREFIX ("MIGRATION_ID_")
   # - corresponds to a state within the scope $1
   # - is in 1:1 correspondence with a particular state migration for scope $1.
   #
