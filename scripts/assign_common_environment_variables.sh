@@ -34,6 +34,11 @@ GENOMAC_USER_HTTP_REPO_URL="${GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT}/${GENOMAC_US
 # GENOMAC_PRIVATE_HTTP_REPO_URL is used by GenoMac-user when it accesses content from GenoMac-private
 GENOMAC_PRIVATE_HTTP_REPO_URL="${GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT}/${GENOMAC_PRIVATE_REPO_NAME}.git"
 
+# Name of 1Password vault that stores the GitHub PAT for GenoMac-private
+OP_VAULT_FOR_GENOMAC_PRIVATE_GITHUB_PAT="$OP_VAULT_FOR_GENOMAC_USER_CREATION"
+# Name of 1Password password item that stores the GitHub PAT for GenoMac-private
+OP_ITEM_NAME_GENOMAC_PRIVATE_GITHUB_PAT="GitHub_PAT_GenoMac-private_read-only"
+
 ############### Compute location of GenoMac-shared submodule within each GenoMac-system and GenoMac-user repo
 # Get path of THIS script, even when sourced
 # Explanation:
