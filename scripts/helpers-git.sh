@@ -384,6 +384,9 @@ function get_GitHub_PAT_for_GenoMac_private_from_1Password_vault() {
   # vault: OP_VAULT_FOR_GENOMAC_PRIVATE_GITHUB_PAT
   # item:  OP_ITEM_NAME_GENOMAC_PRIVATE_GITHUB_PAT
   # field: token
+  #
+  # WARNING, TODO: This function relies on a value, OP_ITEM_NAME_GENOMAC_PRIVATE_GITHUB_PAT, which is defined in genomac-system,
+  #                so it makes no sense to have (a) that value defined in genomac-system but (b) this function defined in genomac-shared.
 
   report_start_phase_standard
 
