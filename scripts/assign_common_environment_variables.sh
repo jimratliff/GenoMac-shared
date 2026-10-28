@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-# Establishes values for environment variables shared by both GenoMac-system and GenoMac-user 
+# Establishes values for environment variables shared by both GenoMac-system and GenoMac-user
 
 # Relies upon:
 #   helpers-misc.sh
@@ -46,7 +46,7 @@ OP_ITEM_NAME_GENOMAC_PRIVATE_GITHUB_PAT="GitHub_PAT_GenoMac-private_read-only"
 # ${(%):-%x} — trick to evaluate a prompt escape outside a prompt (the (%) flag)
 # ${...:A} — resolve to absolute path
 # So ${${(%):-%x}:A} means "the absolute path of the file currently being sourced."
-this_script_path="${${(%):-%x}:A}"                  
+this_script_path="${${(%):-%x}:A}"
 this_scripts_directory=${this_script_path:h}
 # In the following, "xxxx" is either (a) "user" or (b) "system" depending on which of the two repos you’re in.
 GENOMAC_SHARED_ROOT="${this_scripts_directory:h}" # ~/.genomac-xxxx/external/genomac-shared
@@ -227,7 +227,7 @@ echo "MAX_LENGTH_HOME_PER_1P_SSH_AGENT_SOCKET_PATH_LIMITATION: $MAX_LENGTH_HOME_
 
 ############### Miscellaneous
 # Specify a variable that, when expanded, is a newline character
-# I can use $NEWLINE inside arguments to my `report()` series functions without changing how 
+# I can use $NEWLINE inside arguments to my `report()` series functions without changing how
 # I quote strings.
 NEWLINE=$'\n'
 
@@ -324,4 +324,3 @@ SYSTEM_SETTINGS_TOUCH_ID_AND_PASSWORD_URL="x-apple.systempreferences:com.apple.T
 SYSTEM_SETTINGS_WALLPAPER_PANEL_URL="x-apple.systempreferences:com.apple.Wallpaper-Settings.extension"
 
 SYSTEM_SETTINGS_INTERNET_ACCOUNTS_URL="file:///System/Library/PreferencePanes/InternetAccounts.prefPane"
-
