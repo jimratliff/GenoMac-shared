@@ -34,6 +34,9 @@ GENOMAC_USER_HTTP_REPO_URL="${GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT}/${GENOMAC_US
 # GENOMAC_PRIVATE_HTTP_REPO_URL is used by GenoMac-user when it accesses content from GenoMac-private
 GENOMAC_PRIVATE_HTTP_REPO_URL="${GENOMAC_COMMON_GITHUB_HTTPS_URL_ROOT}/${GENOMAC_PRIVATE_REPO_NAME}.git"
 
+############### 1Password-related
+# Name of 1Password vault that stores items related to user creation
+OP_VAULT_FOR_GENOMAC_USER_CREATION="GenoMac-user-creation"
 # Name of 1Password vault that stores the GitHub PAT for GenoMac-private
 OP_VAULT_FOR_GENOMAC_PRIVATE_GITHUB_PAT="$OP_VAULT_FOR_GENOMAC_USER_CREATION"
 # Name of 1Password password item that stores the GitHub PAT for GenoMac-private
