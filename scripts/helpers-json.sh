@@ -138,22 +138,27 @@ function populate_associative_array_from_json_object_of_scalars() {
     return 1
   fi
 
-  # Clear the target associative array.
-  eval "${target_array_name}=()"
-
-  while IFS=$'\t' read -r key value; do
-    eval "${target_array_name}[${(q)key}]=${(q)value}"
-  done < <(
+  local entries_tsv
+  entries_tsv="$(
     jq -r "
       ${jq_path}
       | to_entries[]
       | [.key, (.value | tostring)]
       | @tsv
     " <<<"$json_input"
-  ) || {
+  )" || {
     report_fail "Failed to populate associative array '$target_array_name' from JSON path '$jq_path'."
     return 1
   }
+
+  # Clear the target only after parsing succeeds.
+  eval "${target_array_name}=()"
+
+  if [[ -n "$entries_tsv" ]]; then
+    while IFS=$'\t' read -r key value; do
+      eval "${target_array_name}[${(q)key}]=${(q)value}"
+    done <<<"$entries_tsv"
+  fi
 
   report_end_phase_standard
 }
