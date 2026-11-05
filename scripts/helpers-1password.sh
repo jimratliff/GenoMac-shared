@@ -7,21 +7,18 @@
 #   helpers-reporting.sh
 
 function sign_into_1password() {
-  # Sign into 1Password. If fails, launch 1Password then retry.
+  # Sign into 1Password.
   report_start_phase_standard
 
+  launch_app_by_bundle_id_in_background_hidden "$BUNDLE_ID_1PASSWORD"
   report_action_taken_to_log "Signing in to 1Password"
   if op signin; then
     report_end_phase_standard
     return 0
   fi
 
-  report_action_taken_to_log "Initial sign-in failed; launching 1Password and retrying"
-  launch_app_by_bundle_id_in_background_hidden "$BUNDLE_ID_1PASSWORD"
-  sleep 1
-  op signin
-  
-  report_end_phase_standard
+  report_fail "Signing into 1Password failed.${NEWLINE}Quit 1Password FROM THE MENU BAR, relaunch 1Password, and rerun Hypervisor"
+  return 1
 }
 
 function read_1password_item_token() {
