@@ -49,7 +49,7 @@ function get_array_from_json_lines_file() {
   # Usage:
   #   get_array_from_json_lines_file "$input_file"
   #   local -a tuples=("${reply[@]}")
-  
+
   report_start_phase_standard
 
   local file_to_read="$1"
@@ -70,7 +70,7 @@ function get_array_from_json_lines_file() {
   if [[ -n "$output" ]]; then
     reply=("${(@f)output}")
   fi
-  
+
   report_end_phase_standard
 }
 
@@ -103,9 +103,9 @@ function populate_associative_array_from_json_object_of_scalars() {
 	#   $3  target_array_name
 	#       The name of the associative array to populate,
 	#       e.g. 'volume_key_from_user_class'
-  #
-  #   The target array should already be declared as an associative array by the caller:
-  #   local -A volume_name_from_user_class
+    #
+    #   The target array should already be declared as an associative array by the caller:
+    #   local -A volume_name_from_user_class
 	#
 	# Behavior:
 	#   - Clears any existing contents of the target associative array.
