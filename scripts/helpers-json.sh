@@ -232,9 +232,11 @@ function populate_associative_array_from_json_object_of_string_arrays() {
     return 1
   }
 
-  while IFS=$'\t' read -r key value_json; do
-    eval "${target_array_name}[${(q)key}]=${(q)value_json}"
-  done <<<"$entries_tsv"
+  if [[ -n "$entries_tsv" ]]; then
+    while IFS=$'\t' read -r key value_json; do
+      eval "${target_array_name}[${(q)key}]=${(q)value_json}"
+    done <<<"$entries_tsv"
+  fi
 
   report_end_phase_standard
 }
