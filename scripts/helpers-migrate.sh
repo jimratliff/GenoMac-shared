@@ -13,20 +13,23 @@ _migrate_states() {
   #       $1: scope, either 'system' or 'user'
   #       $2: migration ID
   # --delete: One or more state names to delete, ending at the next option.
-  # --run:    One function name to execute after any deletions.
+  # --set:    One or more state names to create, ending at the next option.
+  # --run:    One function name to execute after any deletions and creations.
   # --user:   One user name; only valid for user scope.
   #           If the actual $USER is different, the migration peacefully ends for that user.
-  # At least one of --delete or --run is required.
+  # At least one of --delete, --set, or --run is required.
   #
-  # The migration ID is:
-  # - a contiguous string (i.e., no embedded white space) that begins with MIGRATION_STATE_PREFIX ("MIGRATION_ID_")
+  # State deletions are performed before state creations (i.e., --set), though this shouldn’t matter in practice.
+  #
+  # The migration ID:
+  # - is a contiguous string (i.e., no embedded white space) that begins with MIGRATION_STATE_PREFIX ("MIGRATION_ID_")
   # - corresponds to a state within the scope $1
   # - is in 1:1 correspondence with a particular state migration for scope $1.
   #
   # Consider a particular *environment*, i.e., a combination of (a) a particular startup volume and
   # (b) a particular user account.
   #
-  # A typical case of a migration is to, exactly once, delete one or more PERM_ states for the given
+  # A typical case of a migration is to, exactly once, delete/set one or more PERM_ states for the given
   # scope in every environment. (In more complex cases, a given function might be executed either
   # instead or in addition.)
   #
@@ -73,7 +76,7 @@ _migrate_states() {
   local run_function=""
   local target_user=""
 
-  local -a states_to_delete
+  local -a states_to_delete states_to_set
 
   # Validate scope
   _validate_scope "$scope"
@@ -103,6 +106,17 @@ _migrate_states() {
           shift
         done
         ;;
+      --set)
+        shift
+        if (( $# == 0 )) || [[ -z "$1" || "$1" == --* ]]; then
+          report_fail "_migrate_states: --set requires at least one state name"
+          return 1
+        fi
+        while (( $# > 0 )) && [[ "$1" != --* ]]; do
+          states_to_set+=("$1")
+          shift
+        done
+        ;;
       --run)
         run_function=$(required_value_for_option "$1" "${2-}") || return 1
         has_run=1
@@ -120,8 +134,8 @@ _migrate_states() {
     esac
   done
 
-  if (( ${#states_to_delete[@]} == 0 && ! has_run )); then
-    report_fail "_migrate_states: at least one of --delete or --run is required"
+  if (( ${#states_to_delete[@]} == 0 && ${#states_to_set[@]} == 0 && ! has_run )); then
+    report_fail "_migrate_states: at least one of --delete, --set, or --run is required"
     return 1
   fi
 
@@ -155,6 +169,11 @@ _migrate_states() {
     _delete_state "$state" "$scope"
   done
 
+  # Execute creations
+  for state in "${states_to_set[@]}"; do
+    _set_state "$state" "$scope"
+  done
+
   # A failed function leaves the migration unmarked so it can be retried.
   if (( has_run )); then
     "$run_function" || return $?
@@ -169,7 +188,7 @@ _migrate_states() {
 function migrate_system_states() {
   # Migrates state(s) of the 'system' scope
   #
-  # Takes a migration_id followed by --delete and/or --run (see _migrate_states).
+  # Takes a migration_id followed by --delete, --set, and/or --run (see _migrate_states).
   #
   # $1: the ID of a particular migration. This is a string that begins with $MIGRATION_STATE_PREFIX
   #     The migration ID itself refers to a state in the 'system' state space.
@@ -178,10 +197,11 @@ function migrate_system_states() {
   #     If this state already exists, then this migration had already been completed, and this function
   #     exits normally.
   #
-  # --delete: Optional when --run is supplied; followed by one or more strings referring to
+  # --delete: Optional when --set or --run is supplied; followed by one or more strings referring to
   #           state within the 'system' state space.
   #           These are the states to be deleted as part of this migration.
-  # --run:    Function to execute after any deletions.
+  # --set:    One or more state names to create in this scope.
+  # --run:    Function to execute after any deletions and creations.
   #
   # Usage:
   #   migrate_system_states "MIGRATION_ID_2026_03_11" --delete "$PERM_MAC_NAMES_AND_LOGIN_WINDOW_MESSAGE_OBTAINED"
@@ -197,7 +217,7 @@ function migrate_user_states() {
   # Migrates state(s) of the 'user' scope
   # --user optionally restricts this migration to the named user.
   #
-  # Takes a migration_id followed by --delete and/or --run (see _migrate_states).
+  # Takes a migration_id followed by --delete, --set, and/or --run (see _migrate_states).
   #
   # $1: the ID of a particular migration. This is a string that begins with $MIGRATION_STATE_PREFIX
   #     The migration ID itself refers to a state in the 'user' state space.
@@ -206,10 +226,11 @@ function migrate_user_states() {
   #     If this state already exists, then this migration had already been completed, and this function
   #     exits normally.
   #
-  # --delete: Optional when --run is supplied; followed by one or more strings referring to
+  # --delete: Optional when --set or --run is supplied; followed by one or more strings referring to
   #           state within the 'user' state space.
   #           These are the states to be deleted as part of this migration.
-  # --run:    Function to execute after any deletions.
+  # --set:    One or more state names to create in this scope.
+  # --run:    Function to execute after any deletions and creations.
   #
   # Usage:
   #   migrate_user_states "MIGRATION_ID_2026_03_11" --delete "$PERM_PREVIEW_BASE_TOOLBAR_HAS_BEEN_SPECIFIED"
