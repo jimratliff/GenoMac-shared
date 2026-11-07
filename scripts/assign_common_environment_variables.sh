@@ -83,6 +83,18 @@ PATH_TO_INSTALLED_CUSTOM_ALERT_SOUND_FILE="${SYSTEM_ALERT_SOUNDS_DIRECTORY}/${CU
 # Used by both GenoMac-system and GenoMac-user.
 LOCAL_DROPBOX_DIRECTORY="$HOME/Library/CloudStorage/Dropbox"
 
+# Specify the local directory, in USER_CONFIGURER’S Dropbox, in which systemwide resources, particularly binaries, are stored.
+SHARED_SYSTEMWIDE_RESOURCES_DIRECTORY="$LOCAL_DROPBOX_DIRECTORY/Systemwide"
+SHARED_SYSTEMWIDE_BINARIES_DIRECTORY="$SHARED_SYSTEMWIDE_RESOURCES_DIRECTORY/bin"
+
+OMNIOUTLINER_5_BINARY_DIRECTORY="$SHARED_SYSTEMWIDE_BINARIES_DIRECTORY/OmniOutliner_5"
+OMNIOUTLINER_5_BINARY_FILENAME="OmniOutliner_5_MAS.zip"
+OMNIOUTLINER_5_BINARY="$OMNIOUTLINER_5_BINARY_DIRECTORY/$OMNIOUTLINER_5_BINARY_FILENAME"
+
+PROTON_DRIVE_BINARY_DIRECTORY="$SHARED_SYSTEMWIDE_BINARIES_DIRECTORY/Proton_Drive"
+PROTON_DRIVE_BINARY_FILENAME="Proton Drive_3.1.zip"
+PROTON_DRIVE_BINARY="$PROTON_DRIVE_BINARY_DIRECTORY/$PROTON_DRIVE_BINARY_FILENAME"
+
 # Specify the local directory in which preferences and other files shared across users are stored
 # These may contain secrets, so this directory is NOT within a repo
 # E.g., this would be within each user’s Dropbox directory.
