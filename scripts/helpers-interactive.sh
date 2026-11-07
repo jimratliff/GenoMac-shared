@@ -37,22 +37,22 @@ function get_yes_no_answer_to_question() {
   #
   # Returns 0 for "yes" and returns 1 for "no".
   #
-  # Usage example: 
+  # Usage example:
   #     if get_yes_no_answer_to_question "Do you want to continue?"; then
   #       echo "✅ Proceeding"
   #     else
   #       echo "❌ Aborted"
   #     fi
-  
+
   local prompt="$1"
   local response
 
   while true; do
     ask_question "$prompt (y/n)"
     read "response?→ " < /dev/tty
-    
+
     report_to_log "User response: $response"
-    
+
     case "${response:l}" in  # `:l` lowercases in Zsh
       y|yes) return 0 ;;
       n|no) return 1 ;;
@@ -74,10 +74,10 @@ function get_confirmed_answer_to_question() {
     read "answer_raw?→ " < /dev/tty
 
     report_to_log "User response: $answer_raw"
-    
+
     # Strip leading/trailing whitespace
     answer=$(echo "$answer_raw" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-    
+
     [[ -z "$answer" ]] && continue
 
     ask_question "You entered: '$answer'. Is this correct? (y/n)"
@@ -212,7 +212,7 @@ function show_file_using_quicklook() {
   #
   # Usage:
   #   show_file_using_quicklook "${GENOMAC_USER_LOCAL_DOCUMENTATION_DIRECTORY}/test.md"
-  
+
   report_start_phase_standard
 
   local file_path="${1:?MISSING file_path}"
@@ -257,7 +257,7 @@ function launch_app_and_prompt_user_to_act() {
   #     Without --no-app:
   #       $1: bundle_id
   #       $2: prompt_text
-  #     With --no-app:    
+  #     With --no-app:
   #       $1: prompt_text
   #
   #   Options (all optional, any position):
@@ -279,7 +279,7 @@ function launch_app_and_prompt_user_to_act() {
   local no_app=false
   local positional=()
   local task_message=""
-  
+
   # Parse arguments
   while (( $# > 0 )); do
     case "$1" in
@@ -287,7 +287,7 @@ function launch_app_and_prompt_user_to_act() {
         no_app=true
         shift
         ;;
-        
+
       --open)
         if (( $# < 2 )); then
           report_fail "Error: --open requires a path"
@@ -296,7 +296,7 @@ function launch_app_and_prompt_user_to_act() {
         path_to_open="$2"
         shift 2
         ;;
-      
+
       --show-doc)
         if (( $# < 2 )); then
           report_fail "Error: --show-doc requires a filepath"
@@ -311,10 +311,10 @@ function launch_app_and_prompt_user_to_act() {
         ;;
     esac
   done
-  
+
   local bundle_id=""
   local task_description=""
-  
+
   if $no_app; then
     # With --no-app, expect only 1 positional argument (prompt)
     if (( ${#positional[@]} != 1 )); then
@@ -330,18 +330,18 @@ function launch_app_and_prompt_user_to_act() {
     fi
     bundle_id="${positional[1]}"
     task_description="${positional[2]}"
-    
+
     # Launch app in foreground so user can interact with it
     report_to_log "Launching app $bundle_id"
     launch_app_by_bundle_id_in_foreground "$bundle_id" ; success_or_not
   fi
-  
+
   # Open specified path if provided (e.g., .prefPane, URL, folder, file)
   if [[ -n "$path_to_open" ]]; then
     report_to_log "Opening $path_to_open"
     open "$path_to_open" ; success_or_not
   fi
-  
+
   # Show documentation using Quick Look if specified
   if [[ -n "$doc_to_show" ]]; then
     if [[ -n "$bundle_id" ]] || [[ -n "$path_to_open" ]]; then
@@ -349,7 +349,7 @@ function launch_app_and_prompt_user_to_act() {
     fi
     show_file_using_quicklook "$doc_to_show"
   fi
-  
+
   task_message="$(cat <<EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -370,31 +370,31 @@ EOF
 
   local action_target_phrase=""
   local result_verbal_phrase=""
-  
+
   if [[ -n "$bundle_id" ]]; then
     action_target_phrase=" for ${bundle_id}"
   elif [[ -n "$path_to_open" ]]; then
     action_target_phrase=" for ${path_to_open}"
   fi
-  
+
   while true; do
     read -r "user_response?Type '${INTERACTIVE_TASK_COMPLETION_WORD}' to confirm completion or '${INTERACTIVE_TASK_DEFER_WORD}' to defer: "
-  
+
     normalized_response="${user_response:l}"
     report_to_log "User response: $user_response"
-  
+
     case "$normalized_response" in
       "${INTERACTIVE_TASK_COMPLETION_WORD:l}")
         result_verbal_phrase="confirmed task completion"
         break
         ;;
-  
+
       "${INTERACTIVE_TASK_DEFER_WORD:l}")
         result_verbal_phrase="deferred task"
         signal_upwards_that_task_was_deferred_below
         break
         ;;
-  
+
       *)
         report "Huh??? 🤪 Please type '${INTERACTIVE_TASK_COMPLETION_WORD}' or '${INTERACTIVE_TASK_DEFER_WORD}'."
         ;;
