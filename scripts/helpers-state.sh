@@ -39,13 +39,13 @@ function _validate_scope() {
 }
 
 function _state_directory_for_scope() {
-  # Internal helper. Takes one argument that is either 'system' or 'user' and returns correspondingly either 
+  # Internal helper. Takes one argument that is either 'system' or 'user' and returns correspondingly either
   # (a) $GENOMAC_SYSTEM_LOCAL_STATE_DIRECTORY or (b) $GENOMAC_USER_LOCAL_STATE_DIRECTORY, respectively
   #
   #    state_dir="$(_state_directory_for_scope "user")"   # Returns user directory
   #    state_dir="$(_state_directory_for_scope "system")" # Returns system directory
   #    state_dir="$(_state_directory_for_scope "bogus")"  # Reports error, returns 1
-  
+
   local scope="$1"
   _validate_scope "$scope" || return 1
   case "$scope" in
@@ -103,15 +103,15 @@ function _test_state() {
   #
   # Internal helper. Takes two string arguments:
   #   $1: the “state string” that labels the state
-  #   $2: the “scope,” either 'system' or 'user' depending on whether this state characterizes 
+  #   $2: the “scope,” either 'system' or 'user' depending on whether this state characterizes
   # 	  (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
   #
   # Returns 0 if the state exists, 1 otherwise.
   # Usage: _test_state "launch-and-sign-in-to-microsoft-word" "user"
   #
-  # NOTE: Currently, a state's existence is equivalent to the existence of a corresponding .state 
+  # NOTE: Currently, a state's existence is equivalent to the existence of a corresponding .state
   #		  file (more generally a file with .GENOMAC_STATE_FILE_EXTENSION).
-  #		  This is an implementation detail. The test_state() API does not rely upon or expose this 
+  #		  This is an implementation detail. The test_state() API does not rely upon or expose this
   # 	  implementation detail.
   #
   #	Example:
@@ -122,7 +122,7 @@ function _test_state() {
   #        read
   #        set_state "microsoft-word-sign-in-completed" "user"
   #    fi
-  
+
   local state_string="$1"
   local scope="$2"
   local state_file
@@ -194,14 +194,14 @@ function _set_state() {
   #
   # Internal helper. Takes two string arguments:
   #   $1: the "state string" that labels the state
-  #   $2: the "scope," either 'system' or 'user' depending on whether this state characterizes 
+  #   $2: the "scope," either 'system' or 'user' depending on whether this state characterizes
   # 	  (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
   #
   #	Assumes that 'system' scope requires 'sudo'.
   #
-  # NOTE: Currently, a state's existence is equivalent to the existence of a corresponding .state 
+  # NOTE: Currently, a state's existence is equivalent to the existence of a corresponding .state
   #       (more generally .GENOMAC_STATE_FILE_EXTENSION) file.
-  #       This is an implementation detail. The test_state() API does not rely upon or expose this 
+  #       This is an implementation detail. The test_state() API does not rely upon or expose this
   #       implementation detail.
   #
   #       Creates the state directory if it doesn't exist.
@@ -209,7 +209,7 @@ function _set_state() {
   #       If the state file already exists, its timestamp is updated.
   #
   # Usage: _set_state "launch-and-sign-in-to-microsoft-word" "user"
-  
+
   local state_string="$1"
   local scope="$2"
   local state_file
@@ -225,14 +225,14 @@ function _delete_state() {
   #
   # Internal helper. Takes two string arguments:
   #   $1: the "state string" that labels the state
-  #   $2: the "scope," either 'system' or 'user' depending on whether this state characterizes 
+  #   $2: the "scope," either 'system' or 'user' depending on whether this state characterizes
   # 	  (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
   #
   #	Assumes that 'system' scope requires 'sudo'.
   #
-  # NOTE: Currently, a state's existence is equivalent to the existence of a corresponding .state 
+  # NOTE: Currently, a state's existence is equivalent to the existence of a corresponding .state
   #		  (more generally .GENOMAC_STATE_FILE_EXTENSION) file.
-  #		  This is an implementation detail. The _delete_state() API does not rely upon or expose this 
+  #		  This is an implementation detail. The _delete_state() API does not rely upon or expose this
   # 	  implementation detail.
   #
   # 	  Does nothing if the state does not exist.
@@ -258,7 +258,7 @@ function _determine_state_based_on_value() {
   # Internal helper. Takes three string arguments:
   #   $1: the "state string" that labels the state
   #   $2: the value that determines the state
-  #   $3: the "scope," either 'system' or 'user' depending on whether this state characterizes 
+  #   $3: the "scope," either 'system' or 'user' depending on whether this state characterizes
   #       (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
   #
   # If the value is zero, sets the state; otherwise, deletes the state.
@@ -270,12 +270,12 @@ function _determine_state_based_on_value() {
   local value="$2"
   local scope="$3"
   _validate_scope "$scope" || return 1
-  
+
 	if [[ ! "$value" =~ '^-?[0-9]+$' ]]; then
 	  report_fail "_determine_state_based_on_value expected numeric value, got: $value"
 	  return 1
 	fi
-  
+
   if (( value == 0 )); then
     _set_state "$state_string" "$scope"
   else
@@ -289,7 +289,7 @@ function _set_state_based_on_yes_no() {
   # Internal helper. Takes three string arguments:
   #   $1: the "state string" that labels the state
   #   $2: the prompt to display to the user
-  #   $3: the "scope," either 'system' or 'user' depending on whether this state characterizes 
+  #   $3: the "scope," either 'system' or 'user' depending on whether this state characterizes
   #       (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
   #
   # Prompts the user with a yes/no question. If yes, sets the state; if no, deletes the state.
@@ -320,7 +320,7 @@ function _delete_states_matching_prefix() {
   # Usage:
   #   _delete_states_matching_prefix scope:"user"           # deletes all user state files
   #   _delete_states_matching_prefix scope: "user" "SESH_"   # deletes all user state files with SESH_ prefix
-  
+
   local scope="$1"
   local prefix="${2:-}"			# optional - defaults to empty string
   local state_dir
@@ -404,7 +404,7 @@ function _state_strings_with_prefix() {
 
   local prefix="${1:?missing/empty prefix}"
   local scope="${2:?missing/empty scope}"
-  
+
   local state_directory
   state_directory="$(_state_directory_for_scope "$scope")"
 
@@ -524,27 +524,27 @@ function delete_all_system_SESH_states() {
 #   # Usage:
 #   #   _delete_states_matching_persistence scope:"user"           # deletes all user state files
 #   #   _delete_states_matching_persistence scope: "user" "SESH"   # deletes all user state files with SESH prefix
-#   
+#
 #   local scope="$1"
 #   local persistence="${2:-}"			# optional - defaults to empty string
 #   local state_dir
 #   _validate_scope "$scope" || return 1
 #   state_dir="$(_state_directory_for_scope "$scope")"
-# 
+#
 #   [[ -d "${state_dir}" ]] || {
 #     report "State directory does not exist: ${state_dir}"
 #     return 0
 #   }
-# 
+#
 #   local pattern
 #   if [[ -n "$persistence" ]]; then
 #     pattern="${persistence}_*"
 #   else
 #     pattern="*"
 #   fi
-# 
+#
 #   local state_files=("${state_dir}"/${~pattern}."${GENOMAC_STATE_FILE_EXTENSION}"(N))
-# 
+#
 #   if (( ${#state_files[@]} > 0 )); then
 #     local description
 #     if [[ -n "$persistence" ]]; then
