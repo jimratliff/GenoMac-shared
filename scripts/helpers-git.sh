@@ -13,6 +13,15 @@
 #     GENOMAC_USER_REPO_NAME                    # "GenoMac-user"
 #     GENOMAC_PRIVATE_REPO_NAME                 # "GenoMac-private"
 
+function get_commit_id() {
+  # Returns identifier of current commit relative to most-recent tag, e.g., 'v0.8.3-14-g7f3a2c1'.
+  report_start_phase_standard
+  local commit_id
+  commit_id="$(git describe --tags --long --always)"
+  print -r -- "$commit_id"
+  report_end_phase_standard
+}
+
 function abort_if_gh_not_installed_or_not_on_path() {
   report_start_phase_standard
   if ! command -v gh >/dev/null 2>&1; then
@@ -304,7 +313,7 @@ function local_clone_was_updated_from_remote() {
   report_start_phase_standard
 
   local local_dir="$1"
-  
+
   local local_commit_hash
   local remote_commit_hash
 
@@ -341,7 +350,7 @@ function configure_split_remote_URLs_for_GenoMac_user() {
 }
 
 function configure_split_remote_URLs_for_public_GitHub_repo_if_cloned() {
-  # Locally configures clone of public GitHub repo to (a) fetch without authentication 
+  # Locally configures clone of public GitHub repo to (a) fetch without authentication
   # using HTTPS but (b) push using SSH.
   #
   # $1: local directory into which the repo is cloned
@@ -356,7 +365,7 @@ function configure_split_remote_URLs_for_public_GitHub_repo_if_cloned() {
   #   configure_split_remote_URLs_for_public_GitHub_repo_if_cloned "~/.genomac-system" "GenoMac-system"
   #   configure_split_remote_URLs_for_public_GitHub_repo_if_cloned "~/.genomac-user" "GenoMac-user"
   #   configure_split_remote_URLs_for_public_GitHub_repo_if_cloned "~/.genomac-shared" "GenoMac-shared"
-  
+
   report_start_phase_standard
 
   local local_repo_dir="$1"
@@ -374,7 +383,7 @@ function configure_split_remote_URLs_for_public_GitHub_repo_if_cloned() {
   else
     report_action_taken_to_log "Skipping split-remote configuration of ${github_repo_name}: not cloned at ${local_repo_dir}"
   fi
-  
+
   report_end_phase_standard
 }
 
