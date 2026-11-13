@@ -151,7 +151,7 @@ _migrate_states() {
   fi
 
   if _test_state "${migration_id}" "${scope}"; then
-    report_action_taken "Skipping this migration (“${migration_id}”) because it was completed in the past"
+    report_to_log "Skipping this migration (“${migration_id}”) because it was completed in the past"
     report_end_phase_standard
     return 0
   fi
