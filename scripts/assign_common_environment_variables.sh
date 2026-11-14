@@ -56,6 +56,15 @@ GENOMAC_SHARED_ROOT="${this_scripts_directory:h}" # ~/.genomac-xxxx/external/gen
 GENOMAC_SHARED_RESOURCE_DIRECTORY="${GENOMAC_SHARED_ROOT}/resources" # ~/.genomac-xxxx/external/genomac-shared/resources
 GENOMAC_SHARED_DOCS_TO_DISPLAY_DIRECTORY="${GENOMAC_SHARED_RESOURCE_DIRECTORY}/docs_to_display_to_user" # ~/.genomac-xxxx/external/genomac-shared/resources/docs_to_display_to_user
 
+############### Global directories
+
+###### Globally accessible Python virtual environments
+GLOBAL_PYTHON_VENVS='/opt/genomac/python-venv'
+
+# For adjusting a ChatGPT preference (shortcut for showing/hiding “Pet”) that requires tomlkit
+GLOBAL_PYTHON_VENV_CHATGPT="${GLOBAL_PYTHON_VENVS}/ChatGPT"
+PYTHON_IN_CHATGPT_VENV="${GLOBAL_PYTHON_VENV_CHATGPT}/bin/python"
+
 ############### Local directories
 # NOTE: These environment variables are located in GenoMac-shared because (a) each is the basis for the name of
 #       its repo’s state-management directory and (b) each repo can have a reason to read/write state in the
