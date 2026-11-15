@@ -233,7 +233,7 @@ function output_compliance_status() {
       username="${out_of_date_users_components[i]}"
       commit_id="${out_of_date_users_components[i + 1]}"
       timestamp="${out_of_date_users_components[i + 2]}"
-      printf -v status_line '• %-20s ran %-20s at %s' "$username" "$commit_id" "$timestamp"
+      printf -v status_line '• %-12s ran %-20s at %s' "$username" "$commit_id" "$timestamp"
       report "$status_line"
     done
   fi
