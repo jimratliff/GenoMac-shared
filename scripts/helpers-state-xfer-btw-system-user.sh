@@ -17,7 +17,7 @@
 #     new user.
 #   - GenoMac-system writes, for each user, and each of those attributes, a system-scoped
 #     state.
-#   - GenoMac-user (at the beginning of its Hypervisor) reads those system-scoped 
+#   - GenoMac-user (at the beginning of its Hypervisor) reads those system-scoped
 #     user-attribute states that are specific to the particular user and:
 #     - writes a corresponding user-scoped state for that attribute
 #     - deletes the now-superfluous system-scoped state.
@@ -30,9 +30,9 @@
 
 function display_users_to_be_initially_configured() {
   # Prints list of users still awaiting initial configuration.
-  
+
   report_start_phase_standard
-  
+
   local report_string=""
   local user_short_name
 
@@ -46,7 +46,7 @@ function display_users_to_be_initially_configured() {
   number_of_awaiting_users=${#user_short_names[@]}
 
   if (( number_of_awaiting_users == 0 )); then
-    report_highlight "There are no users awaiting their initial configuration by GenoMac-user."
+    report "There are no users awaiting their initial configuration by GenoMac-user."
   else
     report_string="📋 The following $number_of_awaiting_users user(s) is/are awaiting their initial configuration by GenoMac-user:${NEWLINE}"
     for user_short_name in "${user_short_names[@]}"; do
@@ -54,7 +54,7 @@ function display_users_to_be_initially_configured() {
     done
     report_highlight "$report_string"
   fi
-  
+
   report_end_phase_standard
 }
 
@@ -63,7 +63,7 @@ function get_array_of_users_to_be_initially_configured() {
   #
   # See construct_system_state_string_for_user_in_need_of_initial_config() for the format of the
   # relevant state strings.
-  
+
   report_start_phase_standard
   local short_name
   local state_string
@@ -89,7 +89,7 @@ function get_array_of_users_to_be_initially_configured() {
 	  user_short_names+=("$short_name")
   done
   reply=("${user_short_names[@]}")
-  
+
   report_end_phase_standard
 }
 
@@ -101,7 +101,7 @@ function mark_user_as_in_need_of_initial_config(){
 
   state_string="$(construct_system_state_string_for_user_in_need_of_initial_config "$short_name")"
   set_genomac_system_state "$state_string"
-  
+
   report_end_phase_standard
 }
 
@@ -111,7 +111,7 @@ function mark_current_user_as_in_need_of_initial_config(){
   local short_name
   short_name="$(short_name_of_user_from_HOME)"
   mark_user_as_in_need_of_initial_config "$short_name"
-  
+
   report_end_phase_standard
 }
 
@@ -122,11 +122,11 @@ function test_whether_current_user_is_in_need_of_initial_config() {
 
   local result
   local short_name
-  
+
   short_name="$(short_name_of_user_from_HOME)"
   test_whether_user_is_in_need_of_initial_config "$short_name"
   result=$?
-  
+
   report_end_phase_standard
   return "$result"
 }
@@ -134,7 +134,7 @@ function test_whether_current_user_is_in_need_of_initial_config() {
 function test_whether_user_is_in_need_of_initial_config() {
   # Tests existence of system-scoped state indicating that supplied user is in need of initial configuration.
   # Return 0 if state exists; 1 otherwise.
-  
+
   report_start_phase_standard
   local short_name="${1:?MISSING short_name}"
 
@@ -144,7 +144,7 @@ function test_whether_user_is_in_need_of_initial_config() {
   state_string="$(construct_system_state_string_for_user_in_need_of_initial_config "$short_name")"
   test_genomac_system_state "$state_string"
   result=$?
-  
+
   report_end_phase_standard
   return "$result"
 }
@@ -157,7 +157,7 @@ function unmark_user_as_in_need_of_initial_config(){
 
   state_string="$(construct_system_state_string_for_user_in_need_of_initial_config "$short_name")"
   delete_genomac_system_state "$state_string"
-  
+
   report_end_phase_standard
 }
 
@@ -165,10 +165,10 @@ function unmark_current_user_as_in_need_of_initial_config(){
   # Un-sets, by deleting, system-scoped state that marks current user as in need of initial configuration
   report_start_phase_standard
   local short_name
-  
+
   short_name="$(short_name_of_user_from_HOME)"
   unmark_user_as_in_need_of_initial_config "$short_name"
-  
+
   report_end_phase_standard
 }
 
@@ -228,12 +228,12 @@ function construct_system_state_string_for_user_in_need_of_initial_config() {
 function mark_current_user_as_user_configger() {
   # To be called by GenoMac-system’s Hypervisor, which by definition is executed by USER_CONFIGURER.
   report_start_phase_standard
-  
+
   local short_name
   short_name="$(short_name_of_user_from_HOME)"
-  
+
   set_system_state_for_user_attribute "$short_name" "$USER_ATTRIBUTE_IS_USER_CONFIGURER"
-  
+
   report_end_phase_standard
 }
 
@@ -252,14 +252,14 @@ function set_system_state_for_user_attribute(){
 function _set_state_for_user_attribute(){
   # $1: user_short_name: The user to whom the attribute belongs
   # $2: attribute_name
-  # $3: the "scope," either 'system' or 'user' depending on whether this state characterizes 
+  # $3: the "scope," either 'system' or 'user' depending on whether this state characterizes
   # 	  (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
 
   local user_short_name="${1:?missing/empty user_short_name}"
   local attribute_name="${2:?missing/empty attribute_name}"
   local scope="${3:?missing/empty scope}"
   local state_string
-  
+
   state_string="$(construct_state_string_for_user_and_attribute "$user_short_name" "$attribute_name")"
   _set_state "${state_string}" "$scope"
 }
@@ -274,7 +274,7 @@ function get_attribute_name_from_user_attribute_state_string() {
 
   attribute_name="$(nonempty_content_between_delimiters "$state_string" "$GENOMAC_STATE_STRING_DELIMITER_B" "$GENOMAC_STATE_STRING_DELIMITER_C")"
   print -- "$attribute_name"
-  
+
   report_end_phase_standard
 }
 
@@ -310,8 +310,8 @@ function construct_state_string_for_user_and_attribute() {
   #   construct_state_string_for_user_and_attribute --user-only short_name
   #   construct_state_string_for_user_and_attribute short_name --user-only
   #   construct_state_string_for_user_and_attribute short_name attribute_name --user-only
-  
-  # Hints: 
+
+  # Hints:
   #       GENOMAC_STATE_USER_ATTRIBUTE_PREFIX="USER_ATTRIBUTE"
   #       GENOMAC_STATE_STRING_DELIMITER_A="∞§¶"
   #       GENOMAC_STATE_STRING_DELIMITER_B="¶§∞"
@@ -372,17 +372,16 @@ function construct_state_string_for_user_and_attribute() {
 function _test_state_for_user_attribute(){
   # $1: user_short_name: The user to whom the attribute belongs
   # $2: attribute_name
-  # $3: the "scope," either 'system' or 'user' depending on whether this state characterizes 
+  # $3: the "scope," either 'system' or 'user' depending on whether this state characterizes
   # 	  (a) the entire 'system' (e.g., that Mac) or instead (b) characterizes a particular 'user'
 
   local user_short_name="${1:?missing/empty user_short_name}"
   local attribute_name="${2:?missing/empty attribute_name}"
   local scope="${3:?missing/empty scope}"
   local state_string
-  
+
   state_string="$(construct_state_string_for_user_and_attribute "$user_short_name" "$attribute_name")"
-  
+
   # The following call to _test_state must be the last command of this function, because its return value is crucial to the caller
   _test_state "${state_string}" "$scope"
 }
-
