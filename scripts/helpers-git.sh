@@ -290,7 +290,7 @@ function refresh_repo_from_remote_and_reexecute_hypervisor_if_updated() {
       report_action_taken_to_log "Re-execute Hypervisor using updated repo code"
       report_end_phase_standard
 
-      exec "$0"
+      exec zsh "$ZSH_ARGZERO"
     else
       "$set_state_function_name" "$state_string"
       report_to_log "Local clone of ${repo_name} was up to date"
